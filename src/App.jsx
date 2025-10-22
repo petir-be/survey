@@ -9,11 +9,11 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router'
 function Layout() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div>
         <Outlet />
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   )
 }
@@ -36,8 +36,8 @@ function App() {
 
   return (
     <>
-      <div>
-        <div>
+      <div className='min-h-screen flex flex-col'>
+        <div className='min-h-screen '> 
           <RouterProvider router = {router}/>
         </div>
       </div>
