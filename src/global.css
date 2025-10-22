@@ -1,1 +1,40 @@
 @import "tailwindcss";
+
+
+@theme{
+    --purple:#845FFF;
+    --pink:#DA1262;
+}
+
+@keyframes moveCircleLtR{
+    0%,100%{
+        transform: translateX(0px);
+    }
+    50%{
+        transform: translateX(400px);
+    }
+}
+
+@keyframes moveCircleRtL{
+    0%,100%{
+        transform: translateX(0px);
+    }
+    50%{
+        transform: translateX(-400px);
+    }
+}
+
+
+
+@layer utilities{
+    .animate-moveCircleLtR{
+        animation: moveCircleLtR 20s ease-in-out infinite;
+    }
+    .animate-moveCircleRtL{
+        animation: moveCircleRtL 20s ease-in-out infinite;
+    }
+    .home-circle{
+        @apply absolute rounded-full blur-3xl;
+    }
+
+}
