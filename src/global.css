@@ -4,6 +4,8 @@
 @theme{
     --purple:#845FFF;
     --pink:#DA1262;
+    --white:#DFE0F0;
+    --dirty-white:#C8C9DA;
 }
 
 @keyframes moveCircleLtR{
