@@ -2,6 +2,7 @@ import './global.css'
 import Home from './pages/Home'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
+import FAQ from './components/FAQ.jsx'
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router'
 
 
@@ -9,10 +10,11 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router'
 function Layout() {
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <div>
         <Outlet />
       </div>
+      <FAQ/>
       {/* <Footer /> */}
     </>
   )

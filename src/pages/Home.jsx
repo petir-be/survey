@@ -13,7 +13,7 @@ import home1 from '../../public/assets/2.svg';
 function Home() {
     return (
         <>
-            <div className='flex flex-col items-center justify-center min-h-screen bg-[var(--white)]'>
+            <div className='flex flex-col items-center justify-center min-h-screen bg-[var(--white)] z-10'>
                 <div className='absolute z-2'><img src={home1} alt="aa" width={600} height={600}/></div>
                 <div className='relative h-screen w-2/5 border-2 border-[var(--dirty-white)] overflow-hidden'>
                     <DotShader className="z-0"/>
