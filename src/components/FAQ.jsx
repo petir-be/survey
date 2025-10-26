@@ -18,14 +18,14 @@ function FAQ() {
                     style={{
                         background: `conic-gradient(
         from 0deg,
-        rgba(52,152,219,1) 0deg,        /* bright head */
+        rgba(52,152,219,0) 0deg,        /* bright head */
         rgba(52,152,219,0.3) 120deg,    /* fading tail */
-        rgba(52,152,219,0) 360deg       /* fully faded */
+        rgba(52,152,219,1) 360deg       /* fully faded */
       )`,
                         mask: "radial-gradient(transparent 60%, black 61%)", // creates a ring
                         WebkitMask: "radial-gradient(transparent 60%, black 61%)",
                     }}
-                    animate={{ rotate: -360 }}
+                    animate={{ rotate: 360 }}
                     transition={{
                         repeat: Infinity,
                         duration: 2,
@@ -37,7 +37,7 @@ function FAQ() {
                         width: "90%",
                         height: "90%",
                         borderRadius: "50%",
-                        background: "#000",
+                        background: "white",
                         position: "absolute",
                         top: "50%",
                         left: "50%",
@@ -47,7 +47,6 @@ function FAQ() {
                         justifyContent: "center",
                     }}
                 >
-                    <span style={{ color: "#fff" }}>Static content</span>
                 </div>
             </div>
 

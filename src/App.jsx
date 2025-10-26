@@ -14,7 +14,7 @@ function Layout() {
       <div>
         <Outlet />
       </div>
-      <FAQ/>
+      {/* <FAQ/> */}
       {/* <Footer /> */}
     </>
   )
@@ -39,7 +39,7 @@ function App() {
   return (
     <>
       <div className='min-h-screen flex flex-col'>
-        <div className='min-h-screen '> 
+        <div className='min-h-full'> 
           <RouterProvider router = {router}/>
         </div>
       </div>
