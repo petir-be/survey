@@ -1,13 +1,12 @@
 import React from 'react';
 import '../global.css';
 import DotShader from '../components/DotShader';
-import home1 from '../../public/assets/2.svg';
+import home1 from '/src/assets/1.png';
 
 //testing
 
 //testing ulit
 //added testing package
-
 
 
 function Home() {
