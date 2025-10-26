@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }) => {
           loading: false,
           user: null,
         });
+        console.log(error);
       }
     };
 

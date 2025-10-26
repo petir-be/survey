@@ -13,6 +13,7 @@ function FAQ() {
           borderRadius: "50%",
         }}
       >
+        {motion}
         <motion.div
           className="absolute top-0 left-0 w-full h-full rounded-full"
           style={{
@@ -25,7 +26,7 @@ function FAQ() {
             mask: "radial-gradient(transparent 60%, black 61%)", // creates a ring
             WebkitMask: "radial-gradient(transparent 60%, black 61%)",
           }}
-          animate={{ rotate: -360 }}
+          animate={{ rotate: 360 }}
           transition={{
             repeat: Infinity,
             duration: 2,
@@ -47,7 +48,6 @@ function FAQ() {
             justifyContent: "center",
           }}
         >
-          <span style={{ color: "#fff" }}>Static content</span>
         </div>
       </div>
     </>
