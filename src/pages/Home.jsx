@@ -1,7 +1,7 @@
 import React from 'react';
 import '../global.css';
 import DotShader from '../components/DotShader';
-import home1 from '/src/assets/1.png';
+import home1 from '/src/assets/2.svg';
 
 //testing
 
