@@ -20,12 +20,17 @@
     "@react-three/fiber": "^9.4.0",
     "@tailwindcss/vite": "^4.1.15",
     "axios": "^1.12.2",
+<<<<<<< HEAD
     "country-flag-icons": "^1.6.3",
     "dotenv": "^17.2.3",
     "html-to-image": "^1.11.13",
     "jwt-decode": "^4.0.0",
     "ldrs": "^1.1.9",
     "moment": "^2.30.1",
+=======
+    "dotenv": "^17.2.3",
+    "jwt-decode": "^4.0.0",
+>>>>>>> 4404ba5 (auth login jwttoken)
     "motion": "^12.23.24",
     "qrcode.react": "^4.2.0",
     "rc-steps": "^6.0.1",
