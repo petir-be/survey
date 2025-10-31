@@ -1,21 +1,21 @@
-import './global.css'
-import Home from './pages/Home'
-import Navbar from './components/Navbar.jsx'
-import Footer from './components/Footer.jsx'
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router'
-
-
+import "./global.css";
+import Home from "./pages/Home";
+import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx";
+import FAQ from "./components/FAQ.jsx";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
+import Login from "./pages/Login.jsx";
 
 function Layout() {
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <div>
         <Outlet />
       </div>
       {/* <Footer /> */}
     </>
-  )
+  );
 }
 
 const router = createBrowserRouter([
@@ -25,24 +25,26 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />
-      }
-    ]
-  }
-])
-
+        element: <Home />,
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+]);
 
 function App() {
-
   return (
     <>
-      <div className='min-h-screen flex flex-col'>
-        <div className='min-h-screen '> 
-          <RouterProvider router = {router}/>
+      <div className="min-h-screen flex flex-col">
+        <div className="min-h-screen ">
+          <RouterProvider router={router} />
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

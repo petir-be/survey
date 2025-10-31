@@ -1,9 +1,25 @@
-@import "tailwindcss";
 
+@font-face {
+    font-family: ZenDots;
+    src: url('assets/fonts/zen-dots-latin-400-normal.ttf');
+    
+}
+
+@font-face {
+    font-family: VagRounded;
+    src: url('assets/fonts/vag-rounded-next-regular.ttf');
+
+}
+
+@import "tailwindcss";
 
 @theme{
     --purple:#845FFF;
     --pink:#DA1262;
+    --white:#DFE0F0;
+    --dirty-white:#C8C9DA;
+    --font-zendots: ZenDots, sans-serif;
+    --font-vagrounded:VagRounded, sans-serif;
 }
 
 @keyframes moveCircleLtR{
