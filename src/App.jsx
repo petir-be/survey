@@ -13,7 +13,6 @@ function Layout() {
       <div>
         <Outlet />
       </div>
-      <FAQ />
       {/* <Footer /> */}
     </>
   );
