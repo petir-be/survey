@@ -4,6 +4,7 @@ import DotShader from "../components/DotShader";
 import home1 from "/src/assets/2.svg";
 import HomeBox from "../components/HomeBox";
 import aboutus from "../assets/hugeicons_ai-dna.svg";
+import FAQ from "../components/FAQ";
 
 
 //testing
@@ -16,8 +17,8 @@ function Home() {
     <>
       <div className="flex items-center flex-1 min-h-full bg-[var(--white)] z-10">
         <div className="w-2/7 h-dvh pt-25">
-          <div className="m-15 bg-red-300">
-            <h1 className="font-vagrounded text-4xl mb-2">The Future</h1>
+          <div className="m-12">
+            <h1 className="font-vagrounded text-3xl mb-2">The Future</h1>
             <p className="font-vagrounded text-md">
               This where data isn't just gathered—it’s synthesized,
               contextualized, and transformed. Step into the future-state
@@ -38,11 +39,14 @@ function Home() {
             <span className="home-circle mixed-blend-multiply -bottom-38 right-1 w-45 h-45 bg-[var(--purple)] animate-moveCircleRtL"></span>{/*bottom right*/}
           </div>
         </div>
-        <div className="w-2/7 h-dvh pt-29">
+        <div className="justify-center flex flex-col gap-5 w-2/7 h-dvh pt-25 ">
             <HomeBox title = "About us" icon={aboutus}/>
             <HomeBox title = "About us" icon={aboutus}/>
             <HomeBox title = "About us" icon={aboutus}/>
-        
+
+            <div className="flex justify-center">
+                <FAQ />
+            </div>
         </div>
       </div>
     </>
