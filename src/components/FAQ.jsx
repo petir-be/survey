@@ -24,7 +24,7 @@ function FAQ() {
         rgba(132, 95, 255,1) 360deg       /* fully faded */
       )`,
             mask: "radial-gradient(transparent 65%, black 70%)", // creates a ring
-            WebkitMask: "radial-gradient(transparent 64%, black 70%)",
+            WebkitMask: "radial-gradient(transparent 69%, black 70%)",
           }}
           animate={{ rotate: 360 }}
           transition={{
@@ -35,8 +35,8 @@ function FAQ() {
         />
         <div
           style={{
-            width: "97%",
-            height: "97%",
+            width: "99%",
+            height: "99%",
             borderRadius: "50%",
             background: "radial-gradient(circle, #845FFF22 40%, #ffffff 100%)",
             position: "absolute",
@@ -45,8 +45,8 @@ function FAQ() {
             transform: "translate(-50%, -50%)",
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
-            fontFamily:"arial",
+            paddingLeft:"20%",
+            fontFamily:"Arial",
             color:"#845FFF",
           }}
         >
