@@ -7,8 +7,8 @@ function FAQ() {
     <>
       <div
         style={{
-          width: 100,
-          height: 100,
+          width: 150,
+          height: 150,
           position: "relative",
           borderRadius: "50%",
         }}
@@ -19,12 +19,12 @@ function FAQ() {
           style={{
             background: `conic-gradient(
         from 0deg,
-        rgba(52,152,219,0) 0deg,        /* bright head */
-        rgba(52,152,219,0.3) 120deg,    /* fading tail */
-        rgba(52,152,219,1) 360deg       /* fully faded */
+        rgba(132, 95, 255,0) 0deg,        /* bright head */
+        rgba(132, 95, 255,0.3) 120deg,    /* fading tail */
+        rgba(132, 95, 255,1) 360deg       /* fully faded */
       )`,
-            mask: "radial-gradient(transparent 60%, black 61%)", // creates a ring
-            WebkitMask: "radial-gradient(transparent 60%, black 61%)",
+            mask: "radial-gradient(transparent 65%, black 70%)", // creates a ring
+            WebkitMask: "radial-gradient(transparent 64%, black 70%)",
           }}
           animate={{ rotate: 360 }}
           transition={{
@@ -35,10 +35,10 @@ function FAQ() {
         />
         <div
           style={{
-            width: "90%",
-            height: "90%",
+            width: "97%",
+            height: "97%",
             borderRadius: "50%",
-            background: "#000",
+            background: "radial-gradient(circle, #845FFF22 40%, #ffffff 100%)",
             position: "absolute",
             top: "50%",
             left: "50%",
@@ -46,8 +46,11 @@ function FAQ() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            fontFamily:"arial",
+            color:"#845FFF",
           }}
         >
+          FAQ's
         </div>
       </div>
     </>
