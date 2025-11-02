@@ -22,8 +22,8 @@ const DotShader = () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    const dotSpacing = 10;
-    const dotRadius = 3;
+    const dotSpacing = 25;
+    const dotRadius = 2;
     const flickerProbability = 0.001; // Lower value = less frequent flicker
 
     const animate = () => {
