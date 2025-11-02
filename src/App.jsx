@@ -6,6 +6,7 @@ import FAQ from "./components/FAQ.jsx";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
 import Login from "./pages/Login.jsx";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Register from "./pages/Register.jsx";
 import Form from "./pages/Form.jsx";
 import TestPage from "./pages/TestPage.jsx";
@@ -17,6 +18,9 @@ import Workspaces from "./pages/Workspaces.jsx";
 import Kabadingan from "./pages/Kabadingan.jsx";
 import ShaderBackground from './components/ShaderBackground';
 =======
+=======
+import Register from "./pages/Register.jsx";
+>>>>>>> 6b9a9b1 (Add Google authentication and registration features)
 
 >>>>>>> 4404ba5 (auth login jwttoken)
 function Layout() {
@@ -63,6 +67,7 @@ const router = createBrowserRouter([
     element: <Login />,
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
   {
     path: "/sign-up",
     element: <Register />,
@@ -93,6 +98,12 @@ const router = createBrowserRouter([
   },
 =======
 >>>>>>> 4404ba5 (auth login jwttoken)
+=======
+   {
+    path: "/sign-up",
+    element: <Register />,
+  },
+>>>>>>> 6b9a9b1 (Add Google authentication and registration features)
 ]);
 
 function App() {
