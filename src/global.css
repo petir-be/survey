@@ -1,56 +1,55 @@
-
 @font-face {
-    font-family: ZenDots;
-    src: url('assets/fonts/zen-dots-latin-400-normal.ttf');
-    
+  font-family: ZenDots;
+  src: url("assets/fonts/zen-dots-latin-400-normal.ttf");
 }
 
 @font-face {
-    font-family: VagRounded;
-    src: url('assets/fonts/vag-rounded-next-regular.ttf');
-
+  font-family: VagRounded;
+  src: url("assets/fonts/vag-rounded-next-regular.ttf");
 }
 
 @import "tailwindcss";
 
-@theme{
-    --purple:#845FFF;
-    --pink:#DA1262;
-    --white:#DFE0F0;
-    --dirty-white:#C8C9DA;
-    --font-zendots: ZenDots, sans-serif;
-    --font-vagrounded:VagRounded, sans-serif;
+@theme {
+  --purple: #845fff;
+  --pink: #da1262;
+  --white: #dfe0f0;
+  --dirty-white: #c8c9da;
+  --font-zendots: ZenDots, sans-serif;
+  --font-vagrounded: VagRounded, sans-serif;
 }
 
-@keyframes moveCircleLtR{
-    0%,100%{
-        transform: translateX(0px);
-    }
-    50%{
-        transform: translateX(400px);
-    }
+@keyframes moveCircleLtR {
+  0%,
+  100% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(400px);
+  }
 }
 
-@keyframes moveCircleRtL{
-    0%,100%{
-        transform: translateX(0px);
-    }
-    50%{
-        transform: translateX(-400px);
-    }
+@keyframes moveCircleRtL {
+  0%,
+  100% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(-400px);
+  }
 }
 
-
-
-@layer utilities{
-    .animate-moveCircleLtR{
-        animation: moveCircleLtR 20s ease-in-out infinite;
-    }
-    .animate-moveCircleRtL{
-        animation: moveCircleRtL 20s ease-in-out infinite;
-    }
-    .home-circle{
-        @apply absolute rounded-full blur-3xl;
-    }
-
+@layer utilities {
+  .animate-moveCircleLtR {
+    animation: moveCircleLtR 20s ease-in-out infinite;
+  }
+  .animate-moveCircleRtL {
+    animation: moveCircleRtL 20s ease-in-out infinite;
+  }
+  .home-circle {
+    @apply absolute rounded-full blur-3xl;
+  }
+}
+button {
+  cursor: pointer;
 }
