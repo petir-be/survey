@@ -64,6 +64,7 @@ function Home() {
               exit={{ opacity: 0, scale: 0.9, y: 30 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
               className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs"
+              onClick={() => setShowModal(false)}
             >
               <div className="p-10 w-2/3 h-2/3 bg-(--white) ring ring-white rounded-lg fixed z-50">
                 <h1 className="font-vagrounded text-xl">Start a new Form</h1>
@@ -77,8 +78,8 @@ function Home() {
                 </div>
                 <div className="p-5 flex items-center justify-evenly w-full h-full">
                   {/* create own forms */}
-                  <div className="flex flex-col gap-2 items-center w-full h-full font-vagrounded">
-                    <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20">
+                  <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
+                    <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
                       {/* button ng form */}
                       <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
 
@@ -125,14 +126,14 @@ function Home() {
                   </div>
 
                   {/* generate with ai */}
-                  <div className="flex flex-col gap-2 items-center w-full h-full font-vagrounded">
-                    <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20"></span>
+                  <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded">
+                    <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease"></span>
                     Generate with AI
                   </div>
 
                   {/* Use a template */}
-                  <div className="flex flex-col gap-2 items-center w-full h-full font-vagrounded">
-                    <span className="relative flex  items-center justify-center w-11/12 h-4/5 bg-white/20 shadow-md/20">
+                  <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded">
+                    <span className="relative flex  items-center justify-center w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
                       {/* button ng form */}
                       <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
 
