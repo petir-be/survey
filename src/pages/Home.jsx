@@ -24,7 +24,7 @@ const [showModal, setShowModal] = useState(false);
               architectures. The next era of predictive analytics starts here.
             </p>
           </div>
-          <button className="m-12 cursor-pointer" onClick={() => setShowModal(true)}>aa</button>
+          <button className="m-12 cursor-pointer text-4xl" onClick={() => setShowModal(true)}>+</button>
         </div>
         <div className="w-3/7 relative h-dvh overflow-hidden pt-15 border-2 border-[var(--dirty-white)] bg-[var(--white)] z-10">
           <div className="absolute z-1 w-full h-full flex justify-center items-center">
@@ -57,26 +57,29 @@ const [showModal, setShowModal] = useState(false);
               <div className="p-5 flex items-center justify-evenly w-full h-full">
 
                 {/* create own forms */}
-                <div className="flex flex-col gap-2 items-center w-full h-full">
+                <div className="flex flex-col gap-2 items-center w-full h-full font-vagrounded">
                   <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20">
+
+                  {/* button ng form */}
+                  <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
                       
                       {/* circle and rectangle */}
-                      <span className="inset-shadow-sm/30 w-5 h-5 absolute top-8 left-10 rounded-full"></span>
-                      <span className="inset-shadow-sm/30 w-5 h-5 absolute top-15 left-10 rounded-full"></span>
-                      <span className="w-5 h-5 inset-shadow-sm/30 absolute top-22 left-10 rounded-full"></span>
+                      <span className="inset-shadow-sm/40 w-5 h-5 absolute top-8 left-10 rounded-full"></span>
+                      <span className="inset-shadow-sm/40 w-5 h-5 absolute top-15 left-10 rounded-full"></span>
+                      <span className="w-5 h-5 inset-shadow-sm/40 absolute top-22 left-10 rounded-full"></span>
 
-                      <span className="w-7/12 h-3 inset-shadow-sm/30 absolute top-9 left-17"></span>
-                      <span className="w-4/12 h-3 inset-shadow-sm/30 absolute top-16 left-17"></span>
-                      <span className="w-2/12 h-3 inset-shadow-sm/30 absolute top-23 left-17"></span>
+                      <span className="w-7/12 h-3 inset-shadow-sm/40 absolute top-9 left-17"></span>
+                      <span className="w-4/12 h-3 inset-shadow-sm/40 absolute top-16 left-17"></span>
+                      <span className="w-2/12 h-3 inset-shadow-sm/40 absolute top-23 left-17"></span>
 
                       {/* plus circle */}
-                      <span className="w-15 h-15 rounded-full inset-shadow-sm/30 absolute top-50 left-15 flex justify-center items-center">
-                        <span className="flex justify-center items-center w-11 h-11 rounded-full shadow-sm/30">
-                          <span className="w-8 h-2 inset-shadow-sm/30 rounded-lg flex justify-center items-center">
+                      <span className="w-15 h-15 rounded-full inset-shadow-sm/40 absolute top-50 left-15 flex justify-center items-center">
+                        <span className="flex justify-center items-center w-11 h-11 rounded-full shadow-sm/40">
+                          <span className="w-8 h-2 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
                             {/* ayaw maalis pota */}
                             <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span> 
                           </span>
-                          <span className="fixed w-2 h-8 inset-shadow-sm/30 rounded-lg flex justify-center items-center">
+                          <span className="fixed w-2 h-8 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
                             <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
                           </span>
                         </span>
@@ -106,21 +109,35 @@ const [showModal, setShowModal] = useState(false);
                   </div>
                   
                   {/* generate with ai */}
-                <div className="flex flex-col gap-2 items-center w-full h-full">
+                <div className="flex flex-col gap-2 items-center w-full h-full font-vagrounded">
                   <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20">
                       
                   
                   </span>
-                  Create you own forms
+                  Generate with AI
                   </div>
 
                   {/* Use a template */}
-                  <div className="flex flex-col gap-2 items-center w-full h-full">
-                  <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20">
-                      
-                    
+                  <div className="flex flex-col gap-2 items-center w-full h-full font-vagrounded">
+                   <span className="relative flex  items-center justify-center w-11/12 h-4/5 bg-white/20 shadow-md/20">
+                   
+                   {/* button ng form */}
+                  <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
+
+                      <div className=" gap-3 h-1/2 w-1/2 flex flex-col">
+                        <span className="w-full h-[60%] inset-shadow-sm/40 rounded-xl"></span>
+                        <div className="flex flex-row w-full h-full gap-3 justify-between">
+                          <span className="h-full w-1/2 rounded-xl inset-shadow-sm/30"></span>
+                          <div className="flex flex-col w-1/2 h-full items-center justify-between ">
+                            <span className="inset-shadow-sm/40 rounded-xl h-5 w-full"></span>
+                            <span className="inset-shadow-sm/40 rounded-xl h-5 w-full"></span>
+                            <span className="inset-shadow-sm/40 rounded-xl h-5 w-full"></span>
+                          </div>
+                        </div>
+                      </div>
+                  
                   </span>
-                  Create you own forms
+                  Use a template
                   </div>
               </div>
             </div>
