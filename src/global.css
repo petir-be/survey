@@ -52,5 +52,8 @@
     .home-circle{
         @apply absolute rounded-full blur-3xl;
     }
+    .login-input{
+        @apply font-vagrounded px-5 text-lg w-9/12 py-2 rounded-xl shadow-md/30 ring ring-white ;
+    }
 
 }
