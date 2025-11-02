@@ -50,7 +50,7 @@ const [showModal, setShowModal] = useState(false);
         {showModal && (
           <>
             <div className="p-10 w-2/3 h-2/3 bg-(--white) ring ring-white rounded-lg fixed z-50">
-              <h1 className="font-vagrounded text-lg">Start a new Form</h1>
+              <h1 className="font-vagrounded text-xl">Start a new Form</h1>
               <div className="absolute top-0 right-0 w-15 h-15 flex items-center justify-center">
                 <button onClick={() => setShowModal(false)} className="w-full h-full cursor-pointer">X</button>
               </div>
