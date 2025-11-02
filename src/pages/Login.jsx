@@ -8,6 +8,8 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import { VscLoading } from "react-icons/vsc";
+import toast, { Toaster } from "react-hot-toast";
+import { IoMdClose } from "react-icons/io";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -22,14 +24,44 @@ function Login() {
       navigate("/", { replace: true });
     }
   }, [isAuthenticated, navigate]);
-  
+
   async function Auth() {
     try {
       setLoading(true);
       await login(email, password);
+      toast.success("Logged in successfully!");
       navigate("/");
     } catch (error) {
-      console.error(error);
+      const msg =
+        error.response?.data?.message ||
+        error.message ||
+        "Something went wrong";
+      toast.error(
+        (t) => (
+          <div className="flex justify-between items-center gap-2 font-vagrounded">
+            <span>{msg}</span>
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="text-white text-lg"
+            >
+              <IoMdClose />
+            </button>
+          </div>
+        ),
+        {
+          duration: 5000,
+          style: {
+            minWidth: "250px",
+            padding: "16px",
+            color: "#fff",
+            background: "#f56565",
+          },
+          iconTheme: {
+            primary: "#fff",
+            secondary: "#f56565",
+          },
+        }
+      );
     } finally {
       setLoading(false);
     }
@@ -60,15 +92,14 @@ function Login() {
   };
   if (isAuthenticated) return null;
 
- 
-
   return (
     <>
       <LoginShader />
+      <Toaster position="top-right" />
       <div className="relative z-20 min-h-screen flex flex-col">
         <header className="">
           <Link to={"/"}>
-            <p className="cursor-pointer font-zendots text-3xl px-14 py-10">
+            <p className="cursor-pointer font-zendots text-3xl py-8 px-10">
               C-MEN
             </p>
           </Link>
@@ -97,6 +128,7 @@ function Login() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                   placeholder="Enter your email"
                   className="placeholder-gray-400 text-black  border w-full font-vagrounded text-xl bg-[#DFE0F0]  border-[#ffffff] px-8 py-3 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,.25)] "
                 />
@@ -105,6 +137,7 @@ function Login() {
                     type={showPass ? "text" : "password"}
                     placeholder="Password"
                     value={password}
+                    required
                     onChange={(e) => setPassword(e.target.value)}
                     className="placeholder-gray-400 text-black border  w-full font-vagrounded text-xl bg-[#DFE0F0]  border-[#ffffff] px-8 py-3 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,.25)] "
                   />
