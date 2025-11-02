@@ -9,11 +9,9 @@ export const AuthProvider = ({ children }) => {
     user: null,
   });
 
-  // Configure axios to send cookies
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    // Check if user is authenticated by calling a protected endpoint
     const checkAuth = async () => {
       try {
         const res = await axios.get(
@@ -50,6 +48,23 @@ export const AuthProvider = ({ children }) => {
     });
   }
 
+  async function loginWithGoogle(idToken) {
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND}/api/User/login-google`,
+        { idToken }
+      );
+
+      setAuthState({
+        isAuthenticated: true,
+        loading: false,
+        user: res.data,
+      });
+    } catch (error) {
+      console.error("Google login failed:", error);
+    }
+  }
+
   const logout = async () => {
     try {
       await axios.post(`${import.meta.env.VITE_BACKEND}/api/User/logout`);
@@ -67,6 +82,7 @@ export const AuthProvider = ({ children }) => {
   const value = {
     ...authState,
     login,
+    loginWithGoogle,
     logout,
   };
 
