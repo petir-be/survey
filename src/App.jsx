@@ -6,6 +6,7 @@ import FAQ from "./components/FAQ.jsx";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
+import Form from "./pages/Form.jsx";
 
 function Layout() {
   return (
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
    {
     path: "/sign-up",
     element: <Register />,
+  },
+  {
+    path: "/newform",
+    element: <Form />,
   },
 ]);
 

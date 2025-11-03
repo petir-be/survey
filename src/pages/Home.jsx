@@ -12,6 +12,10 @@ function Home() {
 
   return (
     <>
+    {/* para matanggal lang error */}
+    {motion}
+
+
       <div className="flex items-center justify-center flex-1 min-h-full bg-[var(--white)] z-10">
         <div className="w-2/7 h-dvh pt-25">
           <div className="m-12">
@@ -162,8 +166,3 @@ function Home() {
 }
 export default Home;
 
-// {showModal && (
-//           <>
-
-//           </>
-//         )}
