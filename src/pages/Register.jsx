@@ -9,6 +9,8 @@ import { AuthContext } from "../Context/authContext";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { VscLoading } from "react-icons/vsc";
+import toast, { Toaster } from "react-hot-toast";
+import { IoMdClose } from "react-icons/io";
 function Register() {
   const [showPass, setShowPass] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -20,6 +22,7 @@ function Register() {
   const [userNameError, setUsernameError] = useState("");
   const { loginWithGoogle, isAuthenticated, login } = useContext(AuthContext);
   const [email, setEmail] = useState();
+
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -67,9 +70,39 @@ function Register() {
         name: username,
       });
       await login(email, password);
+     
       navigate("/");
     } catch (error) {
-      console.log(error);
+      const msg =
+        error.response?.data?.message ||
+        error.message ||
+        "Something went wrong";
+      toast.error(
+        (t) => (
+          <div className="flex justify-between items-center gap-2 font-vagrounded">
+            <span>{msg}</span>
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="text-white text-lg"
+            >
+              <IoMdClose />
+            </button>
+          </div>
+        ),
+        {
+          duration: 5000,
+          style: {
+            minWidth: "250px",
+            padding: "16px",
+            color: "#fff",
+            background: "#f56565",
+          },
+          iconTheme: {
+            primary: "#fff",
+            secondary: "#f56565",
+          },
+        }
+      );
     } finally {
       setLoading(false);
     }
