@@ -104,6 +104,8 @@ function Login() {
             </p>
           </Link>
         </header>
+
+        
         <div className="flex-1 flex justify-center items-center py-10 sm:py-20">
           <div className="flex justify-center items-center flex-col border border-[#FFFFFF] bg-[#DFE0F0] w-[500px] min-h-[550px] shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(132,95,255,0.8)] rounded-3xl gap-4">
             <div className="flex justify-center items-center gap-3 flex-col w-[80%]">
