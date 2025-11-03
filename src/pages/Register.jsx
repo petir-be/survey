@@ -70,7 +70,7 @@ function Register() {
         name: username,
       });
       await login(email, password);
-     
+
       navigate("/");
     } catch (error) {
       const msg =
@@ -110,23 +110,24 @@ function Register() {
   return (
     <>
       <LoginShader />
-      <div className="relative z-20 min-h-dvh flex flex-col">
+      <Toaster position="top-right" />
+      <div className="relative z-20 min-h-screen flex flex-col">
         <header className="">
           <Link to={"/"}>
-            <p className="cursor-pointer font-zendots text-3xl pt-8 pb-0 px-10">
+            <p className="cursor-pointer font-zendots text-3xl py-8 px-10">
               C-MEN
             </p>
           </Link>
         </header>
-        <div className="flex-1 flex justify-center items-center">
-          <div className="p-5 pt-7 flex justify-center items-center flex-col ring ring-white bg-[#DFE0F0] w-[500px] min-h-[600px] shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(132,95,255,0.8)] rounded-3xl gap-4">
+        <div className="flex-1 flex justify-center items-center py-10 sm:py-20">
+          <div className="flex justify-center items-center flex-col border border-[#FFFFFF] bg-[#DFE0F0] w-[500px] min-h-[700px] shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(132,95,255,0.8)] rounded-3xl gap-4">
             <div className="flex justify-center items-center gap-3 flex-col w-[80%]">
-              <h1 className="font-vagrounded text-3xl text-center">
+              <h1 className="font-vagrounded text-4xl text-center">
                 Let's Get Started!
               </h1>
               <button
                 disabled={loading}
-                className={`flex flex-row justify-center items-end gap-2.5 font-vagrounded text-xl ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-md/30 w-full ${
+                className={`flex flex-row justify-center items-center gap-2.5 font-vagrounded text-xlborder border-[#ffffff] px-8 py-3 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,.25)] w-full ${
                   loading ? `  bg-gray-500` : `bg-[#DFE0F0]`
                 }`}
                 onClick={handleGoogleLogin}
@@ -134,9 +135,9 @@ function Register() {
                 <FcGoogle className="text-3xl" /> Continue with Google
               </button>
             </div>
-            <div className="flex items-center justify-center gap-4 w-[85%] my-2">
+            <div className="flex items-center justify-center gap-4 w-[85%] my-6">
               <hr className="flex-1 border-black" />
-              <p className="text-xl text-gray-500 font-vagrounded">or</p>
+              <p className="text-2xl text-gray-500 font-vagrounded">or</p>
               <hr className="flex-1 border-black" />
             </div>
             <div className="flex items-center justify-center flex-col gap-7 text-gray-400 w-[80%]">
@@ -146,7 +147,7 @@ function Register() {
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="login-input"
+                  className="placeholder-gray-400 text-black border w-full font-vagrounded text-xl bg-[#DFE0F0]  border-[#ffffff] px-8 py-3 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,.25)] "
                 />
                 <input
                   type="text"
@@ -163,7 +164,7 @@ function Register() {
                       setUsernameError("");
                     }
                   }}
-                  className="login-input"
+                  className="placeholder-gray-400 text-black border w-full font-vagrounded text-xl bg-[#DFE0F0]  border-[#ffffff] px-8 py-3 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,.25)] "
                 />
                 {userNameError && (
                   <>
@@ -178,7 +179,7 @@ function Register() {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="login-input"
+                    className="placeholder-gray-400 text-black border  w-full font-vagrounded text-xl bg-[#DFE0F0]  border-[#ffffff] px-8 py-3 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,.25)] "
                   />
                   <button
                     type="button"
@@ -201,7 +202,7 @@ function Register() {
                         setError("");
                       }
                     }}
-                    className="login-input"
+                    className="placeholder-gray-400 text-black border w-full font-vagrounded text-xl bg-[#DFE0F0] border-[#ffffff] px-8 py-3 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,.25)]"
                   />
                   <button
                     type="button"
@@ -222,8 +223,8 @@ function Register() {
               <button
                 onClick={Register}
                 disabled={loading}
-                className={`flex justify-center items-center hover:bg-purple-400 transition-color ease-out text-black duration-400 w-full py-2.5 font-vagrounded text-xl ring ring-white drop-shadow-md/30 rounded-2xl
-                ${loading ? `bg-gray-300` : `bg-purple-300`}`}
+                className={`flex justify-center items-center active:scale-95 duration-150 text-black  w-full py-3 font-vagrounded text-2xl border border-[#FFFFFF] drop-shadow-[0_4px_4px_rgba(0,0,0,.25)] rounded-2xl
+                ${loading ? `bg-gray-400` : `bg-[#B9AAF6]`}`}
               >
                 {loading ? (
                   <VscLoading className="text-2xl  animate-spin" />
