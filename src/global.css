@@ -49,7 +49,16 @@
   .home-circle {
     @apply absolute rounded-full blur-3xl;
   }
+  .login-input{
+    @apply placeholder-gray-400 text-[#212529] w-full font-vagrounded text-lg bg-[#DFE0F0] ring ring-white px-8 py-3 rounded-2xl drop-shadow-md/30 focus:outline-none focus:ring-gray-400;
+  }
 }
 button {
   cursor: pointer;
+}
+
+@layer theme{
+  *{
+    @apply text-[#212529];
+  }
 }
