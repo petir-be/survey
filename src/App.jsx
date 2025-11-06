@@ -7,6 +7,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import TestPage from "./pages/TestPage.jsx";
+import Form from "./pages/Form.jsx";
 
 function Layout() {
   return (
@@ -42,7 +43,11 @@ const router = createBrowserRouter([
   {
     path: "/test",
     element: <TestPage />,
-  },
+ 
+  },{
+     path: "/newform",
+    element: <Form />,
+  }
 ]);
 
 function App() {
