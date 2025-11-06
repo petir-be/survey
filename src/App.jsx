@@ -43,11 +43,11 @@ const router = createBrowserRouter([
   {
     path: "/test",
     element: <TestPage />,
- 
-  },{
-     path: "/newform",
+  },
+  {
+    path: "/newform/:id",
     element: <Form />,
-  }
+  },
 ]);
 
 function App() {
