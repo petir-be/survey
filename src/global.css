@@ -15,7 +15,7 @@
   --pink: #da1262;
   --white: #dfe0f0;
   --dirty-white: #c8c9da;
-  --black:"#212529";
+  --black: "#212529";
   --font-zendots: ZenDots, sans-serif;
   --font-vagrounded: VagRounded, sans-serif;
 }
@@ -53,7 +53,6 @@
   .login-input {
     @apply placeholder-gray-400 text-[#212529] w-full font-vagrounded text-lg bg-[#DFE0F0] ring ring-white px-8 py-3 rounded-2xl drop-shadow-md/30 focus:outline-none focus:ring-gray-400;
   }
- 
 }
 button {
   cursor: pointer;
@@ -102,4 +101,17 @@ button {
 
 .content {
   padding: 5px 10px;
+}
+.border-gradient {
+  border: 10px solid;
+  border-image-slice: 1;
+  border-width: 1px;
+}
+.pageBorder {
+  border-image-source: linear-gradient(
+    53deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(255, 255, 255, 0.05) 75%
+  );
 }

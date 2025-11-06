@@ -6,8 +6,8 @@ import FAQ from "./components/FAQ.jsx";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
-import TestPage from "./pages/TestPage.jsx";
 import Form from "./pages/Form.jsx";
+import TestPage from "./pages/TestPage.jsx";
 
 function Layout() {
   return (
@@ -41,12 +41,12 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "/test",
-    element: <TestPage />,
-  },
-  {
     path: "/newform/:id",
     element: <Form />,
+  },
+  {
+    path: "test",
+    element: <TestPage />,
   },
 ]);
 

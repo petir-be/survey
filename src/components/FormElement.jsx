@@ -1,15 +1,16 @@
-import Draggable from "react-draggable";
+import { useDrag } from "react-dnd";
+function FormElement({ title, icon: Icon }) {
+  const [{ isDragging }, dragRef] = useDrag({
+    type: "PALETTE_ITEM",
+    item: { title, Icon },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
 
-function FormElement({ title, icon: Icon, onDragStart }) {
-  function handleMouseDown(e) {
-    if (onDragStart) {
-      onDragStart(e, { title, icon: Icon });
-    }
-    return false;
-  }
   return (
     <div
-      onMouseDown={handleMouseDown}
+      ref={dragRef}
       className="w-full h-28 flex flex-col ring ring-white overflow-hidden font-vagrounded gap-2 items-center justify-center rounded-xl shadow-[0px_1px_4px_2px_rgba(0,0,0,0.25)]"
     >
       <Icon className="text-3xl text-(--blacs)" />
