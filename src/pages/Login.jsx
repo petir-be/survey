@@ -112,7 +112,7 @@ function Login() {
               </h1>
               <button
                 onClick={handleGoogleLogin}
-                className="flex flex-row justify-center items-end gap-2.5 font-vagrounded text-xl bg-[#DFE0F0] ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,.25)] w-full"
+                className="flex flex-row justify-center items-end gap-2.5 font-vagrounded text-xl bg-[#DFE0F0] ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full"
               >
                 <FcGoogle className="text-3xl" /> Continue with Google
               </button>
@@ -139,7 +139,7 @@ function Login() {
                     value={password}
                     required
                     onChange={(e) => setPassword(e.target.value)}
-                  className="login-input"
+                    className="login-input"
                   />
                   <button
                     type="button"

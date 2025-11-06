@@ -1,9 +1,10 @@
 import React from "react";
-import List from "../components/test/List";
+import Page from "../components/Page";
+
 function TestPage() {
   return (
     <div>
-      <List />
+      <Page />
     </div>
   );
 }
