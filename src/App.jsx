@@ -6,6 +6,7 @@ import FAQ from "./components/FAQ.jsx";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
+import TestPage from "./pages/TestPage.jsx";
 
 function Layout() {
   return (
@@ -28,16 +29,19 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-      
     ],
   },
   {
     path: "/login",
     element: <Login />,
   },
-   {
+  {
     path: "/sign-up",
     element: <Register />,
+  },
+  {
+    path: "/test",
+    element: <TestPage />,
   },
 ]);
 

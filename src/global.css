@@ -49,7 +49,7 @@
   .home-circle {
     @apply absolute rounded-full blur-3xl;
   }
-  .login-input{
+  .login-input {
     @apply placeholder-gray-400 text-[#212529] w-full font-vagrounded text-lg bg-[#DFE0F0] ring ring-white px-8 py-3 rounded-2xl drop-shadow-md/30 focus:outline-none focus:ring-gray-400;
   }
 }
@@ -57,8 +57,47 @@ button {
   cursor: pointer;
 }
 
-@layer theme{
-  *{
+@layer theme {
+  * {
     @apply text-[#212529];
   }
+}
+.App {
+  padding: 15px;
+}
+
+.list {
+  height: 100vh;
+  border: 3px solid #333;
+}
+
+.card {
+  margin: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  width: 300px;
+  min-height: 150px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.header {
+  border-bottom: 1px solid #e0e0e0;
+  border-radius: 10px 10px 0 0;
+  padding: 10px 15px;
+  background-color: #f0f8ff;
+  text-align: center;
+  font-weight: 600;
+  min-height: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.content {
+  padding: 5px 10px;
 }
