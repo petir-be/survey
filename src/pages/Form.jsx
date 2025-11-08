@@ -9,13 +9,21 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 function Form() {
   const [elements, setElements] = useState([]);
-  const handleDrop = (item) => {
+
+  const handleDrop = (item, index) => {
     const newElement = {
       id: Date.now() + Math.random(),
       title: item.title,
       Icon: item.Icon,
     };
-    setElements((prev) => [...prev, newElement]);
+    setElements((prev) => {
+      if (typeof index === "number") {
+        const copy = [...prev];
+        copy.splice(index, 0, newElement);
+        return copy;
+      }
+      return [...prev, newElement];
+    });
   };
   const types = [
     { Icon: BiSolidUserRectangle, title: "Contact" },
@@ -80,11 +88,11 @@ function Form() {
           </header>
 
           {/* form mismo */}
+
           <div className="h-full w-full bg-(--white) flex">
             {/* leftside */}
-            <div className="w-2/7 p-5  z-10 bg-(--white)  border-t-2 border-[var(--dirty-white)]">
+            <div className="w-[20%] p-5  z-10 bg-(--white)  border-t-2 border-(--dirty-white)">
               {/* searchbox nga */}
-
               <div className="grid grid-cols-3 w-full gap-4 p-4 m-auto">
                 {types.map((type, index) => (
                   <FormElement
@@ -95,12 +103,13 @@ function Form() {
                 ))}
               </div>
             </div>
-
             {/* mid */}
-            <Canvas elements={elements} onDropElement={handleDrop} />
+            <div className="h-full w-[60%] border-2 border-(--dirty-white) overflow-auto flex flex-col">
+              <Canvas elements={elements} onDropElement={handleDrop} />
+            </div>
 
             {/* right side */}
-            <div className="h-full w-2/7 z-10 bg-(--white)  border-t-2 border-[var(--dirty-white)]"></div>
+            <div className="h-full w-[20%] z-10 bg-(--white)  border-t-2 border-(--dirty-white)"></div>
           </div>
         </div>
       </DndProvider>
