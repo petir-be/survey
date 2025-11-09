@@ -1,19 +1,37 @@
-import { Link } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { FaHome, FaUserCircle } from "react-icons/fa";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext, useCallback } from "react";
 import FormElement from "../components/FormElement";
+import Layers from "../components/Layers";
 import { BiSolidUserRectangle } from "react-icons/bi";
 import Canvas from "../components/Canvas";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from "uuid";
+import { AuthContext } from "../Context/authContext";
+import toast from "react-hot-toast";
+import axios from "axios";
+
 function Form() {
+  const { user, isAuthenticated } = useContext(AuthContext);
+  const [error, setError] = useState(null);
+  const { id } = useParams();
+  const saveRef = useRef();
+  saveRef.current = Save;
+
+  let navigate = useNavigate();
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
   const [pages, setPages] = useState([
     {
       id: 1,
       questions: [],
     },
   ]);
+
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
   const handleDrop = (item, index) => {
@@ -23,7 +41,7 @@ function Form() {
         typeof index === "number"
           ? index + 1
           : pages[currentPageIndex].questions.length + 1,
-      question: getDefaultQuestion(item.title), // ← Must be "question" not "title"
+      question: getDefaultQuestion(item.title),
       type: getQuestionType(item.title),
       options:
         item.title === "Multiple Choice" || item.title === "Checkbox"
@@ -99,6 +117,24 @@ function Form() {
     });
   };
 
+  const handleReorderQuestions = (fromIndex, toIndex) => {
+    if (fromIndex === toIndex) return;
+    setPages((prev) => {
+      const updated = [...prev];
+      const current = { ...updated[currentPageIndex] };
+      const copy = [...current.questions];
+      const f = Math.max(0, Math.min(copy.length - 1, fromIndex));
+      const t = Math.max(0, Math.min(copy.length - 1, toIndex));
+      const [moved] = copy.splice(f, 1);
+      if (typeof moved === "undefined") return prev;
+      copy.splice(t, 0, moved);
+      copy.forEach((q, idx) => (q.order = idx + 1));
+      current.questions = copy;
+      updated[currentPageIndex] = current;
+      return updated;
+    });
+  };
+
   const handleRemovePage = (indexToRemove) => {
     if (pages.length === 1) {
       alert("Cannot delete the last page!");
@@ -107,10 +143,8 @@ function Form() {
 
     setPages((prev) => prev.filter((_, idx) => idx !== indexToRemove));
     if (indexToRemove === currentPageIndex) {
-      // If deleting current page, go to previous or first page
       setCurrentPageIndex(Math.max(0, currentPageIndex - 1));
     } else if (indexToRemove < currentPageIndex) {
-      // If deleting a page before current, adjust index
       setCurrentPageIndex(currentPageIndex - 1);
     }
   };
@@ -146,24 +180,78 @@ function Form() {
     }
   }, [titleValue]);
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (saveRef.current) {
+        saveRef.current();
+      }
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  async function Save() {
+    try {
+      await axios.put(`${import.meta.env.VITE_BACKEND}/api/Form/save/${id}`, {
+        userId: user.id,
+        title: titleValue,
+        formData: pages,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    async function fetchFormData() {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND}/api/Form/${id}`
+        );
+        setPages(res.data.formData);
+        setTitleValue(res.data.title);
+        console.log(res.data.formData);
+      } catch (err) {
+        console.log(err);
+
+        if (err.response) {
+          if (err.response.status === 404) {
+            setError("Form not found");
+          } else if (err.response.status === 403) {
+            setError("Access forbidden. You do not have permission.");
+          } else {
+            setError("An unexpected error occurred.");
+          }
+        } else {
+          setError("Network error or server is unreachable.");
+        }
+      }
+    }
+    if (id) {
+      fetchFormData();
+    }
+  }, [id]);
+  
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <h2 className="text-2xl font-semibold text-red-600">{error}</h2>
+      </div>
+    );
+  }
+
   return (
     <>
       <DndProvider backend={HTML5Backend}>
         <div className="h-dvh w-full bg-(--white) overflow-hidden">
-          <header className="flex items-center justify-between z-20 bg-(--white) pt-8 pb-8 px-10 pr-12">
-            <div className="inline-flex items-center gap-7 z-20 bg-(--white)">
+          <header className="flex items-center justify-between  bg-(--white) pt-8 pb-8 px-10 pr-12 relative z-50">
+            <div className="inline-flex items-center gap-7 bg-(--white)">
               <Link to={"/"}>
                 <p className="cursor-pointer text-3xl">
                   <FaHome />
                 </p>
               </Link>
-              <button
-                onClick={handleExportData}
-                className="px-6 py-1.5 rounded-xl bg-gray-100 ring ring-gray-400 font-vagrounded hover:bg-gray-200"
-              >
-                Export Data
-              </button>
-              <div className="relative inline-flex items-center z-20 bg-(--white)">
+              <div className="relative inline-flex items-center z-50 bg-(--white) ">
                 <span
                   ref={spanRef}
                   className="invisible absolute whitespace-pre font-medium px-2 text-xl"
@@ -185,6 +273,7 @@ function Form() {
               <button className=" px-10 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 transition-color duration-400 ease-out">
                 Share
               </button>
+
               <button>
                 <FaUserCircle className="text-3xl" />
               </button>
@@ -192,7 +281,6 @@ function Form() {
           </header>
 
           {/* form mismo */}
-
           <div className="h-full w-full bg-(--white) flex">
             {/* leftside */}
             <div className="w-[20%] p-5  z-10 bg-(--white)  border-t-2 border-(--dirty-white)">
@@ -223,7 +311,18 @@ function Form() {
               />
             </div>
             {/* right side */}
-            <div className="h-full w-[20%] z-10 bg-(--white)  border-t-2 border-(--dirty-white)"></div>
+            <div className="h-full w-[20%] z-10 bg-(--white) p-7.5  border-t-2 border-(--dirty-white) font-vagrounded">
+              <div className="w-full">
+                <h1 className="text-3xl text-left">Layers</h1>
+              </div>
+              <div className="w-full mt-4">
+                <Layers
+                  questions={pages[currentPageIndex]?.questions || []}
+                  onReorder={handleReorderQuestions}
+                  onDelete={handleDeleteQuestion}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </DndProvider>

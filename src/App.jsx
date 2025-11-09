@@ -41,8 +41,8 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "/newform/:id",
-    element: <Form />,
+      path: "/newform/:id",
+      element: <Form />,
   },
   {
     path: "test",

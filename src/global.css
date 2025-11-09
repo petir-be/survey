@@ -124,3 +124,14 @@ canvas {
 .drag-item:active {
   cursor: grabbing;
 }
+.hide-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-bar {
+  scrollbar-width: none;
+}
+
+.hide-bar {
+  -ms-overflow-style: none;
+}
