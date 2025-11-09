@@ -6,25 +6,123 @@ import { BiSolidUserRectangle } from "react-icons/bi";
 import Canvas from "../components/Canvas";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-
+import { v4 as uuidv4 } from "uuid";
 function Form() {
-  const [elements, setElements] = useState([]);
+  const [pages, setPages] = useState([
+    {
+      id: 1,
+      questions: [],
+    },
+  ]);
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
   const handleDrop = (item, index) => {
-    const newElement = {
-      id: Date.now() + Math.random(),
-      title: item.title,
-      Icon: item.Icon,
+    const newQuestion = {
+      id: uuidv4(),
+      order:
+        typeof index === "number"
+          ? index + 1
+          : pages[currentPageIndex].questions.length + 1,
+      question: getDefaultQuestion(item.title), // ← Must be "question" not "title"
+      type: getQuestionType(item.title),
+      options:
+        item.title === "Multiple Choice" || item.title === "Checkbox"
+          ? ["Option 1"]
+          : undefined,
     };
-    setElements((prev) => {
+
+    setPages((prev) => {
+      const updated = [...prev];
+      const currentPage = { ...updated[currentPageIndex] };
+
       if (typeof index === "number") {
-        const copy = [...prev];
-        copy.splice(index, 0, newElement);
-        return copy;
+        const copy = [...currentPage.questions];
+        copy.splice(index, 0, newQuestion);
+        copy.forEach((q, idx) => {
+          q.order = idx + 1;
+        });
+        currentPage.questions = copy;
+      } else {
+        currentPage.questions = [...currentPage.questions, newQuestion];
       }
-      return [...prev, newElement];
+
+      updated[currentPageIndex] = currentPage;
+      return updated;
     });
   };
+
+  const handleUpdateQuestion = (questionId, updates) => {
+    setPages((prev) => {
+      const updated = [...prev];
+      const currentPage = { ...updated[currentPageIndex] };
+      currentPage.questions = currentPage.questions.map((q) =>
+        q.id === questionId ? { ...q, ...updates } : q
+      );
+      updated[currentPageIndex] = currentPage;
+      return updated;
+    });
+  };
+
+  const getDefaultQuestion = (title) => {
+    const questionMap = {
+      contact: "What is your contact information?",
+      "multiple choice": "Select one option:",
+      "long text": "Please provide your answer:",
+      checkbox: "Select all that apply:",
+    };
+    return questionMap[title?.toLowerCase?.()] || "Enter your question here";
+  };
+
+  const getQuestionType = (title) => {
+    const typeMap = {
+      contact: "contact",
+      "multiple choice": "multiple_choice",
+      "long text": "long_text",
+      checkbox: "checkbox",
+    };
+    return typeMap[title?.toLowerCase?.()] || "text";
+  };
+
+  const handleAddPage = () => {
+    setPages((prev) => [...prev, { id: uuidv4(), questions: [] }]);
+    setCurrentPageIndex(pages.length);
+  };
+  const handleDeleteQuestion = (questionId) => {
+    setPages((prev) => {
+      const updated = [...prev];
+      const currentPage = { ...updated[currentPageIndex] };
+      currentPage.questions = currentPage.questions
+        .filter((q) => q.id !== questionId)
+        .map((q, idx) => ({ ...q, order: idx + 1 }));
+      updated[currentPageIndex] = currentPage;
+      return updated;
+    });
+  };
+
+  const handleRemovePage = (indexToRemove) => {
+    if (pages.length === 1) {
+      alert("Cannot delete the last page!");
+      return;
+    }
+
+    setPages((prev) => prev.filter((_, idx) => idx !== indexToRemove));
+    if (indexToRemove === currentPageIndex) {
+      // If deleting current page, go to previous or first page
+      setCurrentPageIndex(Math.max(0, currentPageIndex - 1));
+    } else if (indexToRemove < currentPageIndex) {
+      // If deleting a page before current, adjust index
+      setCurrentPageIndex(currentPageIndex - 1);
+    }
+  };
+  const handleExportData = () => {
+    const allData = pages.map((page, idx) => ({
+      page: idx + 1,
+      questions: page.questions,
+    }));
+    console.log(JSON.stringify(allData, null, 2));
+    alert("Data exported to console!");
+  };
+
   const types = [
     { Icon: BiSolidUserRectangle, title: "Contact" },
     { Icon: BiSolidUserRectangle, title: "Multiple Choice" },
@@ -59,6 +157,12 @@ function Form() {
                   <FaHome />
                 </p>
               </Link>
+              <button
+                onClick={handleExportData}
+                className="px-6 py-1.5 rounded-xl bg-gray-100 ring ring-gray-400 font-vagrounded hover:bg-gray-200"
+              >
+                Export Data
+              </button>
               <div className="relative inline-flex items-center z-20 bg-(--white)">
                 <span
                   ref={spanRef}
@@ -105,7 +209,18 @@ function Form() {
             </div>
             {/* mid */}
             <div className="h-full w-[60%] border-2 border-(--dirty-white) py-10 flex flex-col">
-              <Canvas elements={elements} onDropElement={handleDrop} />
+              <Canvas
+                questions={pages[currentPageIndex].questions}
+                onDropElement={handleDrop}
+                onUpdateQuestion={handleUpdateQuestion}
+                onDeleteQuestion={handleDeleteQuestion}
+                onAddPage={handleAddPage}
+                onRemovePage={handleRemovePage}
+                currentPageIndex={currentPageIndex}
+                pageNumber={currentPageIndex + 1}
+                totalPages={pages.length}
+                onPageChange={setCurrentPageIndex}
+              />
             </div>
             {/* right side */}
             <div className="h-full w-[20%] z-10 bg-(--white)  border-t-2 border-(--dirty-white)"></div>
