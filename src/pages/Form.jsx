@@ -104,10 +104,9 @@ function Form() {
               </div>
             </div>
             {/* mid */}
-            <div className="h-full w-[60%] border-2 border-(--dirty-white) overflow-auto flex flex-col">
+            <div className="h-full w-[60%] border-2 border-(--dirty-white) py-10 flex flex-col">
               <Canvas elements={elements} onDropElement={handleDrop} />
             </div>
-
             {/* right side */}
             <div className="h-full w-[20%] z-10 bg-(--white)  border-t-2 border-(--dirty-white)"></div>
           </div>

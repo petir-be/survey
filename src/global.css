@@ -115,3 +115,12 @@ button {
     rgba(255, 255, 255, 0.05) 75%
   );
 }
+canvas {
+  pointer-events: none;
+}
+.drag-item {
+  cursor: grab;
+}
+.drag-item:active {
+  cursor: grabbing;
+}
