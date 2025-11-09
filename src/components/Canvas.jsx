@@ -15,7 +15,7 @@ function Canvas({ elements, onDropElement }) {
   return (
     <div
       ref={dropRef}
-      className="h-full w-full flex justify-center items-center flex-col overflow-auto mb-10"
+      className="h-full w-full flex justify-center items-center flex-col overflow-auto mb-20 "
     >
       <CustomDragLayer />
       <DotShader2 />
