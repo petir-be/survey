@@ -1,8 +1,6 @@
 import React from "react";
 
-function Contact({ question, onUpdate, onDelete }) {
-
-
+function Contact({ question, onUpdate }) {
   return (
     <div className="p-4 border border-gray-300 rounded-xl shadow-sm bg-white">
       <div className="flex justify-between items-start mb-2">
@@ -20,20 +18,8 @@ function Contact({ question, onUpdate, onDelete }) {
             Type: {question.type || "contact"}
           </p>
         </div>
-        <button
-          onClick={() => {
-            if (window.confirm("Delete this question?")) {
-              onDelete(question.id);
-            }
-          }}
-          className="ml-2 text-red-500 hover:text-red-700 text-xl"
-          title="Delete question"
-        >
-          ×
-        </button>
       </div>
 
-      {/* Contact fields preview */}
       <div className="space-y-2 mt-3">
         <input
           type="text"

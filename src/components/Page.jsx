@@ -1,10 +1,10 @@
 import { useDrop } from "react-dnd";
 import Contact from "./FormElements/Contact";
-import MultipleChoice from "./FormElements/MultipleChoice";
 import { FaPlus } from "react-icons/fa6";
 import { FaChevronLeft } from "react-icons/fa6";
-import { FaChevronRight } from "react-icons/fa";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaChevronRight, FaRegTrashAlt } from "react-icons/fa";
+import { useState } from "react";
+import Modal from "./Modal";
 function DropZone({ index, onInsert }) {
   const [{ isOver }, dropRef] = useDrop({
     accept: "PALETTE_ITEM",
@@ -38,6 +38,8 @@ function Page({
   totalPages,
   onPageChange,
 }) {
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null);
   return (
     <>
       <div className="w-full px-7 flex justify-between items-center">
@@ -63,10 +65,8 @@ function Page({
               </button>
               <button
                 onClick={() => {
-                  if (window.confirm(`Delete Page ${pageNumber}?`)) {
-                    onRemovePage(currentPageIndex);
-                  }
-                  s;
+                  setDeleteTarget({ type: "page", index: currentPageIndex });
+                  setShowDeleteModal(true);
                 }}
                 className="px-3 py-2 mb-2  border-gradient pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]  bg-red-500 text-white rounded hover:bg-red-600 active:scale-90 duration-100"
                 title="Delete current page"
@@ -107,6 +107,38 @@ function Page({
           <FaPlus />
         </button>
       </div>
+      <Modal
+        isOpen={showDeleteModal}
+        close={() => setShowDeleteModal(false)}
+        title="Confirm Deletion"
+      >
+        <p>
+          {deleteTarget?.type === "page"
+            ? `Are you sure you want to delete Page ${pageNumber}?`
+            : "Are you sure you want to delete this question?"}
+        </p>
+        <div className="flex justify-end gap-2 mt-4">
+          <button
+            onClick={() => setShowDeleteModal(false)}
+            className="px-3 py-1.5 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => {
+              if (deleteTarget?.type === "page") {
+                onRemovePage(deleteTarget.index);
+              } else if (deleteTarget?.type === "question") {
+                onDeleteQuestion(deleteTarget.id);
+              }
+              setShowDeleteModal(false);
+            }}
+            className="px-3 py-1.5 bg-red-600 text-white rounded hover:bg-red-700"
+          >
+            Delete
+          </button>
+        </div>
+      </Modal>
     </>
   );
 }
@@ -139,7 +171,6 @@ function renderElement(question, onUpdate, onDelete) {
     );
   }
 
-  // Check if it has required properties
   if (!question.id || !question.type || question.question === undefined) {
     return (
       <div className="p-4 border-2 border-yellow-500 rounded-xl bg-yellow-50">
@@ -160,18 +191,9 @@ function renderElement(question, onUpdate, onDelete) {
     );
   }
 
-  // Now we know question has the correct structure
   if (question.type === "contact")
     return (
       <Contact question={question} onUpdate={onUpdate} onDelete={onDelete} />
-    );
-  if (question.type === "multiple_choice")
-    return (
-      <MultipleChoice
-        question={question}
-        onUpdate={onUpdate}
-        onDelete={onDelete}
-      />
     );
 
   return (
