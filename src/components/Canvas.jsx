@@ -3,7 +3,18 @@ import DotShader2 from "./DotShader2";
 import Page from "./Page";
 import CustomDragLayer from "./CustomDragLayer";
 
-function Canvas({ elements, onDropElement }) {
+function Canvas({
+  questions,
+  onDropElement,
+  onUpdateQuestion,
+  onDeleteQuestion,
+  onAddPage,
+  onRemovePage,
+  currentPageIndex,
+  pageNumber,
+  totalPages,
+  onPageChange,
+}) {
   const [, dropRef] = useDrop({
     accept: "PALETTE_ITEM",
     drop: (item) => {
@@ -15,13 +26,23 @@ function Canvas({ elements, onDropElement }) {
   return (
     <div
       ref={dropRef}
-      className="h-full w-full flex justify-center items-center flex-col overflow-auto mb-20 "
+      className="h-full w-full flex justify-center items-center flex-col overflow-auto mb-20"
     >
       <CustomDragLayer />
       <DotShader2 />
-      <Page elements={elements} onInsert={onDropElement} />
+      <Page
+        questions={questions}
+        onInsert={onDropElement}
+        onUpdateQuestion={onUpdateQuestion}
+        onDeleteQuestion={onDeleteQuestion}
+        onAddPage={onAddPage}
+        onRemovePage={onRemovePage}
+        currentPageIndex={currentPageIndex}
+        pageNumber={pageNumber}
+        totalPages={totalPages}
+        onPageChange={onPageChange}
+      />
     </div>
   );
 }
-
 export default Canvas;
