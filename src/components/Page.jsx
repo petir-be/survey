@@ -1,5 +1,7 @@
 import { useDrop } from "react-dnd";
 import Contact from "./FormElements/Contact";
+import MultipleChoice from "./FormElements/MultipleChoice";
+import Checkbox from "./FormElements/Checkbox";
 import { FaPlus } from "react-icons/fa6";
 import { FaChevronLeft } from "react-icons/fa6";
 import { FaChevronRight, FaRegTrashAlt } from "react-icons/fa";
@@ -144,6 +146,8 @@ function Page({
 }
 
 function renderElement(question, onUpdate, onDelete) {
+
+
   if (!question) {
     console.error("Question is null or undefined");
     return null;
@@ -194,6 +198,14 @@ function renderElement(question, onUpdate, onDelete) {
   if (question.type === "contact")
     return (
       <Contact question={question} onUpdate={onUpdate} onDelete={onDelete} />
+    );
+    if (question.type === "multiple_choice")
+    return (
+      <MultipleChoice question={question} onUpdate={onUpdate} onDelete={onDelete} />
+    );
+    if (question.type === "checkbox")
+    return (
+      <Checkbox question={question} onUpdate={onUpdate} onDelete={onDelete} />
     );
 
   return (

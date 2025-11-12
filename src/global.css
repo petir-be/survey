@@ -135,3 +135,66 @@ canvas {
 .hide-bar {
   -ms-overflow-style: none;
 }
+
+/* animation lang para sa option input ng checkbox */
+/* .option-input:focus{
+  outline: none;
+}
+.option-input {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.option-input::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background-color: #2563eb; 
+  transition: width 0.3s ease-in-out;
+  border-radius: 2px;
+}
+
+.option-input:focus-within::before {
+  width: 100%;
+}
+
+.option-input input {
+  width: 100%;
+  position: relative;
+  z-index: 10;
+} */
+
+
+/* animation para sa option input ng multiple choice */
+/* .option-input1 {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.option-input1::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.option-input1:focus-within::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.option-input1 input {
+  width: 100%;
+  background: transparent;
+  position: relative;
+  z-index: 10;
+} */
+

@@ -283,7 +283,7 @@ function Form() {
           {/* form mismo */}
           <div className="h-full w-full bg-(--white) flex">
             {/* leftside */}
-            <div className="w-[20%] p-5  z-10 bg-(--white)  border-t-2 border-(--dirty-white)">
+            <div className="w-[20%] p-2  z-10 bg-(--white)  border-t-2 border-(--dirty-white)">
               {/* searchbox nga */}
               <div className="grid grid-cols-3 w-full gap-4 p-4 m-auto">
                 {types.map((type, index) => (
