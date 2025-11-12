@@ -1,6 +1,7 @@
 import React from "react";
 import { useDragLayer } from "react-dnd";
 import Contact from "./FormElements/Contact";
+import MultipleChoice from "./FormElements/MultipleChoice";
 import { motion } from "motion/react";
 
 function getItemComponent(item) {
@@ -26,7 +27,7 @@ function getItemComponent(item) {
   const mockUpdate = () => {};
   const mockDelete = () => {};
 
-  if (title === "Contact")
+  if (title === "Contact"){
     return (
       <Contact
         question={mockQuestion}
@@ -34,6 +35,10 @@ function getItemComponent(item) {
         onDelete={mockDelete}
       />
     );
+  }
+ 
+    
+  
   return null;
 }
 

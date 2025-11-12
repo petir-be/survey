@@ -17,9 +17,9 @@ function FormElement({ title, icon: Icon }) {
   return (
     <div
       ref={dragRef}
-      className="w-full min-h-20 flex flex-col ring drag-item ring-white overflow-hidden font+-vagrounded gap-2 items-center justify-center rounded-xl shadow-[0px_1px_4px_2px_rgba(0,0,0,0.25)]"
+      className="w-full min-h-20 flex flex-col ring drag-item ring-white overflow-hidden font-vagrounded items-center justify-center rounded-xl shadow-[0px_1px_4px_2px_rgba(0,0,0,0.25)]"
     >
-      <Icon className="text-3xl text-(--blacs)" />
+      <Icon className="text-3xl text-(--black)" />
       <p className="w-11/12 text-sm text-center">{title}</p>
     </div>
   );
