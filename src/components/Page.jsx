@@ -2,6 +2,7 @@ import { useDrop } from "react-dnd";
 import Contact from "./FormElements/Contact";
 import MultipleChoice from "./FormElements/MultipleChoice";
 import Checkbox from "./FormElements/Checkbox";
+import Dropdown from "./FormElements/Dropdown";
 import { FaPlus } from "react-icons/fa6";
 import { FaChevronLeft } from "react-icons/fa6";
 import { FaChevronRight, FaRegTrashAlt } from "react-icons/fa";
@@ -81,8 +82,8 @@ function Page({
         </div>
       </div>
 
-      <div className="w-[92%] flex flex-col overflow-hidden min-h-[87%] bg-[#DFE0F0] items-start border-gradient pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] py-6 px-4 gap-2">
-        <div className="flex flex-col gap-2 overflow-y-auto max-h-[60vh] w-full pr-2">
+      <div className="w-[92%] flex flex-col overflow-hidden min-h-[85%] bg-[#DFE0F0]  items-center border-gradient pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] px-4 gap-2">
+        <div className="flex flex-col gap-2 overflow-y-auto h-full m-1 w-full px-2 ">
           {questions.length === 0 && (
             <div className="w-full flex justify-center items-center h-screen text-gray-600 py-10">
               Drag and Drop From Left Side
@@ -91,7 +92,7 @@ function Page({
 
           <DropZone index={0} onInsert={onInsert} />
           {questions.map((question, idx) => (
-            <div key={question?.id || idx} className="w-full">
+            <div key={question?.id || idx} className="w-full ">
               <div>
                 {renderElement(question, onUpdateQuestion, onDeleteQuestion, onDuplicateQuestion)}
               </div>
@@ -207,6 +208,10 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
     if (question.type === "checkbox")
     return (
       <Checkbox question={question} onUpdate={onUpdate} onDelete={onDelete} onDuplicate ={onDuplicate} />
+    );
+    if (question.type === "dropdown")
+    return (
+      <Dropdown question={question} onUpdate={onUpdate} onDelete={onDelete} onDuplicate ={onDuplicate} />
     );
 
   return (

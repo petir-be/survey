@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaCircleXmark } from "react-icons/fa6";
 
 function MultipleChoice({ question, onUpdate }) {
   const options = ["Option 1", "Option 2"];
@@ -15,10 +16,16 @@ function MultipleChoice({ question, onUpdate }) {
     const reindexed = updatedOptions.map((_, i) => `Option ${i + 1}`);
     setAddOption(reindexed);
     onUpdate(question.id, { options: reindexed });
+
+    if (selected === addOption[index]) {
+      setSelected("");
+    }
   };
 
+  const [selected, setSelected] = useState("");
+
   return (
-    <div className="p-4 border border-gray-300 rounded-xl shadow-sm bg-white">
+    <div className="form-element-container">
       <div className="flex justify-between items-start mb-2">
         <div className="flex-1">
           <input
@@ -37,25 +44,43 @@ function MultipleChoice({ question, onUpdate }) {
       </div>
 
       <div className="space-y-2 mt-3 w-full">
-        {addOption.map((option, index) => (
-          <div
-            className="w-full px-3 flex justify-between items-center gap-2"
-            key={index}
-          >
-            <input
-              type="text"
-              placeholder={option}
-              className="focus:outline-none placeholder:text-gray-400 ring ring-gray-400 w-full rounded px-3 py-2 focus:ring-blue-400 focus:ring-2 transition-all duration-200 ease-out "
-            />
-
-            <button
-              onClick={() => removeOptionField(index)}
-              className="text-red-500 hover:text-red-700 font-bold"
-            >
-              X
-            </button>
+        {addOption.length === 0 ? (
+          <div className="w-full flex justify-center items-center">
+            <p className="text-gray-400">Empty choices...</p>
           </div>
-        ))}
+        ) : (
+          addOption.map((option, index) => (
+            <div className="group form-option-input gap-2 " key={index}>
+              <input
+                type="radio"
+                name={`question-${question.id}`}
+                checked={selected === option}
+                onChange={() => setSelected(option)}
+                className="w-5 h-5 accent-blue-500"
+              />
+              <input
+                type="text"
+                placeholder={option}
+                onChange={(e) => {
+                  const updatedOptions = [...addOption];
+                  updatedOptions[index] = e.target.value;
+                  setAddOption(updatedOptions);
+                  onUpdate(question.id, { options: updatedOptions });
+                }}
+                className="text-md focus:outline-none placeholder:text-gray-400 w-full rounded "
+              />
+
+              <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 ease-out">
+                <button
+                  onClick={() => removeOptionField(index)}
+                  className="text-red-500"
+                >
+                  <FaCircleXmark className="ring-2 rounded-full bg-white group-focus-within:ring-blue-400 text-xl hover:scale-[108%] transition-all duration-200 ease-out" />
+                </button>
+              </div>
+            </div>
+          ))
+        )}
 
         <div>
           <button

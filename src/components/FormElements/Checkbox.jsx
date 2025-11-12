@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaCircleXmark } from "react-icons/fa6";
 
 function Checkbox({ question, onUpdate, onDuplicate }) {
   const options = ["Option 1", "Option 2"];
@@ -15,10 +16,11 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
     const reindexed = updatedOptions.map((_, i) => `Option ${i + 1}`);
     setAddOption(reindexed);
     onUpdate(question.id, { options: reindexed });
+    document.activeElement.blur();
   };
 
   return (
-    <div className="p-4 border border-gray-300 rounded-xl shadow-sm bg-white">
+    <div className="form-element-container">
       <div className="flex justify-between items-start mb-2">
         <div className="flex-1">
           <input
@@ -37,30 +39,39 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
       </div>
 
       <div className="space-y-2 mt-3 w-full">
-        {addOption.map((option, index) => (
-          <div
-            className="w-full px-3 flex justify-between items-center "
-            key={index}
-          >
-            <div className="w-full flex items-center mr-2 gap-1">
-              <input type="checkbox" className="w-5 h-5 " disabled />
+        {addOption.length === 0 ? (
+          <div className="w-full flex justify-center items-center">
+            <p className="text-gray-400">Empty choices...</p>
+          </div>
+        ) : (
+          addOption.map((option, index) => (
+            <div
+              className="group form-option-input"
+              key={index}
+            >
+              <div className="w-full flex items-center mr-2 gap-1">
+                <input type="checkbox" className="w-5 h-5" />
 
-          
                 <input
                   type="text"
                   placeholder={option}
-                  className="focus:outline-none px-3 placeholder:text-gray-400 py-2 w-full bg-transparent focus:ring-2 ring-blue-400 rounded transition-all duration-200 ease-out"
+                  className="focus:outline-none placeholder:text-gray-400 bg-transparent w-full"
                 />
-           
+              </div>
+
+              <div
+                className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 ease-out"
+              >
+                <button
+                  onClick={() => removeOptionField(index)}
+                  className="text-red-500"
+                >
+                  <FaCircleXmark className="ring-2 rounded-full bg-white group-focus-within:ring-blue-400 text-xl hover:scale-[108%] transition-all duration-200 ease-out" />
+                </button>
+              </div>
             </div>
-            <button
-              onClick={() => removeOptionField(index)}
-              className="text-red-500 hover:text-red-700 font-bold"
-            >
-              X
-            </button>
-          </div>
-        ))}
+          ))
+        )}
 
         <div className="flex flex-1 justify-between items-center">
           <button
@@ -69,10 +80,7 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
           >
             + Add Option
           </button>
-          <button 
-          onClick={() => onDuplicate(question.id)}
-          >
-            Duplicate</button>
+          <button onClick={() => onDuplicate(question.id)}>Duplicate</button>
         </div>
       </div>
     </div>

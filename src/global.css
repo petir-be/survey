@@ -53,6 +53,17 @@
   .login-input {
     @apply placeholder-gray-400 text-[#212529] w-full font-vagrounded text-lg bg-[#DFE0F0] ring ring-white px-8 py-3 rounded-2xl drop-shadow-md/30 focus:outline-none focus:ring-gray-400;
   }
+  .form-element-container{
+    @apply p-4 rounded-xl shadow-[0px_1px_4px_2px_rgba(0,0,0,0.25)] justify-self-center w-11/12 transition-all duration-200 ease-out bg-transparent ring ring-white;
+  }
+  .form-element-container:focus-within{
+    @apply -translate-y-0.5 ring-blue-400;
+  }
+  .form-option-input{
+    @apply relative w-full px-3 flex justify-between items-center [&:not(:focus-within)]:hover:ring-gray-500 [&:not(:focus-within)]:hover:ring focus-within:ring-2 focus-within:ring-blue-400 placeholder:text-gray-400 py-2 bg-transparent rounded transition-all duration-200 ease-out;
+  }
+
+  
 }
 button {
   cursor: pointer;
@@ -135,6 +146,8 @@ canvas {
 .hide-bar {
   -ms-overflow-style: none;
 }
+
+
 
 /* animation lang para sa option input ng checkbox */
 /* .option-input:focus{
