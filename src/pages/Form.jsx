@@ -117,6 +117,34 @@ function Form() {
     });
   };
 
+  const handleDuplicateQuestion = (questionId) => {
+  setPages((prev) => {
+    const updated = [...prev];
+    const currentPage = { ...updated[currentPageIndex] };
+    
+    const questionIndex = currentPage.questions.findIndex((q) => q.id === questionId);
+    
+    if (questionIndex !== -1) {
+      const questionToDuplicate = currentPage.questions[questionIndex];
+      
+      const duplicatedQuestion = {
+        ...questionToDuplicate,
+        id: uuidv4(), 
+        order: questionToDuplicate.order + 1,
+      };
+      
+      const copy = [...currentPage.questions];
+      copy.splice(questionIndex + 1, 0, duplicatedQuestion);
+      copy.forEach((q, idx) => {
+        q.order = idx + 1;
+      });
+      currentPage.questions = copy;
+      updated[currentPageIndex] = currentPage;
+    }
+    return updated;
+  });
+};
+
   const handleReorderQuestions = (fromIndex, toIndex) => {
     if (fromIndex === toIndex) return;
     setPages((prev) => {
@@ -302,6 +330,7 @@ function Form() {
                 onDropElement={handleDrop}
                 onUpdateQuestion={handleUpdateQuestion}
                 onDeleteQuestion={handleDeleteQuestion}
+                onDuplicateQuestion={handleDuplicateQuestion}
                 onAddPage={handleAddPage}
                 onRemovePage={handleRemovePage}
                 currentPageIndex={currentPageIndex}

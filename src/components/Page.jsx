@@ -33,6 +33,7 @@ function Page({
   onInsert,
   onUpdateQuestion,
   onDeleteQuestion,
+  onDuplicateQuestion,
   onAddPage,
   onRemovePage,
   currentPageIndex,
@@ -92,7 +93,7 @@ function Page({
           {questions.map((question, idx) => (
             <div key={question?.id || idx} className="w-full">
               <div>
-                {renderElement(question, onUpdateQuestion, onDeleteQuestion)}
+                {renderElement(question, onUpdateQuestion, onDeleteQuestion, onDuplicateQuestion)}
               </div>
               <DropZone index={idx + 1} onInsert={onInsert} />
             </div>
@@ -145,7 +146,7 @@ function Page({
   );
 }
 
-function renderElement(question, onUpdate, onDelete) {
+function renderElement(question, onUpdate, onDelete, onDuplicate) {
 
 
   if (!question) {
@@ -205,7 +206,7 @@ function renderElement(question, onUpdate, onDelete) {
     );
     if (question.type === "checkbox")
     return (
-      <Checkbox question={question} onUpdate={onUpdate} onDelete={onDelete} />
+      <Checkbox question={question} onUpdate={onUpdate} onDelete={onDelete} onDuplicate ={onDuplicate} />
     );
 
   return (
