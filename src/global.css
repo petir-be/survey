@@ -53,6 +53,17 @@
   .login-input {
     @apply placeholder-gray-400 text-[#212529] w-full font-vagrounded text-lg bg-[#DFE0F0] ring ring-white px-8 py-3 rounded-2xl drop-shadow-md/30 focus:outline-none focus:ring-gray-400;
   }
+  .form-element-container{
+    @apply p-4 rounded-xl shadow-[0px_1px_4px_2px_rgba(0,0,0,0.25)] justify-self-center w-11/12 transition-all duration-200 ease-out bg-(--white) ring ring-white;
+  }
+  .form-element-container:focus-within{
+    @apply -translate-y-0.5 ring-blue-400;
+  }
+  .form-option-input{
+    @apply relative w-full px-3 flex justify-between items-center [&:not(:focus-within)]:hover:ring-gray-500 [&:not(:focus-within)]:hover:ring focus-within:ring-2 focus-within:ring-blue-400 placeholder:text-gray-400 py-2 bg-transparent rounded transition-all duration-200 ease-out;
+  }
+
+  
 }
 button {
   cursor: pointer;
@@ -135,3 +146,68 @@ canvas {
 .hide-bar {
   -ms-overflow-style: none;
 }
+
+
+
+/* animation lang para sa option input ng checkbox */
+/* .option-input:focus{
+  outline: none;
+}
+.option-input {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.option-input::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background-color: #2563eb; 
+  transition: width 0.3s ease-in-out;
+  border-radius: 2px;
+}
+
+.option-input:focus-within::before {
+  width: 100%;
+}
+
+.option-input input {
+  width: 100%;
+  position: relative;
+  z-index: 10;
+} */
+
+
+/* animation para sa option input ng multiple choice */
+/* .option-input1 {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.option-input1::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.option-input1:focus-within::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.option-input1 input {
+  width: 100%;
+  background: transparent;
+  position: relative;
+  z-index: 10;
+} */
+
