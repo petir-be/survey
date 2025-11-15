@@ -12,13 +12,17 @@ function Home() {
 
   return (
     <>
+    {/* para matanggal lang error */}
+    {motion}
+
+
       <div className="flex items-center justify-center flex-1 min-h-full bg-[var(--white)] z-10">
         <div className="w-2/7 h-dvh pt-25">
           <div className="m-12">
             <h1 className="font-vagrounded text-3xl mb-2">The Future</h1>
             <p className="font-vagrounded text-md">
-              This where data isn't just gathered—it’s synthesized,
-              contextualized, and transformed. Step into the future-state
+              This where data isn't just gathered—it’s <span class= "font-bold"> synthesized,
+              contextualized, and transformed.</span> Step into the future-state
               datascape to pioneer transformative insights using self-optimizing
               architectures. The next era of predictive analytics starts here.
             </p>
@@ -162,8 +166,3 @@ function Home() {
 }
 export default Home;
 
-// {showModal && (
-//           <>
-
-//           </>
-//         )}
