@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router";
 import { FaHome, FaUserCircle } from "react-icons/fa";
-import { useRef, useState, useEffect, useContext, useCallback } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import FormElement from "../components/FormElement";
 import Layers from "../components/Layers";
 import { BiSolidUserRectangle } from "react-icons/bi";
@@ -9,7 +9,6 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from "uuid";
 import { AuthContext } from "../Context/authContext";
-import toast from "react-hot-toast";
 import axios from "axios";
 
 function Form() {
@@ -25,6 +24,7 @@ function Form() {
       navigate("/", { replace: true });
     }
   }, [isAuthenticated, navigate]);
+
   const [pages, setPages] = useState([
     {
       id: 1,
@@ -148,15 +148,6 @@ function Form() {
       setCurrentPageIndex(currentPageIndex - 1);
     }
   };
-  const handleExportData = () => {
-    const allData = pages.map((page, idx) => ({
-      page: idx + 1,
-      questions: page.questions,
-    }));
-    console.log(JSON.stringify(allData, null, 2));
-    alert("Data exported to console!");
-  };
-
   const types = [
     { Icon: BiSolidUserRectangle, title: "Contact" },
     { Icon: BiSolidUserRectangle, title: "Multiple Choice" },
@@ -208,7 +199,12 @@ function Form() {
         const res = await axios.get(
           `${import.meta.env.VITE_BACKEND}/api/Form/${id}`
         );
-        setPages(res.data.formData);
+        setPages(
+          Array.isArray(res.data.formData)
+            ? res.data.formData
+            : [{ id: 1, questions: [] }]
+        );
+
         setTitleValue(res.data.title);
         console.log(res.data.formData);
       } catch (err) {
@@ -231,7 +227,7 @@ function Form() {
       fetchFormData();
     }
   }, [id]);
-  
+
   if (error) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -239,6 +235,8 @@ function Form() {
       </div>
     );
   }
+
+  if (!isAuthenticated) return null;
 
   return (
     <>

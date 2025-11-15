@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "../global.css";
 import DotShader from "../components/DotShader";
 import home1 from "/src/assets/2.svg";
@@ -6,15 +6,35 @@ import HomeBox from "../components/HomeBox";
 import aboutus from "../assets/hugeicons_ai-dna.svg";
 import FAQ from "../components/FAQ";
 import { motion, AnimatePresence } from "framer-motion";
+import axios from "axios";
+import { AuthContext } from "../Context/authContext";
+import { useNavigate } from "react-router";
 
 function Home() {
   const [showModal, setShowModal] = useState(false);
+  const { user } = useContext(AuthContext);
+  let navigate = useNavigate();
+
+  async function CreateForm() {
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND}/api/Form/createform`,
+        {
+          userId: user.id,
+          title: " ",
+        }
+      );
+      console.log(res.data.surveyId);
+      navigate(`/newform/${res.data.surveyId}`, { replace: true });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
-    {/* para matanggal lang error */}
-    {motion}
-
+      {/* para matanggal lang error */}
+      {motion}
 
       <div className="flex items-center justify-center flex-1 min-h-full bg-[var(--white)] z-10">
         <div className="w-2/7 h-dvh pt-25">
@@ -82,8 +102,11 @@ function Home() {
                 </div>
                 <div className="p-5 flex items-center justify-evenly w-full h-full">
                   {/* create own forms */}
-                  <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
-                    <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
+                  <div
+                    className="flex flex-col gap-3 items-center w-full h-full font-vagrounded "
+                    onClick={CreateForm}
+                  >
+                    <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-150 ease">
                       {/* button ng form */}
                       <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
 
@@ -165,4 +188,3 @@ function Home() {
   );
 }
 export default Home;
-
