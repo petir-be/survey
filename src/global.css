@@ -1,11 +1,45 @@
+/* Light */
 @font-face {
-  font-family: ZenDots;
-  src: url("assets/fonts/zen-dots-latin-400-normal.ttf");
+  font-family: "VagRounded";
+  src: url("/assets/fonts/VAG Rounded Next Light.ttf");
+  font-weight: 300;
+  font-style: normal;
 }
 
+/* Regular */
 @font-face {
-  font-family: VagRounded;
-  src: url("assets/fonts/vag-rounded-next-regular.ttf");
+  font-family: "VagRounded";
+  src: url("/assets/fonts/VAG Rounded Next Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Italic */
+@font-face {
+  font-family: "VagRounded";
+  src: url("/assets/fonts/VAG Rounded Next Italic.ttf");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "VagRounded";
+  src: url("/assets/fonts/VAG Rounded Next Medium Italic.ttf");
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* Semibold */
+@font-face {
+  font-family: "VagRounded";
+  src: url("/assets/fonts/VAG Rounded Next Semibold.ttf");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "VagRounded";
+  src: url("/assets/fonts/VAG Rounded Next Semibold.ttf");
+font-weight: 600;
+font-style: normal;
 }
 
 @import "tailwindcss";
