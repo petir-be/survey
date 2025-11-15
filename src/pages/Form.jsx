@@ -117,6 +117,34 @@ function Form() {
     });
   };
 
+  const handleDuplicateQuestion = (questionId) => {
+  setPages((prev) => {
+    const updated = [...prev];
+    const currentPage = { ...updated[currentPageIndex] };
+    
+    const questionIndex = currentPage.questions.findIndex((q) => q.id === questionId);
+    
+    if (questionIndex !== -1) {
+      const questionToDuplicate = currentPage.questions[questionIndex];
+      
+      const duplicatedQuestion = {
+        ...questionToDuplicate,
+        id: uuidv4(), 
+        order: questionToDuplicate.order + 1,
+      };
+      
+      const copy = [...currentPage.questions];
+      copy.splice(questionIndex + 1, 0, duplicatedQuestion);
+      copy.forEach((q, idx) => {
+        q.order = idx + 1;
+      });
+      currentPage.questions = copy;
+      updated[currentPageIndex] = currentPage;
+    }
+    return updated;
+  });
+};
+
   const handleReorderQuestions = (fromIndex, toIndex) => {
     if (fromIndex === toIndex) return;
     setPages((prev) => {
@@ -153,8 +181,8 @@ function Form() {
     { Icon: BiSolidUserRectangle, title: "Multiple Choice" },
     { Icon: BiSolidUserRectangle, title: "Long Text" },
     { Icon: BiSolidUserRectangle, title: "Checkbox" },
-    { Icon: BiSolidUserRectangle, title: "hahaha" },
-    { Icon: BiSolidUserRectangle, title: "hahaha" },
+    { Icon: BiSolidUserRectangle, title: "Linear Scale" },
+    { Icon: BiSolidUserRectangle, title: "Dropdown" },
     { Icon: BiSolidUserRectangle, title: "hahaha" },
     { Icon: BiSolidUserRectangle, title: "hahaha" },
     { Icon: BiSolidUserRectangle, title: "Conthahahahahact" },
@@ -268,7 +296,10 @@ function Form() {
               </div>
             </div>
             <div className="inline-flex items-center gap-4">
-              <button className=" px-10 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 transition-color duration-400 ease-out">
+              <button onClick = {handleExportData} className=" px-10 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
+                Preview
+              </button>
+              <button className=" px-10 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 transition-color duration-200 ease-out">
                 Share
               </button>
 
@@ -281,9 +312,9 @@ function Form() {
           {/* form mismo */}
           <div className="h-full w-full bg-(--white) flex">
             {/* leftside */}
-            <div className="w-[20%] p-5  z-10 bg-(--white)  border-t-2 border-(--dirty-white)">
+            <div className="w-[20%] p-2  z-10 bg-(--white)  border-t-2 border-(--dirty-white)">
               {/* searchbox nga */}
-              <div className="grid grid-cols-3 w-full gap-4 p-4 m-auto">
+              <div className="grid grid-cols-3 w-full gap-3 p-2 m-auto">
                 {types.map((type, index) => (
                   <FormElement
                     key={index}
@@ -300,6 +331,7 @@ function Form() {
                 onDropElement={handleDrop}
                 onUpdateQuestion={handleUpdateQuestion}
                 onDeleteQuestion={handleDeleteQuestion}
+                onDuplicateQuestion={handleDuplicateQuestion}
                 onAddPage={handleAddPage}
                 onRemovePage={handleRemovePage}
                 currentPageIndex={currentPageIndex}
