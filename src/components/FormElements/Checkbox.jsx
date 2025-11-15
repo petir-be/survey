@@ -64,9 +64,8 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
               >
                 <button
                   onClick={() => removeOptionField(index)}
-                  className="text-red-500"
                 >
-                  <FaCircleXmark className="ring-2 rounded-full bg-white group-focus-within:ring-blue-400 text-xl hover:scale-[108%] transition-all duration-200 ease-out" />
+                  <FaCircleXmark className="group-focus-within:ring-2 rounded-full bg-white group-focus-within:ring-blue-400 text-xl hover:scale-[108%] transition-all duration-200 ease-out" fill="red" />
                 </button>
               </div>
             </div>

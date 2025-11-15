@@ -2,6 +2,7 @@ import React from "react";
 import { useDragLayer } from "react-dnd";
 import Contact from "./FormElements/Contact";
 import MultipleChoice from "./FormElements/MultipleChoice";
+import Checkbox from "./FormElements/Checkbox";
 import { motion } from "motion/react";
 
 function getItemComponent(item) {
@@ -30,6 +31,26 @@ function getItemComponent(item) {
   if (title === "Contact"){
     return (
       <Contact
+        question={mockQuestion}
+        onUpdate={mockUpdate}
+        onDelete={mockDelete}
+      />
+    );
+  }
+  if(title === "Multiple Choice"){
+    return (
+      <MultipleChoice
+
+        question={mockQuestion}
+        onUpdate={mockUpdate}
+        onDelete={mockDelete}
+      />
+    );
+  }
+  if(title === "Checkbox"){
+    return (
+      <Checkbox
+
         question={mockQuestion}
         onUpdate={mockUpdate}
         onDelete={mockDelete}
@@ -66,7 +87,7 @@ export default function CustomDragLayer() {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 0.95, scale: 1 }}
         transition={{ type: "spring", stiffness: 400, damping: 28 }}
-        className="w-64"
+        className="w-120"
       >
         {getItemComponent(item)}
       </motion.div>

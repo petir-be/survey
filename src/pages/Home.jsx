@@ -17,7 +17,7 @@ function Home() {
 
 
       <div className="flex items-center justify-center flex-1 min-h-full bg-[var(--white)] z-10">
-        <div className="w-2/7 h-dvh pt-25">
+        <div className="relative w-2/7 h-dvh pt-25">
           <div className="m-12">
             <h1 className="font-vagrounded text-3xl mb-2">The Future</h1>
             <p className="font-vagrounded text-md">
@@ -68,8 +68,9 @@ function Home() {
               exit={{ opacity: 0, scale: 0.9, y: 30 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
               className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs"
-              onClick={() => setShowModal(false)}
             >
+            <span className="absolute w-full h-full bg-transparent" onClick={() => setShowModal(false)}></span>
+
               <div className="p-10 w-2/3 h-2/3 bg-(--white) ring ring-white rounded-lg fixed z-50">
                 <h1 className="font-vagrounded text-xl">Start a new Form</h1>
                 <div className="absolute top-0 right-0 w-15 h-15 flex items-center justify-center">
