@@ -21,8 +21,8 @@ function Home() {
           <div className="m-12">
             <h1 className="font-vagrounded text-3xl mb-2">The Future</h1>
             <p className="font-vagrounded text-md">
-              This where data isn't just gathered—it’s synthesized,
-              contextualized, and transformed. Step into the future-state
+              This where data isn't just gathered—it’s <span class= "font-vagrounded font-semibold italic"> synthesized,
+              contextualized, and transformed.</span> Step into the future-state
               datascape to pioneer transformative insights using self-optimizing
               architectures. The next era of predictive analytics starts here.
             </p>
