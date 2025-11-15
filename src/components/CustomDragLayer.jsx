@@ -2,6 +2,7 @@ import React from "react";
 import { useDragLayer } from "react-dnd";
 import Contact from "./FormElements/Contact";
 import { motion } from "motion/react";
+import MultipleChoice from "./FormElements/MultipleChoice";
 
 function getItemComponent(item) {
   if (!item) return null;
@@ -14,13 +15,16 @@ function getItemComponent(item) {
         : title === "Multiple Choice"
         ? "Select one option:"
         : "Enter your question here",
+
     type:
       title === "Contact"
         ? "contact"
         : title === "Multiple Choice"
         ? "multiple_choice"
         : "text",
+
     order: 0,
+
     options: title === "Multiple Choice" ? ["Option 1", "Option 2"] : undefined,
   };
   const mockUpdate = () => {};
@@ -34,7 +38,14 @@ function getItemComponent(item) {
         onDelete={mockDelete}
       />
     );
-  return null;
+  if (title === "Multiple Choice")
+    return (
+      <MultipleChoice
+        question={mockQuestion}
+        onUpdate={mockUpdate}
+        onDelete={mockDelete}
+      />
+    );
 }
 
 export default function CustomDragLayer() {
