@@ -8,6 +8,7 @@ function Canvas({
   onDropElement,
   onUpdateQuestion,
   onDeleteQuestion,
+  onDuplicateQuestion,
   onAddPage,
   onRemovePage,
   currentPageIndex,
@@ -35,6 +36,7 @@ function Canvas({
         onInsert={onDropElement}
         onUpdateQuestion={onUpdateQuestion}
         onDeleteQuestion={onDeleteQuestion}
+        onDuplicateQuestion={onDuplicateQuestion}
         onAddPage={onAddPage}
         onRemovePage={onRemovePage}
         currentPageIndex={currentPageIndex}

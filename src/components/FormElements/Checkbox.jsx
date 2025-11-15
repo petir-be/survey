@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaCircleXmark } from "react-icons/fa6";
 
-function MultipleChoice({ question, onUpdate }) {
+function Checkbox({ question, onUpdate, onDuplicate }) {
   const options = ["Option 1", "Option 2"];
   const [addOption, setAddOption] = useState(options);
 
@@ -16,13 +16,8 @@ function MultipleChoice({ question, onUpdate }) {
     const reindexed = updatedOptions.map((_, i) => `Option ${i + 1}`);
     setAddOption(reindexed);
     onUpdate(question.id, { options: reindexed });
-
-    if (selected === addOption[index]) {
-      setSelected("");
-    }
+    document.activeElement.blur();
   };
-
-  const [selected, setSelected] = useState("");
 
   return (
     <div className="form-element-container">
@@ -50,49 +45,45 @@ function MultipleChoice({ question, onUpdate }) {
           </div>
         ) : (
           addOption.map((option, index) => (
-            <div className="group form-option-input gap-2 " key={index}>
-              <input
-                type="radio"
-                name={`question-${question.id}`}
-                checked={selected === option}
-                onChange={() => setSelected(option)}
-                className="w-5 h-5 accent-blue-500"
-              />
-              <input
-                type="text"
-                placeholder={option}
-                onChange={(e) => {
-                  const updatedOptions = [...addOption];
-                  updatedOptions[index] = e.target.value;
-                  setAddOption(updatedOptions);
-                  onUpdate(question.id, { options: updatedOptions });
-                }}
-                className="text-md focus:outline-none placeholder:text-gray-400 w-full rounded "
-              />
+            <div
+              className="group form-option-input"
+              key={index}
+            >
+              <div className="w-full flex items-center mr-2 gap-1">
+                <input type="checkbox" className="w-5 h-5" />
 
-              <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 ease-out">
+                <input
+                  type="text"
+                  placeholder={option}
+                  className="focus:outline-none placeholder:text-gray-400 bg-transparent w-full"
+                />
+              </div>
+
+              <div
+                className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 ease-out"
+              >
                 <button
                   onClick={() => removeOptionField(index)}
-                  className="text-red-500"
                 >
-                  <FaCircleXmark className="ring-2 rounded-full bg-white group-focus-within:ring-blue-400 text-xl hover:scale-[108%] transition-all duration-200 ease-out" />
+                  <FaCircleXmark className="group-focus-within:ring-2 rounded-full bg-white group-focus-within:ring-blue-400 text-xl hover:scale-[108%] transition-all duration-200 ease-out" fill="red" />
                 </button>
               </div>
             </div>
           ))
         )}
 
-        <div>
+        <div className="flex flex-1 justify-between items-center">
           <button
             onClick={addOptionField}
             className="mt-2 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             + Add Option
           </button>
+          <button onClick={() => onDuplicate(question.id)}>Duplicate</button>
         </div>
       </div>
     </div>
   );
 }
 
-export default MultipleChoice;
+export default Checkbox;
