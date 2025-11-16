@@ -14,6 +14,12 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "VagRounded";
+  src: url("/assets/fonts/VAG Rounded Next Medi um.ttf");
+  font-weight: 500;   /* medium weight */
+  font-style: normal; /* not italic */
+}
 /* Italic */
 @font-face {
   font-family: "VagRounded";
@@ -24,7 +30,7 @@
 @font-face {
   font-family: "VagRounded";
   src: url("/assets/fonts/VAG Rounded Next Medium Italic.ttf");
-  font-weight: 600;
+  font-weight: 500;
   font-style: italic;
 }
 
@@ -41,7 +47,18 @@
 font-weight: 600;
 font-style: normal;
 }
-
+@font-face {
+  font-family: "VagRounded";
+  src: url("/assets/fonts/VAG Rounded Next Heavy.ttf");
+font-weight: 900;
+font-style: normal;
+}
+@font-face {
+    font-family: ZenDots;
+  src: url("assets/fonts/zen-dots-latin-400-normal.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
 @import "tailwindcss";
 
 @theme {
