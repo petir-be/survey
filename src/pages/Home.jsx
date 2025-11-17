@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "../global.css";
 import DotShader from "../components/DotShader";
 import home1 from "/src/assets/2.svg";
@@ -6,45 +6,27 @@ import HomeBox from "../components/HomeBox";
 import aboutus from "../assets/hugeicons_ai-dna.svg";
 import FAQ from "../components/FAQ";
 import { motion, AnimatePresence } from "framer-motion";
-import axios from "axios";
-import { AuthContext } from "../Context/authContext";
-import { useNavigate } from "react-router";
+import ThreeDModel from "../components/ThreeDmodel";
 
 function Home() {
   const [showModal, setShowModal] = useState(false);
-  const { user } = useContext(AuthContext);
-  let navigate = useNavigate();
-
-  async function CreateForm() {
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND}/api/Form/createform`,
-        {
-          userId: user.id,
-          title: " ",
-        }
-      );
-      console.log(res.data.surveyId);
-      navigate(`/newform/${res.data.surveyId}`, { replace: true });
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   return (
     <>
-      {/* para matanggal lang error */}
-      {motion}
+    {/* para matanggal lang error */}
+    {motion}
+
 
       <div className="flex items-center justify-center flex-1 min-h-full bg-[var(--white)] z-10">
         <div className="relative w-2/7 h-dvh pt-25">
           <div className="m-12">
             <h1 className="font-vagrounded text-3xl mb-2">The Future</h1>
             <p className="font-vagrounded text-md">
-              This where data isn't just gathered—it’s synthesized,
-              contextualized, and transformed. Step into the future-state
+              <span className="font-vagrounded font-regular">This where data isn't just gathered</span>—it’s 
+              <span className= "font-vagrounded font-semibold italic"> synthesized,
+              contextualized, and transformed.</span> Step into the future-state
               datascape to pioneer transformative insights using self-optimizing
-              architectures. The next era of predictive analytics starts here.
+              architectures. <span className="font-black">The next era of predictive analytics starts here.</span>
             </p>
           </div>
           <button
@@ -56,7 +38,10 @@ function Home() {
         </div>
         <div className="w-3/7 relative h-dvh overflow-hidden pt-15 border-2 border-[var(--dirty-white)] bg-[var(--white)] z-10">
           <div className="absolute z-1 w-full h-full flex justify-center items-center">
-            <img src={home1} alt="aa" width={800} height={800} />
+  <ThreeDModel 
+  url="/models/free__rubiks_cube_3d.glb"
+  scale={0.2}     // <<< CHANGE SIZE HERE
+/>
           </div>
           <div className="absolute top-0 left-0 h-full w-full">
             <DotShader className="z-0" />
@@ -70,10 +55,17 @@ function Home() {
             {/*bottom right*/}
           </div>
         </div>
-        <div className="justify-center flex flex-col gap-5 w-2/7 h-dvh pt-25 ">
-          <HomeBox title="About us" icon={aboutus} />
-          <HomeBox title="About us" icon={aboutus} />
-          <HomeBox title="About us" icon={aboutus} />
+        <div className=" justify-center flex flex-col gap-5 w-2/7 h-dvh pt-25 ">
+          
+          
+          {/* Redirect to login page if dont have acc log */}
+          <HomeBox  title="Create Forms" icon={aboutus} />
+
+           {/* Contains of functionality of the system */}
+          <HomeBox title="My Workspaces" icon={aboutus} />
+           
+            {/* Higlights the website and devs*/}
+          <HomeBox title="Features" icon={aboutus} />
 
           <div className="flex justify-center">
             <FAQ />
@@ -103,11 +95,8 @@ function Home() {
                 </div>
                 <div className="p-5 flex items-center justify-evenly w-full h-full">
                   {/* create own forms */}
-                  <div
-                    className="flex flex-col gap-3 items-center w-full h-full font-vagrounded "
-                    onClick={CreateForm}
-                  >
-                    <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-150 ease">
+                  <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
+                    <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
                       {/* button ng form */}
                       <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
 
@@ -142,7 +131,7 @@ function Home() {
                         }}
                       />
                       <div
-                        className="absolute z-0 -bottom-2 -right-2 w-28 h-29"
+                        className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-28 h-29"
                         style={{
                           clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
                           background: "#DFE0F0",
@@ -189,3 +178,4 @@ function Home() {
   );
 }
 export default Home;
+
