@@ -4,7 +4,7 @@ import Contact from "./FormElements/Contact";
 import MultipleChoice from "./FormElements/MultipleChoice";
 import Checkbox from "./FormElements/Checkbox";
 import { motion } from "motion/react";
-import MultipleChoice from "./FormElements/MultipleChoice";
+
 
 function getItemComponent(item) {
   if (!item) return null;
