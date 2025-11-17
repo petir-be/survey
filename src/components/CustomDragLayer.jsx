@@ -5,6 +5,7 @@ import MultipleChoice from "./FormElements/MultipleChoice";
 import Checkbox from "./FormElements/Checkbox";
 import { motion } from "motion/react";
 
+
 function getItemComponent(item) {
   if (!item) return null;
   const title = item.title;
@@ -16,13 +17,16 @@ function getItemComponent(item) {
         : title === "Multiple Choice"
         ? "Select one option:"
         : "Enter your question here",
+
     type:
       title === "Contact"
         ? "contact"
         : title === "Multiple Choice"
         ? "multiple_choice"
         : "text",
+
     order: 0,
+
     options: title === "Multiple Choice" ? ["Option 1", "Option 2"] : undefined,
   };
   const mockUpdate = () => {};

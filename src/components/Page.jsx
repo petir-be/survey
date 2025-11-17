@@ -8,6 +8,7 @@ import { FaChevronLeft } from "react-icons/fa6";
 import { FaChevronRight, FaRegTrashAlt } from "react-icons/fa";
 import { useState } from "react";
 import Modal from "./Modal";
+
 function DropZone({ index, onInsert }) {
   const [{ isOver }, dropRef] = useDrop({
     accept: "PALETTE_ITEM",
@@ -212,6 +213,15 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
     if (question.type === "dropdown")
     return (
       <Dropdown question={question} onUpdate={onUpdate} onDelete={onDelete} onDuplicate ={onDuplicate} />
+    );
+
+  if (question.type === "multiple_choice")
+    return (
+      <MultipleChoice
+        question={question}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+      />
     );
 
   return (
