@@ -14,12 +14,6 @@
   font-style: normal;
 }
 
-@font-face {
-  font-family: "VagRounded";
-  src: url("/assets/fonts/VAG Rounded Next Medi um.ttf");
-  font-weight: 500;   /* medium weight */
-  font-style: normal; /* not italic */
-}
 /* Italic */
 @font-face {
   font-family: "VagRounded";
@@ -34,6 +28,12 @@
   font-style: italic;
 }
 
+@font-face {
+  font-family: "VagRounded";
+  src: url("/assets/fonts/VAG Rounded Next Medium.ttf");
+  font-weight: 500;   /* medium weight */
+  font-style: normal; /* not italic */
+}
 /* Semibold */
 @font-face {
   font-family: "VagRounded";

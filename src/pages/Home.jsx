@@ -21,7 +21,7 @@ function Home() {
           <div className="m-12">
             <h1 className="font-vagrounded text-3xl mb-2">The Future</h1>
             <p className="font-vagrounded text-md">
-              <span className="font-vagRounded font-medium">This where data isn't just gathered</span>—it’s 
+              <span className="font-vagrounded font-regular">This where data isn't just gathered</span>—it’s 
               <span className= "font-vagrounded font-semibold italic"> synthesized,
               contextualized, and transformed.</span> Step into the future-state
               datascape to pioneer transformative insights using self-optimizing
@@ -52,8 +52,15 @@ function Home() {
           </div>
         </div>
         <div className="justify-center flex flex-col gap-5 w-2/7 h-dvh pt-25 ">
-          <HomeBox title="About us" icon={aboutus} />
-          <HomeBox title="About us" icon={aboutus} />
+          
+          
+          {/* Redirect to login page if dont have acc log */}
+          <HomeBox title="My Workspaces" icon={aboutus} />
+
+           {/* Contains of functionality of the system */}
+          <HomeBox title="Features" icon={aboutus} />
+           
+            {/* Higlights the website and devs*/}
           <HomeBox title="About us" icon={aboutus} />
 
           <div className="flex justify-center">
