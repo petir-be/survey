@@ -90,8 +90,7 @@ function Login() {
   const handleGoogleLogin = () => {
     google.accounts.id.prompt();
   };
-  if (isAuthenticated) return null;
-
+ 
   return (
     <>
       <LoginShader />

@@ -6,6 +6,7 @@ import HomeBox from "../components/HomeBox";
 import aboutus from "../assets/hugeicons_ai-dna.svg";
 import FAQ from "../components/FAQ";
 import { motion, AnimatePresence } from "framer-motion";
+import ThreeDModel from "../components/ThreeDmodel";
 
 function Home() {
   const [showModal, setShowModal] = useState(false);
@@ -37,7 +38,10 @@ function Home() {
         </div>
         <div className="w-3/7 relative h-dvh overflow-hidden pt-15 border-2 border-[var(--dirty-white)] bg-[var(--white)] z-10">
           <div className="absolute z-1 w-full h-full flex justify-center items-center">
-            <img src={home1} alt="aa" width={800} height={800} />
+  <ThreeDModel 
+  url="/models/free__rubiks_cube_3d.glb"
+  scale={0.2}     // <<< CHANGE SIZE HERE
+/>
           </div>
           <div className="absolute top-0 left-0 h-full w-full">
             <DotShader className="z-0" />
@@ -51,17 +55,17 @@ function Home() {
             {/*bottom right*/}
           </div>
         </div>
-        <div className="justify-center flex flex-col gap-5 w-2/7 h-dvh pt-25 ">
+        <div className=" justify-center flex flex-col gap-5 w-2/7 h-dvh pt-25 ">
           
           
           {/* Redirect to login page if dont have acc log */}
-          <HomeBox title="My Workspaces" icon={aboutus} />
+          <HomeBox  title="Create Forms" icon={aboutus} />
 
            {/* Contains of functionality of the system */}
-          <HomeBox title="Features" icon={aboutus} />
+          <HomeBox title="My Workspaces" icon={aboutus} />
            
             {/* Higlights the website and devs*/}
-          <HomeBox title="About us" icon={aboutus} />
+          <HomeBox title="Features" icon={aboutus} />
 
           <div className="flex justify-center">
             <FAQ />
@@ -127,7 +131,7 @@ function Home() {
                         }}
                       />
                       <div
-                        className="absolute z-0 -bottom-2 -right-2 w-28 h-29"
+                        className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-28 h-29"
                         style={{
                           clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
                           background: "#DFE0F0",
