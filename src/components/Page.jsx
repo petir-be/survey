@@ -3,6 +3,7 @@ import Contact from "./FormElements/Contact";
 import MultipleChoice from "./FormElements/MultipleChoice";
 import Checkbox from "./FormElements/Checkbox";
 import Dropdown from "./FormElements/Dropdown";
+import ChoiceMatrix from "./FormElements/ChoiceMatrix";
 import { FaPlus } from "react-icons/fa6";
 import { FaChevronLeft } from "react-icons/fa6";
 import { FaChevronRight, FaRegTrashAlt } from "react-icons/fa";
@@ -82,8 +83,8 @@ function Page({
         </div>
       </div>
 
-      <div className="w-[92%] flex flex-col overflow-hidden min-h-[85%] bg-[#DFE0F0]  items-center border-gradient pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] px-4 gap-2">
-        <div className="flex flex-col gap-2 overflow-y-auto h-full m-1 w-full px-2 ">
+      <div className="w-[92%] flex flex-col overflow-hidden min-h-[85%] bg-[#DFE0F0]  items-center border-gradient pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] px-4 ">
+        <div className="flex flex-col overflow-y-auto h-full m-1 w-full px-2 ">
           {questions.length === 0 && (
             <div className="w-full flex justify-center items-center h-screen text-gray-600 py-10">
               Drag and Drop From Left Side
@@ -203,7 +204,7 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
     );
     if (question.type === "multiple_choice")
     return (
-      <MultipleChoice question={question} onUpdate={onUpdate} onDelete={onDelete} />
+      <MultipleChoice question={question} onUpdate={onUpdate} onDelete={onDelete} onDuplicate ={onDuplicate}/>
     );
     if (question.type === "checkbox")
     return (
@@ -212,6 +213,10 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
     if (question.type === "dropdown")
     return (
       <Dropdown question={question} onUpdate={onUpdate} onDelete={onDelete} onDuplicate ={onDuplicate} />
+    );
+    if (question.type === "choice_matrix")
+    return (
+      <ChoiceMatrix question={question} onUpdate={onUpdate} onDelete={onDelete} onDuplicate ={onDuplicate} />
     );
 
   return (
