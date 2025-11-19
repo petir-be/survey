@@ -86,9 +86,11 @@ function Form() {
       contact: "What is your contact information?",
       "multiple choice": "Select one option:",
       "long text": "Please provide your answer:",
+      "choice matrix": "Select all that Apply",
+
       checkbox: "Select all that apply:",
     };
-    return questionMap[title?.toLowerCase?.()] || "Enter your question here";
+    return questionMap[title?.toLowerCase?.()] || "";
   };
 
   const getQuestionType = (title) => {
@@ -97,6 +99,8 @@ function Form() {
       "multiple choice": "multiple_choice",
       "long text": "long_text",
       "choice matrix": "choice_matrix",
+      "paragraph": "paragraph",
+      "heading": "heading",
       checkbox: "checkbox",
     };
     return typeMap[title?.toLowerCase?.()] || "text";

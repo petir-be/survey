@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCircleXmark } from "react-icons/fa6";
 import { IoDuplicate } from "react-icons/io5";
 
@@ -9,6 +9,15 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
   ]);
   const [addRowField, setAddRowField] = useState(["Row 1", "Row 2"]);
   const [showAddButtons, setShowAddButtons] = useState(false);
+
+
+  //initialization lang para sa JSON
+  useEffect(() => {
+      onUpdate(question.id, {
+        columns: addColumnField,
+        rows: addRowField,
+      })
+  }, [])
 
   const addColumn = () => {
     const newColumn = `Column ${addColumnField.length + 1}`;
@@ -44,7 +53,7 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
 
   return (
     <div
-      className="form-element-container"
+      className="form-element-container group"
       tabIndex={0}
       onFocus={() => setShowAddButtons(true)}
       onBlur={(e) => {
@@ -61,7 +70,7 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
             onChange={(e) =>
               onUpdate(question.id, { question: e.target.value })
             }
-            className="w-full font-medium text-lg border-b border-transparent hover:border-gray-300 focus:border-(--purple) focus:outline-none px-2 py-1"
+            className="w-full font-medium text-lg border-b border-transparent placeholder:text-gray-400 hover:border-gray-300 focus:border-(--purple) focus:outline-none px-2 py-1"
             placeholder="Enter your question"
           />
 
@@ -84,7 +93,7 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
                 {addColumnField.map((col, colIndex) => (
                   <th
                     key={colIndex}
-                    className="relative  px-3 py-2 min-w-28 text-center group italic"
+                    className="relative  px-3 py-2 min-w-28 text-center group/item italic"
                   >
                     <input
                       className="w-full bg-transparent text-center focus:outline-none"
@@ -97,7 +106,7 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
                       }}
                     />
 
-                    <div className="absolute -top-2 right-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+                    <div className="absolute -top-2 right-1/2 translate-x-1/2 opacity-0 group-hover/item:opacity-100 group-focus/item-within:opacity-100 transition-opacity">
                       <button onClick={() => removeColumn(colIndex)}>
                         <FaCircleXmark
                           className="bg-white text-xl rounded-full hover:ring-2 hover:ring-(--purple)"
@@ -112,7 +121,7 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
 
             <tbody className=" ">
               {addRowField.map((row, rowIndex) => (
-                <tr key={rowIndex} className="group border-b-4 border-(--white)">
+                <tr key={rowIndex} className="group/item border-b-4 border-(--white)">
                   <td className=" bg-(--dirty-white) px-3 py-2 min-w-32 relative rounded-l-xl italic ">
                     <input
                       className="w-full bg-transparent focus:outline-none "
@@ -124,7 +133,7 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
                       }}
                     />
 
-                    <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+                    <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover/item:opacity-100 group-focus/item-within:opacity-100 transition-opacity">
                       <button onClick={() => removeRow(rowIndex)}>
                         <FaCircleXmark
                           className="bg-white text-xl rounded-full hover:ring-2 hover:ring-(--purple)"
