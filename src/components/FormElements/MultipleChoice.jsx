@@ -5,24 +5,34 @@ import { IoDuplicate } from "react-icons/io5";
 function MultipleChoice({ question, onUpdate, onDuplicate }) {
   const initialOptions = [
     { id: crypto.randomUUID(), label: "Option 1" },
-    { id: crypto.randomUUID(), label: "Option 2" }
+    { id: crypto.randomUUID(), label: "Option 2" },
   ];
+  const instanceId = React.useId();
 
   const [addOption, setAddOption] = useState(initialOptions);
   const [showAddOption, setShowAddOption] = useState(false);
   const [selected, setSelected] = useState("");
 
-  //AUTO RESIZE INPUTS 
+  // Sync initial options with onUpdate
+  useEffect(() => {
+    onUpdate(question.id, { options: addOption.map((o) => o.label) });
+  }, []);
+
+  // Auto resize inputs
   useEffect(() => {
     addOption.forEach((option, index) => {
-      const span = document.getElementById(`radio-resize-${index}`);
+      const span = document.getElementById(
+        `radio-resize-${instanceId}-${index}`
+      );
       const input = span?.previousElementSibling;
 
       if (span && input) {
-        const width = span.offsetWidth + 6;
-        input.style.width = width + "px";
+        const measured = span.offsetWidth + 10;
+        const min = 72; 
+        const finalWidth = Math.max(measured, min);
 
-        input.parentElement.parentElement.style.width = width + 60 + "px";
+        input.style.width = finalWidth + "px";
+        input.parentElement.parentElement.style.width = finalWidth + 60 + "px";
       }
     });
   }, [addOption]);
@@ -30,19 +40,18 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
   const addOptionField = () => {
     const newOpt = {
       id: crypto.randomUUID(),
-      label: `Option ${addOption.length + 1}`
+      label: `Option ${addOption.length + 1}`,
     };
 
     const updated = [...addOption, newOpt];
     setAddOption(updated);
-    onUpdate(question.id, { options: updated.map(o => o.label) });
+    onUpdate(question.id, { options: updated.map((o) => o.label) });
   };
 
   const removeOptionField = (index) => {
     const removed = addOption[index];
 
     const filtered = addOption.filter((_, i) => i !== index);
-
     const reindexed = filtered.map((item, i) => {
       if (/^Option \d+$/.test(item.label)) {
         return { ...item, label: `Option ${i + 1}` };
@@ -55,7 +64,7 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
     }
 
     setAddOption(reindexed);
-    onUpdate(question.id, { options: reindexed.map(o => o.label) });
+    onUpdate(question.id, { options: reindexed.map((o) => o.label) });
   };
 
   return (
@@ -74,8 +83,10 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
           <input
             type="text"
             value={question.question || ""}
-            onChange={(e) => onUpdate(question.id, { question: e.target.value })}
-            className="w-full font-medium text-lg border-b border-transparent hover:border-gray-300 focus:border-(--purple) focus:outline-none px-2 py-1"
+            onChange={(e) =>
+              onUpdate(question.id, { question: e.target.value })
+            }
+            className="w-full font-medium text-lg border-b border-transparent placeholder:text-gray-400 hover:border-gray-300 focus:border-(--purple) focus:outline-none px-2 py-1"
             placeholder="Enter your question"
           />
 
@@ -108,18 +119,24 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
                 <input
                   type="text"
                   value={option.label}
+                  placeholder={`Option ${index + 1}`}
                   onChange={(e) => {
                     const updated = [...addOption];
-                    updated[index] = { ...updated[index], label: e.target.value };
+                    updated[index] = {
+                      ...updated[index],
+                      label: e.target.value,
+                    };
                     setAddOption(updated);
-                    onUpdate(question.id, { options: updated.map(o => o.label) });
+                    onUpdate(question.id, {
+                      options: updated.map((o) => o.label),
+                    });
                   }}
-                  className="absolute font-vagrounded top-0 left-0 line-clamp-2 max-w-full bg-transparent focus:outline-none"
-                  style={{ width: "100%" }}
+                  className="absolute font-vagrounded top-0 left-0 line-clamp-2 text-wrap max-w-full placeholder:text-gray-400 focus:outline-none"
+                  style={{ width: "100%", minWidth: "72px" }}
                 />
 
                 <span
-                  id={`radio-resize-${index}`}
+                  id={`radio-resize-${instanceId}-${index}`}
                   className="invisible whitespace-pre"
                 >
                   {option.label || " "}

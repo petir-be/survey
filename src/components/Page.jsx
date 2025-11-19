@@ -4,6 +4,8 @@ import MultipleChoice from "./FormElements/MultipleChoice";
 import Checkbox from "./FormElements/Checkbox";
 import Dropdown from "./FormElements/Dropdown";
 import ChoiceMatrix from "./FormElements/ChoiceMatrix";
+import Paragraph from "./FormElements/Paragraph";
+import Heading from "./FormElements/Heading";
 import { FaPlus } from "react-icons/fa6";
 import { FaChevronLeft } from "react-icons/fa6";
 import { FaChevronRight, FaRegTrashAlt } from "react-icons/fa";
@@ -96,7 +98,12 @@ function Page({
           {questions.map((question, idx) => (
             <div key={question?.id || idx} className="w-full ">
               <div>
-                {renderElement(question, onUpdateQuestion, onDeleteQuestion, onDuplicateQuestion)}
+                {renderElement(
+                  question,
+                  onUpdateQuestion,
+                  onDeleteQuestion,
+                  onDuplicateQuestion
+                )}
               </div>
               <DropZone index={idx + 1} onInsert={onInsert} />
             </div>
@@ -150,8 +157,6 @@ function Page({
 }
 
 function renderElement(question, onUpdate, onDelete, onDuplicate) {
-
-
   if (!question) {
     console.error("Question is null or undefined");
     return null;
@@ -203,21 +208,59 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
     return (
       <Contact question={question} onUpdate={onUpdate} onDelete={onDelete} />
     );
-    if (question.type === "multiple_choice")
+  if (question.type === "multiple_choice")
     return (
-      <MultipleChoice question={question} onUpdate={onUpdate} onDelete={onDelete} onDuplicate ={onDuplicate}/>
+      <MultipleChoice
+        question={question}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+        onDuplicate={onDuplicate}
+      />
     );
-    if (question.type === "checkbox")
+  if (question.type === "checkbox")
     return (
-      <Checkbox question={question} onUpdate={onUpdate} onDelete={onDelete} onDuplicate ={onDuplicate} />
+      <Checkbox
+        question={question}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+        onDuplicate={onDuplicate}
+      />
     );
-    if (question.type === "dropdown")
+  if (question.type === "dropdown")
     return (
-      <Dropdown question={question} onUpdate={onUpdate} onDelete={onDelete} onDuplicate ={onDuplicate} />
+      <Dropdown
+        question={question}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+        onDuplicate={onDuplicate}
+      />
     );
-    if (question.type === "choice_matrix")
+  if (question.type === "choice_matrix")
     return (
-      <ChoiceMatrix question={question} onUpdate={onUpdate} onDelete={onDelete} onDuplicate ={onDuplicate} />
+      <ChoiceMatrix
+        question={question}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+        onDuplicate={onDuplicate}
+      />
+    );
+  if (question.type === "paragraph")
+    return (
+      <Paragraph
+        question={question}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+        onDuplicate={onDuplicate}
+      />
+    );
+    if (question.type === "heading")
+    return (
+      <Heading
+        question={question}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+        onDuplicate={onDuplicate}
+      />
     );
 
   if (question.type === "multiple_choice")

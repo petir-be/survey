@@ -7,18 +7,29 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
   const [addOption, setAddOption] = useState(options);
   const [showAddOption, setShowAddOption] = useState(false);
 
+  const instanceId = React.useId();
+
+  useEffect(() => {
+    onUpdate(question.id, {
+      options: addOption,
+    });
+  }, []);
 
   useEffect(() => {
     addOption.forEach((option, index) => {
-      const span = document.getElementById(`resize-${index}`);
+      const span = document.getElementById(
+        `radio-resize-${instanceId}-${index}`
+      );
       const input = span?.previousElementSibling;
 
       if (span && input) {
-        const width = span.offsetWidth + 6;
-        input.style.width = width + "px";
+        const measured = span.offsetWidth + 10;
+        const min = 72; // 👈 minimum width for placeholder visibility
 
-        //makes container grow with input too
-        input.parentElement.parentElement.style.width = width + 60 + "px";
+        const finalWidth = Math.max(measured, min);
+
+        input.style.width = finalWidth + "px";
+        input.parentElement.parentElement.style.width = finalWidth + 60 + "px";
       }
     });
   }, [addOption]);
@@ -34,21 +45,21 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
 
     // Reindex only default labels (Option #)
     const reindexed = filtered.map((item, i) => {
-      if (/^Option \d+$/.test(item.label)) {
-        return { ...item, label: `Option ${i + 1}` };
+      if (/^Option \d+$/.test(item)) {
+        // ✅ Test the string directly
+        return `Option ${i + 1}`;
       }
       return item;
     });
 
     setAddOption(reindexed);
-    onUpdate(question.id, { options: reindexed.map((o) => o.label) });
+    onUpdate(question.id, { options: reindexed }); // ✅ Already strings
   };
 
   return (
     <div
       className="form-element-container group"
       tabIndex={0}
-  
       onFocus={() => setShowAddOption(true)}
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget)) {
@@ -64,8 +75,8 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
             onChange={(e) =>
               onUpdate(question.id, { question: e.target.value })
             }
-            className="w-full font-medium text-lg border-b border-transparent hover:border-gray-300 focus:border-(--purple) focus:outline-none px-2 py-1"
-            placeholder="Enter your question"
+            className="w-full font-medium text-lg border-b border-transparent placeholder:text-gray-400 hover:border-gray-300 focus:border-(--purple) focus:outline-none px-2 py-1"
+            placeholder="Enter your question here"
           />
           <button
             onClick={() => onDuplicate(question.id)}
@@ -90,18 +101,19 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
                 <input
                   type="text"
                   value={option}
+                  placeholder={`Option ${index + 1}`}
                   onChange={(e) => {
                     const updated = [...addOption];
                     updated[index] = e.target.value;
                     setAddOption(updated);
                     onUpdate(question.id, { options: updated });
                   }}
-                  className="absolute font-vagrounded top-0 left-0 line-clamp-2 max-w-full bg-transparent focus:outline-none"
-                  style={{ width: "100%" }}
+                  className="absolute font-vagrounded top-0 left-0 line-clamp-2 placeholder:text-gray-400 max-w-full bg-transparent focus:outline-none"
+                  style={{ width: "100%", minWidth: "72px" }}
                 />
 
                 <span
-                  id={`resize-${index}`}
+                  id={`radio-resize-${instanceId}-${index}`}
                   className="invisible whitespace-pre"
                 >
                   {option || " "}
