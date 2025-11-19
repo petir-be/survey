@@ -179,6 +179,16 @@ function Form() {
       setCurrentPageIndex(currentPageIndex - 1);
     }
   };
+
+  const handleExportData = () => {
+    const allData = pages.map((page, idx) => ({
+      page: idx + 1,
+      questions: page.questions,
+    }));
+    console.log(JSON.stringify(allData, null, 2));
+    alert("Data exported to console!");
+  };
+
   const types = [
     { Icon: BiSolidUserRectangle, title: "Contact" },
     { Icon: BiSolidUserRectangle, title: "Multiple Choice" },

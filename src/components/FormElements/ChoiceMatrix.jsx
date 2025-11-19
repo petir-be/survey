@@ -3,7 +3,10 @@ import { FaCircleXmark } from "react-icons/fa6";
 import { IoDuplicate } from "react-icons/io5";
 
 function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
-  const [addColumnField, setAddColumnField] = useState(["Column 1", "Column 2"]);
+  const [addColumnField, setAddColumnField] = useState([
+    "Column 1",
+    "Column 2",
+  ]);
   const [addRowField, setAddRowField] = useState(["Row 1", "Row 2"]);
   const [showAddButtons, setShowAddButtons] = useState(false);
 
@@ -41,7 +44,7 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
 
   return (
     <div
-      className="form-element-container group"
+      className="form-element-container"
       tabIndex={0}
       onFocus={() => setShowAddButtons(true)}
       onBlur={(e) => {
@@ -50,7 +53,6 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
         }
       }}
     >
-      {/* QUESTION + DUPLICATE BUTTON */}
       <div className="flex justify-between items-start mb-2">
         <div className="flex-1 inline-flex">
           <input
@@ -72,21 +74,30 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
         </div>
       </div>
 
-      {/* MATRIX TABLE */}
-      <div className="overflow-x-auto">
-        <div className="overflow-visible inline-block">
-          <table className="border-collapse">
+      <div className="overflow-x-auto pt-5">
+        <div className="overflow-y-visible">
+          <table className="border-collapse w-full ">
             <thead>
-              <tr>
+              <tr className="">
                 <th className="w-40"></th>
 
                 {addColumnField.map((col, colIndex) => (
                   <th
                     key={colIndex}
-                    className="relative border px-3 py-2 bg-gray-100 min-w-28 text-center"
+                    className="relative  px-3 py-2 min-w-28 text-center group italic"
                   >
-                    {/* DELETE ICON */}
-                    <div className="absolute -top-2 translate-x-1/2 right-1/2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+                    <input
+                      className="w-full bg-transparent text-center focus:outline-none"
+                      value={col}
+                      placeholder={col}
+                      onChange={(e) => {
+                        const updated = [...addColumnField];
+                        updated[colIndex] = e.target.value;
+                        setAddColumnField(updated);
+                      }}
+                    />
+
+                    <div className="absolute -top-2 right-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
                       <button onClick={() => removeColumn(colIndex)}>
                         <FaCircleXmark
                           className="bg-white text-xl rounded-full hover:ring-2 hover:ring-(--purple)"
@@ -94,29 +105,17 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
                         />
                       </button>
                     </div>
-
-                    {/* Editable column name */}
-                    <input
-                      className="w-full bg-transparent text-center focus:outline-none"
-                      value={col}
-                      onChange={(e) => {
-                        const updated = [...addColumnField];
-                        updated[colIndex] = e.target.value;
-                        setAddColumnField(updated);
-                      }}
-                    />
                   </th>
                 ))}
               </tr>
             </thead>
 
-            <tbody>
+            <tbody className=" ">
               {addRowField.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {/* ROW LABEL + DELETE */}
-                  <td className="border px-3 py-2 bg-gray-50 min-w-32 relative">
+                <tr key={rowIndex} className="group border-b-4 border-(--white)">
+                  <td className=" bg-(--dirty-white) px-3 py-2 min-w-32 relative rounded-l-xl italic ">
                     <input
-                      className="w-full bg-transparent focus:outline-none"
+                      className="w-full bg-transparent focus:outline-none "
                       value={row}
                       onChange={(e) => {
                         const updated = [...addRowField];
@@ -125,7 +124,7 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
                       }}
                     />
 
-                    <div className="absolute right-2 translate-y-1/2 bottom-1/2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
+                    <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
                       <button onClick={() => removeRow(rowIndex)}>
                         <FaCircleXmark
                           className="bg-white text-xl rounded-full hover:ring-2 hover:ring-(--purple)"
@@ -135,9 +134,8 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
                     </div>
                   </td>
 
-                  {/* RADIO BUTTONS */}
                   {addColumnField.map((_, colIndex) => (
-                    <td key={colIndex} className="border px-3 py-2 text-center">
+                    <td key={colIndex} className="bg-(--dirty-white) px-3 py-2 text-center">
                       <input
                         type="radio"
                         name={`row-${rowIndex}`}
@@ -152,7 +150,6 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
         </div>
       </div>
 
-      {/* ADD BUTTONS (matched style) */}
       {showAddButtons && (
         <div className="flex gap-4 mt-3">
           <button

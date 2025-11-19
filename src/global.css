@@ -122,11 +122,15 @@ font-style: normal;
   [&:not(:focus-within)]:hover:bg-(--white)
   w-auto max-w-full;
 }
+  
 
   
 }
 button {
   cursor: pointer;
+}
+.sticky-row{
+  position:sticky;
 }
 
 @layer theme {
