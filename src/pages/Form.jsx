@@ -96,6 +96,7 @@ function Form() {
       contact: "contact",
       "multiple choice": "multiple_choice",
       "long text": "long_text",
+      "choice matrix": "choice_matrix",
       checkbox: "checkbox",
     };
     return typeMap[title?.toLowerCase?.()] || "text";
@@ -118,32 +119,34 @@ function Form() {
   };
 
   const handleDuplicateQuestion = (questionId) => {
-  setPages((prev) => {
-    const updated = [...prev];
-    const currentPage = { ...updated[currentPageIndex] };
-    
-    const questionIndex = currentPage.questions.findIndex((q) => q.id === questionId);
-    
-    if (questionIndex !== -1) {
-      const questionToDuplicate = currentPage.questions[questionIndex];
-      
-      const duplicatedQuestion = {
-        ...questionToDuplicate,
-        id: uuidv4(), 
-        order: questionToDuplicate.order + 1,
-      };
-      
-      const copy = [...currentPage.questions];
-      copy.splice(questionIndex + 1, 0, duplicatedQuestion);
-      copy.forEach((q, idx) => {
-        q.order = idx + 1;
-      });
-      currentPage.questions = copy;
-      updated[currentPageIndex] = currentPage;
-    }
-    return updated;
-  });
-};
+    setPages((prev) => {
+      const updated = [...prev];
+      const currentPage = { ...updated[currentPageIndex] };
+
+      const questionIndex = currentPage.questions.findIndex(
+        (q) => q.id === questionId
+      );
+
+      if (questionIndex !== -1) {
+        const questionToDuplicate = currentPage.questions[questionIndex];
+
+        const duplicatedQuestion = {
+          ...questionToDuplicate,
+          id: uuidv4(),
+          order: questionToDuplicate.order + 1,
+        };
+
+        const copy = [...currentPage.questions];
+        copy.splice(questionIndex + 1, 0, duplicatedQuestion);
+        copy.forEach((q, idx) => {
+          q.order = idx + 1;
+        });
+        currentPage.questions = copy;
+        updated[currentPageIndex] = currentPage;
+      }
+      return updated;
+    });
+  };
 
   const handleReorderQuestions = (fromIndex, toIndex) => {
     if (fromIndex === toIndex) return;
@@ -183,9 +186,10 @@ function Form() {
     { Icon: BiSolidUserRectangle, title: "Checkbox" },
     { Icon: BiSolidUserRectangle, title: "Linear Scale" },
     { Icon: BiSolidUserRectangle, title: "Dropdown" },
-    { Icon: BiSolidUserRectangle, title: "hahaha" },
-    { Icon: BiSolidUserRectangle, title: "hahaha" },
-    { Icon: BiSolidUserRectangle, title: "Conthahahahahact" },
+    { Icon: BiSolidUserRectangle, title: "Paragraph" },
+    { Icon: BiSolidUserRectangle, title: "Heading" },
+    { Icon: BiSolidUserRectangle, title: "Choice Matrix" },
+    { Icon: BiSolidUserRectangle, title: "Switch" },
   ];
 
   const [titleValue, setTitleValue] = useState("");
@@ -296,7 +300,10 @@ function Form() {
               </div>
             </div>
             <div className="inline-flex items-center gap-4">
-              <button onClick = {handleExportData} className=" px-10 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
+              <button
+                onClick={handleExportData}
+                className=" px-10 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out"
+              >
                 Preview
               </button>
               <button className=" px-10 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 transition-color duration-200 ease-out">

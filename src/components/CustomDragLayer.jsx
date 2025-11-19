@@ -54,7 +54,6 @@ function getItemComponent(item) {
   if(title === "Checkbox"){
     return (
       <Checkbox
-
         question={mockQuestion}
         onUpdate={mockUpdate}
         onDelete={mockDelete}
