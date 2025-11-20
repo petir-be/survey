@@ -4,9 +4,11 @@ import Contact from "./FormElements/Contact";
 import MultipleChoice from "./FormElements/MultipleChoice";
 import Checkbox from "./FormElements/Checkbox";
 import { motion } from "motion/react";
-import MultipleChoice from "./FormElements/MultipleChoice";
 
 function getItemComponent(item) {
+  {
+    motion;
+  }
   if (!item) return null;
   const title = item.title;
   const mockQuestion = {
@@ -32,7 +34,7 @@ function getItemComponent(item) {
   const mockUpdate = () => {};
   const mockDelete = () => {};
 
-  if (title === "Contact"){
+  if (title === "Contact") {
     return (
       <Contact
         question={mockQuestion}
@@ -41,29 +43,25 @@ function getItemComponent(item) {
       />
     );
   }
-  if(title === "Multiple Choice"){
+  if (title === "Multiple Choice") {
     return (
       <MultipleChoice
-
         question={mockQuestion}
         onUpdate={mockUpdate}
         onDelete={mockDelete}
       />
     );
   }
-  if(title === "Checkbox"){
+  if (title === "Checkbox") {
     return (
       <Checkbox
-
         question={mockQuestion}
         onUpdate={mockUpdate}
         onDelete={mockDelete}
       />
     );
   }
- 
-    
-  
+
   return null;
 }
 
