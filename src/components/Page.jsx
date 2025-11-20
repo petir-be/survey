@@ -7,6 +7,9 @@ import ChoiceMatrix from "./FormElements/ChoiceMatrix";
 import Paragraph from "./FormElements/Paragraph";
 import Heading from "./FormElements/Heading";
 import LongText from "./FormElements/LongText";
+import Email from "./FormElements/Email";
+import PhoneNumber from "./FormElements/PhoneNumber";
+import FileUpload from "./FormElements/FileUploader";
 import { FaPlus } from "react-icons/fa6";
 import { FaChevronLeft } from "react-icons/fa6";
 import { FaChevronRight, FaRegTrashAlt } from "react-icons/fa";
@@ -275,6 +278,30 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
     if (question.type === "long_text")
     return (
       <LongText
+        question={question}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+      />
+    );
+    if (question.type === "email")
+    return (
+      <Email
+        question={question}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+      />
+    );
+    if (question.type === "phone_number")
+    return (
+      <PhoneNumber
+        question={question}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+      />
+    );
+    if (question.type === "file_uploader")
+    return (
+      <FileUpload
         question={question}
         onUpdate={onUpdate}
         onDelete={onDelete}

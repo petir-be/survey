@@ -87,6 +87,9 @@ function Form() {
       "multiple choice": "Select one option:",
       "long text": "Please provide your answer:",
       "choice matrix": "Select all that Apply",
+      "email": "Email Address",
+      "phone number": "Phone Number",
+      "file uploader": "Upload a file",
 
       checkbox: "Select all that apply:",
     };
@@ -102,6 +105,9 @@ function Form() {
       "paragraph": "paragraph",
       "heading": "heading",
       "dropdown": "dropdown",
+      "email": "email",
+      "phone number": "phone_number",
+      "file uploader": "file_uploader",
       checkbox: "checkbox",
     };
     return typeMap[title?.toLowerCase?.()] || "text";
@@ -205,6 +211,9 @@ function Form() {
     { Icon: BiSolidUserRectangle, title: "Heading" },
     { Icon: BiSolidUserRectangle, title: "Choice Matrix" },
     { Icon: BiSolidUserRectangle, title: "Switch" },
+    { Icon: BiSolidUserRectangle, title: "Email" },
+    { Icon: BiSolidUserRectangle, title: "Phone Number" },
+    { Icon: BiSolidUserRectangle, title: "File Uploader" },
   ];
 
   const [titleValue, setTitleValue] = useState("");
