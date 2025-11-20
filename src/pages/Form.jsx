@@ -101,6 +101,7 @@ function Form() {
       "choice matrix": "choice_matrix",
       "paragraph": "paragraph",
       "heading": "heading",
+      "dropdown": "dropdown",
       checkbox: "checkbox",
     };
     return typeMap[title?.toLowerCase?.()] || "text";
