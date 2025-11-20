@@ -6,6 +6,7 @@ import Dropdown from "./FormElements/Dropdown";
 import ChoiceMatrix from "./FormElements/ChoiceMatrix";
 import Paragraph from "./FormElements/Paragraph";
 import Heading from "./FormElements/Heading";
+import LongText from "./FormElements/LongText";
 import { FaPlus } from "react-icons/fa6";
 import { FaChevronLeft } from "react-icons/fa6";
 import { FaChevronRight, FaRegTrashAlt } from "react-icons/fa";
@@ -86,9 +87,9 @@ function Page({
       </div>
 
       <div className="w-[92%] flex flex-col overflow-hidden min-h-[85%] bg-[#DFE0F0]  items-center border-gradient pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] px-4 ">
-        <div className="flex flex-col overflow-y-auto h-full m-1 w-full px-2 ">
+        <div className="flex flex-col overflow-y-auto h-full w-full ">
           {questions.length === 0 && (
-            <div className="w-full flex justify-center items-center h-screen text-gray-600 py-10">
+            <div className="w-full flex justify-center items-center h-screen text-gray-600">
               Drag and Drop From Left Side
             </div>
           )}
@@ -265,6 +266,14 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
   if (question.type === "multiple_choice")
     return (
       <MultipleChoice
+        question={question}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+      />
+    );
+    if (question.type === "long_text")
+    return (
+      <LongText
         question={question}
         onUpdate={onUpdate}
         onDelete={onDelete}
