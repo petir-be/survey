@@ -8,7 +8,6 @@ import { FaChevronLeft } from "react-icons/fa6";
 import { FaChevronRight, FaRegTrashAlt } from "react-icons/fa";
 import { useState } from "react";
 import Modal from "./Modal";
-import MultipleChoice from "./FormElements/MultipleChoice";
 function DropZone({ index, onInsert }) {
   const [{ isOver }, dropRef] = useDrop({
     accept: "PALETTE_ITEM",
