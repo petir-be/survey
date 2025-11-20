@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaCircleXmark } from "react-icons/fa6";
 import { IoDuplicate } from "react-icons/io5";
 
@@ -12,6 +12,20 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
   const [addOption, setAddOption] = useState(initialOptions);
   const [showAddOption, setShowAddOption] = useState(false);
   const [selected, setSelected] = useState("");
+
+    const textareaRef = useRef(null);
+  
+    const adjustHeight = () => {
+      const textarea = textareaRef.current;
+      if (textarea) {
+        textarea.style.height = "auto";
+        textarea.style.height = textarea.scrollHeight + "px";
+      }
+    };
+  
+    useEffect(() => {
+      adjustHeight();
+    }, [question.question]);
 
   // Sync initial options with onUpdate
   useEffect(() => {
@@ -28,7 +42,7 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
 
       if (span && input) {
         const measured = span.offsetWidth + 10;
-        const min = 72; 
+        const min = 72;
         const finalWidth = Math.max(measured, min);
 
         input.style.width = finalWidth + "px";
@@ -80,14 +94,16 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
     >
       <div className="flex justify-between items-start mb-2">
         <div className="flex-1 inline-flex">
-          <input
-            type="text"
+          <textarea
+            ref={textareaRef}
             value={question.question || ""}
-            onChange={(e) =>
-              onUpdate(question.id, { question: e.target.value })
-            }
-            className="w-full font-medium text-lg border-b border-transparent placeholder:text-gray-400 hover:border-gray-300 focus:border-(--purple) focus:outline-none px-2 py-1"
-            placeholder="Enter your question"
+            onChange={(e) => {
+              onUpdate(question.id, { question: e.target.value });
+              adjustHeight();
+            }}
+            className="w-full font-medium placeholder:italic placeholder:text-gray-400 text-lg border-b border-transparent hover:border-gray-300 focus:border-(--purple) focus:outline-none px-2 py-1 resize-none overflow-hidden"
+            placeholder="Type your paragraph here"
+            rows={1}
           />
 
           <button

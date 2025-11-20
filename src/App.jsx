@@ -8,6 +8,7 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Form from "./pages/Form.jsx";
 import TestPage from "./pages/TestPage.jsx";
+import Preview from "./pages/Preview.jsx";
 
 function Layout() {
   return (
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
   {
     path: "test",
     element: <TestPage />,
+  },
+  {
+    path: "preview",
+    element: <Preview />,
   },
 ]);
 
