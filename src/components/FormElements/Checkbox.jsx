@@ -1,9 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaCircleXmark } from "react-icons/fa6";
+import { IoDuplicate } from "react-icons/io5";
 
 function Checkbox({ question, onUpdate, onDuplicate }) {
   const options = ["Option 1", "Option 2"];
   const [addOption, setAddOption] = useState(options);
+  const [showAddOption, setShowAddOption] = useState(false);
+
+  const instanceId = React.useId();
+
+  useEffect(() => {
+    onUpdate(question.id, {
+      options: addOption,
+    });
+  }, []);
+
+  useEffect(() => {
+    addOption.forEach((option, index) => {
+      const span = document.getElementById(
+        `radio-resize-${instanceId}-${index}`
+      );
+      const input = span?.previousElementSibling;
+
+      if (span && input) {
+        const measured = span.offsetWidth + 10;
+        const min = 72; // 👈 minimum width for placeholder visibility
+
+        const finalWidth = Math.max(measured, min);
+
+        input.style.width = finalWidth + "px";
+        input.parentElement.parentElement.style.width = finalWidth + 60 + "px";
+      }
+    });
+  }, [addOption]);
 
   const addOptionField = () => {
     const newOption = `Option ${addOption.length + 1}`;
@@ -12,75 +41,105 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
   };
 
   const removeOptionField = (index) => {
-    const updatedOptions = addOption.filter((_, i) => i !== index);
-    const reindexed = updatedOptions.map((_, i) => `Option ${i + 1}`);
+    const filtered = addOption.filter((_, i) => i !== index);
+
+    // Reindex only default labels (Option #)
+    const reindexed = filtered.map((item, i) => {
+      if (/^Option \d+$/.test(item)) {
+        // ✅ Test the string directly
+        return `Option ${i + 1}`;
+      }
+      return item;
+    });
+
     setAddOption(reindexed);
-    onUpdate(question.id, { options: reindexed });
-    document.activeElement.blur();
+    onUpdate(question.id, { options: reindexed }); // ✅ Already strings
   };
 
   return (
-    <div className="form-element-container">
+    <div
+      className="form-element-container group"
+      tabIndex={0}
+      onFocus={() => setShowAddOption(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) {
+          setShowAddOption(false);
+        }
+      }}
+    >
       <div className="flex justify-between items-start mb-2">
-        <div className="flex-1">
+        <div className="flex-1 inline-flex">
           <input
             type="text"
             value={question.question || ""}
             onChange={(e) =>
               onUpdate(question.id, { question: e.target.value })
             }
-            className="w-full font-medium text-lg border-b border-transparent hover:border-gray-300 focus:border-blue-500 focus:outline-none px-2 py-1"
-            placeholder="Enter your question"
+            className="w-full font-medium text-lg border-b border-transparent placeholder:text-gray-400 hover:border-gray-300 focus:border-(--purple) focus:outline-none px-2 py-1"
+            placeholder="Enter your question here"
           />
-          <p className="text-sm text-gray-500 mt-1">
-            Type: {question.type || "contact"}
-          </p>
+          <button
+            onClick={() => onDuplicate(question.id)}
+            className="font-vagrounded mx-5 group-focus-within:opacity-100 opacity-0 transition-all duration-200"
+          >
+            <IoDuplicate className="text-2xl" />
+          </button>
         </div>
       </div>
 
-      <div className="space-y-2 mt-3 w-full">
+      <div className="space-y-2 mt-3 group relative">
         {addOption.length === 0 ? (
           <div className="w-full flex justify-center items-center">
             <p className="text-gray-400">Empty choices...</p>
           </div>
         ) : (
           addOption.map((option, index) => (
-            <div
-              className="group form-option-input"
-              key={index}
-            >
-              <div className="w-full flex items-center mr-2 gap-1">
-                <input type="checkbox" className="w-5 h-5" />
+            <div className="group/item form-option-input" key={index}>
+              <input type="checkbox" className="w-5 h-5" />
 
+              <div className="relative h-full max-w-full">
                 <input
                   type="text"
-                  placeholder={option}
-                  className="focus:outline-none placeholder:text-gray-400 bg-transparent w-full"
+                  value={option}
+                  placeholder={`Option ${index + 1}`}
+                  onChange={(e) => {
+                    const updated = [...addOption];
+                    updated[index] = e.target.value;
+                    setAddOption(updated);
+                    onUpdate(question.id, { options: updated });
+                  }}
+                  className="absolute font-vagrounded top-0 left-0 line-clamp-2 placeholder:text-gray-400 max-w-full bg-transparent focus:outline-none"
+                  style={{ width: "100%", minWidth: "72px" }}
                 />
+
+                <span
+                  id={`radio-resize-${instanceId}-${index}`}
+                  className="invisible whitespace-pre"
+                >
+                  {option || " "}
+                </span>
               </div>
 
-              <div
-                className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 ease-out"
-              >
-                <button
-                  onClick={() => removeOptionField(index)}
-                >
-                  <FaCircleXmark className="group-focus-within:ring-2 rounded-full bg-white group-focus-within:ring-blue-400 text-xl hover:scale-[108%] transition-all duration-200 ease-out" fill="red" />
+              <div className="absolute -top-2 -right-2 opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100 transition-opacity duration-200 ease-out">
+                <button onClick={() => removeOptionField(index)}>
+                  <FaCircleXmark
+                    className="bg-white text-xl rounded-full hover:ring-2 hover:ring-(--purple)"
+                    fill="purple"
+                  />
                 </button>
               </div>
             </div>
           ))
         )}
 
-        <div className="flex flex-1 justify-between items-center">
+        {showAddOption && (
           <button
             onClick={addOptionField}
-            className="mt-2 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="mt-2 px-2 font-medium font-vagrounded py-1 text-(--purple) border-b-(--purple) border-transparent hover:border-b"
           >
             + Add Option
           </button>
-          <button onClick={() => onDuplicate(question.id)}>Duplicate</button>
-        </div>
+        )}
       </div>
     </div>
   );
