@@ -62,7 +62,7 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
         }
       }}
     >
-      <div className="flex justify-between items-start mb-2">
+      <div className="flex justify-between items-start">
         <div className="flex-1 inline-flex">
           <input
             type="text"
