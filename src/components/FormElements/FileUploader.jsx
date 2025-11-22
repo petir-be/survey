@@ -127,7 +127,7 @@ function FileUploader({ question, onUpdate, onDuplicate }) {
             key={f.id}
             className="flex items-center justify-between w-full p-3 border border-(--black-lighter) rounded-lg bg-(--white)"
           >
-            <div className="flex items-center gap-2 flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-1 min-w-0 mt-2">
               <FaFile className="text-lg flex-shrink-0" />
               <span className="flex flex-col">
                 <span className="text-sm font-vagrounded truncate">
