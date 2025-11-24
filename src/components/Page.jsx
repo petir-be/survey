@@ -274,6 +274,7 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
         question={question}
         onUpdate={onUpdate}
         onDelete={onDelete}
+        onDuplicate={onDuplicate}
       />
     );
     if (question.type === "long_text")
@@ -282,6 +283,7 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
         question={question}
         onUpdate={onUpdate}
         onDelete={onDelete}
+        onDuplicate={onDuplicate}
       />
     );
     if (question.type === "short_text")
@@ -290,6 +292,7 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
         question={question}
         onUpdate={onUpdate}
         onDelete={onDelete}
+        onDuplicate={onDuplicate}
       />
     );
     if (question.type === "email")
@@ -298,6 +301,7 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
         question={question}
         onUpdate={onUpdate}
         onDelete={onDelete}
+        onDuplicate={onDuplicate}
       />
     );
     if (question.type === "phone_number")
@@ -306,6 +310,7 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
         question={question}
         onUpdate={onUpdate}
         onDelete={onDelete}
+        onDuplicate={onDuplicate}
       />
     );
     if (question.type === "file_uploader")
@@ -314,6 +319,7 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
         question={question}
         onUpdate={onUpdate}
         onDelete={onDelete}
+        onDuplicate={onDuplicate}
       />
     );
 

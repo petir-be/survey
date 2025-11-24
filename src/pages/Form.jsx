@@ -11,13 +11,18 @@ import { v4 as uuidv4 } from "uuid";
 import { AuthContext } from "../Context/authContext";
 import axios from "axios";
 
-import { IoMenu, IoMail, IoDocumentText, IoToggleSharp, IoCheckbox } from "react-icons/io5";
+import {
+  IoMenu,
+  IoMail,
+  IoDocumentText,
+  IoToggleSharp,
+  IoCheckbox,
+} from "react-icons/io5";
 import { IoEllipsisHorizontalCircleSharp } from "react-icons/io5";
-import { HiMiniH1, HiMiniArrowsUpDown  } from "react-icons/hi2";
-import { HiMenuAlt4, HiUpload   } from "react-icons/hi";
-import { BsGrid3X3GapFill,  } from "react-icons/bs";
+import { HiMiniH1, HiMiniArrowsUpDown } from "react-icons/hi2";
+import { HiMenuAlt4, HiUpload } from "react-icons/hi";
+import { BsGrid3X3GapFill } from "react-icons/bs";
 import { RiPhoneFill } from "react-icons/ri";
-
 
 function Form() {
   const { user, isAuthenticated } = useContext(AuthContext);
@@ -93,8 +98,8 @@ function Form() {
     const questionMap = {
       contact: "What is your contact information?",
       "multiple choice": "Select one option:",
-      "long text" : "Please provide your answer:",
-      "short text" : "Please provide your answer:",
+      "long text": "Please provide your answer:",
+      "short text": "Please provide your answer:",
       "choice matrix": "Select all that Apply",
       email: "Email Address",
       "phone number": "Phone Number",
@@ -212,40 +217,68 @@ function Form() {
 
   const types = [
     // frequently used
-    { Icon: IoMenu, foreKulay:"", bgKulay:"",  title: "Long Text"  },
-    { Icon: IoEllipsisHorizontalCircleSharp, foreKulay:"", bgKulay:"",  title: "Multiple Choice" },
-    { Icon: IoMail, foreKulay:"", bgKulay:"",  title: "Email" },
-    
+    { Icon: IoMenu, foreKulay: "", bgKulay: "", title: "Long Text" },
+    {
+      Icon: IoEllipsisHorizontalCircleSharp,
+      foreKulay: "",
+      bgKulay: "",
+      title: "Multiple Choice",
+    },
+    { Icon: IoMail, foreKulay: "", bgKulay: "", title: "Email" },
+
     // display text
-    { Icon: HiMiniH1, foreKulay:"", bgKulay:"",  title: "Heading" },
-    { Icon: IoDocumentText , foreKulay:"", bgKulay:"",  title: "Paragraph" },
-    
+    { Icon: HiMiniH1, foreKulay: "", bgKulay: "", title: "Heading" },
+    { Icon: IoDocumentText, foreKulay: "", bgKulay: "", title: "Paragraph" },
+
     // choices
-    { Icon: BsGrid3X3GapFill , foreKulay:"", bgKulay:"",  title: "Choice Matrix" },
-    { Icon: IoEllipsisHorizontalCircleSharp, foreKulay:"", bgKulay:"",  title: "Multiple Choice" },
-    { Icon: IoCheckbox , foreKulay:"", bgKulay:"",  title: "Checkbox" },
-    { Icon: IoToggleSharp , foreKulay:"", bgKulay:"",  title: "Switch" },
-    { Icon: HiMiniArrowsUpDown, foreKulay:"", bgKulay:"",  title: "Dropdown" },
-    { Icon: BiSolidUserRectangle, foreKulay:"", bgKulay:"",  title: "Linear Scale" },
-    
+    {
+      Icon: BsGrid3X3GapFill,
+      foreKulay: "",
+      bgKulay: "",
+      title: "Choice Matrix",
+    },
+    {
+      Icon: IoEllipsisHorizontalCircleSharp,
+      foreKulay: "",
+      bgKulay: "",
+      title: "Multiple Choice",
+    },
+    { Icon: IoCheckbox, foreKulay: "", bgKulay: "", title: "Checkbox" },
+    { Icon: IoToggleSharp, foreKulay: "", bgKulay: "", title: "Switch" },
+    { Icon: HiMiniArrowsUpDown, foreKulay: "", bgKulay: "", title: "Dropdown" },
+    {
+      Icon: BiSolidUserRectangle,
+      foreKulay: "",
+      bgKulay: "",
+      title: "Linear Scale",
+    },
+
     // text
-    { Icon: IoMenu, foreKulay:"", bgKulay:"",  title: "Long Text" },
-    { Icon: HiMenuAlt4 , foreKulay:"", bgKulay:"",  title: "Short Text" },
-    { Icon: BiSolidUserRectangle, foreKulay:"", bgKulay:"",  title: "Contact" },
-    
+    { Icon: IoMenu, foreKulay: "", bgKulay: "", title: "Long Text" },
+    { Icon: HiMenuAlt4, foreKulay: "", bgKulay: "", title: "Short Text" },
+    {
+      Icon: BiSolidUserRectangle,
+      foreKulay: "",
+      bgKulay: "",
+      title: "Contact",
+    },
+
     //others
-    { Icon: RiPhoneFill, foreKulay:"", bgKulay:"",  title: "Phone Number" },
-    { Icon: IoMail, foreKulay:"", bgKulay:"",  title: "Email" },
-    { Icon: HiUpload , foreKulay:"", bgKulay:"",  title: "File Uploader" },
+    { Icon: RiPhoneFill, foreKulay: "", bgKulay: "", title: "Phone Number" },
+    { Icon: IoMail, foreKulay: "", bgKulay: "", title: "Email" },
+    { Icon: HiUpload, foreKulay: "", bgKulay: "", title: "File Uploader" },
   ];
 
   const [titleValue, setTitleValue] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
   const spanRef = useRef(null);
   const inputRef = useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    if (spanRef.current && inputRef.current) {
-      const newWidth = spanRef.current.offsetWidth + 25;
+    if (spanRef.current && inputRef.current && containerRef.current) {
+      const maxWidth = containerRef.current.offsetWidth;
+      const newWidth = Math.min(spanRef.current.offsetWidth + 25, maxWidth);
       inputRef.current.style.width = `${newWidth}px`;
     }
   }, [titleValue]);
@@ -320,15 +353,18 @@ function Form() {
   return (
     <>
       <DndProvider backend={HTML5Backend}>
-        <div className="h-dvh w-full bg-(--white) flex flex-col">
-          <header className="flex items-center justify-between bg-(--white) pt-8 pb-8 px-10 pr-12 relative z-50">
-            <div className="inline-flex items-center gap-7 bg-(--white)">
+        <div className="h-dvh w-full bg-(--white) flex flex-col overflow-x-hidden">
+          <header className="flex items-center justify-between bg-(--white) pt-8 pb-8 px-10 pr-12 relative z-50 border-b-2 border-(--dirty-white)">
+            <div className="inline-flex items-center gap-7 bg-(--white) flex-1 min-w-0">
               <Link to={"/"}>
-                <p className="cursor-pointer text-3xl">
+                <p className="cursor-pointer text-3xl flex-shrink-0">
                   <FaHome />
                 </p>
               </Link>
-              <div className="relative inline-flex items-center z-50 bg-(--white)">
+              <div
+                ref={containerRef}
+                className="relative inline-flex items-center z-50 bg-(--white) max-w-1/3 flex-1 min-w-0"
+              >
                 <span
                   ref={spanRef}
                   className="invisible absolute whitespace-pre font-medium px-2 text-xl"
@@ -339,15 +375,19 @@ function Form() {
                   ref={inputRef}
                   type="text"
                   placeholder="Untitled Form"
-                  className="text-(--black) placeholder:text-gray-600 text-xl py-1 px-2 rounded-lg transition-all relative duration-200 focus:outline-none focus:ring ring-black"
+                  className={`text-(--black) placeholder:text-gray-600 text-xl py-1 px-2 rounded-lg transition-all relative duration-200 focus:outline-none focus:ring ring-black ${
+                    !isFocused && titleValue ? "truncate" : ""
+                  }`}
                   value={titleValue}
                   onChange={(e) => setTitleValue(e.target.value)}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
                   style={{ width: "180px" }}
                 />
               </div>
             </div>
 
-            <div className="inline-flex items-center gap-4">
+            <div className="inline-flex items-center gap-4 flex-shrink-0">
               <button
                 onClick={handleExportData}
                 className="px-10 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out"
@@ -363,6 +403,20 @@ function Form() {
               </button>
             </div>
           </header>
+
+          {/* <button
+                onClick={handleExportData}
+                className="px-10 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out"
+              >
+                Preview
+              </button>
+              <button className="px-10 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 transition-color duration-200 ease-out">
+                Share
+              </button>
+
+              <button>
+                <FaUserCircle className="text-3xl" />
+              </button> */}
 
           <div className="flex-1 w-full flex overflow-hidden min-h-0">
             {/* leftside */}
@@ -391,7 +445,7 @@ function Form() {
                   <FormElement
                     key={index}
                     icon={type.Icon}
-                    title={ type.title}
+                    title={type.title}
                   />
                 ))}
               </div>
@@ -405,7 +459,7 @@ function Form() {
                   <FormElement
                     key={index}
                     icon={type.Icon}
-                    title={ type.title}
+                    title={type.title}
                   />
                 ))}
               </div>
@@ -433,7 +487,7 @@ function Form() {
                   <FormElement
                     key={index}
                     icon={type.Icon}
-                    title={ type.title}
+                    title={type.title}
                   />
                 ))}
               </div>
