@@ -1,13 +1,24 @@
 import React, { useRef, useEffect, useState } from "react";
-import { IoDuplicate } from "react-icons/io5";
+import { IoDuplicate, IoMail } from "react-icons/io5";
 
-
-
-// pwede na siguro tanggalin to, hiniwalay ko nalang email tas phonenumber
-
-
-function Contact({ question, onUpdate, onDuplicate }) {
+function Email({ question, onUpdate, onDuplicate }) {
   const textareaRef = useRef(null);
+
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+
+    // Simple email regex validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (value === "" || emailRegex.test(value)) {
+      setError("");
+    } else {
+      setError("Please enter a valid email address");
+    }
+  };
 
   const adjustHeight = () => {
     const textarea = textareaRef.current;
@@ -27,13 +38,13 @@ function Contact({ question, onUpdate, onDuplicate }) {
         <div className="flex-1 inline-flex items-start">
           <textarea
             ref={textareaRef}
-            value={question.question || ""}
+            value={question.question || "Enter your Email Address"}
             onChange={(e) => {
               onUpdate(question.id, { question: e.target.value });
               adjustHeight();
             }}
             className="w-full font-medium placeholder:italic placeholder:text-gray-400 text-lg border-b border-transparent hover:border-gray-300 focus:border-(--purple) focus:outline-none px-2 py-1 resize-none overflow-hidden"
-            placeholder="Type your heading here"
+            placeholder="Email"
             rows={1}
           />
           <button
@@ -45,11 +56,22 @@ function Contact({ question, onUpdate, onDuplicate }) {
         </div>
       </div>
       <div className="space-y-2 mt-3 group relative">
-       
-         
+        <div className="flex items-center px-3 py-1 bg-(--dirty-white) border-b-2 border-b-(--black) text-lg focus:border-(--purple) focus:outline-none">
+          <IoMail className="text-3xl" fill="#212529" />
+
+          <input
+            type="email"
+            value={email}
+            onChange={handleChange}
+            className="w-full placeholder:italic placeholder:text-gray-400 focus:outline-none px-2 py-1 overflow-hidden"
+          />
+        </div>
+        {error && (
+          <p className="text-red-400 text-sm font-vagrounded">{error}</p>
+        )}
       </div>
     </div>
   );
 }
 
-export default Contact;
+export default Email;
