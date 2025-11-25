@@ -50,7 +50,7 @@ const router = createBrowserRouter([
     element: <TestPage />,
   },
   {
-    path: "/preview",
+    path: "/preview/:guid",
     element: <Preview />,
   },
 ]);

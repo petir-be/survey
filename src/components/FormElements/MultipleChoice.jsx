@@ -128,10 +128,10 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
                 name={`question-${question.id}`}
                 checked={selected === option.label}
                 onChange={() => setSelected(option.label)}
-                className="w-5 h-5 accent-blue-500"
+                className="w-5 h-5 min-w-5 min-h-5 text-(--purple)"
               />
 
-              <div className="relative h-full max-w-full">
+              <div className="relative h-full max-w-full overflow-hidden">
                 <input
                   type="text"
                   value={option.label}
