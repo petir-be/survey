@@ -357,9 +357,8 @@ function Form() {
           <header className="flex items-center justify-between bg-(--white) pt-8 pb-8 px-10 pr-12 relative z-50 border-b-2 border-(--dirty-white)">
             <div className="inline-flex items-center gap-7 bg-(--white) flex-1 min-w-0">
               <Link to={"/"}>
-                <p className="cursor-pointer text-3xl flex-shrink-0">
-                  <FaHome />
-                </p>
+                  <FaHome className="text-3xl cursor-pointer" />
+                
               </Link>
               <div
                 ref={containerRef}
