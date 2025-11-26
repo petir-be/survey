@@ -1,12 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router";
 import { FaHome } from "react-icons/fa";
+import { IoMdArrowRoundForward } from "react-icons/io";
 import axios from "axios";
+import DotShader2 from "../components/DotShader2";
 
 import QuestionRenderer from "../components/QuestionRenderer";
 
+// import { Steps } from "rsuite";
+
+
 function Preview() {
-  const { guid } = useParams(); // This is the publicId (GUID)
+  const { guid } = useParams();
   const [id, setId] = useState(0);
   const [pages, setPages] = useState([]);
   const [title, setTitle] = useState("Untitled Form");
@@ -128,8 +133,10 @@ function Preview() {
         </div>
       </header>
 
-      <div className="px-10 py-2 mt-3">
-        <div className="w-full max-w-4xl justify-self-center h-3 bg-gray-300 rounded-full overflow-hidden">
+    {/* progress bar */}
+
+      <div className="px-10 py-2">
+        <div className="w-5xl max-w-5xl justify-self-center h-3 bg-gray-300 rounded-full overflow-hidden">
           <div
             className="h-full  bg-(--purple) transition-all duration-500"
             style={{ width: `${progress}%` }}
@@ -137,59 +144,55 @@ function Preview() {
         </div>
       </div>
 
-      {/* questions d2 */}
-      <div className="flex-1 overflow-y-auto px-10 pb-10">
-        <div className="max-w-4xl mx-auto p-12">
-          <div className="space-y-10">
-            {currentPage.questions
-              .sort((a, b) => a.order - b.order)
-              .map((q) => {
-                return (
-                  <QuestionRenderer
-                    key={q.id}
-                    question={q}
-                    value={answers[q.id]}
-                    onAnswer={(val) => updateAnswer(q.id, val)}
-                  />
-                );
-              })}
 
-            {/* {currentPage.questions
-              .sort((a, b) => a.order - b.order)
-              .map((q) => {
-                switch (q.type) {
-                  case "multiple_choice":
+
+        {/* nyaw gumana steps */}
+
+      {/* <div className="w-full flex justify-center py-6">
+        <Steps current={currentPageIndex} className="max-w-5xl w-full px-10">
+          {pages.map((p, index) => (
+            <Steps.Item key={index} title={`Page ${index + 1}`} />
+          ))}
+        </Steps>
+      </div> */}
+
+      <DotShader2 className="z-50" />
+      {/* questions d2 */}
+
+      <div className="flex-1 overflow-y-auto px-10 pb-10 flex flex-col">
+        <div className="relative max-w-4xl w-full mx-auto px-10 py-7 border-gradient bg-(--white) pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-col  justify-between">
+          <div className="flex-1">
+            {currentPage.questions.length === 0 ? (
+              <div className="flex justify-center items-center text-xl text-gray-400 w-full h-full text-center">
+                Current page has no questions available.
+              </div>
+            ) : (
+              <div className="space-y-10">
+                {currentPage.questions
+                  .sort((a, b) => a.order - b.order)
+                  .map((q) => {
                     return (
-                      <MultipleChoice
-                        question={q} // your question object from FormData
-                        value={answers[q.id]} // current answer
-                        onChange={(val) => updateAnswer(q.id, val)}
+                      <QuestionRenderer
+                        key={q.id}
+                        question={q}
+                        value={answers[q.id]}
+                        onAnswer={(val) => updateAnswer(q.id, val)}
                       />
                     );
-
-                  default:
-                    return (
-                      <div
-                        key={q.id}
-                        className="p-6 bg-orange-100 border border-orange-400 rounded-lg"
-                      >
-                        <p className="text-orange-800 font-medium">
-                          Unknown question type: {q.type}
-                        </p>
-                      </div>
-                    );
-                }
-              })} */}
+                  })}
+              </div>
+            )}
           </div>
 
-          <div className="flex justify-between items-center mt-16 pt-8 border-t">
+          {/* buttons */}
+          <div className="flex justify-between mt-5 pt-8">
             <button
               onClick={goPrev}
               disabled={currentPageIndex === 0}
-              className={`px-8 py-4 rounded-xl font-medium ${
+              className={`px-4 py-2 rounded-lg font-medium ${
                 currentPageIndex === 0
-                  ? "bg-red-200 text-red-500"
-                  : "bg-red-100 hover:bg-red-200"
+                  ? "opacity-0"
+                  : "opacity-100 bg-red-100 hover:bg-red-200"
               }`}
             >
               Previous
@@ -197,9 +200,10 @@ function Preview() {
 
             <button
               onClick={goNext}
-              className="px-12 py-4 text-black font-bold rounded bg-red-500 shadow-lg hover:shadow-xl transition"
+              className="flex items-center gap-1 pl-7 pr-6 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 transition-color duration-200 ease-out"
             >
-              {currentPageIndex === pages.length - 1 ? "Submit" : "Next"}
+              {currentPageIndex === pages.length - 1 ? "Submit" : "Next"}{" "}
+              <IoMdArrowRoundForward />
             </button>
           </div>
         </div>
