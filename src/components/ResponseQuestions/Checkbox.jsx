@@ -3,15 +3,12 @@ import React from "react";
 function Checkbox({ question, value = [], onChange }) {
   const options = question.options || [];
 
-  // Toggle selection
   const handleToggle = (selectedOption) => {
     let updated;
 
-    // If already selected → remove it
     if (value.includes(selectedOption)) {
       updated = value.filter((v) => v !== selectedOption);
     }
-    // If not selected → add it
     else {
       updated = [...value, selectedOption];
     }
