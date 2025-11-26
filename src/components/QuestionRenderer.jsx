@@ -9,7 +9,7 @@ import Paragraph from "./ResponseQuestions/Paragraph";
 import Heading from "./ResponseQuestions/Heading";
 import LongText from "./ResponseQuestions/LongText";
 import Email from "./ResponseQuestions/Email";
-import PhoneNumber from "./ResponseQuestions/MultipleChoice";
+import PhoneNumber from "./ResponseQuestions/PhoneNumber";
 import FileUploader from "./ResponseQuestions/FileUploader";
 import ShortText from "./ResponseQuestions/ShortText";
 
@@ -24,7 +24,8 @@ function QuestionRenderer({ question, value, onAnswer }) {
     heading: Heading,
     paragraph: Paragraph,
     file_uploader: FileUploader,
-    dropdown:Dropdown,
+    dropdown: Dropdown,
+    phone_number: PhoneNumber,
   };
 
   const Component = QUESTION_TYPES[question.type];

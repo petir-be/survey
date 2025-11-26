@@ -30,7 +30,7 @@ function Email({ question, onChange, value = "" }) {
       </p>
 
       <div className="space-y-2 group relative">
-        <div className="flex items-center px-3 py-1 bg-(--dirty-white) border-b-2 border-b-(--black) text-lg focus:border-(--purple) focus:outline-none">
+        <div className="flex items-center px-3 py-1 bg-(--dirty-white) border-b-2 border-b-(--black) text-lg focus-within:border-(--purple) focus:outline-none">
           <IoMail className="text-3xl" fill="#212529" />
 
           <input
