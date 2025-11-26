@@ -284,28 +284,6 @@ function Form() {
   }, [titleValue]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (saveRef.current) {
-        saveRef.current();
-      }
-    }, 2000);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  async function Save() {
-    try {
-      await axios.put(`${import.meta.env.VITE_BACKEND}/api/Form/save/${id}`, {
-        userId: user.id,
-        title: titleValue,
-        formData: pages,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
     async function fetchFormData() {
       try {
         const res = await axios.get(
@@ -340,6 +318,28 @@ function Form() {
     }
   }, [id]);
 
+  async function Save() {
+    try {
+      await axios.put(`${import.meta.env.VITE_BACKEND}/api/Form/save/${id}`, {
+        userId: user.id,
+        title: titleValue,
+        formData: pages,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (saveRef.current) {
+        saveRef.current();
+      }
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   if (error) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -357,8 +357,7 @@ function Form() {
           <header className="flex items-center justify-between bg-(--white) pt-8 pb-8 px-10 pr-12 relative z-50 border-b-2 border-(--dirty-white)">
             <div className="inline-flex items-center gap-7 bg-(--white) flex-1 min-w-0">
               <Link to={"/"}>
-                  <FaHome className="text-3xl cursor-pointer" />
-                
+                <FaHome className="text-3xl cursor-pointer" />
               </Link>
               <div
                 ref={containerRef}
