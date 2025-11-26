@@ -5,13 +5,13 @@ import Contact from "./ResponseQuestions/MultipleChoice";
 import Checkbox from "./ResponseQuestions/Checkbox";
 import Dropdown from "./ResponseQuestions/MultipleChoice";
 import ChoiceMatrix from "./ResponseQuestions/ChoiceMatrix";
-import Paragraph from "./ResponseQuestions/MultipleChoice";
-import Heading from "./ResponseQuestions/MultipleChoice";
+import Paragraph from "./ResponseQuestions/Paragraph";
+import Heading from "./ResponseQuestions/Heading";
 import LongText from "./ResponseQuestions/LongText";
 import Email from "./ResponseQuestions/Email";
 import PhoneNumber from "./ResponseQuestions/MultipleChoice";
 import FileUpload from "./ResponseQuestions/MultipleChoice";
-import ShortText from "./ResponseQuestions/MultipleChoice";
+import ShortText from "./ResponseQuestions/ShortText";
 
 function QuestionRenderer({ question, value, onAnswer }) {
   const QUESTION_TYPES = {
@@ -19,7 +19,10 @@ function QuestionRenderer({ question, value, onAnswer }) {
     checkbox: Checkbox,
     choice_matrix: ChoiceMatrix,
     email: Email,
-    long_text:LongText,
+    long_text: LongText,
+    short_text: ShortText,
+    heading: Heading,
+    paragraph: Paragraph,
   };
 
   const Component = QUESTION_TYPES[question.type];
