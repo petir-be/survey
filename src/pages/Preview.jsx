@@ -3,20 +3,6 @@ import { Link, useParams } from "react-router";
 import { FaHome } from "react-icons/fa";
 import axios from "axios";
 
-// Import your form element components
-import Contact from "../components/FormElements/Contact";
-import MultipleChoice from "../components/ResponseQuestions/MultipleChoice";
-import Checkbox from "../components/FormElements/Checkbox";
-import Dropdown from "../components/FormElements/Dropdown";
-import ChoiceMatrix from "../components/FormElements/ChoiceMatrix";
-import Paragraph from "../components/FormElements/Paragraph";
-import Heading from "../components/FormElements/Heading";
-import LongText from "../components/FormElements/LongText";
-import Email from "../components/FormElements/Email";
-import PhoneNumber from "../components/FormElements/PhoneNumber";
-import FileUpload from "../components/FormElements/FileUploader";
-import ShortText from "../components/FormElements/ShortText";
-
 import QuestionRenderer from "../components/QuestionRenderer";
 
 function Preview() {
