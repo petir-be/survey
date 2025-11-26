@@ -17,6 +17,8 @@ import PhoneNumber from "../components/FormElements/PhoneNumber";
 import FileUpload from "../components/FormElements/FileUploader";
 import ShortText from "../components/FormElements/ShortText";
 
+import QuestionRenderer from "../components/QuestionRenderer";
+
 function Preview() {
   const { guid } = useParams(); // This is the publicId (GUID)
   const [id, setId] = useState(0);
@@ -156,6 +158,19 @@ function Preview() {
             {currentPage.questions
               .sort((a, b) => a.order - b.order)
               .map((q) => {
+                return (
+                  <QuestionRenderer
+                    key={q.id}
+                    question={q}
+                    value={answers[q.id]}
+                    onAnswer={(val) => updateAnswer(q.id, val)}
+                  />
+                );
+              })}
+
+            {/* {currentPage.questions
+              .sort((a, b) => a.order - b.order)
+              .map((q) => {
                 switch (q.type) {
                   case "multiple_choice":
                     return (
@@ -178,7 +193,7 @@ function Preview() {
                       </div>
                     );
                 }
-              })}
+              })} */}
           </div>
 
           <div className="flex justify-between items-center mt-16 pt-8 border-t">
