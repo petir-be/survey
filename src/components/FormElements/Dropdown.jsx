@@ -3,7 +3,8 @@ import { IoDuplicate } from "react-icons/io5";
 import { FaCircleXmark } from "react-icons/fa6";
 
 function Dropdown({ question, onUpdate, onDuplicate }) {
-  const [addOption, setAddOption] = useState(["Option 1", "Option 2"]);
+  const defaultOption = ["Option 1", "Option 2"];
+  const [addOption, setAddOption] = useState(question.options || defaultOption);
   const [showAddOption, setShowAddOption] = useState(false);
   const textareaRef = useRef(null);
   const instanceId = React.useId();

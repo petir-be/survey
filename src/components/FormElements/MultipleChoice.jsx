@@ -3,31 +3,39 @@ import { FaCircleXmark } from "react-icons/fa6";
 import { IoDuplicate } from "react-icons/io5";
 
 function MultipleChoice({ question, onUpdate, onDuplicate }) {
-  const initialOptions = [
+  const defaultOptions = [
     { id: crypto.randomUUID(), label: "Option 1" },
     { id: crypto.randomUUID(), label: "Option 2" },
   ];
+
+  const initialOptions =
+    Array.isArray(question.options) && question.options.length > 0
+      ? question.options.map((label) => ({
+          id: crypto.randomUUID(),
+          label,
+        }))
+      : defaultOptions;
+
   const instanceId = React.useId();
 
   const [addOption, setAddOption] = useState(initialOptions);
   const [showAddOption, setShowAddOption] = useState(false);
   const [selected, setSelected] = useState("");
 
-    const textareaRef = useRef(null);
-  
-    const adjustHeight = () => {
-      const textarea = textareaRef.current;
-      if (textarea) {
-        textarea.style.height = "auto";
-        textarea.style.height = textarea.scrollHeight + "px";
-      }
-    };
-  
-    useEffect(() => {
-      adjustHeight();
-    }, [question.question]);
+  const textareaRef = useRef(null);
 
-  // Sync initial options with onUpdate
+  const adjustHeight = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
+    }
+  };
+
+  useEffect(() => {
+    adjustHeight();
+  }, [question.question]);
+
   useEffect(() => {
     onUpdate(question.id, { options: addOption.map((o) => o.label) });
   }, []);

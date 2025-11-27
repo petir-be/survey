@@ -28,6 +28,7 @@ function Form() {
   const { user, isAuthenticated } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const { id } = useParams();
+  const [publicid, setPublicid] = useState("");
   const saveRef = useRef();
   saveRef.current = Save;
 
@@ -156,20 +157,53 @@ function Form() {
       if (questionIndex !== -1) {
         const questionToDuplicate = currentPage.questions[questionIndex];
 
-        const duplicatedQuestion = {
+        // ----------- DEEP COPY NESTED DATA ------------
+        const deepCopyOptions = (options) =>
+          options ? options.map((opt) => ({ ...opt, id: uuidv4() })) : [];
+
+        const deepCopyMatrix = (matrix) => ({
+          rows: matrix?.rows
+            ? matrix.rows.map((row) => ({ ...row, id: uuidv4() }))
+            : [],
+          columns: matrix?.columns
+            ? matrix.columns.map((col) => ({ ...col, id: uuidv4() }))
+            : [],
+        });
+
+        let duplicatedQuestion = {
           ...questionToDuplicate,
           id: uuidv4(),
           order: questionToDuplicate.order + 1,
         };
 
+        // Handle nested structures depending on question type
+        if (
+          ["multiple_choice", "checkbox", "dropdown"].includes(
+            questionToDuplicate.type
+          )
+        ) {
+          duplicatedQuestion.options = deepCopyOptions(
+            questionToDuplicate.options
+          );
+        }
+
+        if (questionToDuplicate.type === "choice_matrix") {
+          duplicatedQuestion.matrix = deepCopyMatrix(
+            questionToDuplicate.matrix
+          );
+        }
+        // ------------------------------------------------
+
         const copy = [...currentPage.questions];
         copy.splice(questionIndex + 1, 0, duplicatedQuestion);
-        copy.forEach((q, idx) => {
-          q.order = idx + 1;
-        });
+
+        // Fix ordering
+        copy.forEach((q, idx) => (q.order = idx + 1));
+
         currentPage.questions = copy;
         updated[currentPageIndex] = currentPage;
       }
+
       return updated;
     });
   };
@@ -296,6 +330,7 @@ function Form() {
         );
 
         setTitleValue(res.data.title);
+        setPublicid(res.data.publicId);
         console.log(res.data.formData);
       } catch (err) {
         console.log(err);
@@ -386,12 +421,11 @@ function Form() {
             </div>
 
             <div className="inline-flex items-center gap-4 flex-shrink-0">
-              <button
-                onClick={handleExportData}
-                className="px-10 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out"
-              >
-                Preview
-              </button>
+              <Link to={`../preview/${publicid}`}>
+                <button className="px-10 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
+                  Preview
+                </button>
+              </Link>
               <button className="px-10 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 transition-color duration-200 ease-out">
                 Share
               </button>
