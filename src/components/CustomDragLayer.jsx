@@ -5,7 +5,6 @@ import MultipleChoice from "./FormElements/MultipleChoice";
 import Checkbox from "./FormElements/Checkbox";
 import { motion } from "motion/react";
 
-
 function getItemComponent(item) {
   if (!item) return null;
   const title = item.title;
@@ -32,7 +31,7 @@ function getItemComponent(item) {
   const mockUpdate = () => {};
   const mockDelete = () => {};
 
-  if (title === "Contact"){
+  if (title === "Contact") {
     return (
       <Contact
         question={mockQuestion}
@@ -41,17 +40,16 @@ function getItemComponent(item) {
       />
     );
   }
-  if(title === "Multiple Choice"){
+  if (title === "Multiple Choice") {
     return (
       <MultipleChoice
-
         question={mockQuestion}
         onUpdate={mockUpdate}
         onDelete={mockDelete}
       />
     );
   }
-  if(title === "Checkbox"){
+  if (title === "Checkbox") {
     return (
       <Checkbox
         question={mockQuestion}
@@ -60,9 +58,7 @@ function getItemComponent(item) {
       />
     );
   }
- 
-    
-  
+
   return null;
 }
 
@@ -92,7 +88,15 @@ export default function CustomDragLayer() {
         transition={{ type: "spring", stiffness: 400, damping: 28 }}
         className="w-120"
       >
-        {getItemComponent(item)}
+        <div
+          className="border-2 border-(--purple) shadow-xl rounded-lg pointer-events-none"
+          style={{
+            background: "#dfe0f0",
+            opacity: 1,
+          }}
+        >
+          {getItemComponent(item)}
+        </div>
       </motion.div>
     </div>
   );
