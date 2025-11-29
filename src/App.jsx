@@ -9,6 +9,7 @@ import Register from "./pages/Register.jsx";
 import Form from "./pages/Form.jsx";
 import TestPage from "./pages/TestPage.jsx";
 import Preview from "./pages/Preview.jsx";
+import Response from "./pages/Response.jsx";
 
 
 
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
   {
     path: "/preview/:guid",
     element: <Preview />,
+  },
+  {
+    path: "/form/:guid",
+    element: <Response />,
   },
 ]);
 
