@@ -91,8 +91,8 @@ function Page({
         </div>
       </div>
 
-      <div className="w-[92%] flex flex-col overflow-hidden min-h-[85%] bg-[#DFE0F0]  items-center border-gradient pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] px-4 ">
-        <div className="relative flex flex-col overflow-y-auto h-full w-full ">
+      <div className="w-[92%] flex flex-col overflow-hidden min-h-[80%] bg-[rgb(223,224,240)]  items-center border-gradient pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] pl-4 ">
+        <div className="relative flex flex-col overflow-y-auto h-full w-full">
           {questions.length === 0 && (
             <div className="w-full absolute translate-x-1/2 text-center translate-y-1/2 bottom-1/2 right-1/2 text-gray-600">
               Drag and Drop From Left Side
@@ -116,15 +116,16 @@ function Page({
         </div>
       </div>
 
-      <div>
-        <button
-          onClick={onAddPage}
-          className="mt-2.5 text-3xl cursor-pointer hover:text-purple-600 transition-colors"
-          title="Add new page"
-        >
-          <FaPlus />
-        </button>
+      <div className="flex flex-row w-[92%] justify-self-center mt-5 h-15 z-10">
+        <div className="relative">
+          <button onClick={onAddPage} className="flex hover:bg-gray-200 transition-all duration-200 ease-out gap-2 items-center  font-bold  font-vagrounded px-2 py-2 rounded-lg border text-gray-500 border-(--black-lighter) bg-(--white)">
+            <FaPlus fill="gray" /> Add Page
+          </button>
+          
+          
+        </div>
       </div>
+
       <Modal
         isOpen={showDeleteModal}
         close={() => setShowDeleteModal(false)}
@@ -258,7 +259,7 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
         onDuplicate={onDuplicate}
       />
     );
-    if (question.type === "heading")
+  if (question.type === "heading")
     return (
       <Heading
         question={question}
@@ -277,7 +278,7 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
         onDuplicate={onDuplicate}
       />
     );
-    if (question.type === "long_text")
+  if (question.type === "long_text")
     return (
       <LongText
         question={question}
@@ -286,7 +287,7 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
         onDuplicate={onDuplicate}
       />
     );
-    if (question.type === "short_text")
+  if (question.type === "short_text")
     return (
       <ShortText
         question={question}
@@ -295,7 +296,7 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
         onDuplicate={onDuplicate}
       />
     );
-    if (question.type === "email")
+  if (question.type === "email")
     return (
       <Email
         question={question}
@@ -304,7 +305,7 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
         onDuplicate={onDuplicate}
       />
     );
-    if (question.type === "phone_number")
+  if (question.type === "phone_number")
     return (
       <PhoneNumber
         question={question}
@@ -313,7 +314,7 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
         onDuplicate={onDuplicate}
       />
     );
-    if (question.type === "file_uploader")
+  if (question.type === "file_uploader")
     return (
       <FileUpload
         question={question}
