@@ -279,4 +279,41 @@ canvas {
 } */
 
 
+/* --- FIX FOR RC-STEPS NOT SHOWING VISUALLY --- */
+
+/* .rc-steps {
+  width: 100%;
+}
+
+.rc-steps-item-tail::after {
+  background-color: #a855f7 !important;
+}
+
+.rc-steps-item-icon {
+  border-color: #a855f7 !important;
+  color: #a855f7 !important;
+}
+
+.rc-steps-item-active .rc-steps-item-icon {
+  background: #a855f7 !important;
+  border-color: #a855f7 !important;
+  color: white !important;
+}
+
+.rc-steps-item-finish .rc-steps-item-icon {
+  background: #a855f7 !important;
+  border-color: #a855f7 !important;
+  color: white !important;
+}
+
+.rc-steps-item-title {
+  font-weight: 600;
+  color: #4b5563 !important; 
+}
+
+.rc-steps-item {
+  padding: 0 12px !important;
+} */
+
+
 
