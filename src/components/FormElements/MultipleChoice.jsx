@@ -3,36 +3,59 @@ import { FaCircleXmark } from "react-icons/fa6";
 import { IoDuplicate } from "react-icons/io5";
 
 function MultipleChoice({ question, onUpdate, onDuplicate }) {
-  const initialOptions = [
+  const defaultOptions = [
     { id: crypto.randomUUID(), label: "Option 1" },
     { id: crypto.randomUUID(), label: "Option 2" },
   ];
-  const instanceId = React.useId();
 
-  const [addOption, setAddOption] = useState(initialOptions);
+  const normalizeOptions = (options) => {
+    if (!Array.isArray(options) || options.length === 0) return defaultOptions;
+
+    return options.map((opt, i) => {
+      if (typeof opt === "string") {
+        return { id: crypto.randomUUID(), label: opt };
+      }
+
+      if (typeof opt === "object" && opt !== null) {
+        return {
+          id: opt.id || crypto.randomUUID(),
+          label: opt.label ?? `Option ${i + 1}`,
+        };
+      }
+
+      return { id: crypto.randomUUID(), label: `Option ${i + 1}` };
+    });
+  };
+
+  const [addOption, setAddOption] = useState(
+    normalizeOptions(question.options)
+  );
+  // -----------------------------------------------------
+
   const [showAddOption, setShowAddOption] = useState(false);
   const [selected, setSelected] = useState("");
+  const instanceId = React.useId();
+  const textareaRef = useRef(null);
 
-    const textareaRef = useRef(null);
-  
-    const adjustHeight = () => {
-      const textarea = textareaRef.current;
-      if (textarea) {
-        textarea.style.height = "auto";
-        textarea.style.height = textarea.scrollHeight + "px";
-      }
-    };
-  
-    useEffect(() => {
-      adjustHeight();
-    }, [question.question]);
+  const adjustHeight = () => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
+    }
+  };
 
-  // Sync initial options with onUpdate
+  // Sync question text height
+  useEffect(() => {
+    adjustHeight();
+  }, [question.question]);
+
+  // Send normalized labels to parent
   useEffect(() => {
     onUpdate(question.id, { options: addOption.map((o) => o.label) });
   }, []);
 
-  // Auto resize inputs
+  // Auto width resize
   useEffect(() => {
     addOption.forEach((option, index) => {
       const span = document.getElementById(
@@ -41,41 +64,33 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
       const input = span?.previousElementSibling;
 
       if (span && input) {
-        const measured = span.offsetWidth + 10;
-        const min = 72;
-        const finalWidth = Math.max(measured, min);
-
-        input.style.width = finalWidth + "px";
-        input.parentElement.parentElement.style.width = finalWidth + 60 + "px";
+        const w = Math.max(span.offsetWidth + 10, 72);
+        input.style.width = w + "px";
+        input.parentElement.parentElement.style.width = w + 60 + "px";
       }
     });
   }, [addOption]);
 
   const addOptionField = () => {
-    const newOpt = {
+    const newOption = {
       id: crypto.randomUUID(),
       label: `Option ${addOption.length + 1}`,
     };
 
-    const updated = [...addOption, newOpt];
+    const updated = [...addOption, newOption];
     setAddOption(updated);
     onUpdate(question.id, { options: updated.map((o) => o.label) });
   };
 
   const removeOptionField = (index) => {
     const removed = addOption[index];
-
     const filtered = addOption.filter((_, i) => i !== index);
-    const reindexed = filtered.map((item, i) => {
-      if (/^Option \d+$/.test(item.label)) {
-        return { ...item, label: `Option ${i + 1}` };
-      }
-      return item;
-    });
 
-    if (selected === removed.label) {
-      setSelected("");
-    }
+    const reindexed = filtered.map((o, i) =>
+      /^Option \d+$/.test(o.label) ? { ...o, label: `Option ${i + 1}` } : o
+    );
+
+    if (selected === removed.label) setSelected("");
 
     setAddOption(reindexed);
     onUpdate(question.id, { options: reindexed.map((o) => o.label) });
@@ -102,7 +117,7 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
               adjustHeight();
             }}
             className="w-full font-medium placeholder:italic placeholder:text-gray-400 text-lg border-b border-transparent hover:border-gray-300 focus:border-(--purple) focus:outline-none px-2 py-1 resize-none overflow-hidden"
-            placeholder="Type your paragraph here"
+            placeholder="Type your question here"
             rows={1}
           />
 
@@ -128,14 +143,13 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
                 name={`question-${question.id}`}
                 checked={selected === option.label}
                 onChange={() => setSelected(option.label)}
-                className="w-5 h-5 accent-blue-500"
+                className="w-5 h-5 min-w-5 min-h-5 text-(--purple)"
               />
 
-              <div className="relative h-full max-w-full">
+              <div className="relative h-full max-w-full overflow-hidden">
                 <input
                   type="text"
                   value={option.label}
-                  placeholder={`Option ${index + 1}`}
                   onChange={(e) => {
                     const updated = [...addOption];
                     updated[index] = {
