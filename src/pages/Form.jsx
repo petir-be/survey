@@ -10,6 +10,9 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from "uuid";
 import { AuthContext } from "../Context/authContext";
 import axios from "axios";
+import { IoSettingsSharp } from "react-icons/io5";
+import * as motion from "motion/react-client";
+import { MdPreview } from "react-icons/md";
 
 import {
   IoMenu,
@@ -28,8 +31,35 @@ function Form() {
   const { user, isAuthenticated } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const { id } = useParams();
+  const [publicid, setPublicid] = useState("");
   const saveRef = useRef();
   saveRef.current = Save;
+
+  const [showSettings, setShowSettings] = useState(false);
+  const [reviewEnabled, setReviewEnabled] = useState(false);
+  const [multiEnabled, setMultiEnabled] = useState(false);
+
+  const toggleReview = () => setReviewEnabled((prev) => !prev);
+  const toggleMulti = () => setMultiEnabled((prev) => !prev);
+
+  const dropdownRef = useRef(null);
+
+  // for settings modal lang click outside == disappear
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setShowSettings(false);
+      }
+    }
+
+    if (showSettings) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showSettings]);
 
   let navigate = useNavigate();
   useEffect(() => {
@@ -153,23 +183,58 @@ function Form() {
         (q) => q.id === questionId
       );
 
-      if (questionIndex !== -1) {
-        const questionToDuplicate = currentPage.questions[questionIndex];
+      if (questionIndex === -1) return prev;
 
-        const duplicatedQuestion = {
-          ...questionToDuplicate,
+      const original = currentPage.questions[questionIndex];
+
+      // MULTIPLE CHOICE → option = { id, label }
+      const deepCopyMCOptions = (options = []) =>
+        options.map((opt) => ({
           id: uuidv4(),
-          order: questionToDuplicate.order + 1,
-        };
+          label: opt.label,
+        }));
 
-        const copy = [...currentPage.questions];
-        copy.splice(questionIndex + 1, 0, duplicatedQuestion);
-        copy.forEach((q, idx) => {
-          q.order = idx + 1;
-        });
-        currentPage.questions = copy;
-        updated[currentPageIndex] = currentPage;
+      const deepCopyStringOptions = (options = []) =>
+        options.map((opt) => (typeof opt === "string" ? opt : opt.label));
+
+      const deepCopyMatrix = (matrix = {}) => ({
+        rows: (matrix.rows || []).map((r) => ({ ...r, id: uuidv4() })),
+        columns: (matrix.columns || []).map((c) => ({ ...c, id: uuidv4() })),
+      });
+
+      const duplicated = {
+        id: uuidv4(),
+        type: original.type,
+        question: original.question || "",
+        required: !!original.required,
+        description: original.description || "",
+        order: original.order + 1,
+      };
+
+      if (original.type === "multiple_choice") {
+        duplicated.options = deepCopyMCOptions(original.options);
       }
+
+      if (["dropdown", "checkbox"].includes(original.type)) {
+        duplicated.options = deepCopyStringOptions(original.options);
+      }
+
+      if (original.type === "choice_matrix") {
+        duplicated.matrix = deepCopyMatrix(original.matrix);
+      }
+
+      if (original.placeholder) duplicated.placeholder = original.placeholder;
+      if (original.defaultValue)
+        duplicated.defaultValue = original.defaultValue;
+
+      const newQuestions = [...currentPage.questions];
+      newQuestions.splice(questionIndex + 1, 0, duplicated);
+
+      newQuestions.forEach((q, idx) => (q.order = idx + 1));
+
+      currentPage.questions = newQuestions;
+      updated[currentPageIndex] = currentPage;
+
       return updated;
     });
   };
@@ -206,14 +271,14 @@ function Form() {
     }
   };
 
-  const handleExportData = () => {
-    const allData = pages.map((page, idx) => ({
-      page: idx + 1,
-      questions: page.questions,
-    }));
-    console.log(JSON.stringify(allData, null, 2));
-    alert("Data exported to console!");
-  };
+  // const handleExportData = () => {
+  //   const allData = pages.map((page, idx) => ({
+  //     page: idx + 1,
+  //     questions: page.questions,
+  //   }));
+  //   console.log(JSON.stringify(allData, null, 2));
+  //   alert("Data exported to console!");
+  // };
 
   const types = [
     // frequently used
@@ -284,28 +349,6 @@ function Form() {
   }, [titleValue]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (saveRef.current) {
-        saveRef.current();
-      }
-    }, 2000);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  async function Save() {
-    try {
-      await axios.put(`${import.meta.env.VITE_BACKEND}/api/Form/save/${id}`, {
-        userId: user.id,
-        title: titleValue,
-        formData: pages,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
     async function fetchFormData() {
       try {
         const res = await axios.get(
@@ -318,6 +361,7 @@ function Form() {
         );
 
         setTitleValue(res.data.title);
+        setPublicid(res.data.publicId);
         console.log(res.data.formData);
       } catch (err) {
         console.log(err);
@@ -340,6 +384,28 @@ function Form() {
     }
   }, [id]);
 
+  async function Save() {
+    try {
+      await axios.put(`${import.meta.env.VITE_BACKEND}/api/Form/save/${id}`, {
+        userId: user.id,
+        title: titleValue,
+        formData: pages,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (saveRef.current) {
+        saveRef.current();
+      }
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   if (error) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -357,9 +423,7 @@ function Form() {
           <header className="flex items-center justify-between bg-(--white) pt-8 pb-8 px-10 pr-12 relative z-50 border-b-2 border-(--dirty-white)">
             <div className="inline-flex items-center gap-7 bg-(--white) flex-1 min-w-0">
               <Link to={"/"}>
-                <p className="cursor-pointer text-3xl flex-shrink-0">
-                  <FaHome />
-                </p>
+                <FaHome className="text-3xl cursor-pointer" />
               </Link>
               <div
                 ref={containerRef}
@@ -388,35 +452,135 @@ function Form() {
             </div>
 
             <div className="inline-flex items-center gap-4 flex-shrink-0">
-              <button
-                onClick={handleExportData}
-                className="px-10 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out"
-              >
-                Preview
-              </button>
+              <Link to={`../preview/${publicid}`}>
+                <button className="px-10 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
+                  Preview
+                </button>
+              </Link>
               <button className="px-10 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 transition-color duration-200 ease-out">
                 Share
               </button>
 
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setShowSettings((show) => !show)}
+                  className="bg-transparent ease-out flex items-center justify-center rounded-full"
+                >
+                  <IoSettingsSharp className="text-3xl hover:scale-[1.05] transition-all duration-200 ease-out" />
+                </button>
+                {showSettings && (
+                  <>
+                    <span className="bg-(--white) border border-(--purple) rotate-45 w-5 h-5 absolute top-10 rounded translate-x-1/2 right-1/2"></span>
+                    <div className="absolute min-w-50 w-83 top-11 py-3 -right-2 bg-(--white) border border-(--purple) rounded shadow-lg z-50">
+                      <div className="flex flex-col w-full gap-2">
+                        {/* Review Page */}
+                        <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
+                          <span className="text-md flex gap-2 items-center font-vagrounded">
+                            <MdPreview className="text-5xl" />
+                            <span className="flex flex-col">
+                              Review Page
+                              <span className="text-xs">
+                                Let users review their submission
+                              </span>
+                            </span>
+                          </span>
+
+                          <button
+                            onClick={toggleReview}
+                            style={{
+                              width: 45,
+                              height: 21,
+                              backgroundColor: reviewEnabled
+                                ? "#9911ff"
+                                : "#ccc",
+                              borderRadius: 30,
+                              cursor: "pointer",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: reviewEnabled
+                                ? "flex-end"
+                                : "flex-start",
+                              padding: 3,
+                              transition: "background-color 0.2s ease",
+                            }}
+                          >
+                            <motion.div
+                              layout
+                              style={{
+                                width: 15,
+                                height: 15,
+                                backgroundColor: "white",
+                                borderRadius: "50%",
+                                boxShadow: "0 0 3px rgba(0,0,0,0.2)",
+                              }}
+                              transition={{
+                                type: "spring",
+                                duration: 0.25,
+                                bounce: 0.2,
+                              }}
+                            />
+                          </button>
+                        </div>
+
+                        {/* Multiple Submission */}
+                        <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
+                          <span className="text-md flex gap-2 items-center font-vagrounded">
+                            <MdPreview className="text-5xl" />
+                            <span className="flex flex-col">
+                              Multiple Submission
+                              <span className="text-xs">
+                                Allows user to answer multiple times
+                              </span>
+                            </span>
+                          </span>
+
+                          <button
+                            onClick={toggleMulti}
+                            style={{
+                              width: 45,
+                              height: 21,
+                              backgroundColor: multiEnabled
+                                ? "#9911ff"
+                                : "#ccc",
+                              borderRadius: 30,
+                              cursor: "pointer",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: multiEnabled
+                                ? "flex-end"
+                                : "flex-start",
+                              padding: 3,
+                              transition: "background-color 0.2s ease",
+                            }}
+                          >
+                            <motion.div
+                              layout
+                              style={{
+                                width: 15,
+                                height: 15,
+                                backgroundColor: "white",
+                                borderRadius: "50%",
+                                boxShadow: "0 0 3px rgba(0,0,0,0.2)",
+                              }}
+                              transition={{
+                                type: "spring",
+                                duration: 0.25,
+                                bounce: 0.2,
+                              }}
+                            />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+
               <button>
-                <FaUserCircle className="text-3xl" />
+                <FaUserCircle className="text-3xl hover:scale-[1.05] transition-all duration-200 ease-out" />
               </button>
             </div>
           </header>
-
-          {/* <button
-                onClick={handleExportData}
-                className="px-10 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out"
-              >
-                Preview
-              </button>
-              <button className="px-10 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 transition-color duration-200 ease-out">
-                Share
-              </button>
-
-              <button>
-                <FaUserCircle className="text-3xl" />
-              </button> */}
 
           <div className="flex-1 w-full flex overflow-hidden min-h-0">
             {/* leftside */}
@@ -511,17 +675,18 @@ function Form() {
             </div>
 
             {/* right side */}
-            <div className="h-full w-[20%] z-10 bg-(--white) p-7.5 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto">
+            <div className="flex flex-col relative h-full w-[20%] z-10 bg-(--white) p-7.5 pr-0 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto">
               <div className="w-full">
                 <h1 className="text-3xl text-left">Layers</h1>
               </div>
-              <div className="w-full mt-4">
+              <div className="w-full mt-4 max-h-10/12 overflow-auto">
                 <Layers
                   questions={pages[currentPageIndex]?.questions || []}
                   onReorder={handleReorderQuestions}
                   onDelete={handleDeleteQuestion}
                 />
               </div>
+              <div className="flex w-14/15 mt-3 border border-t-(--dirty-white) border-transparent "></div>
             </div>
           </div>
         </div>

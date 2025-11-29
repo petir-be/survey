@@ -10,7 +10,7 @@ export default function Layers({ questions = [], onReorder, onDelete }) {
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="w-14/15 h-full">
       <div className="mb-4">
         <p className="text-sm text-gray-500">
           Drag to reorder items. Use the trash to remove.
