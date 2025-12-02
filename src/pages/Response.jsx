@@ -4,7 +4,7 @@ import { FaHome } from "react-icons/fa";
 import { IoMdArrowRoundForward } from "react-icons/io";
 import axios from "axios";
 import DotShader2 from "../components/DotShader2";
-
+import ReviewPage from "../components/ReviewPage";
 import QuestionRenderer from "../components/QuestionRenderer";
 
 import Steps from "rc-steps";
@@ -91,12 +91,15 @@ function Response() {
     }
   };
 
+  const isReviewPage = currentPageIndex === pages.length;
+
   const goNext = () => {
-    if (currentPageIndex < pages.length - 1) {
+    // If we are not at the Review page yet, go forward
+    if (currentPageIndex < pages.length) {
       setCurrentPageIndex(currentPageIndex + 1);
     } else {
+      // We are AT the review page, so Submit
       console.log("Submitted answers:", answers);
-      alert("Thank you! Your response has been recorded.");
       submitAnswers();
     }
   };
@@ -104,12 +107,6 @@ function Response() {
   const goPrev = () => {
     if (currentPageIndex > 0) setCurrentPageIndex(currentPageIndex - 1);
   };
-
-  // const updateAnswer = (questionId, value) => {
-  //   setAnswers((prev) => ({ ...prev, [questionId]: value }));
-  //   // setAnswers((prev) => ({ ...prev, ["questionid":[questionId], "answer":value ]));
-
-  // };
 
   const updateAnswer = (questionId, value) => {
     setAnswers((prev) => {
@@ -193,44 +190,52 @@ function Response() {
 
       <div className="flex-1 overflow-y-auto px-10 pb-10 flex flex-col">
         <div className="relative max-w-4xl w-full mx-auto px-10 py-7 border-gradient bg-(--white) pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-col  justify-between">
-          <div className="flex-1">
-            {currentPage.questions.length === 0 ? (
-              <div className="flex justify-center items-center text-xl text-gray-400 w-full h-full text-center">
-                Current page has no questions available.
-              </div>
+          <div className="flex-1 overflow-y-auto no-scrollbar">
+            {isReviewPage ? (
+              // RENDER REVIEW PAGE
+              <ReviewPage pages={pages} answers={answers} />
             ) : (
-              <div className="space-y-10">
-                {currentPage.questions
-                  .sort((a, b) => a.order - b.order)
-                  .map((q) => {
-                    const currentAnswerObj = answers.find(
-                      (a) => a.questionID === q.id
-                    );
-                    const currentValue = currentAnswerObj
-                      ? currentAnswerObj.answer
-                      : "";
-                    return (
-                      <QuestionRenderer
-                        key={q.id}
-                        question={q}
-                        value={currentValue}
-                        onAnswer={(val) => updateAnswer(q.id, val)}
-                      />
-                    );
-                  })}
-              </div>
+              // RENDER QUESTIONS
+              <>
+                {currentPage?.questions.length === 0 ? (
+                  <div className="flex justify-center items-center text-xl text-gray-400 w-full h-full text-center">
+                    Current page has no questions available.
+                  </div>
+                ) : (
+                  <div className="space-y-10">
+                    {currentPage.questions
+                      .sort((a, b) => a.order - b.order)
+                      .map((q) => {
+                        const currentAnswerObj = answers.find(
+                          (a) => a.questionID === q.id
+                        );
+                        const currentValue = currentAnswerObj
+                          ? currentAnswerObj.answer
+                          : "";
+                        return (
+                          <QuestionRenderer
+                            key={q.id}
+                            question={q}
+                            value={currentValue}
+                            onAnswer={(val) => updateAnswer(q.id, val)}
+                          />
+                        );
+                      })}
+                  </div>
+                )}
+              </>
             )}
           </div>
 
           {/* buttons */}
-          <div className="flex justify-between mt-5 pt-8">
+          <div className="flex justify-between mt-5 pt-8 border-t border-gray-100">
             <button
               onClick={goPrev}
               disabled={currentPageIndex === 0}
               className={`px-4 py-2 rounded-lg font-medium ${
                 currentPageIndex === 0
-                  ? "opacity-0 "
-                  : "opacity-100 bg-(--white) ring-white ring  hover:bg-gray-300 inset-shadow-md/10 font-vagrounded drop-shadow-sm/25  transition-color duration-200 ease-out"
+                  ? "opacity-0 cursor-default"
+                  : "opacity-100 bg-(--white) ring-white ring hover:bg-gray-300 inset-shadow-md/10 font-vagrounded drop-shadow-sm/25 transition-color duration-200 ease-out"
               }`}
             >
               Previous
@@ -238,9 +243,18 @@ function Response() {
 
             <button
               onClick={goNext}
-              className="flex items-center gap-1 pl-7 pr-6 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 transition-color duration-200 ease-out"
+              className={`flex items-center gap-1 pl-7 pr-6 py-1.5 rounded-xl font-vagrounded drop-shadow-sm/30 transition-color duration-200 ease-out
+                ${
+                  isReviewPage
+                    ? "bg-(--white) ring ring-green-500  hover:bg-green-200"
+                    : "bg-(--white) ring ring-(--purple) inset-shadow-md/10 hover:bg-violet-200"
+                }`}
             >
-              {currentPageIndex === pages.length - 1 ? "Submit" : "Next"}{" "}
+              {isReviewPage
+                ? "Submit Response"
+                : currentPageIndex === pages.length - 1
+                ? "Review Answers"
+                : "Next"}
               <IoMdArrowRoundForward />
             </button>
           </div>
