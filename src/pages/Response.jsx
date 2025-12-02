@@ -18,7 +18,7 @@ function Response() {
   const [pages, setPages] = useState([]);
   const [title, setTitle] = useState("Untitled Form");
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const [answers, setAnswers] = useState({});
+  const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -70,7 +70,7 @@ function Response() {
       setError(null);
 
       const dto = {
-        answers: answers, 
+        responseData: answers,
       };
 
       const response = await axios.post(
@@ -105,8 +105,27 @@ function Response() {
     if (currentPageIndex > 0) setCurrentPageIndex(currentPageIndex - 1);
   };
 
+  // const updateAnswer = (questionId, value) => {
+  //   setAnswers((prev) => ({ ...prev, [questionId]: value }));
+  //   // setAnswers((prev) => ({ ...prev, ["questionid":[questionId], "answer":value ]));
+
+  // };
+
   const updateAnswer = (questionId, value) => {
-    setAnswers((prev) => ({ ...prev, [questionId]: value }));
+    setAnswers((prev) => {
+      const existingIndex = prev.findIndex(
+        (item) => item.questionID === questionId
+      );
+
+      if (existingIndex > -1) {
+        // Update existing
+        const updated = [...prev];
+        updated[existingIndex] = { questionID: questionId, answer: value };
+        return updated;
+      }
+      // Add new
+      return [...prev, { questionID: questionId, answer: value }];
+    });
   };
 
   if (loading) {
@@ -184,11 +203,17 @@ function Response() {
                 {currentPage.questions
                   .sort((a, b) => a.order - b.order)
                   .map((q) => {
+                    const currentAnswerObj = answers.find(
+                      (a) => a.questionID === q.id
+                    );
+                    const currentValue = currentAnswerObj
+                      ? currentAnswerObj.answer
+                      : "";
                     return (
                       <QuestionRenderer
                         key={q.id}
                         question={q}
-                        value={answers[q.id]}
+                        value={currentValue}
                         onAnswer={(val) => updateAnswer(q.id, val)}
                       />
                     );
@@ -204,8 +229,8 @@ function Response() {
               disabled={currentPageIndex === 0}
               className={`px-4 py-2 rounded-lg font-medium ${
                 currentPageIndex === 0
-                  ? "opacity-0"
-                  : "opacity-100 bg-red-100 hover:bg-red-200"
+                  ? "opacity-0 "
+                  : "opacity-100 bg-(--white) ring-white ring  hover:bg-gray-300 inset-shadow-md/10 font-vagrounded drop-shadow-sm/25  transition-color duration-200 ease-out"
               }`}
             >
               Previous
