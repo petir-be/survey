@@ -12,6 +12,8 @@ import { AuthContext } from "../Context/authContext";
 import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
 import * as motion from "motion/react-client";
+import { BiSelectMultiple  } from "react-icons/bi";
+
 import { MdPreview } from "react-icons/md";
 
 import {
@@ -37,11 +39,12 @@ function Form() {
 
   const [showSettings, setShowSettings] = useState(false);
   const [reviewEnabled, setReviewEnabled] = useState(false);
-  const [multiEnabled, setMultiEnabled] = useState(false);
+  const [allowMultipleSubmissionsValue, setAllowMultipleSubmissionValue] =
+    useState(false);
 
   const toggleReview = () => setReviewEnabled((prev) => !prev);
-  const toggleMulti = () => setMultiEnabled((prev) => !prev);
-
+ const toggleMulti = () =>
+  setAllowMultipleSubmissionValue(prev => !prev);
   const dropdownRef = useRef(null);
 
   // for settings modal lang click outside == disappear
@@ -362,6 +365,9 @@ function Form() {
 
         setTitleValue(res.data.title);
         setPublicid(res.data.publicId);
+        // console.log(res.data);
+        setAllowMultipleSubmissionValue(res.data.allowMultipleSubmissions);
+
         console.log(res.data.formData);
       } catch (err) {
         console.log(err);
@@ -390,6 +396,7 @@ function Form() {
         userId: user.id,
         title: titleValue,
         formData: pages,
+        allowMultipleSubmissions: allowMultipleSubmissionsValue,
       });
     } catch (error) {
       console.log(error);
@@ -420,7 +427,7 @@ function Form() {
     <>
       <DndProvider backend={HTML5Backend}>
         <div className="h-dvh w-full bg-(--white) flex flex-col overflow-x-hidden">
-          <header className="flex items-center justify-between bg-(--white) pt-8 pb-8 px-10 pr-12 relative z-50 border-b-2 border-(--dirty-white)">
+          <header className="flex items-center justify-between bg-(--white) pt-8 pb-8 px-10 pr-12 relative z-50 border border-transparent border-b-(--dirty-white)">
             <div className="inline-flex items-center gap-7 bg-(--white) flex-1 min-w-0">
               <Link to={"/"}>
                 <FaHome className="text-3xl cursor-pointer" />
@@ -476,7 +483,7 @@ function Form() {
                         {/* Review Page */}
                         <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
                           <span className="text-md flex gap-2 items-center font-vagrounded">
-                            <MdPreview className="text-5xl" />
+                            <MdPreview className="text-3xl" />
                             <span className="flex flex-col">
                               Review Page
                               <span className="text-xs">
@@ -525,7 +532,7 @@ function Form() {
                         {/* Multiple Submission */}
                         <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
                           <span className="text-md flex gap-2 items-center font-vagrounded">
-                            <MdPreview className="text-5xl" />
+                            <BiSelectMultiple className="text-3xl" />
                             <span className="flex flex-col">
                               Multiple Submission
                               <span className="text-xs">
@@ -539,14 +546,14 @@ function Form() {
                             style={{
                               width: 45,
                               height: 21,
-                              backgroundColor: multiEnabled
+                              backgroundColor: allowMultipleSubmissionsValue
                                 ? "#9911ff"
                                 : "#ccc",
                               borderRadius: 30,
                               cursor: "pointer",
                               display: "flex",
                               alignItems: "center",
-                              justifyContent: multiEnabled
+                              justifyContent: allowMultipleSubmissionsValue
                                 ? "flex-end"
                                 : "flex-start",
                               padding: 3,
