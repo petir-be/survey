@@ -91,7 +91,15 @@ export default function CustomDragLayer() {
         transition={{ type: "spring", stiffness: 400, damping: 28 }}
         className="w-120"
       >
-        {getItemComponent(item)}
+        <div
+          className="border-2 border-(--purple) shadow-xl rounded-lg pointer-events-none"
+          style={{
+            background: "#dfe0f0",
+            opacity: 1,
+          }}
+        >
+          {getItemComponent(item)}
+        </div>
       </motion.div>
     </div>
   );
