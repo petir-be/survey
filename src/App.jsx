@@ -9,6 +9,10 @@ import Register from "./pages/Register.jsx";
 import Form from "./pages/Form.jsx";
 import TestPage from "./pages/TestPage.jsx";
 import Preview from "./pages/Preview.jsx";
+import Response from "./pages/Response.jsx";
+import ReviewPage from "./components/ReviewPage.jsx";
+
+
 
 function Layout() {
   return (
@@ -50,8 +54,16 @@ const router = createBrowserRouter([
     element: <TestPage />,
   },
   {
-    path: "preview",
+    path: "/preview/:guid",
     element: <Preview />,
+  },
+  {
+    path: "/form/:guid",
+    element: <Response />,
+  },
+    {
+    path: "/testreview",
+    element: <ReviewPage />,
   },
 ]);
 

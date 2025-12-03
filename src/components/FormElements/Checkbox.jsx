@@ -4,7 +4,7 @@ import { IoDuplicate } from "react-icons/io5";
 
 function Checkbox({ question, onUpdate, onDuplicate }) {
   const options = ["Option 1", "Option 2"];
-  const [addOption, setAddOption] = useState(options);
+  const [addOption, setAddOption] = useState(question.options || options);
   const [showAddOption, setShowAddOption] = useState(false);
 
   const instanceId = React.useId();
@@ -18,6 +18,7 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
       textarea.style.height = textarea.scrollHeight + "px";
     }
   };
+ 
 
   useEffect(() => {
     adjustHeight();

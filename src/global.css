@@ -62,6 +62,9 @@ font-style: normal;
 @import "tailwindcss";
 
 @theme {
+  --purple-shadow:#845fff;
+  --purple-shadow-light:;
+
   --purple: #845fff;
   --purple-lighter: #cdbeff;
   --pink: #da1262;
@@ -131,6 +134,31 @@ button {
 }
 .sticky-row{
   position:sticky;
+}
+
+
+/* SCROLLBAR CUSTOMIZATION */
+*{
+::-webkit-scrollbar {
+  width: 5px;        /* vertical scrollbar width */
+  height: 8px;       /* horizontal scrollbar height */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #dfe0f0;      /* track background */
+}
+
+/* Thumb (the moving part) */
+::-webkit-scrollbar-thumb {
+  background: #c8c9da;       /* your brand color */
+  border-radius: 10px;       /* rounded edges */
+}
+
+/* Thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #4c4c52;
+}
 }
 
 @layer theme {
@@ -274,4 +302,43 @@ canvas {
   position: relative;
   z-index: 10;
 } */
+
+
+/* --- FIX FOR RC-STEPS NOT SHOWING VISUALLY --- */
+
+/* .rc-steps {
+  width: 100%;
+}
+
+.rc-steps-item-tail::after {
+  background-color: #a855f7 !important;
+}
+
+.rc-steps-item-icon {
+  border-color: #a855f7 !important;
+  color: #a855f7 !important;
+}
+
+.rc-steps-item-active .rc-steps-item-icon {
+  background: #a855f7 !important;
+  border-color: #a855f7 !important;
+  color: white !important;
+}
+
+.rc-steps-item-finish .rc-steps-item-icon {
+  background: #a855f7 !important;
+  border-color: #a855f7 !important;
+  color: white !important;
+}
+
+.rc-steps-item-title {
+  font-weight: 600;
+  color: #4b5563 !important; 
+}
+
+.rc-steps-item {
+  padding: 0 12px !important;
+} */
+
+
 

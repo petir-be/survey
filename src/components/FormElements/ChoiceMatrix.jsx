@@ -3,21 +3,22 @@ import { FaCircleXmark } from "react-icons/fa6";
 import { IoDuplicate } from "react-icons/io5";
 
 function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
-  const [addColumnField, setAddColumnField] = useState([
-    "Column 1",
-    "Column 2",
-  ]);
-  const [addRowField, setAddRowField] = useState(["Row 1", "Row 2"]);
-  const [showAddButtons, setShowAddButtons] = useState(false);
+  const defaultRow = ["Row 1", "Row 2"];
+  const defaultColumn = ["Column 1", "Column 2"];
 
+  const [addColumnField, setAddColumnField] = useState(
+    question.columns || defaultColumn
+  );
+  const [addRowField, setAddRowField] = useState(question.rows || defaultRow);
+  const [showAddButtons, setShowAddButtons] = useState(false);
 
   //initialization lang para sa JSON
   useEffect(() => {
-      onUpdate(question.id, {
-        columns: addColumnField,
-        rows: addRowField,
-      })
-  }, [])
+    onUpdate(question.id, {
+      columns: addColumnField,
+      rows: addRowField,
+    });
+  }, []);
 
   const addColumn = () => {
     const newColumn = `Column ${addColumnField.length + 1}`;
@@ -62,7 +63,7 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
         }
       }}
     >
-      <div className="flex justify-between items-start mb-2">
+      <div className="flex justify-between items-start">
         <div className="flex-1 inline-flex">
           <input
             type="text"
@@ -121,7 +122,10 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
 
             <tbody className=" ">
               {addRowField.map((row, rowIndex) => (
-                <tr key={rowIndex} className="group/item border-b-4 border-(--white)">
+                <tr
+                  key={rowIndex}
+                  className="group/item border-b-4 border-(--white)"
+                >
                   <td className=" bg-(--dirty-white) px-3 py-2 min-w-32 relative rounded-l-xl italic ">
                     <input
                       className="w-full bg-transparent focus:outline-none "
@@ -144,7 +148,10 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
                   </td>
 
                   {addColumnField.map((_, colIndex) => (
-                    <td key={colIndex} className="bg-(--dirty-white) px-3 py-2 text-center">
+                    <td
+                      key={colIndex}
+                      className="bg-(--dirty-white) px-3 py-2 text-center"
+                    >
                       <input
                         type="radio"
                         name={`row-${rowIndex}`}
