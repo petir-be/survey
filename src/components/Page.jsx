@@ -118,11 +118,12 @@ function Page({
 
       <div className="flex flex-row w-[92%] justify-self-center mt-5 h-15 z-10">
         <div className="relative">
-          <button onClick={onAddPage} className="flex hover:bg-gray-200 transition-all duration-200 ease-out gap-2 items-center  font-bold  font-vagrounded px-2 py-2 rounded-lg border text-gray-500 border-(--black-lighter) bg-(--white)">
-            <FaPlus fill="gray" /> Add Page
+          <button
+            onClick={onAddPage}
+            className="flex justify-center items-center gap-2 px-5 py-2 mb-1 rounded-lg bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out"
+          >
+            <FaPlus fill="#212529" /> Add Page
           </button>
-          
-          
         </div>
       </div>
 

@@ -12,7 +12,7 @@ import { AuthContext } from "../Context/authContext";
 import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
 import * as motion from "motion/react-client";
-import { BiSelectMultiple  } from "react-icons/bi";
+import { BiSelectMultiple } from "react-icons/bi";
 
 import { MdPreview } from "react-icons/md";
 
@@ -28,6 +28,7 @@ import { HiMiniH1, HiMiniArrowsUpDown } from "react-icons/hi2";
 import { HiMenuAlt4, HiUpload } from "react-icons/hi";
 import { BsGrid3X3GapFill } from "react-icons/bs";
 import { RiPhoneFill } from "react-icons/ri";
+import Modal from "../components/Modal";
 
 function Form() {
   const { user, isAuthenticated } = useContext(AuthContext);
@@ -36,15 +37,17 @@ function Form() {
   const [publicid, setPublicid] = useState("");
   const saveRef = useRef();
   saveRef.current = Save;
+  const [shareLoading, setShareLoading] = useState(false);
 
   const [showSettings, setShowSettings] = useState(false);
-  const [reviewEnabled, setReviewEnabled] = useState(false);
   const [allowMultipleSubmissionsValue, setAllowMultipleSubmissionValue] =
     useState(false);
+  const [isPublished, setIsPublished] = useState(false);
+  const [hasReviewPage, setHasReviewPage] = useState(false);
+  const [showPublishModal, setShowPublishModal] = useState(true);
 
-  const toggleReview = () => setReviewEnabled((prev) => !prev);
- const toggleMulti = () =>
-  setAllowMultipleSubmissionValue(prev => !prev);
+  const toggleReview = () => setHasReviewPage((prev) => !prev);
+  const toggleMulti = () => setAllowMultipleSubmissionValue((prev) => !prev);
   const dropdownRef = useRef(null);
 
   // for settings modal lang click outside == disappear
@@ -367,8 +370,9 @@ function Form() {
         setPublicid(res.data.publicId);
         // console.log(res.data);
         setAllowMultipleSubmissionValue(res.data.allowMultipleSubmissions);
-
-        console.log(res.data.formData);
+        setIsPublished(res.data.isPublished);
+        setHasReviewPage(res.data.hasReviewPage);
+        // console.log(res.data.formData);
       } catch (err) {
         console.log(err);
 
@@ -397,6 +401,8 @@ function Form() {
         title: titleValue,
         formData: pages,
         allowMultipleSubmissions: allowMultipleSubmissionsValue,
+        hasReviewPage: hasReviewPage,
+        isPublished: isPublished,
       });
     } catch (error) {
       console.log(error);
@@ -412,6 +418,16 @@ function Form() {
 
     return () => clearInterval(intervalId);
   }, []);
+
+  function PublishForm() {
+    setShareLoading(true);
+
+    setTimeout(() => {
+      setIsPublished(true);
+      setShowPublishModal(true);
+      setShareLoading(false);
+    }, 2000);
+  }
 
   if (error) {
     return (
@@ -460,13 +476,45 @@ function Form() {
 
             <div className="inline-flex items-center gap-4 flex-shrink-0">
               <Link to={`../preview/${publicid}`}>
-                <button className="px-10 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
+                <button className="px-7 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
                   Preview
                 </button>
               </Link>
-              <button className="px-10 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 transition-color duration-200 ease-out">
-                Share
-              </button>
+              <div className="relative">
+                <button
+                  onClick={PublishForm}
+                  disabled={shareLoading}
+                  className="flex items-center gap-2 px-7 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) 
+             inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 
+             transition-color duration-200 ease-out disabled:opacity-60"
+                >
+                  {shareLoading ? (
+                    <span className="w-6 h-6 border-2 border-(--purple) border-t-transparent rounded-full animate-spin"></span>
+                  ) : isPublished ? (
+                    "Share"
+                  ) : (
+                    "Publish"
+                  )}
+                </button>
+                {setShowPublishModal && (
+                  <>
+                    <span className="bg-(--white) border border-(--purple) rotate-45 w-5 h-5 absolute top-11 rounded translate-x-1/2 right-1/2"></span>
+                    <div className="absolute font-vagrounded min-w-100 w-1/3 top-12 py-4 px-2 -right-2 bg-(--white) border border-(--purple) rounded shadow-lg z-50">
+                      <div className="gap-2 px-3 flex-col flex">
+                        <p className="text-md">Share Link</p>
+                        <div className="flex w-full gap-2 items-center">
+                          <p className="text-sm font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-md p-2 truncate">
+                            https://[websitename]/form/{publicid}
+                          </p>
+                          <button className="text-sm p-2 border-(--purple) bg-(--purple-lighter) hover:bg-[#b099f5] transition-all duration-200 ease-out border-2 rounded-lg px-4">
+                            Copy
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
 
               <div className="relative" ref={dropdownRef}>
                 <button
@@ -497,14 +545,14 @@ function Form() {
                             style={{
                               width: 45,
                               height: 21,
-                              backgroundColor: reviewEnabled
+                              backgroundColor: hasReviewPage
                                 ? "#9911ff"
                                 : "#ccc",
                               borderRadius: 30,
                               cursor: "pointer",
                               display: "flex",
                               alignItems: "center",
-                              justifyContent: reviewEnabled
+                              justifyContent: hasReviewPage
                                 ? "flex-end"
                                 : "flex-start",
                               padding: 3,

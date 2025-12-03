@@ -110,8 +110,8 @@ function Home() {
                       <span className="w-2/12 h-3 inset-shadow-sm/40 absolute top-23 left-17"></span>
 
                       {/* plus circle */}
-                      <span className="w-15 h-15 rounded-full inset-shadow-sm/40 absolute top-50 left-15 flex justify-center items-center">
-                        <span className="flex justify-center items-center w-11 h-11 rounded-full shadow-sm/40">
+                      <span className="w-1/5 h-1/5 rounded-full inset-shadow-sm/40 absolute top-50 left-15 flex justify-center items-center">
+                        <span className="flex justify-center items-center w-11/14 h-11/14 rounded-full shadow-sm/40">
                           <span className="w-8 h-2 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
                             {/* ayaw maalis pota */}
                             <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
