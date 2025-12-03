@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
 import { IoDuplicate } from "react-icons/io5";
-import { PH } from "country-flag-icons/react/3x2";
 
 function PhoneNumber({ question, onUpdate, onDuplicate }) {
   const textareaRef = useRef(null);

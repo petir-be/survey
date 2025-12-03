@@ -18,6 +18,8 @@ function Model({ url, scale }) {
 
 export default function ThreeDModel({ url, scale = 1 }) {
   return (
+
+    
     <Canvas camera={{ position: [2, 2, 3], fov: 45 }}>
       <ambientLight intensity={0.7} />
       <directionalLight position={[5, 5, 5]} intensity={1} />
