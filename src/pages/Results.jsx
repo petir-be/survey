@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
-import { FaArrowDown } from "react-icons/fa6";
+import { FaArrowDown, FaCross, FaDownload } from "react-icons/fa6";
 
 import ResponsesNavbar from "../components/ResponsesNavbar";
 import SearchBar from "../components/SearchBar";
 
-export default function Results({ formName = "Form" }) {
+function Results({ defaultFormName = "Form" }) {
   const { id } = useParams();
 
   const [SearchBarValue, setSearchBarValue] = useState("");
@@ -17,6 +17,10 @@ export default function Results({ formName = "Form" }) {
 
   const [checkedItems, setCheckedItems] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const [summary, setSummary] = useState();
+  const [questions, setQuestions] = useState();
+  const [formName, setFormName] = useState(defaultFormName);
+  const [formData, setFormData] = useState();
 
   const handleSelectAll = () => {
     if (selectAll) {
@@ -43,6 +47,7 @@ export default function Results({ formName = "Form" }) {
   useEffect(() => {
     const getResponses = async () => {
       try {
+        const aggregated = {};
         setLoading(true);
 
         const surveyId = parseInt(id, 10);
@@ -60,9 +65,74 @@ export default function Results({ formName = "Form" }) {
           }
         );
 
+        const formDetails = await axios.get(
+          `${import.meta.env.VITE_BACKEND}/api/Form/${surveyId}`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        // console.log("Form Details:", formDetails.data); // Debug log
+
         setResponses(res.data);
+        setFormData(formDetails.data.formData);
         setError(null);
+
+        // Fix: Access formDetails.data.title
+        setFormName(formDetails.data.title);
+
+        // Fix: Build question mapping correctly
+        const questionMap = {};
+        formDetails.data.formData.forEach((page) => {
+          page.questions.forEach((question) => {
+            // Use question.id as key and question.question as value
+            questionMap[question.id] = question.question;
+          });
+        });
+
+        // console.log("Question Map:", questionMap); // Debug log
+        setQuestions(questionMap);
+
+        // Rest of your aggregation code
+        res.data.forEach((response) => {
+          if (!response.responseData) return;
+
+          let data = response.responseData;
+          if (typeof data === "string") {
+            try {
+              data = JSON.parse(data);
+            } catch (e) {
+              console.error("Failed to parse responseData:", e);
+              return;
+            }
+          }
+
+          Object.keys(data).forEach((questionId) => {
+            const answer = data[questionId];
+
+            if (!aggregated[questionId]) {
+              aggregated[questionId] = {
+                answers: {},
+                total: 0,
+                allAnswers: [],
+              };
+            }
+
+            aggregated[questionId].total++;
+            aggregated[questionId].allAnswers.push(answer);
+
+            if (answer && typeof answer === "string" && answer.length < 100) {
+              aggregated[questionId].answers[answer] =
+                (aggregated[questionId].answers[answer] || 0) + 1;
+            }
+          });
+        });
+
+        // Aggregate
+        setSummary(aggregated);
+        // console.log("Summary:", aggregated); // Debug log
       } catch (err) {
+        console.error("Full error:", err);
         setError(
           err.response?.data?.message ||
             err.message ||
@@ -82,6 +152,7 @@ export default function Results({ formName = "Form" }) {
   return (
     <>
       <ResponsesNavbar formName={formName} id={id} />
+
       <div className="m-auto mt-30 p-4 font-vagrounded">
         {/* Tab Buttons */}
         <div
@@ -173,10 +244,6 @@ export default function Results({ formName = "Form" }) {
           <>
             {activeTab === "responses" && (
               <div>
-                <h2 style={{ marginTop: 0 }} className="font-vagrounded">
-                  All Responses ({responses?.length || 0})
-                </h2>
-
                 <div className="w-full m-auto bruh p-6">
                   <SearchBar
                     value={SearchBarValue}
@@ -187,10 +254,10 @@ export default function Results({ formName = "Form" }) {
                 {responses && responses.length > 0 ? (
                   <div className="w-full p-6 min-h-screen">
                     <div className="rounded-lg overflow-hidden">
-                      <table className="w-full border-separate border-spacing-x-0 border-spacing-y-2">
+                      <table className="w-full border-separate border-spacing-x-0 border-spacing-y-4">
                         <thead className="shadow-md font-vagrounded">
                           <tr
-                            className="outline-1 outline-white border-box rounded-sm"
+                            className="outline-1 outline-white border-box "
                             style={{ background: "var(--dirty-white)" }}
                           >
                             <th className="text-left font-vagrounded align-middle">
@@ -204,27 +271,27 @@ export default function Results({ formName = "Form" }) {
                               </div>
                             </th>
                             <th className="text-left text-sm font-medium text-gray-700 font-vagrounded">
-                              <div className="py-4 px-4 border-l border-r border-white">
+                              <div className="py-4 px-4 border-l border-r border-white font-bold">
                                 <FaArrowDown />
                               </div>
                             </th>
                             <th className="text-left text-sm font-medium text-gray-700 font-vagrounded">
-                              <div className="py-4 px-4 border-l border-r border-white">
+                              <div className="py-4 px-4 border-l border-r border-white font-bold">
                                 Name
                               </div>
                             </th>
                             <th className="text-left text-sm font-medium text-gray-700 font-vagrounded">
-                              <div className="py-4 px-4 border-l border-r border-white">
+                              <div className="py-4 px-4 border-l border-r border-white font-bold">
                                 Email
                               </div>
                             </th>
-                            <th className="text-left text-sm font-medium text-gray-700 font-vagrounded">
-                              <div className="py-4 px-4 border-l border-r border-white">
+                            <th className="text-left text-sm font-medium text-gray-700 font-vagrounded ">
+                              <div className="py-4 px-4 border-l border-r border-white font-bold">
                                 Date
                               </div>
                             </th>
-                            <th className="text-left text-sm font-medium text-gray-700 font-vagrounded">
-                              <div className="py-4 px-4 border-l border-r border-white">
+                            <th className="text-left text-sm font-medium text-gray-700 font-vagrounded ">
+                              <div className="py-4 px-4 border-l border-r border-white font-bold">
                                 Time
                               </div>
                             </th>
@@ -232,7 +299,7 @@ export default function Results({ formName = "Form" }) {
                         </thead>
 
                         <tbody>
-                          {responses.map((row) => {
+                          {responses.map((row, index) => {
                             const d = new Date(row.submittedAt);
                             const date = d.toISOString().split("T")[0];
                             const time = d
@@ -257,9 +324,9 @@ export default function Results({ formName = "Form" }) {
                                   </div>
                                 </td>
 
-                                {/* Empty / icon column */}
+                                {/* Index*/}
                                 <td className="align-middle text-sm text-gray-900 font-vagrounded">
-                                  <div className="py-4 px-4"></div>
+                                  <div className="py-4 px-4">{index + 1}</div>
                                 </td>
 
                                 {/* Name */}
@@ -369,151 +436,22 @@ export default function Results({ formName = "Form" }) {
 
             {activeTab === "summary" && (
               <div>
-                <h2
-                  style={{ marginTop: 0 }}
-                  className="text-3xl font-bold font-vagrounded"
-                >
-                  Summary
-                </h2>
-
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-                    gap: "20px",
-                    marginTop: "20px",
-                  }}
-                >
-                  <div
-                    style={{
-                      padding: "20px",
-                      background: "#f0f9ff",
-                      borderRadius: "8px",
-                      border: "1px solid #bfdbfe",
-                    }}
-                  >
-                    <p
-                      style={{
-                        margin: "0 0 10px 0",
-                        fontSize: "14px",
-                        color: "#1e40af",
-                        fontWeight: "600",
-                      }}
-                      className="font-vagrounded"
-                    >
-                      TOTAL RESPONSES
-                    </p>
-
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: "32px",
-                        fontWeight: "700",
-                        color: "#1e3a8a",
-                      }}
-                      className="font-vagrounded"
-                    >
-                      {responses?.length || 0}
-                    </p>
-                  </div>
-
-                  <div
-                    style={{
-                      padding: "20px",
-                      background: "#f0fdf4",
-                      borderRadius: "8px",
-                      border: "1px solid #bbf7d0",
-                    }}
-                  >
-                    <p
-                      style={{
-                        margin: "0 0 10px 0",
-                        fontSize: "14px",
-                        color: "#15803d",
-                        fontWeight: "600",
-                      }}
-                      className="font-vagrounded"
-                    >
-                      LATEST RESPONSE
-                    </p>
-
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: "16px",
-                        fontWeight: "600",
-                        color: "#166534",
-                      }}
-                      className="font-vagrounded"
-                    >
-                      {responses?.length > 0
-                        ? new Date(
-                            responses[0].submittedAt
-                          ).toLocaleDateString()
-                        : "N/A"}
-                    </p>
-                  </div>
-
-                  <div
-                    style={{
-                      padding: "20px",
-                      background: "#fef3c7",
-                      borderRadius: "8px",
-                      border: "1px solid #fde68a",
-                    }}
-                  >
-                    <p
-                      style={{
-                        margin: "0 0 10px 0",
-                        fontSize: "14px",
-                        color: "#92400e",
-                        fontWeight: "600",
-                      }}
-                      className="font-vagrounded"
-                    >
-                      COMPLETION RATE
-                    </p>
-
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: "32px",
-                        fontWeight: "700",
-                        color: "#78350f",
-                      }}
-                      className="font-vagrounded"
-                    >
-                      100%
-                    </p>
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    marginTop: "30px",
-                    padding: "20px",
-                    background: "#ffffff",
-                    border: "1px solid #e5e7eb",
-                    borderRadius: "8px",
-                  }}
-                >
-                  <h3 style={{ marginTop: 0 }} className="font-vagrounded">
-                    Response Details
-                  </h3>
-
-                  <p style={{ color: "#6b7280" }} className="font-vagrounded">
-                    More detailed analytics and charts will be displayed here.
-                  </p>
-                </div>
+                <SummaryView
+                  responses={responses}
+                  formData={formData}
+                  questionMap={questions}
+                />
               </div>
             )}
 
             {checkedItems.length > 0 && (
-              <div className="popup absolute left-0 right-0 bottom-0 m-auto w-64">
-                <span>
+              <div className="popup absolute left-0 right-0 bottom-20 m-auto p-1 w-min-content border-box justify-between max-w-2xs shadow-lg border-2 border-white rounded-lg flex">
+                <span className="p-2 text-base font-bold">
                   {`${checkedItems.length}/${responses.length} selected`}
                 </span>
-                <button className="p-4">Delete</button>
+                <button className="p-2 text-base font-bold pl-4 border-l border-gray-300 hover:bg-gray-300">
+                  <FaCross />
+                </button>
               </div>
             )}
           </>
@@ -522,3 +460,188 @@ export default function Results({ formName = "Form" }) {
     </>
   );
 }
+
+// Helper function to aggregate responses by question and option
+function aggregateResponseData(responses, formData) {
+  const aggregated = {};
+
+  console.log(formData);
+
+  // Initialize structure with questions from formData
+  formData.forEach((page) => {
+    page.questions.forEach((question) => {
+      if (question.type === "multiple_choice" && question.options) {
+        aggregated[question.id] = {
+          question: question.question,
+          type: question.type,
+          options: {},
+          total: 0,
+        };
+        // console.log("FUCKKk" + JSON.stringify(question));
+        // Initialize each option with 0 count
+        question.options.forEach((option) => {
+          aggregated[question.id].options[option] = 0;
+        });
+      }
+    });
+  });
+
+
+  // Count responses for each option
+  responses.forEach((response) => {
+    if (!response.responseData) return;
+
+    let data = response.responseData;
+
+    // console.log(data);
+    // Handle if responseData is a string (needs parsing)
+    if (typeof data === "string") {
+      try {
+        data = JSON.parse(data);
+      } catch (e) {
+        console.error("Failed to parse responseData:", e);
+        return;
+      }
+    }
+
+    // Process each answer in the response
+    Object.entries(data).forEach(([index, answer ]) => {
+      let questionId = answer["questionID"];
+      console.log(answer);
+
+      if (aggregated[questionId] && answer) {
+        aggregated[questionId].total++;
+
+        // Increment count for this specific answer/option
+        if (aggregated[questionId].options.hasOwnProperty(answer.answer)) {
+          aggregated[questionId].options[answer.answer]++;
+        } 
+        else {
+          // Handle edge case where answer doesn't match predefined options
+          aggregated[questionId].options[answer[answer]] = 1;
+        }
+      }
+    });
+  });
+
+  console.log("aggregated: ");  
+  console.log(aggregated);  
+
+  return aggregated;
+}
+
+// Component to display a single question summary
+function QuestionSummary({ questionData }) {
+  const { question, options, total } = questionData;
+
+  return (
+    <div
+      style={{
+        marginBottom: "24px",
+        padding: "16px",
+        border: "1px solid #e5e7eb",
+        borderRadius: "8px",
+      }}
+    >
+      <h3
+        style={{
+          marginTop: 0,
+          marginBottom: "8px",
+          fontSize: "18px",
+          fontWeight: "600",
+        }}
+      >
+        {question}
+      </h3>
+      <p style={{ margin: "0 0 16px 0", fontSize: "14px", color: "#6b7280" }}>
+        {total} {total === 1 ? "response" : "responses"}
+      </p>
+
+      <div>
+        {Object.entries(options).map(([option, count]) => {
+          const percentage = total > 0 ? ((count / total) * 100).toFixed(1) : 0;
+
+          return (
+            <div key={option} style={{ marginBottom: "12px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "4px",
+                }}
+              >
+                <span >{option}</span>
+                <span >
+                  {count} ({percentage}%)
+                </span>
+              </div>
+              <div
+                style={{
+                  width: "100%",
+                  height: "8px",
+                  backgroundColor: "#e5e7eb",
+                  borderRadius: "4px",
+                  overflow: "hidden",
+                }}
+              >
+                <div
+                  style={{
+                    width: `${percentage}%`,
+                    height: "100%",
+                    backgroundColor: "#3b82f6",
+                    transition: "width 0.3s ease",
+                  }}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// Main Summary Component
+function SummaryView({ responses, formData, questions }) {
+  const [summaryData, setSummaryData] = useState({});
+
+  useEffect(() => {
+    if (responses && formData) {
+      const aggregated = aggregateResponseData(responses, formData);
+      // console.log(`Aggregated - ${JSON.stringify(aggregated)}`);
+      // console.log("Responses - " + JSON.stringify(responses));
+      setSummaryData(aggregated);
+    }
+  }, [responses, formData]);
+
+  if (!responses || !formData) {
+    return <div>Loading summary...</div>;
+  }
+
+  if (Object.keys(summaryData).length === 0) {
+    return <div>No multiple choice questions found or no responses yet.</div>;
+  }
+
+  return (
+    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+      <div className="flex justify-between">
+        <h2
+          style={{ marginTop: 0 }}
+          className="text-3xl font-bold font-vagrounded"
+        >
+          Summary
+        </h2>
+        <button className="p-2 hover:font-bold flex gap-4">
+          <FaDownload />
+          Print to PDF
+        </button>
+      </div>
+
+      {Object.entries(summaryData).map(([questionId, data]) => (
+        <QuestionSummary key={questionId} questionData={data} />
+      ))}
+    </div>
+  );
+}
+
+export default Results;
