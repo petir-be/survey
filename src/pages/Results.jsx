@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
-import { FaArrowDown, FaCross, FaDownload, FaFile } from "react-icons/fa6";
+import { FaArrowDown, FaCross, FaDownload, FaFile, FaX } from "react-icons/fa6";
 
 import ResponsesNavbar from "../components/ResponsesNavbar";
 import SearchBar from "../components/SearchBar";
 import MultipleChoiceBarChart from "../components/Charts/MultipleChoiceBarChart";
+import ChoiceMatrixBarChart from "../components/Charts/ChoiceMatrixBarChart";
 
 function Results({ defaultFormName = "Form" }) {
   const { id } = useParams();
@@ -448,12 +449,12 @@ function Results({ defaultFormName = "Form" }) {
             )}
 
             {checkedItems.length > 0 && (
-              <div className="popup absolute left-0 right-0 bottom-20 m-auto p-1 w-min-content border-box justify-between max-w-2xs shadow-lg border-2 border-white rounded-lg flex">
-                <span className="p-2 text-base font-bold">
+              <div className="popup fixed bg-[var(--white)] shadow-lg left-0 right-0 bottom-20 m-auto p-1 w-min-content border-box justify-between max-w-2xs shadow-lg border-2 border-white rounded-lg flex">
+                <span className="p-4 text-base font-bold">
                   {`${checkedItems.length}/${responses.length} selected`}
                 </span>
-                <button className="p-2 text-base font-bold pl-4 border-l border-gray-300 hover:bg-gray-300">
-                  <FaCross />
+                <button className="p-4 text-base font-bold ml-4 border-l border-gray-300 hover:bg-gray-300">
+                  <FaX />
                 </button>
               </div>
             )}
@@ -473,7 +474,6 @@ function aggregateResponseData(responses, formData) {
   // Initialize structure with questions from formData
   formData.forEach((page) => {
     page.questions.forEach((question) => {
-
       if (question.type === "multiple_choice" && question.options) {
         aggregated[question.id] = {
           question: question.question,
@@ -487,11 +487,26 @@ function aggregateResponseData(responses, formData) {
           aggregated[question.id].options[option] = 0;
         });
       } else if (question.type === "choice_matrix" && question.rows) {
-        console.log("console_matrix");
-      }
+        aggregated[question.id] = {
+          question: question.question,
+          type: question.type,
+          rows: {},
+          total: 0,
+        };
 
+        // For each row, create an object with all columns initialized to 0
+        question.rows.forEach((row) => {
+          aggregated[question.id].rows[row] = {};
+          question.columns.forEach((columnName) => {
+            // console.log(aggregated[question.id].rows);
+
+            aggregated[question.id].rows[row][columnName] = 0;
+          });
+        });
+      }
     });
   });
+  console.log(aggregated);
 
   // Count responses for each option
   responses.forEach((response) => {
@@ -513,17 +528,33 @@ function aggregateResponseData(responses, formData) {
     // Process each answer in the response
     Object.entries(data).forEach(([index, answer]) => {
       let questionId = answer["questionID"];
+      let questionType = aggregated[questionId].type;
+      // console.log(aggregated[questionId].options);
       // console.log(answer);
 
       if (aggregated[questionId] && answer) {
         aggregated[questionId].total++;
 
-        // Increment count for this specific answer/option
-        if (aggregated[questionId].options.hasOwnProperty(answer.answer)) {
-          aggregated[questionId].options[answer.answer]++;
-        } else {
-          // Handle edge case where answer doesn't match predefined options
-          aggregated[questionId].options[answer[answer]] = 1;
+        if (questionType == "multiple_choice") {
+          if (aggregated[questionId].options.hasOwnProperty(answer.answer)) {
+            aggregated[questionId].options[answer.answer]++;
+          } else {
+            // Handle edge case where answer doesn't match predefined options
+            aggregated[questionId].options[answer[answer]] = 1;
+          }
+        } else if (questionType === "choice_matrix") {
+          console.log(answer.answer);
+          // console.log("answers:")
+
+          // answer.answer is like: { "Row 1": "Column 1", "Row 2": "Column 4" }
+          Object.entries(answer.answer).forEach(([rowName, columnName]) => {
+            if (
+              aggregated[questionId].rows[rowName] &&
+              aggregated[questionId].rows[rowName][columnName] !== undefined
+            ) {
+              aggregated[questionId].rows[rowName][columnName]++;
+            }
+          });
         }
       }
     });
@@ -541,11 +572,11 @@ function SummaryView({ responses, formData, questions }) {
 
   useEffect(() => {
     if (responses && formData) {
-      console.log(responses);
+      // console.log(responses);
       const aggregated = aggregateResponseData(responses, formData);
-      // console.log(`Aggregated - ${JSON.stringify(aggregated)}`);
-      // console.log("Responses - " + JSON.stringify(responses));
+
       setSummaryData(aggregated);
+      // console.log(aggregated);
     }
   }, [responses, formData]);
 
@@ -573,18 +604,28 @@ function SummaryView({ responses, formData, questions }) {
       </div>
 
       <div className="questions flex flex-col gap-6 w-auto">
-        {Object.entries(summaryData).map(([questionId, data]) => (
-          // <QuestionSummary key={questionId} questionData={data} />
+        {Object.entries(summaryData).map(([questionId, data]) => {
+          let questionType = data.type;
 
-          <div className="border-1 border-white shadow-xl rounded-lg flex flex-col p-4">
-            {/* {console.log(data)} */}
-            <h3 className="text-lg font-bold">{data.question}</h3>
-            <p className="mb-10 text-lg">
-              There were {data.total} responses to this question
-            </p>
-            <MultipleChoiceBarChart data={data} />
-          </div>
-        ))}
+          return (
+            <div
+              className="border-1 border-white shadow-xl rounded-lg flex flex-col p-4"
+              key={questionId}
+            >
+              {/* {console.log(data)} */}
+              <h3 className="text-lg font-bold">{data.question}</h3>
+              <p className="mb-10 text-lg">
+                There were {data.total} responses to this question
+              </p>
+
+              {questionType === "multiple_choice" ? (
+                <MultipleChoiceBarChart data={data} />
+              ) : questionType === "choice_matrix" ? (
+                <ChoiceMatrixBarChart data={data} />
+              ) : null}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
