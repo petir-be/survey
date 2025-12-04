@@ -17,6 +17,10 @@ function ReviewPage({ pages, answers }) {
             <div className=" p-4 space-y-4">
               {page.questions.map((q) => {
                 // Find the answer for this specific question
+
+                if(q.type === 'heading' || q.type === 'paragraph' ){
+                  return;
+                }
                 const answerObj = answers.find((a) => a.questionID === q.id);
                 const displayAnswer = answerObj ? answerObj.answer : "Unanswered";
 
