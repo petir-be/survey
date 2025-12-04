@@ -7,9 +7,6 @@ import DotShader2 from "../components/DotShader2";
 import ReviewPage from "../components/ReviewPage";
 import QuestionRenderer from "../components/QuestionRenderer";
 
-
-
-
 // import { Steps } from "rsuite";
 
 function Response() {
@@ -22,8 +19,8 @@ function Response() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-    const [isPublished, setisPublished]= useState(false);
-    const [hasReviewPage, setHasReviewPage] = useState(false);
+  const [isPublished, setIsPublished] = useState(false);
+  const [hasReviewPage, setHasReviewPage] = useState(false);
 
   useEffect(() => {
     if (!guid) return;
@@ -39,8 +36,11 @@ function Response() {
 
         const { id, title, formData } = response.data;
         setId(id);
+        setHasReviewPage(response.data.hasReviewPage);
+        setIsPublished(response.data.isPublished);
+        console.log(response.data);
 
-        console.log(typeof formData);
+        // console.log(typeof formData);
 
         if (!Array.isArray(formData) || formData.length === 0) {
           setError("This form has no questions.");
@@ -51,7 +51,9 @@ function Response() {
         }
       } catch (err) {
         console.error(err);
-        if (err.response?.status === 404) {
+        if (!isPublished) {
+          setError("Form is not published. Please contact the owner for more details.");
+        } else if (err.response?.status === 404) {
           setError("Form not found or the link is invalid.");
         } else if (err.response?.status === 403) {
           setError("You don't have permission to view this form.");
@@ -93,16 +95,18 @@ function Response() {
     }
   };
 
-  const isReviewPage = currentPageIndex === pages.length;
-
+  const isReviewPage = hasReviewPage && currentPageIndex === pages.length;
   const goNext = () => {
-    // If we are not at the Review page yet, go forward
-    if (currentPageIndex < pages.length) {
+    if (hasReviewPage && currentPageIndex < pages.length) {
       setCurrentPageIndex(currentPageIndex + 1);
-    } else {
-      // We are AT the review page, so Submit
-      console.log("Submitted answers:", answers);
+    } else if (!hasReviewPage && currentPageIndex === pages.length - 1) {
       submitAnswers();
+    } else if (hasReviewPage && currentPageIndex === pages.length) {
+      submitAnswers();
+    }
+    // Otherwise, go next
+    else {
+      setCurrentPageIndex(currentPageIndex + 1);
     }
   };
 
@@ -204,7 +208,7 @@ function Response() {
                     Current page has no questions available.
                   </div>
                 ) : (
-                  <div className="space-y-10">
+                  <div className="space-y-10 p-1">
                     {currentPage.questions
                       .sort((a, b) => a.order - b.order)
                       .map((q) => {
@@ -252,9 +256,10 @@ function Response() {
                     : "bg-(--white) ring ring-(--purple) inset-shadow-md/10 hover:bg-violet-200"
                 }`}
             >
-              {isReviewPage
+              {isReviewPage ||
+              (!hasReviewPage && currentPageIndex === pages.length - 1)
                 ? "Submit Response"
-                : currentPageIndex === pages.length - 1
+                : currentPageIndex === pages.length - 1 && hasReviewPage
                 ? "Review Answers"
                 : "Next"}
               <IoMdArrowRoundForward />
