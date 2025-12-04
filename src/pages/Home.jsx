@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "../global.css";
 import DotShader from "../components/DotShader";
 import home1 from "/src/assets/2.svg";
@@ -7,26 +7,90 @@ import aboutus from "../assets/hugeicons_ai-dna.svg";
 import FAQ from "../components/FAQ";
 import { motion, AnimatePresence } from "framer-motion";
 import ThreeDModel from "../components/ThreeDmodel";
+import { Link, useNavigate } from "react-router";
+import axios from "axios";
+import { AuthContext } from "../Context/authContext";
 
 function Home() {
   const [showModal, setShowModal] = useState(false);
+  const { user } = useContext(AuthContext);
+  const [form, setForm] = useState({});
 
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  async function MakeForm() {
+    if (isLoading) return;
+    setIsLoading(true);
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND}/api/Form/createform`,
+        {
+          userId: user.id,
+          title: "Untitled",
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      if (res.data && res.data.surveyId) {
+        navigate(`/newform/${res.data.surveyId}`);
+      }
+      setForm(res.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function MakeAIForm() {
+    if (isLoading) return;
+    setIsLoading(true);
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND}/api/Form/Ai`,
+        {
+          userId: user.id,
+          title: "Advance Coding in C#",
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      if (res.data && res.data.surveyId) {
+        navigate(`/newform/${res.data.surveyId}`);
+      }
+      setForm(res.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
   return (
     <>
-    {/* para matanggal lang error */}
-    {motion}
-
+      {/* para matanggal lang error */}
+      {motion}
 
       <div className="flex items-center justify-center flex-1 min-h-full bg-[var(--white)] z-10">
         <div className="relative w-2/7 h-dvh pt-25">
           <div className="m-12">
             <h1 className="font-vagrounded text-3xl mb-2">The Future</h1>
             <p className="font-vagrounded text-md">
-              <span className="font-vagrounded font-regular">This where data isn't just gathered</span>—it’s 
-              <span className= "font-vagrounded font-semibold italic"> synthesized,
-              contextualized, and transformed.</span> Step into the future-state
-              datascape to pioneer transformative insights using self-optimizing
-              architectures. <span className="font-black">The next era of predictive analytics starts here.</span>
+              <span className="font-vagrounded font-regular">
+                This where data isn't just gathered
+              </span>
+              —it’s
+              <span className="font-vagrounded font-semibold italic">
+                {" "}
+                synthesized, contextualized, and transformed.
+              </span>{" "}
+              Step into the future-state datascape to pioneer transformative
+              insights using self-optimizing architectures.{" "}
+              <span className="font-black">
+                The next era of predictive analytics starts here.
+              </span>
             </p>
           </div>
           <button
@@ -38,10 +102,10 @@ function Home() {
         </div>
         <div className="w-3/7 relative h-dvh overflow-hidden pt-15 border-2 border-[var(--dirty-white)] bg-[var(--white)] z-10">
           <div className="absolute z-1 w-full h-full flex justify-center items-center">
-  <ThreeDModel 
-  url="/models/free__rubiks_cube_3d.glb"
-  scale={0.2}     // <<< CHANGE SIZE HERE
-/>
+            <ThreeDModel
+              url="/models/free__rubiks_cube_3d.glb"
+              scale={0.2} // <<< CHANGE SIZE HERE
+            />
           </div>
           <div className="absolute top-0 left-0 h-full w-full">
             <DotShader className="z-0" />
@@ -56,15 +120,15 @@ function Home() {
           </div>
         </div>
         <div className=" justify-center flex flex-col gap-5 w-2/7 h-dvh pt-25 ">
-          
-          
           {/* Redirect to login page if dont have acc log */}
-          <HomeBox  title="Create Forms" icon={aboutus} />
+          <HomeBox title="Create Forms" icon={aboutus} />
 
-           {/* Contains of functionality of the system */}
-          <HomeBox title="My Workspaces" icon={aboutus} />
-           
-            {/* Higlights the website and devs*/}
+          {/* Contains of functionality of the system */}
+          <Link to={`Workspaces`} className="contents">
+            <HomeBox title="My Workspaces" icon={aboutus} />
+          </Link>
+
+          {/* Higlights the website and devs*/}
           <HomeBox title="Features" icon={aboutus} />
 
           <div className="flex justify-center">
@@ -81,7 +145,10 @@ function Home() {
               transition={{ duration: 0.25, ease: "easeOut" }}
               className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs"
             >
-            <span className="absolute w-full h-full bg-transparent" onClick={() => setShowModal(false)}></span>
+              <span
+                className="absolute w-full h-full bg-transparent"
+                onClick={() => setShowModal(false)}
+              ></span>
 
               <div className="p-10 w-2/3 h-2/3 bg-(--white) ring ring-white rounded-lg fixed z-50">
                 <h1 className="font-vagrounded text-xl">Start a new Form</h1>
@@ -95,10 +162,17 @@ function Home() {
                 </div>
                 <div className="p-5 flex items-center justify-evenly w-full h-full">
                   {/* create own forms */}
-                  <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
+
+                  <div
+                    className="flex flex-col gap-3 items-center w-full h-full font-vagrounded "
+                    onClick={MakeForm}
+                  >
                     <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
                       {/* button ng form */}
-                      <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
+                      <button
+                        className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"
+                        onClick={MakeForm}
+                      ></button>
 
                       {/* circle and rectangle */}
                       <span className="inset-shadow-sm/40 w-5 h-5 absolute top-8 left-10 rounded-full"></span>
@@ -143,7 +217,10 @@ function Home() {
                   </div>
 
                   {/* generate with ai */}
-                  <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded">
+                  <div
+                    className="flex flex-col gap-3 items-center w-full h-full font-vagrounded"
+                    onClick={MakeAIForm}
+                  >
                     <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease"></span>
                     Generate with AI
                   </div>
@@ -152,7 +229,10 @@ function Home() {
                   <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded">
                     <span className="relative flex  items-center justify-center w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
                       {/* button ng form */}
-                      <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
+                      <button
+                        className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"
+                        onClick={MakeAIForm}
+                      ></button>
 
                       <div className=" gap-3 h-1/2 w-1/2 flex flex-col">
                         <span className="w-full h-[60%] inset-shadow-sm/40 rounded-xl"></span>
@@ -178,4 +258,3 @@ function Home() {
   );
 }
 export default Home;
-
