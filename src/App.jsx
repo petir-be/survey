@@ -12,8 +12,7 @@ import Preview from "./pages/Preview.jsx";
 import Response from "./pages/Response.jsx";
 import Results from "./pages/Results.jsx";
 import ReviewPage from "./components/ReviewPage.jsx";
-
-
+import Workspaces from "./pages/Workspaces.jsx";
 
 function Layout() {
   return (
@@ -47,8 +46,8 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-      path: "/newform/:id",
-      element: <Form />,
+    path: "/newform/:id",
+    element: <Form />,
   },
   {
     path: "test",
@@ -62,13 +61,17 @@ const router = createBrowserRouter([
     path: "/form/:guid",
     element: <Response />,
   },
-    {
+  {
     path: "/testreview",
     element: <ReviewPage />,
   },
   {
-    path: "/form/:id/responses",
+    path: "/newform/:id/responses",
     element: <Results />,
+  },
+  {
+    path: "/Workspaces",
+    element: <Workspaces />,
   },
 ]);
 
