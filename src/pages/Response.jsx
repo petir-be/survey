@@ -22,6 +22,9 @@ function Response() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+    const [isPublished, setisPublished]= useState(false);
+    const [hasReviewPage, setHasReviewPage] = useState(false);
+
   useEffect(() => {
     if (!guid) return;
 
@@ -39,7 +42,6 @@ function Response() {
 
         console.log(typeof formData);
 
-        // Critical fix: FormData is the array of pages
         if (!Array.isArray(formData) || formData.length === 0) {
           setError("This form has no questions.");
           setPages([]);
