@@ -149,53 +149,36 @@ function Home() {
                   <span
                     className="absolute w-full h-full bg-transparent"
                     onClick={() => setShowModal(false)}
-                  ></span>
+                    className="w-full h-full cursor-pointer"
+                  >
+                    X
+                  </button>
+                </div>
+                <div className="p-5 flex items-center justify-evenly w-full h-full">
+                  {/* create own forms */}
+                  <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
+                    <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
+                      {/* button ng form */}
+                      <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
 
-                  <div className="p-10 w-2/3 h-2/3 bg-(--white) ring ring-white rounded-lg fixed z-50">
-                    <h1 className="font-vagrounded text-xl">
-                      Start a new Form
-                    </h1>
-                    <div className="absolute top-0 right-0 w-15 h-15 flex items-center justify-center">
-                      <button
-                        onClick={() => setShowModal(false)}
-                        className="w-full h-full cursor-pointer"
-                      >
-                        X
-                      </button>
-                    </div>
-                    <div className="p-5 flex items-center justify-evenly w-full h-full">
-                      {/* create own forms */}
-                      <div
-                        className="flex flex-col gap-3 items-center w-full h-full font-vagrounded "
-                        onClick={MakeForm}
-                      >
-                        <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
-                          {/* button ng form */}
-                          <button
-                            className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"
-                            onClick={MakeForm}
-                          ></button>
+                      {/* circle and rectangle */}
+                      <span className="inset-shadow-sm/40 w-5 h-5 absolute top-8 left-10 rounded-full"></span>
+                      <span className="inset-shadow-sm/40 w-5 h-5 absolute top-15 left-10 rounded-full"></span>
+                      <span className="w-5 h-5 inset-shadow-sm/40 absolute top-22 left-10 rounded-full"></span>
 
-                          {/* circle and rectangle */}
-                          <span className="inset-shadow-sm/40 w-5 h-5 absolute top-8 left-10 rounded-full"></span>
-                          <span className="inset-shadow-sm/40 w-5 h-5 absolute top-15 left-10 rounded-full"></span>
-                          <span className="w-5 h-5 inset-shadow-sm/40 absolute top-22 left-10 rounded-full"></span>
+                      <span className="w-7/12 h-3 inset-shadow-sm/40 absolute top-9 left-17"></span>
+                      <span className="w-4/12 h-3 inset-shadow-sm/40 absolute top-16 left-17"></span>
+                      <span className="w-2/12 h-3 inset-shadow-sm/40 absolute top-23 left-17"></span>
 
-                          <span className="w-7/12 h-3 inset-shadow-sm/40 absolute top-9 left-17"></span>
-                          <span className="w-4/12 h-3 inset-shadow-sm/40 absolute top-16 left-17"></span>
-                          <span className="w-2/12 h-3 inset-shadow-sm/40 absolute top-23 left-17"></span>
-
-                          {/* plus circle */}
-                          <span className="w-15 h-15 rounded-full inset-shadow-sm/40 absolute top-50 left-15 flex justify-center items-center">
-                            <span className="flex justify-center items-center w-11 h-11 rounded-full shadow-sm/40">
-                              <span className="w-8 h-2 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
-                                {/* ayaw maalis pota */}
-                                <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
-                              </span>
-                              <span className="fixed w-2 h-8 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
-                                <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
-                              </span>
-                            </span>
+                      {/* plus circle */}
+                      <span className="w-1/5 h-1/5 rounded-full inset-shadow-sm/40 absolute top-50 left-15 flex justify-center items-center">
+                        <span className="flex justify-center items-center w-11/14 h-11/14 rounded-full shadow-sm/40">
+                          <span className="w-8 h-2 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
+                            {/* ayaw maalis pota */}
+                            <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
+                          </span>
+                          <span className="fixed w-2 h-8 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
+                            <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
                           </span>
 
                           <span className="absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-34 rotate-45  "></span>
