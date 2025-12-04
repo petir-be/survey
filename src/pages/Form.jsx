@@ -613,7 +613,7 @@ function Form() {
 
                           <div className="flex w-full gap-2 items-center">
                             <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-md p-2 truncate">
-                              {window.location.href}
+                              {`localhost:5173/form/${publicid}`}
                             </p>
 
                             <button
