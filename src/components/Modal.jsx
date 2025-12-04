@@ -1,11 +1,11 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { AnimatePresence, motion } from "motion/react";
 
-export default function Modal({ isOpen, close, title, children }) {
+export default function Modal({ isOpen, close, title, children, dialogbox }) {
   return (
     <Dialog open={isOpen} onClose={close} className="relative z-50">
       <div className="fixed inset-0 backdrop-blur-sm" aria-hidden="true" />
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className= {`fixed z-50 flex items-center justify-center p-4 ${dialogbox ? "inset-0": "w-1/3 top-50 right-1/2 translate-x-1/2"}`}>
         <AnimatePresence>
           {isOpen && (
             <motion.div

@@ -7,8 +7,8 @@ import DotShader2 from "../components/DotShader2";
 import ReviewPage from "../components/ReviewPage";
 import QuestionRenderer from "../components/QuestionRenderer";
 
-import Steps from "rc-steps";
-import "rc-steps/assets/index.css";
+
+
 
 // import { Steps } from "rsuite";
 
@@ -21,6 +21,9 @@ function Response() {
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+    const [isPublished, setisPublished]= useState(false);
+    const [hasReviewPage, setHasReviewPage] = useState(false);
 
   useEffect(() => {
     if (!guid) return;
@@ -39,7 +42,6 @@ function Response() {
 
         console.log(typeof formData);
 
-        // Critical fix: FormData is the array of pages
         if (!Array.isArray(formData) || formData.length === 0) {
           setError("This form has no questions.");
           setPages([]);
