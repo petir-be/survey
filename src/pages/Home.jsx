@@ -256,7 +256,7 @@ const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 700px)' });
               <span className="absolute w-full h-full bg-transparent" onClick={() => setShowModal(false)}></span>
 
               <div className="p-10 w-2/3 h-1/3 bg-(--white) ring ring-white rounded-lg fixed z-50">
-                <h1 className="font-vagrounded text-xl">Start a new Form</h1>
+                <h1 className="font-vagrounded font-semibold text-[12px]">Start a new Form</h1>
                 <div className="absolute top-0 right-0 w-15 h-15 flex items-center justify-center">
                   <button
                     onClick={() => setShowModal(false)}
@@ -268,44 +268,44 @@ const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 700px)' });
                 <div className="p-5 flex items-center justify-evenly w-full h-full">
                   {/* create own forms */}
                   <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
-                    <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
+                    <span className=" relative w-1/1 h-2/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
                       {/* button ng form */}
                       <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
 
                       {/* circle and rectangle */}
-                      <span className="inset-shadow-sm/40 w-5 h-5 absolute top-8 left-10 rounded-full"></span>
-                      <span className="inset-shadow-sm/40 w-5 h-5 absolute top-15 left-10 rounded-full"></span>
-                      <span className="w-5 h-5 inset-shadow-sm/40 absolute top-22 left-10 rounded-full"></span>
+                      <span className="inset-shadow-sm/40 w-2 h-2 absolute top-9 left-10 rounded-full"></span>
+                      <span className="inset-shadow-sm/40 w-2 h-2 absolute top-13 left-10 rounded-full"></span>
+                      <span className=" inset-shadow-sm/40 w-2 h-2 absolute top-17 left-10 rounded-full"></span>
 
-                      <span className="w-7/12 h-3 inset-shadow-sm/40 absolute top-9 left-17"></span>
-                      <span className="w-4/12 h-3 inset-shadow-sm/40 absolute top-16 left-17"></span>
-                      <span className="w-2/12 h-3 inset-shadow-sm/40 absolute top-23 left-17"></span>
+                      <span className="w-7/12 h-1 inset-shadow-sm/40 absolute top-9 left-17"></span>
+                      <span className="w-6/12 h-1 inset-shadow-sm/40 absolute top-13 left-17"></span>
+                      <span className="w-3/12 h-1 inset-shadow-sm/40 absolute top-17 left-17"></span>
 
                       {/* plus circle */}
-                      <span className="w-15 h-15 rounded-full inset-shadow-sm/40 absolute top-50 left-15 flex justify-center items-center">
-                        <span className="flex justify-center items-center w-11 h-11 rounded-full shadow-sm/40">
+                      <span className="w-3 h-2 rounded-full inset-shadow-sm/40 absolute top-10 left-15 flex justify-center items-center">
+                        <span className="flex justify-center items-center w-8 h-8 rounded-full shadow-sm/40">
                           <span className="w-8 h-2 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
                             {/* ayaw maalis pota */}
                             <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
                           </span>
-                          <span className="fixed w-2 h-8 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
-                            <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
+                          <span className="fixed  h-7 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
+                            <span className="mix-blend-lighten w-2 h-1 bg-white/30"></span>
                           </span>
                         </span>
                       </span>
 
-                      <span className="absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-34 rotate-45  "></span>
+                      <span className=" absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-34 rotate-45  "></span>
                       <div
-                        className="absolute bottom-0 z-2 right-0 w-25 h-25 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
+                        className="absolute bottom-0 z-2 right-0 w-10 h-10 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
                         style={{
                           clipPath: "polygon(0 0, 100% 0, 0 100%)",
                           filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 1))",
                         }}
                       />
                       <div
-                        className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-28 h-29"
+                        className="font-vagrounded font-normal text-[12px] absolute z-0 -bottom-2 -right-2 w-28 h-29"
                         style={{
-                          clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
+                          clipPath: "polygon(50% 0, 0 50%, 50% 50%)",
                           background: "#DFE0F0",
                           // background:'#000000'
                         }}
@@ -316,7 +316,7 @@ const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 700px)' });
 
                   {/* generate with ai */}
                   <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded">
-                    <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease"></span>
+                    <span className="relative w-12/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease"></span>
                     Generate with AI
                   </div>
 
