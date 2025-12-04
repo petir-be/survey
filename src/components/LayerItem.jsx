@@ -55,32 +55,32 @@ export default function LayerItem({ question, index, moveLayer, onDelete }) {
   return (
     <motion.div
       ref={ref}
-      layout
+      layout="position"
       initial={{ opacity: 0, y: -6 }}
       animate={{
         scale: isDragging ? 0.98 : 1,
         opacity: isDragging ? 0.75 : 1,
         y: 0,
       }}
-      exit={{ opacity: 0, height: 0, margin: 0, padding: 0 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className={`flex items-center justify-between gap-2 p-3 rounded border mb-2 bg-white shadow-sm will-change-transform mr-2 `}
+      exit={{ opacity: 0, scale: 0.5 }}
+      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+      className={`relative flex items-center justify-between gap-2 p-3 rounded mb-2 bg-(--white) ring ring-white shadow-[0px_1px_4px_2px_rgba(0,0,0,0.15)] m-2 will-change-transform`}
     >
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 flex-1 min-w-0">
         <span
-          className="text-gray-500 text-lg cursor-grab"
+          className="text-gray-500 text-lg cursor-grab flex-shrink-0"
           title="Drag to reorder"
         >
           <FaGripVertical />
         </span>
-        <div>
-          <div className="font-medium text-sm">
+        <div className="flex-1 min-w-0">
+          <div className="font-medium text-sm break-words line-clamp-4">
             {question.question || question.type}
           </div>
           <div className="text-xs text-gray-500">Type: {question.type}</div>
         </div>
       </div>
-      <div>
+      <div className="flex-shrink-0 ml-2">
         <button
           onClick={() => onDelete(question.id)}
           title="Delete"

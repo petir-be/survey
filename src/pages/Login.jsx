@@ -90,8 +90,7 @@ function Login() {
   const handleGoogleLogin = () => {
     google.accounts.id.prompt();
   };
-  if (isAuthenticated) return null;
-
+ 
   return (
     <>
       <LoginShader />
@@ -99,7 +98,7 @@ function Login() {
       <div className="relative z-20 min-h-dvh flex flex-col">
         <header className="">
           <Link to={"/"}>
-            <p className="cursor-pointer font-zendots text-3xl pt-8 pb-0 px-10">
+            <p className="cursor-pointer font-zendots text-[30px] pt-8 pb-0 px-10">
               C-MEN
             </p>
           </Link>
