@@ -11,7 +11,8 @@ import TestPage from "./pages/TestPage.jsx";
 import Preview from "./pages/Preview.jsx";
 import Response from "./pages/Response.jsx";
 import ReviewPage from "./components/ReviewPage.jsx";
-import Workspaces from "./pages/Workspaces.jsx";
+
+
 
 function Layout() {
   return (
@@ -45,8 +46,8 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "/newform/:id",
-    element: <Form />,
+      path: "/newform/:id",
+      element: <Form />,
   },
   {
     path: "test",
@@ -60,13 +61,9 @@ const router = createBrowserRouter([
     path: "/form/:guid",
     element: <Response />,
   },
-  {
+    {
     path: "/testreview",
     element: <ReviewPage />,
-  },
-  {
-    path: "/Workspaces",
-    element: <Workspaces />,
   },
 ]);
 

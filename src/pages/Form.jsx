@@ -12,7 +12,7 @@ import { AuthContext } from "../Context/authContext";
 import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
 import * as motion from "motion/react-client";
-import { BiSelectMultiple } from "react-icons/bi";
+import { BiSelectMultiple  } from "react-icons/bi";
 
 import { MdPreview } from "react-icons/md";
 
@@ -43,9 +43,11 @@ function Form() {
     useState(false);
 
   const toggleReview = () => setReviewEnabled((prev) => !prev);
-  const toggleMulti = () => setAllowMultipleSubmissionValue((prev) => !prev);
+ const toggleMulti = () =>
+  setAllowMultipleSubmissionValue(prev => !prev);
   const dropdownRef = useRef(null);
 
+  // for settings modal lang click outside == disappear
   useEffect(() => {
     function handleClickOutside(e) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
