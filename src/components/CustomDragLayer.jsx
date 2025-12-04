@@ -1,14 +1,26 @@
 import React from "react";
 import { useDragLayer } from "react-dnd";
-import Contact from "./FormElements/Contact";
 import MultipleChoice from "./FormElements/MultipleChoice";
+import Contact from "./FormElements/MultipleChoice";
 import Checkbox from "./FormElements/Checkbox";
+import Dropdown from "./FormElements/Dropdown";
+import ChoiceMatrix from "./FormElements/ChoiceMatrix";
+import Paragraph from "./FormElements/Paragraph";
+import Heading from "./FormElements/Heading";
+import LongText from "./FormElements/LongText";
+import Email from "./FormElements/Email";
+import PhoneNumber from "./FormElements/PhoneNumber";
+import FileUploader from "./FormElements/FileUploader";
+import ShortText from "./FormElements/ShortText";
 import { motion } from "motion/react";
+
 
 function getItemComponent(item) {
   {
     motion;
   }
+
+
   if (!item) return null;
   const title = item.title;
   const mockQuestion = {
@@ -34,15 +46,6 @@ function getItemComponent(item) {
   const mockUpdate = () => {};
   const mockDelete = () => {};
 
-  if (title === "Contact") {
-    return (
-      <Contact
-        question={mockQuestion}
-        onUpdate={mockUpdate}
-        onDelete={mockDelete}
-      />
-    );
-  }
   if (title === "Multiple Choice") {
     return (
       <MultipleChoice
@@ -52,6 +55,17 @@ function getItemComponent(item) {
       />
     );
   }
+
+  if (title === "Contact") {
+    return (
+      <Contact
+        question={mockQuestion}
+        onUpdate={mockUpdate}
+        onDelete={mockDelete}
+      />
+    );
+  }
+
   if (title === "Checkbox") {
     return (
       <Checkbox
@@ -62,6 +76,98 @@ function getItemComponent(item) {
     );
   }
 
+  if (title === "Dropdown") {
+    return (
+      <Dropdown
+        question={mockQuestion}
+        onUpdate={mockUpdate}
+        onDelete={mockDelete}
+      />
+    );
+  }
+
+  if (title === "Choice Matrix") {
+    return (
+      <ChoiceMatrix
+        question={mockQuestion}
+        onUpdate={mockUpdate}
+        onDelete={mockDelete}
+      />
+    );
+  }
+
+  if (title === "Paragraph") {
+    return (
+      <Paragraph
+        question={mockQuestion}
+        onUpdate={mockUpdate}
+        onDelete={mockDelete}
+      />
+    );
+  }
+
+  if (title === "Heading") {
+    return (
+      <Heading
+        question={mockQuestion}
+        onUpdate={mockUpdate}
+        onDelete={mockDelete}
+      />
+    );
+  }
+
+  if (title === "Long Text") {
+    return (
+      <LongText
+        question={mockQuestion}
+        onUpdate={mockUpdate}
+        onDelete={mockDelete}
+      />
+    );
+  }
+
+  if (title === "Email") {
+    return (
+      <Email
+        question={mockQuestion}
+        onUpdate={mockUpdate}
+        onDelete={mockDelete}
+      />
+    );
+  }
+
+  if (title === "Phone Number") {
+    return (
+      <PhoneNumber
+        question={mockQuestion}
+        onUpdate={mockUpdate}
+        onDelete={mockDelete}
+      />
+    );
+  }
+
+  if (title === "File Uploader") {
+    return (
+      <FileUploader
+        question={mockQuestion}
+        onUpdate={mockUpdate}
+        onDelete={mockDelete}
+      />
+    );
+  }
+
+  if (title === "Short Text") {
+    return (
+      <ShortText
+        question={mockQuestion}
+        onUpdate={mockUpdate}
+        onDelete={mockDelete}
+      />
+    );
+  }
+
+
+  // fallback
   return null;
 }
 
@@ -92,7 +198,7 @@ export default function CustomDragLayer() {
         className="w-120"
       >
         <div
-          className="border-2 border-(--purple) shadow-xl rounded-lg pointer-events-none"
+          className={`border-2 border-(--purple) shadow-xl rounded-lg pointer-events-none`}
           style={{
             background: "#dfe0f0",
             opacity: 1,

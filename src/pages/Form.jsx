@@ -44,7 +44,7 @@ function Form() {
   const saveRef = useRef();
   saveRef.current = Save;
   const [shareLoading, setShareLoading] = useState(false);
-
+  const [showUnpublishModal, setShowUnpublishModal] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [allowMultipleSubmissionsValue, setAllowMultipleSubmissionValue] =
     useState(false);
@@ -444,20 +444,38 @@ function Form() {
 
   function PublishForm(e) {
     e.stopPropagation();
+    timeout = 100;
 
-    if (isPublished) {
+    //walang loading pag close ng share modal
+    if (isPublished && showPublishModal) {
       setShowPublishModal((prev) => !prev);
+      setShareLoading(false);
       setShowSettings(false);
 
       return;
     }
 
+    //delay ng loading sa publishing
+    if (!isPublished) {
+      timeout = 2000;
+    }
     setShareLoading(true);
     setShowSettings(false);
-    timeout = 100;
 
     setTimeout(() => {
+
+      //publish na para may loading parin pag open ng share
+      if (isPublished) {
+        setShowPublishModal((prev) => !prev);
+        setShareLoading(false);
+        setShowSettings(false);
+
+        return;
+      }
+
+      //publish palang
       setIsPublished(true);
+      toast.success("Form successfully published!");
       setShowPublishModal(true);
       setShareLoading(false);
     }, timeout);
@@ -801,11 +819,20 @@ function Form() {
                             </button>
                           </div>
 
-                          {/* UNPUBLISH BUTTOn  d pa tapos*/}
+                          {/* UNPUBLISH BUTTOn  */}
                           <div className="flex items-center justify-center gap-4 px-3">
                             <hr className="flex-1 border-gray-400" />
                           </div>
-                          <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
+                          <div
+                            onClick={() => {
+                              isPublished ? setShowUnpublishModal(true) : null;
+                            }}
+                            className={`w-full px-3 py-2 flex items-center justify-between ${
+                              isPublished
+                                ? "hover:bg-(--dirty-white) "
+                                : "opacity-50 hover:none disable"
+                            }`}
+                          >
                             <span className="text-md flex gap-2 items-center font-vagrounded">
                               <BsFillSendXFill className="text-2xl font-bold" />
                               <span className="flex flex-col">
@@ -937,6 +964,35 @@ function Form() {
               <div className="flex w-14/15 mt-3 border border-t-(--dirty-white) border-transparent "></div>
             </div>
           </div>
+
+          <Modal
+            isOpen={showUnpublishModal}
+            close={() => setShowUnpublishModal(false)}
+            title="Unpublish form"
+          >
+            <p>
+              The form will no longer be visible to responders. Responders will
+              see a blank page if they open the form link. Form editors can
+              still make changes and publish the form again.
+            </p>
+            <div className="flex justify-end gap-2 mt-4">
+              <button
+                onClick={() => setShowUnpublishModal(false)}
+                className="px-3 py-1.5 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setIsPublished(false);
+                  setShowUnpublishModal(false);
+                }}
+                className="px-3 py-1.5 bg-red-600 text-white rounded hover:bg-red-700"
+              >
+                Unpublish
+              </button>
+            </div>
+          </Modal>
         </div>
       </DndProvider>
     </>
