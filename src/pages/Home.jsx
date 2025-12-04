@@ -28,13 +28,14 @@ const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 700px)' });
 
       <div className="flex items-center justify-center flex-1 min-h-full bg-[var(--white)] z-10">
         <div className="relative w-2/7 h-dvh pt-25">
-          <div className="m-12 flex flex-col">
-            
-              <span className="text-[42px] font-vagrounded font-semibold">Build Your Form </span>
-               <span className="text-[42px] font-vagrounded font-black"> INSTANTLY!</span> 
-               <span className="font-regular">
-                Drag, Drop and Build Forms in Seconds.</span>
-            
+          <div className="m-12">
+            <h1 className="font-vagrounded text-3xl mb-2">The Future</h1>
+            <p className="font-vagrounded text-md">
+              This where data isn't just gathered—it’s <span class= "font-vagrounded font-semibold italic"> synthesized,
+              contextualized, and transformed.</span> Step into the future-state
+              datascape to pioneer transformative insights using self-optimizing
+              architectures. The next era of predictive analytics starts here.
+            </p>
           </div>
           <button
             className="m-12 cursor-pointer text-4xl"
