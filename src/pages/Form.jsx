@@ -50,7 +50,6 @@ function Form() {
   const toggleMulti = () => setAllowMultipleSubmissionValue((prev) => !prev);
   const dropdownRef = useRef(null);
 
-  // for settings modal lang click outside == disappear
   useEffect(() => {
     function handleClickOutside(e) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {

@@ -7,8 +7,8 @@ import DotShader2 from "../components/DotShader2";
 import ReviewPage from "../components/ReviewPage";
 import QuestionRenderer from "../components/QuestionRenderer";
 
-// import Steps from "rc-steps";
-// import "rc-steps/assets/index.css";
+
+
 
 // import { Steps } from "rsuite";
 
