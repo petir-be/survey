@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
-import { FaArrowDown, FaCross, FaDownload } from "react-icons/fa6";
+import { FaArrowDown, FaCross, FaDownload, FaFile } from "react-icons/fa6";
 
 import ResponsesNavbar from "../components/ResponsesNavbar";
 import SearchBar from "../components/SearchBar";
+import MultipleChoiceBarChart from "../components/Charts/MultipleChoiceBarChart";
 
 function Results({ defaultFormName = "Form" }) {
   const { id } = useParams();
@@ -272,7 +273,9 @@ function Results({ defaultFormName = "Form" }) {
                             </th>
                             <th className="text-left text-sm font-medium text-gray-700 font-vagrounded">
                               <div className="py-4 px-4 border-l border-r border-white font-bold">
-                                <FaArrowDown />
+                                <button className="hover:bg-white rounded-full p-2">
+                                  <FaArrowDown />
+                                </button>
                               </div>
                             </th>
                             <th className="text-left text-sm font-medium text-gray-700 font-vagrounded">
@@ -470,6 +473,7 @@ function aggregateResponseData(responses, formData) {
   // Initialize structure with questions from formData
   formData.forEach((page) => {
     page.questions.forEach((question) => {
+
       if (question.type === "multiple_choice" && question.options) {
         aggregated[question.id] = {
           question: question.question,
@@ -482,10 +486,12 @@ function aggregateResponseData(responses, formData) {
         question.options.forEach((option) => {
           aggregated[question.id].options[option] = 0;
         });
+      } else if (question.type === "choice_matrix" && question.rows) {
+        console.log("console_matrix");
       }
+
     });
   });
-
 
   // Count responses for each option
   responses.forEach((response) => {
@@ -505,9 +511,9 @@ function aggregateResponseData(responses, formData) {
     }
 
     // Process each answer in the response
-    Object.entries(data).forEach(([index, answer ]) => {
+    Object.entries(data).forEach(([index, answer]) => {
       let questionId = answer["questionID"];
-      console.log(answer);
+      // console.log(answer);
 
       if (aggregated[questionId] && answer) {
         aggregated[questionId].total++;
@@ -515,8 +521,7 @@ function aggregateResponseData(responses, formData) {
         // Increment count for this specific answer/option
         if (aggregated[questionId].options.hasOwnProperty(answer.answer)) {
           aggregated[questionId].options[answer.answer]++;
-        } 
-        else {
+        } else {
           // Handle edge case where answer doesn't match predefined options
           aggregated[questionId].options[answer[answer]] = 1;
         }
@@ -524,81 +529,10 @@ function aggregateResponseData(responses, formData) {
     });
   });
 
-  console.log("aggregated: ");  
-  console.log(aggregated);  
+  // console.log("aggregated: ");
+  // console.log(aggregated);
 
   return aggregated;
-}
-
-// Component to display a single question summary
-function QuestionSummary({ questionData }) {
-  const { question, options, total } = questionData;
-
-  return (
-    <div
-      style={{
-        marginBottom: "24px",
-        padding: "16px",
-        border: "1px solid #e5e7eb",
-        borderRadius: "8px",
-      }}
-    >
-      <h3
-        style={{
-          marginTop: 0,
-          marginBottom: "8px",
-          fontSize: "18px",
-          fontWeight: "600",
-        }}
-      >
-        {question}
-      </h3>
-      <p style={{ margin: "0 0 16px 0", fontSize: "14px", color: "#6b7280" }}>
-        {total} {total === 1 ? "response" : "responses"}
-      </p>
-
-      <div>
-        {Object.entries(options).map(([option, count]) => {
-          const percentage = total > 0 ? ((count / total) * 100).toFixed(1) : 0;
-
-          return (
-            <div key={option} style={{ marginBottom: "12px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginBottom: "4px",
-                }}
-              >
-                <span >{option}</span>
-                <span >
-                  {count} ({percentage}%)
-                </span>
-              </div>
-              <div
-                style={{
-                  width: "100%",
-                  height: "8px",
-                  backgroundColor: "#e5e7eb",
-                  borderRadius: "4px",
-                  overflow: "hidden",
-                }}
-              >
-                <div
-                  style={{
-                    width: `${percentage}%`,
-                    height: "100%",
-                    backgroundColor: "#3b82f6",
-                    transition: "width 0.3s ease",
-                  }}
-                />
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
 }
 
 // Main Summary Component
@@ -607,6 +541,7 @@ function SummaryView({ responses, formData, questions }) {
 
   useEffect(() => {
     if (responses && formData) {
+      console.log(responses);
       const aggregated = aggregateResponseData(responses, formData);
       // console.log(`Aggregated - ${JSON.stringify(aggregated)}`);
       // console.log("Responses - " + JSON.stringify(responses));
@@ -624,22 +559,33 @@ function SummaryView({ responses, formData, questions }) {
 
   return (
     <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-10 pb-6 border-b-1 border-gray-300">
         <h2
           style={{ marginTop: 0 }}
           className="text-3xl font-bold font-vagrounded"
         >
           Summary
         </h2>
-        <button className="p-2 hover:font-bold flex gap-4">
-          <FaDownload />
+        <button className="p-2 hover:font-bold flex gap-1">
+          <FaFile />
           Print to PDF
         </button>
       </div>
 
-      {Object.entries(summaryData).map(([questionId, data]) => (
-        <QuestionSummary key={questionId} questionData={data} />
-      ))}
+      <div className="questions flex flex-col gap-6 w-auto">
+        {Object.entries(summaryData).map(([questionId, data]) => (
+          // <QuestionSummary key={questionId} questionData={data} />
+
+          <div className="border-1 border-white shadow-xl rounded-lg flex flex-col p-4">
+            {/* {console.log(data)} */}
+            <h3 className="text-lg font-bold">{data.question}</h3>
+            <p className="mb-10 text-lg">
+              There were {data.total} responses to this question
+            </p>
+            <MultipleChoiceBarChart data={data} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
