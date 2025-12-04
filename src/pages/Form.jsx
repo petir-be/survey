@@ -1,5 +1,4 @@
 import { Link, useNavigate, useParams } from "react-router";
-import { FaHome, FaUserCircle } from "react-icons/fa";
 import { useRef, useState, useEffect, useContext } from "react";
 import FormElement from "../components/FormElement";
 import Layers from "../components/Layers";
@@ -11,23 +10,30 @@ import { v4 as uuidv4 } from "uuid";
 import { AuthContext } from "../Context/authContext";
 import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
-import * as motion from "motion/react-client";
+import { motion, AnimatePresence } from "framer-motion";
+
 import { BiSelectMultiple } from "react-icons/bi";
-
+import toast, { Toaster } from "react-hot-toast";
 import { MdPreview } from "react-icons/md";
+import { QRCodeCanvas } from "qrcode.react";
 
+import { FaHome, FaUserCircle, FaCopy } from "react-icons/fa";
 import {
   IoMenu,
   IoMail,
   IoDocumentText,
   IoToggleSharp,
   IoCheckbox,
+  IoShareSocialSharp,
 } from "react-icons/io5";
-import { IoEllipsisHorizontalCircleSharp } from "react-icons/io5";
+import { IoEllipsisHorizontalCircleSharp, IoDownload } from "react-icons/io5";
+import { IoIosCheckmarkCircle } from "react-icons/io";
+
 import { HiMiniH1, HiMiniArrowsUpDown } from "react-icons/hi2";
 import { HiMenuAlt4, HiUpload } from "react-icons/hi";
 import { BsGrid3X3GapFill } from "react-icons/bs";
 import { RiPhoneFill } from "react-icons/ri";
+import { BsFillSendXFill } from "react-icons/bs";
 import Modal from "../components/Modal";
 
 function Form() {
@@ -44,27 +50,45 @@ function Form() {
     useState(false);
   const [isPublished, setIsPublished] = useState(false);
   const [hasReviewPage, setHasReviewPage] = useState(false);
-  const [showPublishModal, setShowPublishModal] = useState(true);
+  const [showPublishModal, setShowPublishModal] = useState(false);
+  const [copy, setCopy] = useState(false);
+  const [copyQR, setCopyQR] = useState(false);
 
   const toggleReview = () => setHasReviewPage((prev) => !prev);
   const toggleMulti = () => setAllowMultipleSubmissionValue((prev) => !prev);
   const dropdownRef = useRef(null);
+  const triggerRef = useRef(null);
+  const settingsBtnRef = useRef(null);
+  const qrCodeRef = useRef(null);
+  let timeout = 2000;
 
   useEffect(() => {
-    function handleClickOutside(e) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+    function handleClickOutside(event) {
+      const clickedOutsideDropdown =
+        dropdownRef.current && !dropdownRef.current.contains(event.target);
+      const clickedPublishButton =
+        triggerRef.current && triggerRef.current.contains(event.target);
+      const clickedSettingsButton =
+        settingsBtnRef.current && settingsBtnRef.current.contains(event.target);
+
+      if (clickedPublishButton || clickedSettingsButton) {
+        return;
+      }
+
+      if (clickedOutsideDropdown) {
         setShowSettings(false);
+        setShowPublishModal(false);
       }
     }
 
-    if (showSettings) {
+    if (showSettings || showPublishModal) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showSettings]);
+  }, [showSettings, showPublishModal, dropdownRef, triggerRef, settingsBtnRef]);
 
   let navigate = useNavigate();
   useEffect(() => {
@@ -418,15 +442,84 @@ function Form() {
     return () => clearInterval(intervalId);
   }, []);
 
-  function PublishForm() {
+  function PublishForm(e) {
+    e.stopPropagation();
+
+    if (isPublished) {
+      setShowPublishModal((prev) => !prev);
+      setShowSettings(false);
+
+      return;
+    }
+
     setShareLoading(true);
+    setShowSettings(false);
+    timeout = 100;
 
     setTimeout(() => {
       setIsPublished(true);
       setShowPublishModal(true);
       setShareLoading(false);
-    }, 2000);
+    }, timeout);
   }
+
+  // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------
+  function handleCopyButton() {
+    // navigator.clipboard.writeText(`https://[websitename]/form/${publicid}`);
+    navigator.clipboard.writeText(`localhost:5173/form/${publicid}`);
+    toast.success("Link copied successfully!");
+    setCopy(true);
+  }
+
+  function useQRCodeDownloader(qrRef, filename) {
+    return () => {
+      const canvas = qrRef.current;
+      if (!canvas) {
+        console.error("Canvas not found");
+        return;
+      }
+
+      // Wait a tick to ensure canvas is painted
+      setTimeout(() => {
+        try {
+          const pngUrl = canvas.toDataURL("image/png");
+
+          const link = document.createElement("a");
+          link.href = pngUrl;
+          link.download = `${filename}.png`;
+          link.click();
+        } catch (err) {
+          console.error("Failed to generate PNG:", err);
+        }
+      }, 50); // 50ms delay
+    };
+  }
+
+  const handleCopyQRImage = async () => {
+    const canvas = qrCodeRef.current;
+    if (!canvas) return;
+
+    try {
+      // Convert canvas to Blob
+      canvas.toBlob(async (blob) => {
+        if (!blob) return;
+
+        // Use Clipboard API
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            [blob.type]: blob,
+          }),
+        ]);
+
+        toast.success("QR copied successfully!");
+        setCopyQR(true);
+      });
+    } catch (err) {
+      toast.error("Failed to copy QR image:", err);
+    }
+  };
+
+  const handleDownloadQR = useQRCodeDownloader(qrCodeRef, `form-${publicid}`);
 
   if (error) {
     return (
@@ -440,6 +533,7 @@ function Form() {
 
   return (
     <>
+      <Toaster position="top-right" />
       <DndProvider backend={HTML5Backend}>
         <div className="h-dvh w-full bg-(--white) flex flex-col overflow-x-hidden">
           <header className="flex items-center justify-between bg-(--white) pt-8 pb-8 px-10 pr-12 relative z-50 border border-transparent border-b-(--dirty-white)">
@@ -483,6 +577,7 @@ function Form() {
                 <button
                   onClick={PublishForm}
                   disabled={shareLoading}
+                  ref={triggerRef}
                   className="flex items-center gap-2 px-7 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) 
              inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 
              transition-color duration-200 ease-out disabled:opacity-60"
@@ -490,144 +585,243 @@ function Form() {
                   {shareLoading ? (
                     <span className="w-6 h-6 border-2 border-(--purple) border-t-transparent rounded-full animate-spin"></span>
                   ) : isPublished ? (
-                    "Share"
+                    <>
+                      <IoShareSocialSharp className="text-lg" /> Share
+                    </>
                   ) : (
                     "Publish"
                   )}
                 </button>
-                {setShowPublishModal && (
-                  <>
-                    <span className="bg-(--white) border border-(--purple) rotate-45 w-5 h-5 absolute top-11 rounded translate-x-1/2 right-1/2"></span>
-                    <div className="absolute font-vagrounded min-w-100 w-1/3 top-12 py-4 px-2 -right-2 bg-(--white) border border-(--purple) rounded shadow-lg z-50">
-                      <div className="gap-2 px-3 flex-col flex">
-                        <p className="text-md">Share Link</p>
-                        <div className="flex w-full gap-2 items-center">
-                          <p className="text-sm font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-md p-2 truncate">
-                            https://[websitename]/form/{publicid}
+                <AnimatePresence>
+                  {showPublishModal && (
+                    <motion.div
+                      ref={dropdownRef}
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.7 }}
+                      transition={{ duration: 0.18, ease: "easeOut" }}
+                      style={{ transformOrigin: "top right" }}
+                      className="absolute top-12 right-0 z-50"
+                    >
+                      {/* Pointer triangle */}
+                      <span className="bg-(--white) border -z-10 border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-5 rounded"></span>
+
+                      {/* Modal Box */}
+                      <div className="font-vagrounded min-w-100 w-80 py-4 px-2 bg-(--white) border border-(--purple) rounded shadow-lg">
+                        <div className="gap-1 px-3 flex-col flex">
+                          <p className="text-xl">Share Link</p>
+
+                          <div className="flex w-full gap-2 items-center">
+                            <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-md p-2 truncate">
+                              {window.location.href}
+                            </p>
+
+                            <button
+                              onClick={handleCopyButton}
+                              className="flex items-center justify-center gap-2 text-sm p-2 border-(--purple) bg-(--purple-lighter) hover:bg-[#b099f5] transition-all duration-200 ease-out border-2 rounded-lg px-4"
+                            >
+                              {copy ? (
+                                <IoIosCheckmarkCircle className="text-xl" />
+                              ) : (
+                                <FaCopy className="text-xl" />
+                              )}
+                              {copy ? "Copied" : "Copy"}
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-center gap-4 px-3 my-2">
+                          <hr className="flex-1 border-gray-400" />
+                          <p className="text-sm text-gray-500 font-vagrounded">
+                            or
                           </p>
-                          <button className="text-sm p-2 border-(--purple) bg-(--purple-lighter) hover:bg-[#b099f5] transition-all duration-200 ease-out border-2 rounded-lg px-4">
-                            Copy
-                          </button>
+                          <hr className="flex-1 border-gray-400" />
+                        </div>
+                        <p className="px-3 text-xl font-vagrounded">
+                          Get the QR Code
+                        </p>
+                        <p className="px-3 text-gray-500 text-sm font-vagrounded">
+                          Scan the code to launch your form
+                        </p>
+
+                        {/* // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------  */}
+                        <div className="flex px-3 mt-3 gap-2 ">
+                          <QRCodeCanvas
+                            bgColor="#dfe0f0"
+                            value={`localhost:5173/form/${publicid}`}
+                            size={220}
+                            ref={qrCodeRef}
+                          />
+                          <div className="flex flex-col font-vagrounded flex-1 justify-center gap-3">
+                            <button
+                              onClick={handleCopyQRImage}
+                              className="flex hover:bg-(--white) transition-all duration-200 ease-out bg-(--dirty-white) justify-center items-center gap-2 text-md p-2 border-2 border-(--black-lighter) rounded-lg "
+                            >
+                              {copyQR ? (
+                                <IoIosCheckmarkCircle className="text-xl" />
+                              ) : (
+                                <FaCopy className="text-xl" />
+                              )}
+                              {copyQR ? "Copied" : "Copy Code"}
+                            </button>
+                            <button
+                              onClick={handleDownloadQR}
+                              className="flex bg-(--white) justify-center items-center gap-1 text-md p-2 border-2 border-(--black-lighter) rounded-lg "
+                            >
+                              <IoDownload className="text-2xl" />
+                              Download
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </>
-                )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
-              <div className="relative" ref={dropdownRef}>
+              <div className="relative">
                 <button
-                  onClick={() => setShowSettings((show) => !show)}
+                  onClick={() => {
+                    setShowSettings((show) => !show);
+                    setShowPublishModal(false);
+                  }}
+                  ref={settingsBtnRef}
                   className="bg-transparent ease-out flex items-center justify-center rounded-full"
                 >
                   <IoSettingsSharp className="text-3xl hover:scale-[1.05] transition-all duration-200 ease-out" />
                 </button>
-                {showSettings && (
-                  <>
-                    <span className="bg-(--white) border border-(--purple) rotate-45 w-5 h-5 absolute top-10 rounded translate-x-1/2 right-1/2"></span>
-                    <div className="absolute min-w-50 w-83 top-11 py-3 -right-2 bg-(--white) border border-(--purple) rounded shadow-lg z-50">
-                      <div className="flex flex-col w-full gap-2">
-                        {/* Review Page */}
-                        <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
-                          <span className="text-md flex gap-2 items-center font-vagrounded">
-                            <MdPreview className="text-3xl" />
-                            <span className="flex flex-col">
-                              Review Page
-                              <span className="text-xs">
-                                Let users review their submission
+                <AnimatePresence>
+                  {showSettings && (
+                    <motion.div
+                      ref={dropdownRef}
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.7 }}
+                      transition={{ duration: 0.18, ease: "easeOut" }}
+                      style={{ transformOrigin: "top right" }}
+                      className="absolute top-11 right-0 z-50"
+                    >
+                      <span className="bg-(--white) -z-10 border border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
+                      <div className="min-w-50 w-83 py-3 z-10 bg-(--white) border border-(--purple) rounded shadow-lg">
+                        <div className="flex flex-col w-full gap-2">
+                          <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
+                            <span className="text-md flex gap-2 items-center font-vagrounded">
+                              <MdPreview className="text-3xl" />
+                              <span className="flex flex-col">
+                                Review Page
+                                <span className="text-xs">
+                                  Let users review their submission
+                                </span>
                               </span>
                             </span>
-                          </span>
 
-                          <button
-                            onClick={toggleReview}
-                            style={{
-                              width: 45,
-                              height: 21,
-                              backgroundColor: hasReviewPage
-                                ? "#9911ff"
-                                : "#ccc",
-                              borderRadius: 30,
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: hasReviewPage
-                                ? "flex-end"
-                                : "flex-start",
-                              padding: 3,
-                              transition: "background-color 0.2s ease",
-                            }}
-                          >
-                            <motion.div
-                              layout
+                            <button
+                              onClick={toggleReview}
                               style={{
-                                width: 15,
-                                height: 15,
-                                backgroundColor: "white",
-                                borderRadius: "50%",
-                                boxShadow: "0 0 3px rgba(0,0,0,0.2)",
+                                width: 45,
+                                height: 21,
+                                backgroundColor: hasReviewPage
+                                  ? "#9911ff"
+                                  : "#ccc",
+                                borderRadius: 30,
+                                cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: hasReviewPage
+                                  ? "flex-end"
+                                  : "flex-start",
+                                padding: 3,
+                                transition: "background-color 0.2s ease",
                               }}
-                              transition={{
-                                type: "spring",
-                                duration: 0.25,
-                                bounce: 0.2,
-                              }}
-                            />
-                          </button>
-                        </div>
+                            >
+                              <motion.div
+                                layout
+                                style={{
+                                  width: 15,
+                                  height: 15,
+                                  backgroundColor: "white",
+                                  borderRadius: "50%",
+                                  boxShadow: "0 0 3px rgba(0,0,0,0.2)",
+                                }}
+                                transition={{
+                                  type: "spring",
+                                  duration: 0.25,
+                                  bounce: 0.2,
+                                }}
+                              />
+                            </button>
+                          </div>
 
-                        {/* Multiple Submission */}
-                        <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
-                          <span className="text-md flex gap-2 items-center font-vagrounded">
-                            <BiSelectMultiple className="text-3xl" />
-                            <span className="flex flex-col">
-                              Multiple Submission
-                              <span className="text-xs">
-                                Allows user to answer multiple times
+                          {/* Multiple Submission */}
+                          <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
+                            <span className="text-md flex gap-2 items-center font-vagrounded">
+                              <BiSelectMultiple className="text-3xl" />
+                              <span className="flex flex-col">
+                                Multiple Submission
+                                <span className="text-xs">
+                                  Allows user to answer multiple times
+                                </span>
                               </span>
                             </span>
-                          </span>
 
-                          <button
-                            onClick={toggleMulti}
-                            style={{
-                              width: 45,
-                              height: 21,
-                              backgroundColor: allowMultipleSubmissionsValue
-                                ? "#9911ff"
-                                : "#ccc",
-                              borderRadius: 30,
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: allowMultipleSubmissionsValue
-                                ? "flex-end"
-                                : "flex-start",
-                              padding: 3,
-                              transition: "background-color 0.2s ease",
-                            }}
-                          >
-                            <motion.div
-                              layout
+                            <button
+                              onClick={toggleMulti}
                               style={{
-                                width: 15,
-                                height: 15,
-                                backgroundColor: "white",
-                                borderRadius: "50%",
-                                boxShadow: "0 0 3px rgba(0,0,0,0.2)",
+                                width: 45,
+                                height: 21,
+                                backgroundColor: allowMultipleSubmissionsValue
+                                  ? "#9911ff"
+                                  : "#ccc",
+                                borderRadius: 30,
+                                cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: allowMultipleSubmissionsValue
+                                  ? "flex-end"
+                                  : "flex-start",
+                                padding: 3,
+                                transition: "background-color 0.2s ease",
                               }}
-                              transition={{
-                                type: "spring",
-                                duration: 0.25,
-                                bounce: 0.2,
-                              }}
-                            />
-                          </button>
+                            >
+                              <motion.div
+                                layout
+                                style={{
+                                  width: 15,
+                                  height: 15,
+                                  backgroundColor: "white",
+                                  borderRadius: "50%",
+                                  boxShadow: "0 0 3px rgba(0,0,0,0.2)",
+                                }}
+                                transition={{
+                                  type: "spring",
+                                  duration: 0.25,
+                                  bounce: 0.2,
+                                }}
+                              />
+                            </button>
+                          </div>
+
+                          {/* UNPUBLISH BUTTOn  d pa tapos*/}
+                          <div className="flex items-center justify-center gap-4 px-3">
+                            <hr className="flex-1 border-gray-400" />
+                          </div>
+                          <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
+                            <span className="text-md flex gap-2 items-center font-vagrounded">
+                              <BsFillSendXFill className="text-2xl font-bold" />
+                              <span className="flex flex-col">
+                                Unpublish Form
+                                <span className="text-xs">
+                                  The form will no longer be visible to
+                                  responders.
+                                </span>
+                              </span>
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </>
-                )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               <button>
