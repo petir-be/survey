@@ -6,6 +6,9 @@ import Checkbox from "./FormElements/Checkbox";
 import { motion } from "motion/react";
 
 function getItemComponent(item) {
+  {
+    motion;
+  }
   if (!item) return null;
   const title = item.title;
   const mockQuestion = {
