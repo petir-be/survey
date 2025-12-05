@@ -264,7 +264,7 @@ function Results({ defaultFormName = "Form" }) {
                 {filteredResponses && filteredResponses.length > 0 ? (
                   <div className="w-full p-6 min-h-screen">
                     <div className="rounded-lg overflow-hidden">
-                      <table className="w-full border-separate border-spacing-x-0 border-spacing-y-4">
+                      <table className="w-full border-separate border-spacing-x-0 border-spacing-y-4 pr-1">
                         <thead className="shadow-md font-vagrounded">
                           <tr
                             className="outline-1 outline-white border-box "
@@ -701,7 +701,7 @@ function SummaryView({ responses, formData, questions }) {
             >
               {/* {console.log(data)} */}
               <h3 className="text-lg font-bold">{data.question}</h3>
-              <p className="mb-10 text-lg">
+              <p className="mb-10 text-sm text-gray-500">
                 There were {data.total} responses to this question
               </p>
 
