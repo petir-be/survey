@@ -155,6 +155,12 @@ function Results({ defaultFormName = "Form" }) {
     }
   }, [id]);
 
+  const filteredResponses = responses.filter((response) =>
+    response.respondent.name
+      .toLowerCase()
+      .includes(SearchBarValue.toLowerCase())
+  );
+
   return (
     <>
       <ResponsesNavbar formName={formName} id={id} />
@@ -257,7 +263,7 @@ function Results({ defaultFormName = "Form" }) {
                   />
                 </div>
 
-                {responses && responses.length > 0 ? (
+                {filteredResponses && filteredResponses.length > 0 ? (
                   <div className="w-full p-6 min-h-screen">
                     <div className="rounded-lg overflow-hidden">
                       <table className="w-full border-separate border-spacing-x-0 border-spacing-y-4">
@@ -317,7 +323,9 @@ function Results({ defaultFormName = "Form" }) {
                         <tbody>
                           {responses.map((row, index) => {
                             const d = new Date(row.submittedAt);
-                            const displayIndex = isReversed ? responses.length - index : index + 1;
+                            const displayIndex = isReversed
+                              ? responses.length - index
+                              : index + 1;
 
                             const formattedDate = d.toLocaleDateString(
                               "en-US",
@@ -355,7 +363,9 @@ function Results({ defaultFormName = "Form" }) {
 
                                 {/* Index*/}
                                 <td className="align-middle text-sm text-gray-900 font-vagrounded">
-                                  <div className="py-4 px-4">{displayIndex}</div>
+                                  <div className="py-4 px-4">
+                                    {displayIndex}
+                                  </div>
                                 </td>
 
                                 {/* Name */}
