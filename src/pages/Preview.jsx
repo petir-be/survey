@@ -6,6 +6,7 @@ import axios from "axios";
 import DotShader2 from "../components/DotShader2";
 
 import QuestionRenderer from "../components/QuestionRenderer";
+import Loading from "../components/Loading";
 
 // import { Steps } from "rsuite";
 
@@ -83,7 +84,7 @@ function Preview() {
   if (loading) {
     return (
       <div className="h-dvh w-full bg-(--white) flex items-center justify-center">
-        <div className="text-2xl text-gray-600">Loading form...</div>
+        <Loading />
       </div>
     );
   }

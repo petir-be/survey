@@ -24,6 +24,7 @@ function Results({ defaultFormName = "Form" }) {
   const [formName, setFormName] = useState(defaultFormName);
   const [formData, setFormData] = useState();
   const [isReversed, setIsReversed] = useState(false);
+  const [isPublished, setIsPublished] =useState(false);
 
   const handleReverseOrder = () => {
     setResponses([...responses].reverse());
@@ -82,6 +83,7 @@ function Results({ defaultFormName = "Form" }) {
 
         setResponses(res.data);
         setFormData(formDetails.data.formData);
+        setIsPublished(formDetails.data.isPublished);
         setError(null);
 
         // Fix: Access formDetails.data.title
@@ -155,11 +157,15 @@ function Results({ defaultFormName = "Form" }) {
     }
   }, [id]);
 
+  if(!isPublished){
+    return <div className="w-full h-full flex items-center justify-center text-3xl">form not published</div>;
+  }
   const filteredResponses = responses.filter((response) =>
     response.respondent.name
       .toLowerCase()
       .includes(SearchBarValue.toLowerCase())
   );
+
 
   return (
     <>

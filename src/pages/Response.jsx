@@ -8,6 +8,7 @@ import ReviewPage from "../components/ReviewPage";
 import QuestionRenderer from "../components/QuestionRenderer";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { motion } from "framer-motion";
+import Loading from "../components/Loading";
 
 const localStorageKey = (guid) => `formAnswersCache_${guid}`;
 // import { Steps } from "rsuite";
@@ -87,7 +88,53 @@ function SubmitDone() {
 function AlreadySubmitted() {
   return (
     <>
-      <div className="w-full font-vagrounded min-h-dvh flex justify-center items-center flex-col"></div>
+      <div className="w-full font-vagrounded min-h-dvh flex justify-center items-center flex-col">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.6 }}
+          className=" mt-5 text-center"
+        >
+          <p className="text-5xl font-bold italic text-gray-800">You Again?</p>
+          <p className="text-2xl font-medium text-gray-600 mt-1">
+            Thank you but you already submitted in this form.
+          </p>
+          <p className="mt-4 text-lg font-medium cursor-pointer  ">
+            If you think this is an error,{" "}
+            <span className="text-blue-600 hover:text-blue-700 transition-colors underline">
+              contact the owner for details.
+            </span>
+          </p>
+        </motion.div>
+      </div>
+    </>
+  );
+}
+
+function FormNotPublished() {
+  return (
+    <>
+      <div className="w-full font-vagrounded min-h-dvh flex justify-center items-center flex-col">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.6 }}
+          className=" mt-5 text-center"
+        >
+          <p className="text-5xl font-bold italic text-gray-800">
+            Form not published
+          </p>
+          <p className="text-2xl font-medium text-gray-600 mt-1">
+            We are sorry, document is not published yet.
+          </p>
+          <p className="mt-4 text-lg font-medium cursor-pointer  ">
+            If you think this is an error,{" "}
+            <span className="text-blue-600 hover:text-blue-700 transition-colors underline">
+              contact the owner for details.
+            </span>
+          </p>
+        </motion.div>
+      </div>
     </>
   );
 }
@@ -276,8 +323,16 @@ function Response() {
   if (loading) {
     return (
       <div className="h-dvh w-full bg-(--white) flex items-center justify-center">
-        <div className="text-2xl text-gray-600">Loading form...</div>
+        <Loading />
       </div>
+    );
+  }
+
+  if (!isPublished) {
+    return (
+      <>
+        <FormNotPublished />
+      </>
     );
   }
 
@@ -285,7 +340,7 @@ function Response() {
     if (alreadySubmitted) {
       return (
         <>
-          <SubmitDone />
+          <AlreadySubmitted />
         </>
       );
     }
