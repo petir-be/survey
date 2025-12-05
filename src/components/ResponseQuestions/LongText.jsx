@@ -30,7 +30,7 @@ function LongText({ question, onChange, value = "" }) {
 
   return (
     <div className="my-6">
-      <p className="text-lg mb-3">{question.question}</p>
+      <p className="text-lg mb-3 font-medium">{question.question}</p>
       <div className="space-y-2 mt-3 group relative">
         <textarea
           ref={answerRef}

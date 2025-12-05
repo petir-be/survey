@@ -126,7 +126,7 @@ function Workspaces() {
             </div>
 
             <Link onClick={MakeForm}>
-              <HomeBox title="Create Form" icon={aboutus} />
+              <HomeBox title="Create Form" icon={aboutus} className = "!mx-0"/>
             </Link>
           </div>
         </div>
