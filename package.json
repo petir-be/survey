@@ -33,6 +33,7 @@
     "react-resizable-panels": "^3.0.6",
     "react-responsive": "^10.0.1",
     "react-router": "^7.9.4",
+    "recharts": "^3.5.1",
     "rsuite": "^6.0.0",
     "tailwindcss": "^4.1.15",
     "three": "^0.181.1",
