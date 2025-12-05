@@ -23,7 +23,7 @@ function ChoiceMatrixBarChart({ data }) {
   const colors = ["#DA1262", "#4A90E2", "#50C878", "#FFB347"];
 
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width="100%" height={300}>
       <BarChart
         data={chartData}
         margin={{ top: 10, bottom: 10, right: 10, left: 0 }}
