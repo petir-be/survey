@@ -3,6 +3,7 @@ import "../global.css";
 import DotShader from "../components/DotShader";
 import home1 from "/src/assets/2.svg";
 import HomeBox from "../components/HomeBox";
+import { FaSpinner } from "react-icons/fa";
 import aboutus from "../assets/hugeicons_ai-dna.svg";
 import FAQ from "../components/FAQ";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,12 +14,12 @@ import axios from "axios";
 import { AuthContext } from "../Context/authContext";
 function Home() {
   const [showModal, setShowModal] = useState(false);
-
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 700px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 699px)" });
   const { user } = useContext(AuthContext);
   const [form, setForm] = useState({});
-
+  const [showAIInput, setShowAIInput] = useState(false);
+  const [aiPrompt, setAiPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -55,7 +56,8 @@ function Home() {
         `${import.meta.env.VITE_BACKEND}/api/Form/Ai`,
         {
           userId: user.id,
-          title: "Advance Coding in C#",
+          title: "",
+          promt: aiPrompt,
         },
         {
           withCredentials: true,
@@ -69,6 +71,8 @@ function Home() {
       console.error(error);
     } finally {
       setIsLoading(false);
+      setShowAIInput(false);
+      setAiPrompt("");
     }
   }
 
@@ -99,6 +103,10 @@ function Home() {
               >
                 +
               </button>
+
+              <div>
+                render
+              </div>
             </div>
             <div className="w-3/7 relative h-dvh overflow-hidden pt-15 border-2 border-[var(--dirty-white)] bg-[var(--white)] z-10">
               <div className="absolute z-1 w-full h-full flex justify-center items-center">
@@ -169,63 +177,123 @@ function Home() {
                         className="flex flex-col gap-3 items-center w-full h-full font-vagrounded "
                         onClick={MakeForm}
                       >
-                        <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
-                          {/* button ng form */}
-                          <button
-                            className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"
-                            onClick={MakeForm}
-                          ></button>
+                        {isLoading ? (
+                          <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
+                            {/* button ng form */}
+                            <button
+                              className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"
+                              onClick={MakeForm}
+                            ></button>
 
-                          {/* circle and rectangle */}
-                          <span className="inset-shadow-sm/40 w-5 h-5 absolute top-8 left-10 rounded-full"></span>
-                          <span className="inset-shadow-sm/40 w-5 h-5 absolute top-15 left-10 rounded-full"></span>
-                          <span className="w-5 h-5 inset-shadow-sm/40 absolute top-22 left-10 rounded-full"></span>
+                            <FaSpinner className="text-5xl text-(--purple) animate-spin" />
 
-                          <span className="w-7/12 h-3 inset-shadow-sm/40 absolute top-9 left-17"></span>
-                          <span className="w-4/12 h-3 inset-shadow-sm/40 absolute top-16 left-17"></span>
-                          <span className="w-2/12 h-3 inset-shadow-sm/40 absolute top-23 left-17"></span>
+                            <span className="absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-34 rotate-45  "></span>
+                            <div
+                              className="absolute bottom-0 z-2 right-0 w-25 h-25 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
+                              style={{
+                                clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                                filter:
+                                  "drop-shadow(2px 2px 4px rgba(0, 0, 0, 1))",
+                              }}
+                            />
+                            <div
+                              className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-28 h-29"
+                              style={{
+                                clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
+                                background: "#DFE0F0",
+                              }}
+                            />
+                          </span>
+                        ) : (
+                          <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
+                            {/* button ng form */}
+                            <button
+                              className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"
+                              onClick={MakeForm}
+                            ></button>
 
-                          {/* plus circle */}
-                          <span className="w-15 h-15 rounded-full inset-shadow-sm/40 absolute top-50 left-15 flex justify-center items-center">
-                            <span className="flex justify-center items-center w-11 h-11 rounded-full shadow-sm/40">
-                              <span className="w-8 h-2 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
-                                {/* ayaw maalis pota */}
-                                <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
-                              </span>
-                              <span className="fixed w-2 h-8 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
-                                <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
+                            {/* circle and rectangle */}
+                            <span className="inset-shadow-sm/40 w-5 h-5 absolute top-8 left-10 rounded-full"></span>
+                            <span className="inset-shadow-sm/40 w-5 h-5 absolute top-15 left-10 rounded-full"></span>
+                            <span className="w-5 h-5 inset-shadow-sm/40 absolute top-22 left-10 rounded-full"></span>
+
+                            <span className="w-7/12 h-3 inset-shadow-sm/40 absolute top-9 left-17"></span>
+                            <span className="w-4/12 h-3 inset-shadow-sm/40 absolute top-16 left-17"></span>
+                            <span className="w-2/12 h-3 inset-shadow-sm/40 absolute top-23 left-17"></span>
+
+                            {/* plus circle */}
+                            <span className="w-15 h-15 rounded-full inset-shadow-sm/40 absolute top-50 left-15 flex justify-center items-center">
+                              <span className="flex justify-center items-center w-11 h-11 rounded-full shadow-sm/40">
+                                <span className="w-8 h-2 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
+                                  {/* ayaw maalis pota */}
+                                  <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
+                                </span>
+                                <span className="fixed w-2 h-8 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
+                                  <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
+                                </span>
                               </span>
                             </span>
-                          </span>
 
-                          <span className="absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-34 rotate-45  "></span>
-                          <div
-                            className="absolute bottom-0 z-2 right-0 w-25 h-25 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
-                            style={{
-                              clipPath: "polygon(0 0, 100% 0, 0 100%)",
-                              filter:
-                                "drop-shadow(2px 2px 4px rgba(0, 0, 0, 1))",
-                            }}
-                          />
-                          <div
-                            className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-28 h-29"
-                            style={{
-                              clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
-                              background: "#DFE0F0",
-                              // background:'#000000'
-                            }}
-                          />
-                        </span>
+                            <span className="absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-34 rotate-45  "></span>
+                            <div
+                              className="absolute bottom-0 z-2 right-0 w-25 h-25 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
+                              style={{
+                                clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                                filter:
+                                  "drop-shadow(2px 2px 4px rgba(0, 0, 0, 1))",
+                              }}
+                            />
+                            <div
+                              className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-28 h-29"
+                              style={{
+                                clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
+                                background: "#DFE0F0",
+                              }}
+                            />
+                          </span>
+                        )}
                         Create you own forms
                       </div>
 
                       {/* generate with ai */}
-                      <div
-                        className="flex flex-col gap-3 items-center w-full h-full font-vagrounded"
-                        onClick={MakeAIForm}
-                      >
-                        <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease"></span>
-                        Generate with AI
+                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded relative">
+                        {!showAIInput ? (
+                          <div
+                            className="flex flex-col gap-3 items-center w-full h-full cursor-pointer"
+                            onClick={() => setShowAIInput(true)}
+                          >
+                            <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center">
+                              <span className="text-4xl"></span>
+                            </span>
+                            Generate with AI
+                          </div>
+                        ) : (
+                          <div className="flex flex-col gap-2 items-center justify-center w-full h-full animate-in fade-in zoom-in duration-200">
+                            <textarea
+                              autoFocus
+                              value={aiPrompt}
+                              onChange={(e) => setAiPrompt(e.target.value)}
+                              placeholder="Describe what you want to make ...."
+                              className="w-11/12 h-3/5 p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm resize-none shadow-inner"
+                            />
+
+                            <div className="flex gap-2 w-11/12">
+                              <button
+                                onClick={() => setShowAIInput(false)}
+                                className="flex-1 py-1 rounded bg-gray-200 hover:bg-gray-300 text-md text-gray-600 transition-colors"
+                              >
+                                Back
+                              </button>
+                              <button
+                                onClick={MakeAIForm}
+                                disabled={isLoading || !aiPrompt.trim()}
+                                className="flex-1 py-1 rounded bg-[var(--purple)] text-black text-md disabled:opacity-50"
+                              >
+                                {isLoading ? "..." : "Generate"}
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       {/* Use a template */}
