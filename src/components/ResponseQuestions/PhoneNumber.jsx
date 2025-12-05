@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-
-
+import { PH } from "country-flag-icons/react/3x2";
 
 function PhoneNumber({ question, onChange, value = "" }) {
-
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
 
-
   useEffect(() => {
     setPhone(value);
-  }, [value])
+  }, [value]);
 
   const handleChange = (e) => {
     let val = e.target.value;
@@ -32,12 +29,10 @@ function PhoneNumber({ question, onChange, value = "" }) {
     }
   };
 
- 
-
   return (
     <div className="my-6">
-        <p className="text-lg mb-3">{question.question}</p>
-     
+      <p className="text-lg mb-3 font-medium">{question.question}</p>
+
       <div className="space-y-2">
         <div className="flex items-center px-3 py-1 bg-[var(--dirty-white)] border-b-2 border-b-[var(--black)] text-lg focus-within:border-[var(--purple)] focus:outline-none">
           <PH className="w-7 h-7 mr-2" />{" "}

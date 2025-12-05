@@ -10,6 +10,7 @@ import Form from "./pages/Form.jsx";
 import TestPage from "./pages/TestPage.jsx";
 import Preview from "./pages/Preview.jsx";
 import Response from "./pages/Response.jsx";
+import Results from "./pages/Results.jsx";
 import ReviewPage from "./components/ReviewPage.jsx";
 import Workspaces from "./pages/Workspaces.jsx";
 
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
   {
     path: "/testreview",
     element: <ReviewPage />,
+  },
+  {
+    path: "/newform/:id/responses",
+    element: <Results />,
   },
   {
     path: "/Workspaces",

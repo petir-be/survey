@@ -127,7 +127,7 @@ function Home() {
                 {/*bottom right*/}
               </div>
             </div>
-            <div className=" justify-center flex flex-col gap-5 w-2/7 h-dvh pt-25 ">
+            <div className=" justify-center flex flex-col gap-5 w-2/7 h-dvh pt-25 px-10">
               {/* Redirect to login page if dont have acc log */}
               <button className="text-left" onClick={() => setShowModal(true)}>
                 <HomeBox title="Create Forms" icon={aboutus} />
