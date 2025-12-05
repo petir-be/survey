@@ -1,7 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router";
 import { FaHome, FaUserCircle, FaSpinner } from "react-icons/fa"; // Added FaSpinner
 import React, { useRef, useState, useEffect, useContext } from "react";
-import { useRef, useState, useEffect, useContext } from "react";
 import FormElement from "../components/FormElement";
 import Layers from "../components/Layers";
 import { BiSolidUserRectangle } from "react-icons/bi";
@@ -13,14 +12,12 @@ import { AuthContext } from "../Context/authContext";
 import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
 import * as motion from "motion/react-client";
-import { toPng } from "html-to-image";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { BiSelectMultiple } from "react-icons/bi";
 import toast, { Toaster } from "react-hot-toast";
 import { MdPreview } from "react-icons/md";
 import { QRCodeCanvas } from "qrcode.react";
-
-import { FaHome, FaUserCircle, FaCopy } from "react-icons/fa";
+import { FaCopy } from "react-icons/fa";
 import {
   IoMenu,
   IoMail,
@@ -32,7 +29,7 @@ import {
 import { IoEllipsisHorizontalCircleSharp, IoDownload } from "react-icons/io5";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { FaArrowUp } from "react-icons/fa6";
-
+import AccountModal from "../components/AccountModal";
 import { HiMiniH1, HiMiniArrowsUpDown } from "react-icons/hi2";
 import { HiMenuAlt4, HiUpload } from "react-icons/hi";
 import { BsGrid3X3GapFill } from "react-icons/bs";
@@ -45,7 +42,6 @@ function Form() {
   const { user, isAuthenticated } = useContext(AuthContext);
   const [error, setError] = useState(null);
 
-  // 1. ADDED LOADING STATE
   const [isLoading, setIsLoading] = useState(true);
 
   const { id } = useParams();
@@ -71,7 +67,37 @@ function Form() {
   const triggerRef = useRef(null);
   const settingsBtnRef = useRef(null);
   const qrCodeRef = useRef(null);
+  const isFirstRender = useRef(true);
+  const [responses, setResponses] = useState([]);
+  const [responsesLoading, setResponsesLoading] = useState(true);
+  const [showAccountModal, setShowAccountModal] = useState(false);
   let timeout = 2000;
+
+  useEffect(() => {
+    if (responses.length > 0) {
+      setResponsesLoading(false);
+      return;
+    }
+
+    async function fetchResponses() {
+      if (!id) return;
+
+      setResponsesLoading(true);
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND}/api/Response/responses/${id}`,
+          { withCredentials: true }
+        );
+        setResponses(res.data);
+      } catch (err) {
+        console.error("Failed to fetch responses", err);
+      } finally {
+        setResponsesLoading(false);
+      }
+    }
+
+    fetchResponses();
+  }, [id, responses.length]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -422,25 +448,20 @@ function Form() {
     }
   }, [id]);
 
-  // 4. NEW AUTO-SAVE LOGIC (REPLACES SETINTERVAL)
   useEffect(() => {
-    // Prevent saving while initial data is still loading
     if (isLoading) return;
 
-    // Prevent saving immediately when the component mounts or data is first set
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
     }
 
-    // Debounce: Wait 1 second after the last change before saving
     const timer = setTimeout(() => {
       Save();
-    }, 1000);
+    }, 2000);
 
-    // Cleanup: If user types again before 1s, clear the old timer
     return () => clearTimeout(timer);
-  }, [pages, titleValue, allowMultipleSubmissionsValue]); // Trigger on any of these changes
+  }, [pages, titleValue, allowMultipleSubmissionsValue]);
 
   async function Save() {
     try {
@@ -458,8 +479,6 @@ function Form() {
       console.log("Save failed", error);
     }
   }
-
- 
 
   function PublishForm(e) {
     e.stopPropagation();
@@ -581,6 +600,11 @@ function Form() {
 
   return (
     <>
+      <AccountModal
+        isOpen={showAccountModal}
+        close={() => setShowAccountModal(false)}
+        title="Account Information"
+      ></AccountModal>
       <Toaster position="top-right" />
       <DndProvider backend={HTML5Backend}>
         <div className="h-dvh w-full bg-(--white) flex flex-col overflow-x-hidden">
@@ -617,7 +641,10 @@ function Form() {
 
             <div className="inline-flex items-center gap-7 bg-(--white) flex-1 min-w-0">
               {/* <Link to={`/newform/${id}`}> */}
-              <div onClick={() => setResultPage(false)} className="group min-w-1/4 justify-center items-center  px-8 py-1 relative flex flex-col border-2 border-(--dirty-white) ">
+              <div
+                onClick={() => setResultPage(false)}
+                className="group min-w-1/4 justify-center items-center  px-8 py-1 relative flex flex-col border-2 border-(--dirty-white) "
+              >
                 <div className="absolute flex items-center justify-center top-0 right-0 w-4 h-4 bg-(--dirty-white)">
                   <button className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
                     <FaArrowUp className="text-xs rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
@@ -666,8 +693,8 @@ function Form() {
                   disabled={shareLoading}
                   ref={triggerRef}
                   className="flex items-center gap-2 px-7 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) 
-             inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 
-             transition-color duration-200 ease-out disabled:opacity-60"
+              inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 
+              transition-color duration-200 ease-out disabled:opacity-60"
                 >
                   {shareLoading ? (
                     <span className="w-6 h-6 border-2 border-(--purple) border-t-transparent rounded-full animate-spin"></span>
@@ -920,16 +947,25 @@ function Form() {
                 </AnimatePresence>
               </div>
 
-              <button>
-                <FaUserCircle className="text-3xl hover:scale-[1.05] transition-all duration-200 ease-out" />
-              </button>
+              <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
+                <img
+                  src={user.avatar}
+                  onClick={() => setShowAccountModal(true)}
+                  className="h-10 w-10 cursor-pointer rounded-full"
+                />
+              </div>
             </div>
           </header>
 
           {resultPage && (
-            <>
-              <Results />
-            </>
+            <div className="flex-1 w-full overflow-hidden ">
+              <Results
+                defaultFormName={titleValue}
+                parentResponses={responses}
+                parentLoading={responsesLoading}
+                parentFormData={pages}
+              />
+            </div>
           )}
 
           {!resultPage && (

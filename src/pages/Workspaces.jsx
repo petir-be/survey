@@ -16,6 +16,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../Context/authContext";
 import { AnimatePresence, motion } from "framer-motion";
+import { FaSpinner } from "react-icons/fa";
+import AccountModal from "../components/AccountModal";
 
 function Workspaces() {
   const [formData, setFormData] = useState([]);
@@ -23,9 +25,13 @@ function Workspaces() {
   const [createFormLoading, setCreateFormLoadin] = useState(false);
   const [formReply, setFormReply] = useState({});
   const navigate = useNavigate();
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [showAIInput, setShowAIInput] = useState(false);
+  const [form, setForm] = useState({});
+  const [showModal, setShowModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
-  // 1. Initialize viewMode from localStorage (default to "list" if not found)
+  const [showAccountModal, setShowAccountModal] = useState(false);
+  
   const [viewMode, setViewMode] = useState(() => {
     return localStorage.getItem("viewMode") || "list";
   });
@@ -96,7 +102,34 @@ function Workspaces() {
     }
   }
 
-  // 3. Logic: Handle Toggle Click
+  async function MakeAIForm() {
+    if (isLoading) return;
+    setIsloading(true);
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND}/api/Form/Ai`,
+        {
+          userId: user.id,
+          title: "",
+          promt: aiPrompt,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      if (res.data && res.data.surveyId) {
+        navigate(`/newform/${res.data.surveyId}`);
+      }
+      setForm(res.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsloading(false);
+      setShowAIInput(false);
+      setAiPrompt("");
+    }
+  }
+
   const handleToggleClick = async (e, item) => {
     e.stopPropagation(); // Stop navigation
     const newStatus = !item.isPublished;
@@ -127,7 +160,6 @@ function Workspaces() {
     setShowDeleteModal(true);
   };
 
-
   async function confirmDelete() {
     if (!itemToDelete) return;
 
@@ -155,6 +187,11 @@ function Workspaces() {
   });
   return (
     <>
+      <AccountModal
+        isOpen={showAccountModal}
+        close={() => setShowAccountModal(false)}
+        title="Account Information"
+      ></AccountModal>
       <Toaster position="top-right" />
       <div className="relative w-full h-screen overflow-hidden">
         {/* SIDEBAR */}
@@ -192,12 +229,11 @@ function Workspaces() {
 
             {/* UPDATED CREATE FORM BUTTON WITH LOADING STATE */}
             <div
-              onClick={!createFormLoading ? MakeForm : undefined}
+              onClick={() => setShowModal(true)}
               className={`cursor-pointer relative transition-all ${
                 createFormLoading ? "opacity-70 pointer-events-none" : ""
               }`}
             >
-              
               <HomeBox
                 title={createFormLoading ? "Creating..." : "Create Form"}
                 icon={aboutus}
@@ -210,8 +246,12 @@ function Workspaces() {
         <div className="absolute top-0 right-0 w-[80%] h-full z-10 overflow-y-auto">
           <div className="px-12 py-8">
             <div className="flex justify-end mb-16">
-              <div className="h-10 w-10 rounded-full border border-black flex items-center justify-center cursor-pointer hover:bg-gray-200 transition bg-transparent">
-                <BsPerson className="text-2xl" />
+              <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
+                <img
+                  src={user.avatar}
+                  onClick={() => setShowAccountModal(true)}
+                  className="h-10 w-10 cursor-pointer rounded-full"
+                />
               </div>
             </div>
 
@@ -291,7 +331,6 @@ function Workspaces() {
                     `}
                   >
                     {viewMode === "list" ? (
-                      // === LIST VIEW UI ===
                       <>
                         <div className="col-span-5 flex items-center gap-4">
                           <div className="w-8 h-8 rounded-md flex items-center justify-center text-white">
@@ -449,6 +488,180 @@ function Workspaces() {
                 </button>
               </div>
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            key="modal"
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 30 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs"
+          >
+            <span
+              className="absolute w-full h-full bg-transparent"
+              onClick={() => setShowModal(false)}
+            ></span>
+
+            <div className="p-10 w-2/3 h-2/3 bg-(--white) ring ring-white rounded-lg fixed z-50">
+              <h1 className="font-vagrounded text-xl">Start a new Form</h1>
+              <div className="absolute top-0 right-0 w-15 h-15 flex items-center justify-center">
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="w-full h-full cursor-pointer"
+                >
+                  X
+                </button>
+              </div>
+              <div className="p-5 flex items-center justify-evenly w-full h-full">
+                {/* create own forms */}
+                <div
+                  className="flex flex-col gap-3 items-center w-full h-full font-vagrounded "
+                  onClick={MakeForm}
+                >
+                  {createFormLoading ? (
+                    <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
+                      {/* button ng form */}
+                      <button
+                        className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"
+                        onClick={MakeForm}
+                      ></button>
+
+                      <FaSpinner className="text-5xl text-(--purple) animate-spin" />
+
+                      <span className="absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-34 rotate-45  "></span>
+                      <div
+                        className="absolute bottom-0 z-2 right-0 w-25 h-25 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
+                        style={{
+                          clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                          filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 1))",
+                        }}
+                      />
+                      <div
+                        className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-28 h-29"
+                        style={{
+                          clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
+                          background: "#DFE0F0",
+                        }}
+                      />
+                    </span>
+                  ) : (
+                    <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
+                      {/* button ng form */}
+                      <button
+                        className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"
+                        onClick={MakeForm}
+                      ></button>
+
+                      {/* circle and rectangle */}
+                      <span className="inset-shadow-sm/40 w-5 h-5 absolute top-8 left-10 rounded-full"></span>
+                      <span className="inset-shadow-sm/40 w-5 h-5 absolute top-15 left-10 rounded-full"></span>
+                      <span className="w-5 h-5 inset-shadow-sm/40 absolute top-22 left-10 rounded-full"></span>
+
+                      <span className="w-7/12 h-3 inset-shadow-sm/40 absolute top-9 left-17"></span>
+                      <span className="w-4/12 h-3 inset-shadow-sm/40 absolute top-16 left-17"></span>
+                      <span className="w-2/12 h-3 inset-shadow-sm/40 absolute top-23 left-17"></span>
+
+                      {/* plus circle */}
+                      <span className="w-15 h-15 rounded-full inset-shadow-sm/40 absolute top-50 left-15 flex justify-center items-center">
+                        <span className="flex justify-center items-center w-11 h-11 rounded-full shadow-sm/40">
+                          <span className="w-8 h-2 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
+                            {/* ayaw maalis pota */}
+                            <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
+                          </span>
+                          <span className="fixed w-2 h-8 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
+                            <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
+                          </span>
+                        </span>
+                      </span>
+
+                      <span className="absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-34 rotate-45  "></span>
+                      <div
+                        className="absolute bottom-0 z-2 right-0 w-25 h-25 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
+                        style={{
+                          clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                          filter: "drop-shadow(2px 2px 4px rgba(0, 0, 0, 1))",
+                        }}
+                      />
+                      <div
+                        className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-28 h-29"
+                        style={{
+                          clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
+                          background: "#DFE0F0",
+                        }}
+                      />
+                    </span>
+                  )}
+                  Create you own forms
+                </div>
+
+                {/* generate with ai */}
+                <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded relative">
+                  {!showAIInput ? (
+                    <div
+                      className="flex flex-col gap-3 items-center w-full h-full cursor-pointer"
+                      onClick={() => setShowAIInput(true)}
+                    >
+                      <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center">
+                        <span className="text-4xl"></span>
+                      </span>
+                      Generate with AI
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-2 items-center justify-center w-full h-full animate-in fade-in zoom-in duration-200">
+                      <textarea
+                        autoFocus
+                        value={aiPrompt}
+                        onChange={(e) => setAiPrompt(e.target.value)}
+                        placeholder="Describe what you want to make ...."
+                        className="w-11/12 h-3/5 p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm resize-none shadow-inner"
+                      />
+
+                      <div className="flex gap-2 w-11/12">
+                        <button
+                          onClick={() => setShowAIInput(false)}
+                          className="flex-1 py-1 rounded bg-gray-200 hover:bg-gray-300 text-md text-gray-600 transition-colors"
+                        >
+                          Back
+                        </button>
+                        <button
+                          onClick={MakeAIForm}
+                          disabled={isLoading || !aiPrompt.trim()}
+                          className="flex-1 py-1 rounded bg-[var(--purple)] text-black text-md disabled:opacity-50"
+                        >
+                          {isLoading ? "..." : "Generate"}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Use a template */}
+                <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded">
+                  <span className="relative flex  items-center justify-center w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
+                    {/* button ng form */}
+                    <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
+
+                    <div className=" gap-3 h-1/2 w-1/2 flex flex-col">
+                      <span className="w-full h-[60%] inset-shadow-sm/40 rounded-xl"></span>
+                      <div className="flex flex-row w-full h-full gap-3 justify-between">
+                        <span className="h-full w-1/2 rounded-xl inset-shadow-sm/30"></span>
+                        <div className="flex flex-col w-1/2 h-full items-center justify-between ">
+                          <span className="inset-shadow-sm/40 rounded-xl h-5 w-full"></span>
+                          <span className="inset-shadow-sm/40 rounded-xl h-5 w-full"></span>
+                          <span className="inset-shadow-sm/40 rounded-xl h-5 w-full"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </span>
+                  Use a template
+                </div>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

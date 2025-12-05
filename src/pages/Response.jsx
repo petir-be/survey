@@ -7,7 +7,6 @@ import DotShader2 from "../components/DotShader2";
 import ReviewPage from "../components/ReviewPage";
 import QuestionRenderer from "../components/QuestionRenderer";
 
-// import { Steps } from "rsuite";
 
 function Response() {
   const { guid } = useParams();
@@ -39,8 +38,6 @@ function Response() {
         setHasReviewPage(response.data.hasReviewPage);
         setIsPublished(response.data.isPublished);
         console.log(response.data);
-
-        // console.log(typeof formData);
 
         if (!Array.isArray(formData) || formData.length === 0) {
           setError("This form has no questions.");
@@ -104,7 +101,7 @@ function Response() {
     } else if (hasReviewPage && currentPageIndex === pages.length) {
       submitAnswers();
     }
-    // Otherwise, go next
+   
     else {
       setCurrentPageIndex(currentPageIndex + 1);
     }
