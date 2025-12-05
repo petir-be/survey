@@ -28,6 +28,7 @@ import {
 } from "react-icons/io5";
 import { IoEllipsisHorizontalCircleSharp, IoDownload } from "react-icons/io5";
 import { IoIosCheckmarkCircle } from "react-icons/io";
+import { FaArrowUp } from "react-icons/fa6";
 
 import { HiMiniH1, HiMiniArrowsUpDown } from "react-icons/hi2";
 import { HiMenuAlt4, HiUpload } from "react-icons/hi";
@@ -35,6 +36,7 @@ import { BsGrid3X3GapFill } from "react-icons/bs";
 import { RiPhoneFill } from "react-icons/ri";
 import { BsFillSendXFill } from "react-icons/bs";
 import Modal from "../components/Modal";
+import Results from "./Results";
 
 function Form() {
   const { user, isAuthenticated } = useContext(AuthContext);
@@ -53,6 +55,8 @@ function Form() {
   const [showPublishModal, setShowPublishModal] = useState(false);
   const [copy, setCopy] = useState(false);
   const [copyQR, setCopyQR] = useState(false);
+
+  const [resultPage, setResultPage] = useState(false);
 
   const toggleReview = () => setHasReviewPage((prev) => !prev);
   const toggleMulti = () => setAllowMultipleSubmissionValue((prev) => !prev);
@@ -463,7 +467,6 @@ function Form() {
     setShowSettings(false);
 
     setTimeout(() => {
-
       //publish na para may loading parin pag open ng share
       if (isPublished) {
         setShowPublishModal((prev) => !prev);
@@ -585,7 +588,46 @@ function Form() {
               </div>
             </div>
 
-            <div className="inline-flex items-center gap-4 flex-shrink-0">
+            <div className="inline-flex items-center gap-7 bg-(--white) flex-1 min-w-0">
+              {/* <Link to={`/newform/${id}`}> */}
+              <div onClick={() => setResultPage(false)} className="group min-w-1/4 justify-center items-center  px-8 py-1 relative flex flex-col border-2 border-(--dirty-white) ">
+                <div className="absolute flex items-center justify-center top-0 right-0 w-4 h-4 bg-(--dirty-white)">
+                  <button className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
+                    <FaArrowUp className="text-xs rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
+                    <FaArrowUp
+                      className=" text-xs absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-400 ease-out"
+                      fill="purple"
+                    />
+                  </button>
+                </div>
+                <p className="text-md font-vagrounded mt-1 font-bold">
+                  Questions
+                </p>
+              </div>
+              {/* </Link> */}
+
+              {/* <Link to={`/newform/${id}/responses`}> */}
+              <div
+                onClick={() => setResultPage(true)}
+                className="group min-w-1/4 justify-center items-center px-8 py-1 relative flex flex-col border-2 border-(--dirty-white) "
+              >
+                <div className="absolute flex items-center justify-center top-0 right-0 w-4 h-4 bg-(--dirty-white)">
+                  <button className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
+                    <FaArrowUp className="text-xs rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
+                    <FaArrowUp
+                      className="text-xs absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-400 ease-out"
+                      fill="purple"
+                    />
+                  </button>
+                </div>
+                <p className="text-md font-vagrounded mt-1 font-bold">
+                  Responses
+                </p>
+              </div>
+              {/* </Link> */}
+            </div>
+
+            <div className="inline-flex items-center gap-4 shrink-0">
               <Link to={`../preview/${publicid}`}>
                 <button className="px-7 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
                   Preview
@@ -857,113 +899,123 @@ function Form() {
             </div>
           </header>
 
-          <div className="flex-1 w-full flex overflow-hidden min-h-0">
-            {/* leftside */}
-            <div className="w-[20%] min-w-[300px] p-2 z-10 bg-(--white) h-full min-h-0 border-t-2 overflow-y-auto border-(--dirty-white)">
-              {/* elements*/}
-              {/* Frequently Used */}
-              <span className="text-gray-500 font-vagrounded m-3">
-                Frequently used
-              </span>
-              <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto ">
-                {types.slice(0, 3).map((type, index) => (
-                  <FormElement
-                    key={index}
-                    icon={type.Icon}
-                    title={type.title}
+          {resultPage && (
+            <>
+              <Results />
+            </>
+          )}
+
+          {!resultPage && (
+            <>
+              <div className="flex-1 w-full flex overflow-hidden min-h-0">
+                {/* leftside */}
+                <div className="w-[20%] min-w-[300px] p-2 z-10 bg-(--white) h-full min-h-0 border-t-2 overflow-y-auto border-(--dirty-white)">
+                  {/* elements*/}
+                  {/* Frequently Used */}
+                  <span className="text-gray-500 font-vagrounded m-3">
+                    Frequently used
+                  </span>
+                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto ">
+                    {types.slice(0, 3).map((type, index) => (
+                      <FormElement
+                        key={index}
+                        icon={type.Icon}
+                        title={type.title}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Display Text */}
+                  <span className="text-gray-500 font-vagrounded m-3 mt-5">
+                    Display Text
+                  </span>
+                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto">
+                    {types.slice(3, 5).map((type, index) => (
+                      <FormElement
+                        key={index}
+                        icon={type.Icon}
+                        title={type.title}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Choices */}
+                  <span className="text-gray-500 font-vagrounded m-3 mt-5">
+                    Choices
+                  </span>
+                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto">
+                    {types.slice(5, 11).map((type, index) => (
+                      <FormElement
+                        key={index}
+                        icon={type.Icon}
+                        title={type.title}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Text */}
+                  <span className="text-gray-500 font-vagrounded m-3 mt-5">
+                    Text
+                  </span>
+                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto">
+                    {types.slice(11, 13).map((type, index) => (
+                      <FormElement
+                        key={index}
+                        icon={type.Icon}
+                        title={type.title}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Others */}
+                  <span className="text-gray-500 font-vagrounded m-3 mt-5">
+                    Others
+                  </span>
+                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto">
+                    {types.slice(13, 17).map((type, index) => (
+                      <FormElement
+                        key={index}
+                        icon={type.Icon}
+                        title={type.title}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* mid */}
+                <div className="h-screen w-[60%] min-h-0 border-2 border-(--dirty-white) py-7 flex flex-col">
+                  <Canvas
+                    questions={pages[currentPageIndex].questions}
+                    onDropElement={handleDrop}
+                    onUpdateQuestion={handleUpdateQuestion}
+                    onDeleteQuestion={handleDeleteQuestion}
+                    onDuplicateQuestion={handleDuplicateQuestion}
+                    onAddPage={handleAddPage}
+                    onRemovePage={handleRemovePage}
+                    currentPageIndex={currentPageIndex}
+                    pageNumber={currentPageIndex + 1}
+                    totalPages={pages.length}
+                    onPageChange={setCurrentPageIndex}
                   />
-                ))}
-              </div>
+                </div>
 
-              {/* Display Text */}
-              <span className="text-gray-500 font-vagrounded m-3 mt-5">
-                Display Text
-              </span>
-              <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto">
-                {types.slice(3, 5).map((type, index) => (
-                  <FormElement
-                    key={index}
-                    icon={type.Icon}
-                    title={type.title}
-                  />
-                ))}
+                {/* right side */}
+                <div className="flex flex-col relative h-full w-[20%] z-10 bg-(--white) p-7.5 pr-0 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto">
+                  <div className="w-full">
+                    <h1 className="text-3xl text-left">Layers</h1>
+                  </div>
+                  <div className="w-full mt-4 max-h-10/12 overflow-auto">
+                    <Layers
+                      questions={pages[currentPageIndex]?.questions || []}
+                      onReorder={handleReorderQuestions}
+                      onDelete={handleDeleteQuestion}
+                    />
+                  </div>
+                  <div className="flex w-14/15 mt-3 border border-t-(--dirty-white) border-transparent "></div>
+                </div>
               </div>
-
-              {/* Choices */}
-              <span className="text-gray-500 font-vagrounded m-3 mt-5">
-                Choices
-              </span>
-              <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto">
-                {types.slice(5, 11).map((type, index) => (
-                  <FormElement
-                    key={index}
-                    icon={type.Icon}
-                    title={type.title}
-                  />
-                ))}
-              </div>
-
-              {/* Text */}
-              <span className="text-gray-500 font-vagrounded m-3 mt-5">
-                Text
-              </span>
-              <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto">
-                {types.slice(11, 13).map((type, index) => (
-                  <FormElement
-                    key={index}
-                    icon={type.Icon}
-                    title={type.title}
-                  />
-                ))}
-              </div>
-
-              {/* Others */}
-              <span className="text-gray-500 font-vagrounded m-3 mt-5">
-                Others
-              </span>
-              <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto">
-                {types.slice(13, 17).map((type, index) => (
-                  <FormElement
-                    key={index}
-                    icon={type.Icon}
-                    title={type.title}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* mid */}
-            <div className="h-screen w-[60%] min-h-0 border-2 border-(--dirty-white) py-7 flex flex-col">
-              <Canvas
-                questions={pages[currentPageIndex].questions}
-                onDropElement={handleDrop}
-                onUpdateQuestion={handleUpdateQuestion}
-                onDeleteQuestion={handleDeleteQuestion}
-                onDuplicateQuestion={handleDuplicateQuestion}
-                onAddPage={handleAddPage}
-                onRemovePage={handleRemovePage}
-                currentPageIndex={currentPageIndex}
-                pageNumber={currentPageIndex + 1}
-                totalPages={pages.length}
-                onPageChange={setCurrentPageIndex}
-              />
-            </div>
-
-            {/* right side */}
-            <div className="flex flex-col relative h-full w-[20%] z-10 bg-(--white) p-7.5 pr-0 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto">
-              <div className="w-full">
-                <h1 className="text-3xl text-left">Layers</h1>
-              </div>
-              <div className="w-full mt-4 max-h-10/12 overflow-auto">
-                <Layers
-                  questions={pages[currentPageIndex]?.questions || []}
-                  onReorder={handleReorderQuestions}
-                  onDelete={handleDeleteQuestion}
-                />
-              </div>
-              <div className="flex w-14/15 mt-3 border border-t-(--dirty-white) border-transparent "></div>
-            </div>
-          </div>
+            </>
+          )}
 
           <Modal
             isOpen={showUnpublishModal}

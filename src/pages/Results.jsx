@@ -163,9 +163,7 @@ function Results({ defaultFormName = "Form" }) {
 
   return (
     <>
-      <ResponsesNavbar formName={formName} id={id} />
-
-      <div className="m-auto mt-30 p-4 font-vagrounded">
+      <div className="m-auto w-full p-4 font-vagrounded">
         {/* Tab Buttons */}
         <div
           style={{
@@ -191,7 +189,7 @@ function Results({ defaultFormName = "Form" }) {
               borderRadius: "12px 0px 0px 0px",
             }}
           >
-            Responses <span className="text-red-500">({responses.length})</span>
+            Responses <span className="text-(--purple)">({responses.length})</span>
           </button>
 
           <button
