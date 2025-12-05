@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router";
-import { FaHome, FaUserCircle } from "react-icons/fa";
-import { useRef, useState, useEffect, useContext } from "react";
+import { FaHome, FaUserCircle, FaSpinner } from "react-icons/fa"; // Added FaSpinner
+import React, { useRef, useState, useEffect, useContext } from "react";
 import FormElement from "../components/FormElement";
 import Layers from "../components/Layers";
 import { BiSolidUserRectangle } from "react-icons/bi";
@@ -12,6 +12,7 @@ import { AuthContext } from "../Context/authContext";
 import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
 import * as motion from "motion/react-client";
+import { toPng } from "html-to-image";
 import { BiSelectMultiple } from "react-icons/bi";
 
 import { MdPreview } from "react-icons/md";
@@ -32,15 +33,21 @@ import { RiPhoneFill } from "react-icons/ri";
 function Form() {
   const { user, isAuthenticated } = useContext(AuthContext);
   const [error, setError] = useState(null);
+
+  // 1. ADDED LOADING STATE
+  const [isLoading, setIsLoading] = useState(true);
+
   const { id } = useParams();
   const [publicid, setPublicid] = useState("");
-  const saveRef = useRef();
-  saveRef.current = Save;
+
+  // 2. ADDED FIRST RENDER REF (To prevent saving immediately on load)
+  const isFirstRender = useRef(true);
 
   const [showSettings, setShowSettings] = useState(false);
   const [reviewEnabled, setReviewEnabled] = useState(false);
   const [allowMultipleSubmissionsValue, setAllowMultipleSubmissionValue] =
     useState(false);
+ 
 
   const toggleReview = () => setReviewEnabled((prev) => !prev);
   const toggleMulti = () => setAllowMultipleSubmissionValue((prev) => !prev);
@@ -272,15 +279,6 @@ function Form() {
     }
   };
 
-  // const handleExportData = () => {
-  //   const allData = pages.map((page, idx) => ({
-  //     page: idx + 1,
-  //     questions: page.questions,
-  //   }));
-  //   console.log(JSON.stringify(allData, null, 2));
-  //   alert("Data exported to console!");
-  // };
-
   const types = [
     // frequently used
     { Icon: IoMenu, foreKulay: "", bgKulay: "", title: "Long Text" },
@@ -349,8 +347,10 @@ function Form() {
     }
   }, [titleValue]);
 
+  // 3. UPDATED FETCH DATA TO HANDLE LOADING
   useEffect(() => {
     async function fetchFormData() {
+      setIsLoading(true); // Start Loading
       try {
         const res = await axios.get(
           `${import.meta.env.VITE_BACKEND}/api/Form/${id}`
@@ -363,10 +363,9 @@ function Form() {
 
         setTitleValue(res.data.title);
         setPublicid(res.data.publicId);
-        // console.log(res.data);
         setAllowMultipleSubmissionValue(res.data.allowMultipleSubmissions);
 
-        console.log(res.data.formData);
+        console.log("Data loaded:", res.data.formData);
       } catch (err) {
         console.log(err);
 
@@ -381,6 +380,8 @@ function Form() {
         } else {
           setError("Network error or server is unreachable.");
         }
+      } finally {
+        setIsLoading(false); // End Loading
       }
     }
     if (id) {
@@ -388,33 +389,59 @@ function Form() {
     }
   }, [id]);
 
+  // 4. NEW AUTO-SAVE LOGIC (REPLACES SETINTERVAL)
+  useEffect(() => {
+    // Prevent saving while initial data is still loading
+    if (isLoading) return;
+
+    // Prevent saving immediately when the component mounts or data is first set
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    // Debounce: Wait 1 second after the last change before saving
+    const timer = setTimeout(() => {
+      Save();
+    }, 1000);
+
+    // Cleanup: If user types again before 1s, clear the old timer
+    return () => clearTimeout(timer);
+  }, [pages, titleValue, allowMultipleSubmissionsValue]); // Trigger on any of these changes
+
   async function Save() {
     try {
+      console.log("Auto-saving...");
       await axios.put(`${import.meta.env.VITE_BACKEND}/api/Form/save/${id}`, {
         userId: user.id,
         title: titleValue,
         formData: pages,
         allowMultipleSubmissions: allowMultipleSubmissionsValue,
       });
+      console.log("Saved successfully");
     } catch (error) {
-      console.log(error);
+      console.log("Save failed", error);
     }
   }
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (saveRef.current) {
-        saveRef.current();
-      }
-    }, 2000);
-
-    return () => clearInterval(intervalId);
-  }, []);
+ 
 
   if (error) {
     return (
       <div className="flex justify-center items-center h-full">
         <h2 className="text-2xl font-semibold text-red-600">{error}</h2>
+      </div>
+    );
+  }
+
+  // 5. LOADING SPINNER UI
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-3 justify-center items-center h-dvh w-full bg-(--white)">
+        <FaSpinner className="text-5xl text-(--purple) animate-spin" />
+        <h2 className="text-xl font-vagrounded text-gray-500">
+          Loading Form...
+        </h2>
       </div>
     );
   }
@@ -663,7 +690,10 @@ function Form() {
             </div>
 
             {/* mid */}
-            <div className="h-screen w-[60%] min-h-0 border-2 border-(--dirty-white) py-7 flex flex-col">
+            <div
+              className="h-screen w-[60%] min-h-0 border-2 border-(--dirty-white) py-7 flex flex-col"
+              
+            >
               <Canvas
                 questions={pages[currentPageIndex].questions}
                 onDropElement={handleDrop}
@@ -683,6 +713,7 @@ function Form() {
             <div className="flex flex-col relative h-full w-[20%] z-10 bg-(--white) p-7.5 pr-0 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto">
               <div className="w-full">
                 <h1 className="text-3xl text-left">Layers</h1>
+              
               </div>
               <div className="w-full mt-4 max-h-10/12 overflow-auto">
                 <Layers
