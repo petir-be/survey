@@ -564,7 +564,7 @@ function Form() {
               </Link>
               <div
                 ref={containerRef}
-                className="relative inline-flex items-center z-50 bg-(--white) max-w-1/3 flex-1 min-w-0"
+                className="relative inline-flex items-center z-50 bg-(--white) max-w-2/3 flex-1 min-w-0"
               >
                 <span
                   ref={spanRef}
@@ -588,9 +588,14 @@ function Form() {
               </div>
             </div>
 
-            <div className="inline-flex items-center gap-7 bg-(--white) flex-1 min-w-0">
-              {/* <Link to={`/newform/${id}`}> */}
-              <div onClick={() => setResultPage(false)} className="group min-w-1/4 justify-center items-center  px-8 py-1 relative flex flex-col border-2 border-(--dirty-white) ">
+            <div className="inline-flex items-center gap-3 bg-(--white) flex-1 min-w-0">
+              <div
+                onClick={() => {
+                  setResultPage(false);
+                  window.location.hash = "questions";
+                }}
+                className="group min-w-1/4 justify-center items-center  px-8 py-1 relative flex flex-col border-2 border-(--dirty-white) "
+              >
                 <div className="absolute flex items-center justify-center top-0 right-0 w-4 h-4 bg-(--dirty-white)">
                   <button className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
                     <FaArrowUp className="text-xs rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
@@ -604,11 +609,12 @@ function Form() {
                   Questions
                 </p>
               </div>
-              {/* </Link> */}
 
-              {/* <Link to={`/newform/${id}/responses`}> */}
               <div
-                onClick={() => setResultPage(true)}
+                onClick={() => {
+                  setResultPage(true);
+                  window.location.hash = "responses";
+                }}
                 className="group min-w-1/4 justify-center items-center px-8 py-1 relative flex flex-col border-2 border-(--dirty-white) "
               >
                 <div className="absolute flex items-center justify-center top-0 right-0 w-4 h-4 bg-(--dirty-white)">
@@ -624,7 +630,6 @@ function Form() {
                   Responses
                 </p>
               </div>
-              {/* </Link> */}
             </div>
 
             <div className="inline-flex items-center gap-4 shrink-0">
@@ -901,13 +906,16 @@ function Form() {
 
           {resultPage && (
             <>
-              <Results />
+              <Results id="responses" />
             </>
           )}
 
           {!resultPage && (
             <>
-              <div className="flex-1 w-full flex overflow-hidden min-h-0">
+              <div
+                id="questions"
+                className="flex-1 w-full flex overflow-hidden min-h-0"
+              >
                 {/* leftside */}
                 <div className="w-[20%] min-w-[300px] p-2 z-10 bg-(--white) h-full min-h-0 border-t-2 overflow-y-auto border-(--dirty-white)">
                   {/* elements*/}
