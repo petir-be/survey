@@ -6,30 +6,31 @@ import {
   YAxis,
   XAxis,
   Tooltip,
-  CartesianGrid
+  CartesianGrid,
 } from "recharts";
 
 function MutlipleChoiceBarChart({ data }) {
   const optionsObj = data.options;
+  const color = "#DA1262";
 
   const options = Object.entries(optionsObj).map(([key, value]) => ({
     label: key,
     Total: value,
   }));
 
-
   return (
-    <ResponsiveContainer width="100%" height={400}>
+    <ResponsiveContainer width="100%" height={300}>
       <BarChart
         data={options}
         margin={{ top: 10, bottom: 10, right: 10, left: 0 }}
       >
-        <Bar dataKey="Total" fill="#DA1262" stroke="#DA1262" />
+        <Tooltip separator=" - " />
+        <Bar dataKey="Total" fill={color} stroke={color} />
 
-        <XAxis dataKey="label" type="category"/>
-        <YAxis allowDecimals={false} padding={{left: 1}}/>
+        <XAxis dataKey="label" type="category" />
+        <YAxis allowDecimals={false} padding={{ left: 1 }} />
         {/* <Legend /> */}
-        <Tooltip />
+
         <CartesianGrid vertical={false} />
       </BarChart>
     </ResponsiveContainer>

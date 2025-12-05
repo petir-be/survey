@@ -23,6 +23,12 @@ function Results({ defaultFormName = "Form" }) {
   const [questions, setQuestions] = useState();
   const [formName, setFormName] = useState(defaultFormName);
   const [formData, setFormData] = useState();
+  const [isReversed, setIsReversed] = useState(false);
+
+  const handleReverseOrder = () => {
+    setResponses([...responses].reverse());
+    setIsReversed(!isReversed);
+  };
 
   const handleSelectAll = () => {
     if (selectAll) {
@@ -73,8 +79,6 @@ function Results({ defaultFormName = "Form" }) {
             withCredentials: true,
           }
         );
-
-        // console.log("Form Details:", formDetails.data); // Debug log
 
         setResponses(res.data);
         setFormData(formDetails.data.formData);
@@ -274,7 +278,15 @@ function Results({ defaultFormName = "Form" }) {
                             </th>
                             <th className="text-left text-sm font-medium text-gray-700 font-vagrounded">
                               <div className="py-4 px-4 border-l border-r border-white font-bold">
-                                <button className="hover:bg-white rounded-full p-2">
+                                <button
+                                  className="hover:bg-white rounded-full p-2 transition-transform"
+                                  onClick={handleReverseOrder}
+                                  style={{
+                                    transform: isReversed
+                                      ? "rotate(180deg)"
+                                      : "rotate(0deg)",
+                                  }}
+                                >
                                   <FaArrowDown />
                                 </button>
                               </div>
@@ -305,11 +317,24 @@ function Results({ defaultFormName = "Form" }) {
                         <tbody>
                           {responses.map((row, index) => {
                             const d = new Date(row.submittedAt);
-                            const date = d.toISOString().split("T")[0];
-                            const time = d
-                              .toISOString()
-                              .split("T")[1]
-                              .slice(0, 8);
+                            const displayIndex = isReversed ? responses.length - index : index + 1;
+
+                            const formattedDate = d.toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              }
+                            );
+                            const formattedTime = d.toLocaleTimeString(
+                              "en-US",
+                              {
+                                hour: "numeric",
+                                minute: "2-digit",
+                                hour12: true,
+                              }
+                            );
 
                             return (
                               <tr
@@ -330,7 +355,7 @@ function Results({ defaultFormName = "Form" }) {
 
                                 {/* Index*/}
                                 <td className="align-middle text-sm text-gray-900 font-vagrounded">
-                                  <div className="py-4 px-4">{index + 1}</div>
+                                  <div className="py-4 px-4">{displayIndex}</div>
                                 </td>
 
                                 {/* Name */}
@@ -350,14 +375,14 @@ function Results({ defaultFormName = "Form" }) {
                                 {/* Date */}
                                 <td className="align-middle text-sm text-gray-600 font-vagrounded">
                                   <div className="py-4 px-4 border-l border-white">
-                                    {date}
+                                    {formattedDate}
                                   </div>
                                 </td>
 
                                 {/* Time — LAST COLUMN: no left border on inner div */}
                                 <td className="align-middle text-sm text-gray-600 font-vagrounded">
                                   <div className="py-4 px-4  border-l border-white">
-                                    {time}
+                                    {formattedTime}
                                   </div>
                                 </td>
                               </tr>
@@ -466,7 +491,7 @@ function Results({ defaultFormName = "Form" }) {
 }
 
 // Helper function to aggregate responses by question and option
-function aggregateResponseData(responses, formData) {
+const aggregateResponseData = (responses, formData) => {
   const aggregated = {};
 
   console.log(formData);
@@ -503,9 +528,34 @@ function aggregateResponseData(responses, formData) {
             aggregated[question.id].rows[row][columnName] = 0;
           });
         });
+      } else if (question.type === "checkbox" && question.options) {
+        aggregated[question.id] = {
+          question: question.question,
+          type: question.type,
+          options: {},
+          total: 0,
+        };
+
+        // Initialize each option with 0 count
+        question.options.forEach((option) => {
+          aggregated[question.id].options[option] = 0;
+        });
+      } else if (question.type === "dropdown" && question.options) {
+        aggregated[question.id] = {
+          question: question.question,
+          type: question.type,
+          options: {},
+          total: 0,
+        };
+
+        // Initialize each option with 0 count
+        question.options.forEach((option) => {
+          aggregated[question.id].options[option] = 0;
+        });
       }
     });
   });
+
   console.log(aggregated);
 
   // Count responses for each option
@@ -527,35 +577,64 @@ function aggregateResponseData(responses, formData) {
 
     // Process each answer in the response
     Object.entries(data).forEach(([index, answer]) => {
-      let questionId = answer["questionID"];
-      let questionType = aggregated[questionId].type;
-      // console.log(aggregated[questionId].options);
-      // console.log(answer);
+      try {
+        let questionId = answer["questionID"];
 
-      if (aggregated[questionId] && answer) {
-        aggregated[questionId].total++;
-
-        if (questionType == "multiple_choice") {
-          if (aggregated[questionId].options.hasOwnProperty(answer.answer)) {
-            aggregated[questionId].options[answer.answer]++;
-          } else {
-            // Handle edge case where answer doesn't match predefined options
-            aggregated[questionId].options[answer[answer]] = 1;
-          }
-        } else if (questionType === "choice_matrix") {
-          console.log(answer.answer);
-          // console.log("answers:")
-
-          // answer.answer is like: { "Row 1": "Column 1", "Row 2": "Column 4" }
-          Object.entries(answer.answer).forEach(([rowName, columnName]) => {
-            if (
-              aggregated[questionId].rows[rowName] &&
-              aggregated[questionId].rows[rowName][columnName] !== undefined
-            ) {
-              aggregated[questionId].rows[rowName][columnName]++;
-            }
-          });
+        // Add this check BEFORE accessing aggregated[questionId]
+        if (!aggregated[questionId]) {
+          console.warn(
+            `Question ID ${questionId} not found in formData. Skipping...`
+          );
+          console.warn(answer);
+          return; // Skip this answer
         }
+
+        let questionType = aggregated[questionId].type;
+
+        if (aggregated[questionId] && answer) {
+          aggregated[questionId].total++;
+
+          if (questionType == "multiple_choice") {
+            if (aggregated[questionId].options.hasOwnProperty(answer.answer)) {
+              aggregated[questionId].options[answer.answer]++;
+            } else {
+              // Handle edge case where answer doesn't match predefined options
+              aggregated[questionId].options[answer.answer] = 1;
+            }
+          } else if (questionType === "choice_matrix") {
+            // console.log(questionId);
+            // console.log(answer);
+
+            Object.entries(answer.answer).forEach(([rowName, columnName]) => {
+              if (
+                aggregated[questionId].rows[rowName] &&
+                aggregated[questionId].rows[rowName][columnName] !== undefined
+              ) {
+                aggregated[questionId].rows[rowName][columnName]++;
+              }
+            });
+          } else if (questionType === "checkbox") {
+            if (aggregated[questionId].options.hasOwnProperty(answer.answer)) {
+              answer.answer.forEach((checkboxAnswer) => {
+                aggregated[questionId].options[checkboxAnswer]++;
+              });
+            } else {
+              // Handle edge case where answer doesn't match predefined options
+              answer.answer.forEach((checkboxAnswer) => {
+                aggregated[questionId].options[checkboxAnswer] = 1;
+              });
+            }
+          } else if (questionType === "dropdown") {
+            if (aggregated[questionId].options.hasOwnProperty(answer.answer)) {
+              aggregated[questionId].options[answer.answer]++;
+            } else {
+              // Handle edge case where answer doesn't match predefined options
+              aggregated[questionId].options[answer.answer] = 1;
+            }
+          }
+        }
+      } catch (e) {
+        console.error("Error processing answer:", e, "Answer:", answer);
       }
     });
   });
@@ -564,7 +643,7 @@ function aggregateResponseData(responses, formData) {
   // console.log(aggregated);
 
   return aggregated;
-}
+};
 
 // Main Summary Component
 function SummaryView({ responses, formData, questions }) {
@@ -597,7 +676,7 @@ function SummaryView({ responses, formData, questions }) {
         >
           Summary
         </h2>
-        <button className="p-2 hover:font-bold flex gap-1">
+        <button className="p-2 hover:font-bold flex gap-1 text-slate-600">
           <FaFile />
           Print to PDF
         </button>
@@ -622,6 +701,10 @@ function SummaryView({ responses, formData, questions }) {
                 <MultipleChoiceBarChart data={data} />
               ) : questionType === "choice_matrix" ? (
                 <ChoiceMatrixBarChart data={data} />
+              ) : questionType === "checkbox" ? (
+                <MultipleChoiceBarChart data={data} />
+              ) : questionType === "dropdown" ? (
+                <MultipleChoiceBarChart data={data} />
               ) : null}
             </div>
           );
