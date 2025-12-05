@@ -37,11 +37,13 @@ import { RiPhoneFill } from "react-icons/ri";
 import { BsFillSendXFill } from "react-icons/bs";
 import Modal from "../components/Modal";
 import Results from "./Results";
+import Loading from "../components/Loading";
 
 function Form() {
   const { user, isAuthenticated } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const { id } = useParams();
+  const [loading, setLoading] = useState(false);
   const [publicid, setPublicid] = useState("");
   const saveRef = useRef();
   saveRef.current = Save;
@@ -384,6 +386,7 @@ function Form() {
   useEffect(() => {
     async function fetchFormData() {
       try {
+        setLoading(true);
         const res = await axios.get(
           `${import.meta.env.VITE_BACKEND}/api/Form/${id}`
         );
@@ -414,6 +417,8 @@ function Form() {
         } else {
           setError("Network error or server is unreachable.");
         }
+      } finally {
+        setLoading(false);
       }
     }
     if (id) {
@@ -541,6 +546,14 @@ function Form() {
   };
 
   const handleDownloadQR = useQRCodeDownloader(qrCodeRef, `form-${publicid}`);
+
+  if (loading) {
+    return (
+      <div className="h-dvh w-full bg-(--white) flex items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
   if (error) {
     return (
