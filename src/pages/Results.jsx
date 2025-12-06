@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
 import { FaArrowDown, FaCross, FaDownload, FaFile, FaX } from "react-icons/fa6";
-
 import ResponsesNavbar from "../components/ResponsesNavbar";
 import SearchBar from "../components/SearchBar";
 import MultipleChoiceBarChart from "../components/Charts/MultipleChoiceBarChart";
 import ChoiceMatrixBarChart from "../components/Charts/ChoiceMatrixBarChart";
 
-function Results({ defaultFormName = "Form" }) {
+function Results({
+  defaultFormName = "Form",
+  parentResponses = [], // Default to empty array
+  parentLoading = false,
+  parentFormData,
+}) {
   const { id } = useParams();
-
   const [SearchBarValue, setSearchBarValue] = useState("");
-  const [responses, setResponses] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("responses");
-
   const [checkedItems, setCheckedItems] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [summary, setSummary] = useState();
@@ -26,16 +26,38 @@ function Results({ defaultFormName = "Form" }) {
   const [isReversed, setIsReversed] = useState(false);
   const [isPublished, setIsPublished] =useState(false);
 
+  const processedResponses = useMemo(() => {
+    // 1. Create a shallow copy so we don't mutate props
+    let data = [...parentResponses];
+
+    // 2. Handle Reversing
+    if (isReversed) {
+      data.reverse();
+    }
+
+    // 3. Handle Filtering
+    if (SearchBarValue) {
+      data = data.filter((response) =>
+        response.respondent.name
+          .toLowerCase()
+          .includes(SearchBarValue.toLowerCase())
+      );
+    }
+
+    return data;
+  }, [parentResponses, isReversed, SearchBarValue]);
+
+  // 2. SIMPLIFIED HANDLERS
   const handleReverseOrder = () => {
-    setResponses([...responses].reverse());
-    setIsReversed(!isReversed);
+    setIsReversed(!isReversed); // Just toggle the flag
   };
 
   const handleSelectAll = () => {
     if (selectAll) {
       setCheckedItems([]);
     } else {
-      setCheckedItems(responses.map((r) => r.id));
+      // Use processedResponses so we select what is currently visible
+      setCheckedItems(processedResponses.map((r) => r.id));
     }
     setSelectAll(!selectAll);
   };
@@ -47,120 +69,116 @@ function Results({ defaultFormName = "Form" }) {
     } else {
       const newChecked = [...checkedItems, id];
       setCheckedItems(newChecked);
-      if (newChecked.length === responses.length) {
+      if (newChecked.length === processedResponses.length) {
         setSelectAll(true);
       }
     }
   };
 
-  useEffect(() => {
-    const getResponses = async () => {
-      try {
-        const aggregated = {};
-        setLoading(true);
+  // useEffect(() => {
+  //   const getResponses = async () => {
+  //     try {
+  //       const aggregated = {};
+  //       setLoading(true);
 
-        const surveyId = parseInt(id, 10);
+  //       const surveyId = parseInt(id, 10);
 
-        if (isNaN(surveyId)) {
-          setError("Invalid survey ID");
-          setLoading(false);
-          return;
-        }
+  //       if (isNaN(surveyId)) {
+  //         setError("Invalid survey ID");
+  //         setLoading(false);
+  //         return;
+  //       }
 
-        const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND}/api/Response/responses/${surveyId}`,
-          {
-            withCredentials: true,
-          }
-        );
+  //       const res = await axios.get(
+  //         `${import.meta.env.VITE_BACKEND}/api/Response/responses/${surveyId}`,
+  //         {
+  //           withCredentials: true,
+  //         }
+  //       );
 
-        const formDetails = await axios.get(
-          `${import.meta.env.VITE_BACKEND}/api/Form/${surveyId}`,
-          {
-            withCredentials: true,
-          }
-        );
+  //       const formDetails = await axios.get(
+  //         `${import.meta.env.VITE_BACKEND}/api/Form/${surveyId}`,
+  //         {
+  //           withCredentials: true,
+  //         }
+  //       );
 
-        setResponses(res.data);
-        setFormData(formDetails.data.formData);
-        setIsPublished(formDetails.data.isPublished);
-        setError(null);
+  //       setResponses(res.data);
+  //       setFormData(formDetails.data.formData);
+  //       setError(null);
 
-        // Fix: Access formDetails.data.title
-        setFormName(formDetails.data.title);
+  //       // Fix: Access formDetails.data.title
+  //       setFormName(formDetails.data.title);
 
-        // Fix: Build question mapping correctly
-        const questionMap = {};
-        formDetails.data.formData.forEach((page) => {
-          page.questions.forEach((question) => {
-            // Use question.id as key and question.question as value
-            questionMap[question.id] = question.question;
-          });
-        });
+  //       // Fix: Build question mapping correctly
+  //       const questionMap = {};
+  //       formDetails.data.formData.forEach((page) => {
+  //         page.questions.forEach((question) => {
+  //           // Use question.id as key and question.question as value
+  //           questionMap[question.id] = question.question;
+  //         });
+  //       });
 
-        // console.log("Question Map:", questionMap); // Debug log
-        setQuestions(questionMap);
+  //       // console.log("Question Map:", questionMap); // Debug log
+  //       setQuestions(questionMap);
 
-        // Rest of your aggregation code
-        res.data.forEach((response) => {
-          if (!response.responseData) return;
+  //       // Rest of your aggregation code
+  //       res.data.forEach((response) => {
+  //         if (!response.responseData) return;
 
-          let data = response.responseData;
-          if (typeof data === "string") {
-            try {
-              data = JSON.parse(data);
-            } catch (e) {
-              console.error("Failed to parse responseData:", e);
-              return;
-            }
-          }
+  //         let data = response.responseData;
+  //         if (typeof data === "string") {
+  //           try {
+  //             data = JSON.parse(data);
+  //           } catch (e) {
+  //             console.error("Failed to parse responseData:", e);
+  //             return;
+  //           }
+  //         }
 
-          Object.keys(data).forEach((questionId) => {
-            const answer = data[questionId];
+  //         Object.keys(data).forEach((questionId) => {
+  //           const answer = data[questionId];
 
-            if (!aggregated[questionId]) {
-              aggregated[questionId] = {
-                answers: {},
-                total: 0,
-                allAnswers: [],
-              };
-            }
+  //           if (!aggregated[questionId]) {
+  //             aggregated[questionId] = {
+  //               answers: {},
+  //               total: 0,
+  //               allAnswers: [],
+  //             };
+  //           }
 
-            aggregated[questionId].total++;
-            aggregated[questionId].allAnswers.push(answer);
+  //           aggregated[questionId].total++;
+  //           aggregated[questionId].allAnswers.push(answer);
 
-            if (answer && typeof answer === "string" && answer.length < 100) {
-              aggregated[questionId].answers[answer] =
-                (aggregated[questionId].answers[answer] || 0) + 1;
-            }
-          });
-        });
+  //           if (answer && typeof answer === "string" && answer.length < 100) {
+  //             aggregated[questionId].answers[answer] =
+  //               (aggregated[questionId].answers[answer] || 0) + 1;
+  //           }
+  //         });
+  //       });
 
-        // Aggregate
-        setSummary(aggregated);
-        // console.log("Summary:", aggregated); // Debug log
-      } catch (err) {
-        console.error("Full error:", err);
-        setError(
-          err.response?.data?.message ||
-            err.message ||
-            "Failed to fetch responses"
-        );
-        setResponses([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+  //       // Aggregate
+  //       setSummary(aggregated);
+  //       // console.log("Summary:", aggregated); // Debug log
+  //     } catch (err) {
+  //       console.error("Full error:", err);
+  //       setError(
+  //         err.response?.data?.message ||
+  //           err.message ||
+  //           "Failed to fetch responses"
+  //       );
+  //       setResponses([]);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    if (id) {
-      getResponses();
-    }
-  }, [id]);
+  //   if (id) {
+  //     getResponses();
+  //   }
+  // }, [id]);
 
-  if(!isPublished){
-    return <div className="w-full h-full flex items-center justify-center text-3xl">form not published</div>;
-  }
-  const filteredResponses = responses.filter((response) =>
+  const filteredResponses = parentResponses.filter((response) =>
     response.respondent.name
       .toLowerCase()
       .includes(SearchBarValue.toLowerCase())
@@ -168,7 +186,7 @@ function Results({ defaultFormName = "Form" }) {
 
 
   return (
-    <>
+  
       <div className="m-auto w-full p-4 font-vagrounded">
         {/* Tab Buttons */}
         <div
@@ -195,7 +213,8 @@ function Results({ defaultFormName = "Form" }) {
               borderRadius: "12px 0px 0px 0px",
             }}
           >
-            Responses <span className="text-(--purple)">({responses.length})</span>
+            Responses{" "}
+            <span className="text-(--purple)">({parentResponses.length})</span>
           </button>
 
           <button
@@ -239,7 +258,7 @@ function Results({ defaultFormName = "Form" }) {
         </div>
 
         {/* Loading/Error */}
-        {loading && (
+        {parentLoading && (
           <p
             style={{ textAlign: "center", fontSize: "18px" }}
             className="font-vagrounded"
@@ -256,7 +275,7 @@ function Results({ defaultFormName = "Form" }) {
           </p>
         )}
 
-        {!loading && !error && (
+        {!parentLoading && !error && (
           <>
             {activeTab === "responses" && (
               <div>
@@ -325,10 +344,10 @@ function Results({ defaultFormName = "Form" }) {
                         </thead>
 
                         <tbody>
-                          {responses.map((row, index) => {
+                          {parentResponses.map((row, index) => {
                             const d = new Date(row.submittedAt);
                             const displayIndex = isReversed
-                              ? responses.length - index
+                              ? parentResponses.length - index
                               : index + 1;
 
                             const formattedDate = d.toLocaleDateString(
@@ -422,7 +441,7 @@ function Results({ defaultFormName = "Form" }) {
             )}
 
             {activeTab === "individual" && (
-              <div>
+              <div className="h-full">
                 <h2 style={{ marginTop: 0 }} className="font-vagrounded">
                   Individual Responses
                 </h2>
@@ -431,18 +450,17 @@ function Results({ defaultFormName = "Form" }) {
                   Select a specific response to view detailed information.
                 </p>
 
-                {responses && responses.length > 0 ? (
+                {parentResponses && parentResponses.length > 0 ? (
                   <div style={{ display: "grid", gap: "10px" }}>
-                    {responses.map((response) => (
+                    {parentResponses.map((response) => (
                       <div
                         key={response.id}
+                        className="bg-(--white) border-2 border-white"
                         style={{
                           padding: "15px",
-                          border: "1px solid #e5e7eb",
                           borderRadius: "8px",
                           cursor: "pointer",
                           transition: "all 0.2s",
-                          background: "#ffffff",
                         }}
                       >
                         <p
@@ -480,8 +498,8 @@ function Results({ defaultFormName = "Form" }) {
             {activeTab === "summary" && (
               <div>
                 <SummaryView
-                  responses={responses}
-                  formData={formData}
+                  responses={parentResponses}
+                  formData={parentFormData}
                   questionMap={questions}
                 />
               </div>
@@ -490,7 +508,7 @@ function Results({ defaultFormName = "Form" }) {
             {checkedItems.length > 0 && (
               <div className="popup fixed bg-[var(--white)] shadow-lg left-0 right-0 bottom-20 m-auto p-1 w-min-content border-box justify-between max-w-2xs shadow-lg border-2 border-white rounded-lg flex">
                 <span className="p-4 text-base font-bold">
-                  {`${checkedItems.length}/${responses.length} selected`}
+                  {`${checkedItems.length}/${parentResponses.length} selected`}
                 </span>
                 <button className="p-4 text-base font-bold ml-4 border-l border-gray-300 hover:bg-gray-300">
                   <FaX />
@@ -500,12 +518,12 @@ function Results({ defaultFormName = "Form" }) {
           </>
         )}
       </div>
-    </>
+
   );
 }
 
 // Helper function to aggregate responses by question and option
-const aggregateResponseData = (responses, formData) => {
+const aggregateResponseData = (parentResponses, formData) => {
   const aggregated = {};
 
   console.log(formData);
@@ -573,7 +591,7 @@ const aggregateResponseData = (responses, formData) => {
   console.log(aggregated);
 
   // Count responses for each option
-  responses.forEach((response) => {
+  parentResponses.forEach((response) => {
     if (!response.responseData) return;
 
     let data = response.responseData;
@@ -660,20 +678,20 @@ const aggregateResponseData = (responses, formData) => {
 };
 
 // Main Summary Component
-function SummaryView({ responses, formData, questions }) {
+function SummaryView({ parentResponses, formData, questions }) {
   const [summaryData, setSummaryData] = useState({});
 
   useEffect(() => {
-    if (responses && formData) {
+    if (parentResponses && formData) {
       // console.log(responses);
-      const aggregated = aggregateResponseData(responses, formData);
+      const aggregated = aggregateResponseData(parentResponses, formData);
 
       setSummaryData(aggregated);
       // console.log(aggregated);
     }
-  }, [responses, formData]);
+  }, [parentResponses, formData]);
 
-  if (!responses || !formData) {
+  if (parentResponses || !formData) {
     return <div>Loading summary...</div>;
   }
 

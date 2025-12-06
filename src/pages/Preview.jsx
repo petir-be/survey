@@ -1,4 +1,4 @@
-import React, { useEffect,  useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import { FaHome } from "react-icons/fa";
 import { IoMdArrowRoundForward } from "react-icons/io";
@@ -9,7 +9,6 @@ import QuestionRenderer from "../components/QuestionRenderer";
 import Loading from "../components/Loading";
 
 // import { Steps } from "rsuite";
-
 
 function Preview() {
   const { guid } = useParams();
@@ -126,7 +125,7 @@ function Preview() {
             </span>
           </div>
 
-          <Link to={`/newform/${id}`}>
+          <Link to={`/newform/${id}`} reloadDocument>
             <button className="px-10 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
               Exit Preview
             </button>
@@ -134,7 +133,7 @@ function Preview() {
         </div>
       </header>
 
-    {/* progress bar */}
+      {/* progress bar */}
 
       <div className="px-10 py-2 ">
         <div className="w-full max-w-5xl justify-self-center h-3 bg-gray-300 rounded-full overflow-hidden">
@@ -145,9 +144,7 @@ function Preview() {
         </div>
       </div>
 
-
-
-        {/* nyaw gumana steps */}
+      {/* nyaw gumana steps */}
 
       {/* <div className="w-full flex justify-center py-6">
         <Steps current={currentPageIndex} className="max-w-5xl w-full px-10">
