@@ -1,6 +1,12 @@
 import { Link, useNavigate, useParams } from "react-router";
 import { FaHome, FaUserCircle, FaSpinner } from "react-icons/fa"; // Added FaSpinner
-import React, { useRef, useState, useEffect, useContext } from "react";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
 import FormElement from "../components/FormElement";
 import Layers from "../components/Layers";
 import { BiSolidUserRectangle } from "react-icons/bi";
@@ -18,6 +24,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { MdPreview } from "react-icons/md";
 import { QRCodeCanvas } from "qrcode.react";
 import { FaCopy } from "react-icons/fa";
+import { debounce } from "lodash"; // or use lodash.debounce
 import {
   IoMenu,
   IoMail,
@@ -43,13 +50,11 @@ function Form() {
   const { user, isAuthenticated } = useContext(AuthContext);
   const [error, setError] = useState(null);
 
-  const [isLoading, setIsLoading] = useState(true);
-
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [publicid, setPublicid] = useState("");
   const saveRef = useRef();
-  saveRef.current = Save;
+  // saveRef.current = Save;
   const [shareLoading, setShareLoading] = useState(false);
   const [showUnpublishModal, setShowUnpublishModal] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -63,8 +68,14 @@ function Form() {
 
   const [resultPage, setResultPage] = useState(false);
 
-  const toggleReview = () => setHasReviewPage((prev) => !prev);
-  const toggleMulti = () => setAllowMultipleSubmissionValue((prev) => !prev);
+  const toggleReview = () => {
+    setHasReviewPage((prev) => !prev);
+    setHasUnsavedChanges(true);
+  };
+  const toggleMulti = () => {
+    setAllowMultipleSubmissionValue((prev) => !prev);
+    setHasUnsavedChanges(true);
+  };
   const dropdownRef = useRef(null);
   const triggerRef = useRef(null);
   const settingsBtnRef = useRef(null);
@@ -74,6 +85,8 @@ function Form() {
   const [responsesLoading, setResponsesLoading] = useState(true);
   const [showAccountModal, setShowAccountModal] = useState(false);
   let timeout = 2000;
+
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   useEffect(() => {
     if (responses.length > 0) {
@@ -176,6 +189,8 @@ function Form() {
       }
 
       updated[currentPageIndex] = currentPage;
+      setHasUnsavedChanges(true);
+
       return updated;
     });
   };
@@ -188,6 +203,7 @@ function Form() {
         q.id === questionId ? { ...q, ...updates } : q
       );
       updated[currentPageIndex] = currentPage;
+
       return updated;
     });
   };
@@ -229,6 +245,8 @@ function Form() {
   const handleAddPage = () => {
     setPages((prev) => [...prev, { id: uuidv4(), questions: [] }]);
     setCurrentPageIndex(pages.length);
+
+    setHasUnsavedChanges(true);
   };
   const handleDeleteQuestion = (questionId) => {
     setPages((prev) => {
@@ -238,6 +256,7 @@ function Form() {
         .filter((q) => q.id !== questionId)
         .map((q, idx) => ({ ...q, order: idx + 1 }));
       updated[currentPageIndex] = currentPage;
+      setHasUnsavedChanges(true);
       return updated;
     });
   };
@@ -303,6 +322,8 @@ function Form() {
       currentPage.questions = newQuestions;
       updated[currentPageIndex] = currentPage;
 
+      setHasUnsavedChanges(true);
+
       return updated;
     });
   };
@@ -321,6 +342,7 @@ function Form() {
       copy.forEach((q, idx) => (q.order = idx + 1));
       current.questions = copy;
       updated[currentPageIndex] = current;
+      setHasUnsavedChanges(true);
       return updated;
     });
   };
@@ -337,6 +359,8 @@ function Form() {
     } else if (indexToRemove < currentPageIndex) {
       setCurrentPageIndex(currentPageIndex - 1);
     }
+
+    setHasUnsavedChanges(true);
   };
 
   const types = [
@@ -410,7 +434,7 @@ function Form() {
   // 3. UPDATED FETCH DATA TO HANDLE LOADING
   useEffect(() => {
     async function fetchFormData() {
-      setIsLoading(true); // Start Loading
+      setLoading(true); // Start Loading
       try {
         setLoading(true);
         const res = await axios.get(
@@ -451,43 +475,76 @@ function Form() {
     }
   }, [id]);
 
+  // saving ng updating questions shits para after mag type, dun lang sya mag save
+  const debouncedSave = useCallback(
+    debounce(async (data) => {
+      if (!data.hasUnsavedChanges || data.loading) return;
+
+      const { pages, titleValue } = data;
+
+      try {
+        console.log("Auto-saving...");
+        await axios.put(`${import.meta.env.VITE_BACKEND}/api/Form/save/${id}`, {
+          userId: user.id,
+          title: titleValue,
+          formData: pages,
+        });
+
+        // Update last saved state only on success
+        lastSavedState.current = {
+          pages: JSON.parse(JSON.stringify(pages)), // deep clone if needed
+          titleValue,
+        };
+
+        console.log("Saved successfully");
+      } catch (error) {
+        console.error("Save failed", error);
+        // Optionally notify user
+      }
+    }, 1500), // 1.5s delay after last change
+    [id, user.id]
+  );
+  const formStateRef = useRef({
+    pages,
+    titleValue,
+  });
+
   useEffect(() => {
-    if (isLoading) return;
+    formStateRef.current = {
+      pages,
+      titleValue,
+    };
+  }, [pages, titleValue]);
 
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+  const lastSavedState = useRef({
+    pages: pages,
+    titleValue: titleValue,
+  });
 
-    const timer = setTimeout(() => {
-      Save();
-    }, 2000);
+  useEffect(() => {
+    if (loading) return;
 
-    return () => clearTimeout(timer);
-  }, [pages, titleValue, allowMultipleSubmissionsValue]);
+    const current = formStateRef.current;
+    const last = lastSavedState.current;
 
-  async function Save() {
-    try {
-      console.log("Auto-saving...");
-      await axios.put(`${import.meta.env.VITE_BACKEND}/api/Form/save/${id}`, {
-        userId: user.id,
-        title: titleValue,
-        formData: pages,
-        allowMultipleSubmissions: allowMultipleSubmissionsValue,
-        hasReviewPage: hasReviewPage,
-        isPublished: isPublished,
+    // Deep comparison (or use lodash.isEqual for complex objects)
+    const hasChanged =
+      JSON.stringify(current.pages) !== JSON.stringify(last.pages) ||
+      current.titleValue !== last.titleValue;
+
+    if (hasChanged) {
+      debouncedSave({
+        ...current,
+        hasUnsavedChanges: true,
+        loading,
       });
-      console.log("Saved successfully");
-    } catch (error) {
-      console.log("Save failed", error);
     }
-  }
+  }, [pages, titleValue, loading]);
 
   function PublishForm(e) {
     e.stopPropagation();
     timeout = 100;
 
-    //walang loading pag close ng share modal
     if (isPublished && showPublishModal) {
       setShowPublishModal((prev) => !prev);
       setShareLoading(false);
@@ -516,9 +573,55 @@ function Form() {
       //publish palang
       setIsPublished(true);
       toast.success("Form successfully published!");
+      setHasUnsavedChanges(true);
       setShowPublishModal(true);
       setShareLoading(false);
     }, timeout);
+  }
+
+  function handleTitleUpdate(newTitle) {
+    setTitleValue(newTitle);
+  }
+
+  // saving para sa mga instant save like toggle buttons and delete shits
+  useEffect(() => {
+    // 1. Check if the component is loading or if there are no changes
+    if (loading || !hasUnsavedChanges) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      Save();
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [hasUnsavedChanges, loading]);
+
+  async function Save() {
+    const currentPages = pages;
+
+    try {
+      await axios.put(`${import.meta.env.VITE_BACKEND}/api/Form/save/${id}`, {
+        userId: user.id,
+        formData: currentPages,
+        allowMultipleSubmissions: allowMultipleSubmissionsValue,
+        hasReviewPage: hasReviewPage,
+        isPublished: isPublished,
+      });
+
+      setHasUnsavedChanges(false);
+
+      lastSavedState.current = {
+        pages: currentPages,
+        allowMultipleSubmissionsValue: allowMultipleSubmissionsValue,
+        hasReviewPage: hasReviewPage,
+        isPublished: isPublished,
+      };
+
+      console.log("Saved successfully");
+    } catch (error) {
+      console.log("Save failed", error);
+    }
   }
 
   // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------
@@ -595,18 +698,6 @@ function Form() {
     );
   }
 
-  // 5. LOADING SPINNER UI
-  if (isLoading) {
-    return (
-      <div className="flex flex-col gap-3 justify-center items-center h-dvh w-full bg-(--white)">
-        <FaSpinner className="text-5xl text-(--purple) animate-spin" />
-        <h2 className="text-xl font-vagrounded text-gray-500">
-          Loading Form...
-        </h2>
-      </div>
-    );
-  }
-
   if (!isAuthenticated) return null;
 
   return (
@@ -642,7 +733,7 @@ function Form() {
                     !isFocused && titleValue ? "truncate" : ""
                   }`}
                   value={titleValue}
-                  onChange={(e) => setTitleValue(e.target.value)}
+                  onChange={(e) => handleTitleUpdate(e.target.value)}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
                   style={{ width: "180px" }}
@@ -1117,6 +1208,7 @@ function Form() {
                 onClick={() => {
                   setIsPublished(false);
                   setShowUnpublishModal(false);
+                  setHasUnsavedChanges(true);
                 }}
                 className="px-3 py-1.5 bg-red-600 text-white rounded hover:bg-red-700"
               >
