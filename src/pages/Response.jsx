@@ -286,7 +286,7 @@ function Response() {
     } else if (hasReviewPage && currentPageIndex === pages.length) {
       submitAnswers();
     }
-    // Otherwise, go next
+   
     else {
       setCurrentPageIndex(currentPageIndex + 1);
     }
