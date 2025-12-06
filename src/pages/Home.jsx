@@ -11,8 +11,38 @@ import { useMediaQuery } from "react-responsive";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../Context/authContext";
+import Select from 'react-select';
 function Home() {
   const [showModal, setShowModal] = useState(false);
+
+    
+
+  // 2. Define the options data
+  const options = [
+    { value: 'Owned by Anyone', label: 'Owned by Anyone' },
+    { value: 'Owned by Me', label: 'Owned by Me' },
+    { value: 'Owned by Others', label: 'Owned by Others' }
+  ];
+const [selectedOption, setSelectedOption] = useState(options[0]);
+  const handleChange = (selectedOptionValue) => {
+    setSelectedOption(selectedOptionValue);
+      setInputValue(''); 
+  };
+ const [inputValue, setInputValue] = useState('');
+  const MAX_LENGTH = 16;
+ const handleInputChange = (newValue, actionMeta) => {
+    // Only apply the limit when the user is typing/entering text
+    if (actionMeta.action === 'input-change') {
+      // Limit the value to 6 characters
+      if (newValue.length <= MAX_LENGTH) {
+        setInputValue(newValue);
+      }
+      // If over the limit, the state remains the previous valid value
+    } else {
+      // Handle cases like 'menu-close' or 'input-blur' where you might reset the input value state if needed
+      // setInputValue(''); 
+    }
+  };
 
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 700px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 699px)" });
@@ -89,16 +119,32 @@ function Home() {
                   {" "}
                   INSTANTLY!
                 </span>
-                <span className="font-regular">
+                <span className="font-regular italic">
                   Drag, Drop and Build Forms in Seconds.
                 </span>
               </div>
-              <button
-                className="m-12 cursor-pointer text-4xl"
-                onClick={() => setShowModal(true)}
+             
+              <div className="flex justify-between items-center ">
+              <span
+                className="m-12  font-semibold text-[16px]"
+                
               >
-                +
-              </button>
+                Recent Forms
+              </span>
+
+              <Select
+                  className="mr-12 cursor-pointer font-semibold text-[16px]"
+                    classNamePrefix="react-select"
+      options={options}
+      value={selectedOption}
+      onChange={handleChange}
+      isClearable // Allows clearing the selection
+      isSearchable // Enables search functionality
+      placeholder='Owned by Anyone'
+   inputValue={inputValue}
+      onInputChange={handleInputChange}
+    />
+              </div>
             </div>
             <div className="w-3/7 relative h-dvh overflow-hidden pt-15 border-2 border-[var(--dirty-white)] bg-[var(--white)] z-10">
               <div className="absolute z-1 w-full h-full flex justify-center items-center">
@@ -119,7 +165,7 @@ function Home() {
                 {/*bottom right*/}
               </div>
             </div>
-            <div className=" justify-center flex flex-col gap-5 w-2/7 h-dvh pt-25 ">
+            <div className=" justify-center flex flex-col gap-5 w-2/7 h-dvh pt-25 px-10">
               {/* Redirect to login page if dont have acc log */}
               <button className="text-left" onClick={() => setShowModal(true)}>
                 <HomeBox title="Create Forms" icon={aboutus} />
@@ -274,6 +320,7 @@ function Home() {
                 Drag, Drop and Build Forms in Seconds.
               </span>
             </div>
+            
 
             <div className="w-7/7 relative h-[360px] overflow-hidden pt-15 border-2 border-[var(--dirty-white)] bg-[var(--white)] z-10">
               <div className="absolute z-1 w-full h-full flex justify-center items-center">
@@ -282,6 +329,8 @@ function Home() {
                   scale={0.2} // <<< CHANGE SIZE HERE
                 />
               </div>
+
+              
               <div className="absolute top-0 left-0 h-full w-full">
                 <DotShader className="z-0" />
                 <span className="home-circle mixed-blend-multiply -top-40 left-1 w-45 h-45 bg-[var(--purple)] animate-moveCircleLtR"></span>
@@ -294,7 +343,31 @@ function Home() {
                 {/*bottom right*/}
               </div>
             </div>
-            <div className=" justify-center flex flex-col gap-5 w-5/6 h-dvh pt-15 ">
+
+<div className="w-full px-8 ">
+             <div className="flex justify-between items-center ">
+              <span
+                className="mt-12 cursor-pointer font-semibold text-[12px]"
+          
+              >
+                Recent Forms
+              </span>
+
+              <Select
+                  className="mt-12 cursor-pointer font-semibold text-[12px]"
+                    classNamePrefix="react-select"
+      options={options}
+      value={selectedOption}
+      onChange={handleChange}
+      isClearable // Allows clearing the selection
+      isSearchable // Enables search functionality
+      placeholder='Owned by Anyone'
+   inputValue={inputValue}
+      onInputChange={handleInputChange}
+    />
+              </div>
+            </div>
+            <div className=" justify-center flex flex-col gap-5 w-5/6 h-full pt-15 ">
               {/* Redirect to login page if dont have acc log */}
               <button className="text-left" onClick={() => setShowModal(true)}>
                 <HomeBox title="Create Forms" icon={aboutus} />
@@ -341,9 +414,9 @@ function Home() {
                         X
                       </button>
                     </div>
-                    <div className="p-5 flex items-center justify-evenly w-full h-full">
+                    <div className="p-5 flex items-center justify-between w-full h-full">
                       {/* create own forms */}
-                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
+                      <div className=" text-[10px]  flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
                         <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
                           {/* button ng form */}
                           <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
@@ -353,26 +426,26 @@ function Home() {
                           <span className="inset-shadow-sm/40 w-5 h-5 absolute top-15 left-10 rounded-full"></span>
                           <span className="w-5 h-5 inset-shadow-sm/40 absolute top-22 left-10 rounded-full"></span>
 
-                          <span className="w-7/12 h-3 inset-shadow-sm/40 absolute top-9 left-17"></span>
-                          <span className="w-4/12 h-3 inset-shadow-sm/40 absolute top-16 left-17"></span>
-                          <span className="w-2/12 h-3 inset-shadow-sm/40 absolute top-23 left-17"></span>
+                          <span className="w-7/12 h-1 inset-shadow-sm/40 absolute top-9 left-2"></span>
+                          <span className="w-4/12 h-1 inset-shadow-sm/40 absolute top-16 left-2"></span>
+                          <span className="w-2/12 h-1 inset-shadow-sm/40 absolute top-23 left-2"></span>
 
                           {/* plus circle */}
-                          <span className="w-15 h-15 rounded-full inset-shadow-sm/40 absolute top-50 left-15 flex justify-center items-center">
-                            <span className="flex justify-center items-center w-11 h-11 rounded-full shadow-sm/40">
+                          <span className="w-8 h-8 rounded-full inset-shadow-sm/40 absolute top-50 left-15 flex justify-center items-center">
+                            <span className="flex justify-center items-center w-6 h-6 rounded-full shadow-sm/40">
                               <span className="w-8 h-2 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
                                 {/* ayaw maalis pota */}
                                 <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
                               </span>
-                              <span className="fixed w-2 h-8 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
+                              <span className="fixed w-2 h-6 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
                                 <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
                               </span>
                             </span>
                           </span>
 
-                          <span className="absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-34 rotate-45  "></span>
+                          <span className="absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-14 rotate-45  "></span>
                           <div
-                            className="absolute bottom-0 z-2 right-0 w-25 h-25 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
+                            className="absolute bottom-0 z-2 right-0 w-10 h-10 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
                             style={{
                               clipPath: "polygon(0 0, 100% 0, 0 100%)",
                               filter:
@@ -380,7 +453,7 @@ function Home() {
                             }}
                           />
                           <div
-                            className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-28 h-29"
+                            className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-18 h-18"
                             style={{
                               clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
                               background: "#DFE0F0",
@@ -392,13 +465,13 @@ function Home() {
                       </div>
 
                       {/* generate with ai */}
-                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded">
-                        <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease"></span>
+                      <div className="text-[10px] flex flex-col gap-3 items-center w-full h-full font-vagrounded">
+                        <span className=" relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease"></span>
                         Generate with AI
                       </div>
 
                       {/* Use a template */}
-                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded">
+                      <div className="text-[10px] flex flex-col gap-3 items-center w-full h-full font-vagrounded">
                         <span className="relative flex  items-center justify-center w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
                           {/* button ng form */}
                           <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
