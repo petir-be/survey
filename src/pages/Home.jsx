@@ -3,6 +3,7 @@ import "../global.css";
 import DotShader from "../components/DotShader";
 import home1 from "/src/assets/2.svg";
 import HomeBox from "../components/HomeBox";
+import { FaSpinner } from "react-icons/fa";
 import aboutus from "../assets/hugeicons_ai-dna.svg";
 import FAQ from "../components/FAQ";
 import { motion, AnimatePresence } from "framer-motion";
@@ -48,7 +49,8 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 699px)" });
   const { user } = useContext(AuthContext);
   const [form, setForm] = useState({});
-
+  const [showAIInput, setShowAIInput] = useState(false);
+  const [aiPrompt, setAiPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -85,7 +87,8 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
         `${import.meta.env.VITE_BACKEND}/api/Form/Ai`,
         {
           userId: user.id,
-          title: "Advance Coding in C#",
+          title: "",
+          promt: aiPrompt,
         },
         {
           withCredentials: true,
@@ -99,6 +102,8 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
       console.error(error);
     } finally {
       setIsLoading(false);
+      setShowAIInput(false);
+      setAiPrompt("");
     }
   }
 
@@ -215,63 +220,123 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
                         className="flex flex-col gap-3 items-center w-full h-full font-vagrounded "
                         onClick={MakeForm}
                       >
-                        <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
-                          {/* button ng form */}
-                          <button
-                            className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"
-                            onClick={MakeForm}
-                          ></button>
+                        {isLoading ? (
+                          <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
+                            {/* button ng form */}
+                            <button
+                              className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"
+                              onClick={MakeForm}
+                            ></button>
 
-                          {/* circle and rectangle */}
-                          <span className="inset-shadow-sm/40 w-5 h-5 absolute top-8 left-10 rounded-full"></span>
-                          <span className="inset-shadow-sm/40 w-5 h-5 absolute top-15 left-10 rounded-full"></span>
-                          <span className="w-5 h-5 inset-shadow-sm/40 absolute top-22 left-10 rounded-full"></span>
+                            <FaSpinner className="text-5xl text-(--purple) animate-spin" />
 
-                          <span className="w-7/12 h-3 inset-shadow-sm/40 absolute top-9 left-17"></span>
-                          <span className="w-4/12 h-3 inset-shadow-sm/40 absolute top-16 left-17"></span>
-                          <span className="w-2/12 h-3 inset-shadow-sm/40 absolute top-23 left-17"></span>
+                            <span className="absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-34 rotate-45  "></span>
+                            <div
+                              className="absolute bottom-0 z-2 right-0 w-25 h-25 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
+                              style={{
+                                clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                                filter:
+                                  "drop-shadow(2px 2px 4px rgba(0, 0, 0, 1))",
+                              }}
+                            />
+                            <div
+                              className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-28 h-29"
+                              style={{
+                                clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
+                                background: "#DFE0F0",
+                              }}
+                            />
+                          </span>
+                        ) : (
+                          <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
+                            {/* button ng form */}
+                            <button
+                              className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"
+                              onClick={MakeForm}
+                            ></button>
 
-                          {/* plus circle */}
-                          <span className="w-15 h-15 rounded-full inset-shadow-sm/40 absolute top-50 left-15 flex justify-center items-center">
-                            <span className="flex justify-center items-center w-11 h-11 rounded-full shadow-sm/40">
-                              <span className="w-8 h-2 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
-                                {/* ayaw maalis pota */}
-                                <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
-                              </span>
-                              <span className="fixed w-2 h-8 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
-                                <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
+                            {/* circle and rectangle */}
+                            <span className="inset-shadow-sm/40 w-5 h-5 absolute top-8 left-10 rounded-full"></span>
+                            <span className="inset-shadow-sm/40 w-5 h-5 absolute top-15 left-10 rounded-full"></span>
+                            <span className="w-5 h-5 inset-shadow-sm/40 absolute top-22 left-10 rounded-full"></span>
+
+                            <span className="w-7/12 h-3 inset-shadow-sm/40 absolute top-9 left-17"></span>
+                            <span className="w-4/12 h-3 inset-shadow-sm/40 absolute top-16 left-17"></span>
+                            <span className="w-2/12 h-3 inset-shadow-sm/40 absolute top-23 left-17"></span>
+
+                            {/* plus circle */}
+                            <span className="w-15 h-15 rounded-full inset-shadow-sm/40 absolute top-50 left-15 flex justify-center items-center">
+                              <span className="flex justify-center items-center w-11 h-11 rounded-full shadow-sm/40">
+                                <span className="w-8 h-2 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
+                                  {/* ayaw maalis pota */}
+                                  <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
+                                </span>
+                                <span className="fixed w-2 h-8 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
+                                  <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
+                                </span>
                               </span>
                             </span>
-                          </span>
 
-                          <span className="absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-34 rotate-45  "></span>
-                          <div
-                            className="absolute bottom-0 z-2 right-0 w-25 h-25 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
-                            style={{
-                              clipPath: "polygon(0 0, 100% 0, 0 100%)",
-                              filter:
-                                "drop-shadow(2px 2px 4px rgba(0, 0, 0, 1))",
-                            }}
-                          />
-                          <div
-                            className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-28 h-29"
-                            style={{
-                              clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
-                              background: "#DFE0F0",
-                              // background:'#000000'
-                            }}
-                          />
-                        </span>
+                            <span className="absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-34 rotate-45  "></span>
+                            <div
+                              className="absolute bottom-0 z-2 right-0 w-25 h-25 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
+                              style={{
+                                clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                                filter:
+                                  "drop-shadow(2px 2px 4px rgba(0, 0, 0, 1))",
+                              }}
+                            />
+                            <div
+                              className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-28 h-29"
+                              style={{
+                                clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
+                                background: "#DFE0F0",
+                              }}
+                            />
+                          </span>
+                        )}
                         Create you own forms
                       </div>
 
                       {/* generate with ai */}
-                      <div
-                        className="flex flex-col gap-3 items-center w-full h-full font-vagrounded"
-                        onClick={MakeAIForm}
-                      >
-                        <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease"></span>
-                        Generate with AI
+                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded relative">
+                        {!showAIInput ? (
+                          <div
+                            className="flex flex-col gap-3 items-center w-full h-full cursor-pointer"
+                            onClick={() => setShowAIInput(true)}
+                          >
+                            <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center">
+                              <span className="text-4xl"></span>
+                            </span>
+                            Generate with AI
+                          </div>
+                        ) : (
+                          <div className="flex flex-col gap-2 items-center justify-center w-full h-full animate-in fade-in zoom-in duration-200">
+                            <textarea
+                              autoFocus
+                              value={aiPrompt}
+                              onChange={(e) => setAiPrompt(e.target.value)}
+                              placeholder="Describe what you want to make ...."
+                              className="w-11/12 h-3/5 p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm resize-none shadow-inner"
+                            />
+
+                            <div className="flex gap-2 w-11/12">
+                              <button
+                                onClick={() => setShowAIInput(false)}
+                                className="flex-1 py-1 rounded bg-gray-200 hover:bg-gray-300 text-md text-gray-600 transition-colors"
+                              >
+                                Back
+                              </button>
+                              <button
+                                onClick={MakeAIForm}
+                                disabled={isLoading || !aiPrompt.trim()}
+                                className="flex-1 py-1 rounded bg-[var(--purple)] text-black text-md disabled:opacity-50"
+                              >
+                                {isLoading ? "..." : "Generate"}
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       {/* Use a template */}
@@ -402,11 +467,11 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
                     onClick={() => setShowModal(false)}
                   ></span>
 
-                  <div className="p-10 w-2/3 h-1/3 bg-(--white) ring ring-white rounded-lg fixed z-50">
-                    <h1 className="font-vagrounded text-xl">
+                  <div className="items-center p-5 w-2/3 h-1/3 bg-(--white) ring ring-white rounded-lg fixed z-50">
+                    <h1 className="font-vagrounded text-[12px]">
                       Start a new Form
                     </h1>
-                    <div className="absolute top-0 right-0 w-15 h-15 flex items-center justify-center">
+                    <div className="items-center text-[12px] absolute top-0 right-0 w-15 h-15 flex items-center justify-center">
                       <button
                         onClick={() => setShowModal(false)}
                         className="w-full h-full cursor-pointer"
@@ -414,38 +479,47 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
                         X
                       </button>
                     </div>
-                    <div className="p-5 flex items-center justify-between w-full h-full">
+                    <div className=" text-center px-[2px] gap-2 flex items-center justify-between w-full h-full">
                       {/* create own forms */}
-                      <div className=" text-[10px]  flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
-                        <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
+                      <div className="items-center justify-center  text-[8px]  flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
+                        <span className="relative w-full h-[80px] bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
                           {/* button ng form */}
                           <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
 
                           {/* circle and rectangle */}
-                          <span className="inset-shadow-sm/40 w-5 h-5 absolute top-8 left-10 rounded-full"></span>
-                          <span className="inset-shadow-sm/40 w-5 h-5 absolute top-15 left-10 rounded-full"></span>
-                          <span className="w-5 h-5 inset-shadow-sm/40 absolute top-22 left-10 rounded-full"></span>
+                          <span className="inset-shadow-sm/40 w-1 h-1 absolute top-3 left-2 rounded-full"></span>
+                          <span className="inset-shadow-sm/40 w-1 h-1 absolute top-6 left-2 rounded-full"></span>
+                          <span className="inset-shadow-sm/40 w-1 h-1 absolute top-9 left-2 rounded-full"></span>
 
-                          <span className="w-7/12 h-1 inset-shadow-sm/40 absolute top-9 left-2"></span>
-                          <span className="w-4/12 h-1 inset-shadow-sm/40 absolute top-16 left-2"></span>
-                          <span className="w-2/12 h-1 inset-shadow-sm/40 absolute top-23 left-2"></span>
+                          <span className="w-7/12 h-1 inset-shadow-sm/40 absolute top-3 left-4"></span>
+                          <span className="w-4/12 h-1 inset-shadow-sm/40 absolute top-6 left-4"></span>
+                          <span className="w-2/12 h-1 inset-shadow-sm/40 absolute top-9 left-4"></span>
 
-                          {/* plus circle */}
-                          <span className="w-8 h-8 rounded-full inset-shadow-sm/40 absolute top-50 left-15 flex justify-center items-center">
-                            <span className="flex justify-center items-center w-6 h-6 rounded-full shadow-sm/40">
-                              <span className="w-8 h-2 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
+                            {/* plus circle */}
+
+                         {/* outer circle */}
+                          <span className="w-4 h-4 rounded-full inset-shadow-sm/40 absolute top-14 left-4 flex justify-center items-center">
+                                   
+                                   {/* inner circle */}
+                            <span className="w-3 h-3 flex justify-center items-center  rounded-full shadow-sm/40">
+                             
+                             
+                              {/* horizontal cross */}
+                              <span className="w-3 h-1 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
+                              
                                 {/* ayaw maalis pota */}
-                                <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
+                                <span className="mix-blend-lighten w-1 h-1 bg-white/30"></span>
                               </span>
-                              <span className="fixed w-2 h-6 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
+                               {/* vertical cross */}
+                              <span className="fixed w-1 h-3 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
                                 <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
                               </span>
                             </span>
                           </span>
 
-                          <span className="absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-14 rotate-45  "></span>
+                          <span className="w-1 h-6 absolute -bottom-1 right-3 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1  rotate-45  "></span>
                           <div
-                            className="absolute bottom-0 z-2 right-0 w-10 h-10 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
+                            className="absolute bottom-0 z-2 right-0 w-5 h-5 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
                             style={{
                               clipPath: "polygon(0 0, 100% 0, 0 100%)",
                               filter:
@@ -453,7 +527,7 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
                             }}
                           />
                           <div
-                            className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-18 h-18"
+                            className="font-vagrounded font-normal absolute z-0 -bottom-1 -right-1 w-6 h-6"
                             style={{
                               clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
                               background: "#DFE0F0",
@@ -461,18 +535,18 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
                             }}
                           />
                         </span>
-                        Create you own forms
+                        Create own form
                       </div>
 
                       {/* generate with ai */}
-                      <div className="text-[10px] flex flex-col gap-3 items-center w-full h-full font-vagrounded">
-                        <span className=" relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease"></span>
+                      <div className="items-center justify-center text-[8px] flex flex-col gap-3 items-center w-full h-full font-vagrounded">
+                        <span className=" relative w-full h-[80px] bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease"></span>
                         Generate with AI
                       </div>
 
                       {/* Use a template */}
-                      <div className="text-[10px] flex flex-col gap-3 items-center w-full h-full font-vagrounded">
-                        <span className="relative flex  items-center justify-center w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
+                      <div className="items-center justify-center text-[8px] flex flex-col gap-3 items-center w-full h-full font-vagrounded">
+                        <span className="relative flex  items-center justify-center w-12/12 h-6/12 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
                           {/* button ng form */}
                           <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
 
