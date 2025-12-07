@@ -24,6 +24,7 @@ function Results({
   const [formName, setFormName] = useState(defaultFormName);
   const [formData, setFormData] = useState();
   const [isReversed, setIsReversed] = useState(false);
+  const [isPublished, setIsPublished] =useState(false);
 
   const processedResponses = useMemo(() => {
     // 1. Create a shallow copy so we don't mutate props
@@ -183,6 +184,7 @@ function Results({
       .includes(SearchBarValue.toLowerCase())
   );
 
+
   return (
   
       <div className="m-auto w-full p-4 font-vagrounded">
@@ -287,7 +289,7 @@ function Results({
                 {filteredResponses && filteredResponses.length > 0 ? (
                   <div className="w-full p-6 min-h-screen">
                     <div className="rounded-lg overflow-hidden">
-                      <table className="w-full border-separate border-spacing-x-0 border-spacing-y-4">
+                      <table className="w-full border-separate border-spacing-x-0 border-spacing-y-4 pr-1">
                         <thead className="shadow-md font-vagrounded">
                           <tr
                             className="outline-1 outline-white border-box "
@@ -723,7 +725,7 @@ function SummaryView({ parentResponses, formData, questions }) {
             >
               {/* {console.log(data)} */}
               <h3 className="text-lg font-bold">{data.question}</h3>
-              <p className="mb-10 text-lg">
+              <p className="mb-10 text-sm text-gray-500">
                 There were {data.total} responses to this question
               </p>
 
