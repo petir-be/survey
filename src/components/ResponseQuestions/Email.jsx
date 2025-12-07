@@ -25,7 +25,7 @@ function Email({ question, onChange, value = "" }) {
 
   return (
     <div className="my-6">
-      <p className="text-lg mb-3">
+      <p className="text-lg mb-3 font-medium">
         {question.question || "Enter your email address"}
       </p>
 

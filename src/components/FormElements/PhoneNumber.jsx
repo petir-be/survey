@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { PH } from 'country-flag-icons/react/3x2'
 import { IoDuplicate } from "react-icons/io5";
 
 function PhoneNumber({ question, onUpdate, onDuplicate }) {
@@ -61,7 +62,7 @@ function PhoneNumber({ question, onUpdate, onDuplicate }) {
       </div>
       <div className="space-y-2 mt-3 group relative">
         <div className="flex items-center px-3 py-1 bg-[var(--dirty-white)] border-b-2 border-b-[var(--black)] text-lg focus-within:border-[var(--purple)] focus:outline-none">
-          <PH className="w-7 h-7 mr-2" />{" "}
+          <PH className="w-7 h-7 mr-2" />
           <p className="text-(--black) font-vagrounded">(+63)</p>
           <input
             type="tel"

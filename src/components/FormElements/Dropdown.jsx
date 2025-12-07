@@ -81,7 +81,7 @@ function Dropdown({ question, onUpdate, onDuplicate }) {
         <div className="flex-1 inline-flex">
           <textarea
             ref={textareaRef}
-            value={question.question || ""}
+            value={question.question || "Type your question here"}
             onChange={(e) => {
               onUpdate(question.id, { question: e.target.value });
               adjustHeight();
