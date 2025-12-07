@@ -1,5 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router";
-import { useRef, useState, useEffect, useContext } from "react";
+import { FaHome, FaUserCircle, FaSpinner } from "react-icons/fa"; // Added FaSpinner
+import React, { useRef, useState, useEffect, useContext } from "react";
 import FormElement from "../components/FormElement";
 import Layers from "../components/Layers";
 import { BiSolidUserRectangle } from "react-icons/bi";
@@ -10,14 +11,13 @@ import { v4 as uuidv4 } from "uuid";
 import { AuthContext } from "../Context/authContext";
 import axios from "axios";
 import { IoSettingsSharp } from "react-icons/io5";
-import { motion, AnimatePresence } from "framer-motion";
-
+import * as motion from "motion/react-client";
+import { AnimatePresence } from "framer-motion";
 import { BiSelectMultiple } from "react-icons/bi";
 import toast, { Toaster } from "react-hot-toast";
 import { MdPreview } from "react-icons/md";
-
-
-import { FaHome, FaUserCircle, FaCopy } from "react-icons/fa";
+import { QRCodeCanvas } from "qrcode.react";
+import { FaCopy } from "react-icons/fa";
 import {
   IoMenu,
   IoMail,
@@ -29,7 +29,7 @@ import {
 import { IoEllipsisHorizontalCircleSharp, IoDownload } from "react-icons/io5";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { FaArrowUp } from "react-icons/fa6";
-
+import AccountModal from "../components/AccountModal";
 import { HiMiniH1, HiMiniArrowsUpDown } from "react-icons/hi2";
 import { HiMenuAlt4, HiUpload } from "react-icons/hi";
 import { BsGrid3X3GapFill } from "react-icons/bs";
@@ -41,6 +41,9 @@ import Results from "./Results";
 function Form() {
   const { user, isAuthenticated } = useContext(AuthContext);
   const [error, setError] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const { id } = useParams();
   const [publicid, setPublicid] = useState("");
   const saveRef = useRef();
@@ -64,7 +67,37 @@ function Form() {
   const triggerRef = useRef(null);
   const settingsBtnRef = useRef(null);
   const qrCodeRef = useRef(null);
+  const isFirstRender = useRef(true);
+  const [responses, setResponses] = useState([]);
+  const [responsesLoading, setResponsesLoading] = useState(true);
+  const [showAccountModal, setShowAccountModal] = useState(false);
   let timeout = 2000;
+
+  useEffect(() => {
+    if (responses.length > 0) {
+      setResponsesLoading(false);
+      return;
+    }
+
+    async function fetchResponses() {
+      if (!id) return;
+
+      setResponsesLoading(true);
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND}/api/Response/responses/${id}`,
+          { withCredentials: true }
+        );
+        setResponses(res.data);
+      } catch (err) {
+        console.error("Failed to fetch responses", err);
+      } finally {
+        setResponsesLoading(false);
+      }
+    }
+
+    fetchResponses();
+  }, [id, responses.length]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -304,15 +337,6 @@ function Form() {
     }
   };
 
-  // const handleExportData = () => {
-  //   const allData = pages.map((page, idx) => ({
-  //     page: idx + 1,
-  //     questions: page.questions,
-  //   }));
-  //   console.log(JSON.stringify(allData, null, 2));
-  //   alert("Data exported to console!");
-  // };
-
   const types = [
     // frequently used
     { Icon: IoMenu, foreKulay: "", bgKulay: "", title: "Long Text" },
@@ -381,8 +405,10 @@ function Form() {
     }
   }, [titleValue]);
 
+  // 3. UPDATED FETCH DATA TO HANDLE LOADING
   useEffect(() => {
     async function fetchFormData() {
+      setIsLoading(true); // Start Loading
       try {
         const res = await axios.get(
           `${import.meta.env.VITE_BACKEND}/api/Form/${id}`
@@ -395,7 +421,6 @@ function Form() {
 
         setTitleValue(res.data.title);
         setPublicid(res.data.publicId);
-        // console.log(res.data);
         setAllowMultipleSubmissionValue(res.data.allowMultipleSubmissions);
         setIsPublished(res.data.isPublished);
         setHasReviewPage(res.data.hasReviewPage);
@@ -414,6 +439,8 @@ function Form() {
         } else {
           setError("Network error or server is unreachable.");
         }
+      } finally {
+        setIsLoading(false); // End Loading
       }
     }
     if (id) {
@@ -421,8 +448,24 @@ function Form() {
     }
   }, [id]);
 
+  useEffect(() => {
+    if (isLoading) return;
+
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      Save();
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [pages, titleValue, allowMultipleSubmissionsValue]);
+
   async function Save() {
     try {
+      console.log("Auto-saving...");
       await axios.put(`${import.meta.env.VITE_BACKEND}/api/Form/save/${id}`, {
         userId: user.id,
         title: titleValue,
@@ -431,20 +474,11 @@ function Form() {
         hasReviewPage: hasReviewPage,
         isPublished: isPublished,
       });
+      console.log("Saved successfully");
     } catch (error) {
-      console.log(error);
+      console.log("Save failed", error);
     }
   }
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (saveRef.current) {
-        saveRef.current();
-      }
-    }, 2000);
-
-    return () => clearInterval(intervalId);
-  }, []);
 
   function PublishForm(e) {
     e.stopPropagation();
@@ -550,10 +584,27 @@ function Form() {
     );
   }
 
+  // 5. LOADING SPINNER UI
+  if (isLoading) {
+    return (
+      <div className="flex flex-col gap-3 justify-center items-center h-dvh w-full bg-(--white)">
+        <FaSpinner className="text-5xl text-(--purple) animate-spin" />
+        <h2 className="text-xl font-vagrounded text-gray-500">
+          Loading Form...
+        </h2>
+      </div>
+    );
+  }
+
   if (!isAuthenticated) return null;
 
   return (
     <>
+      <AccountModal
+        isOpen={showAccountModal}
+        close={() => setShowAccountModal(false)}
+        title="Account Information"
+      ></AccountModal>
       <Toaster position="top-right" />
       <DndProvider backend={HTML5Backend}>
         <div className="h-dvh w-full bg-(--white) flex flex-col overflow-x-hidden">
@@ -590,7 +641,10 @@ function Form() {
 
             <div className="inline-flex items-center gap-7 bg-(--white) flex-1 min-w-0">
               {/* <Link to={`/newform/${id}`}> */}
-              <div onClick={() => setResultPage(false)} className="group min-w-1/4 justify-center items-center  px-8 py-1 relative flex flex-col border-2 border-(--dirty-white) ">
+              <div
+                onClick={() => setResultPage(false)}
+                className="group min-w-1/4 justify-center items-center  px-8 py-1 relative flex flex-col border-2 border-(--dirty-white) "
+              >
                 <div className="absolute flex items-center justify-center top-0 right-0 w-4 h-4 bg-(--dirty-white)">
                   <button className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
                     <FaArrowUp className="text-xs rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
@@ -639,8 +693,8 @@ function Form() {
                   disabled={shareLoading}
                   ref={triggerRef}
                   className="flex items-center gap-2 px-7 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) 
-             inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 
-             transition-color duration-200 ease-out disabled:opacity-60"
+              inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 
+              transition-color duration-200 ease-out disabled:opacity-60"
                 >
                   {shareLoading ? (
                     <span className="w-6 h-6 border-2 border-(--purple) border-t-transparent rounded-full animate-spin"></span>
@@ -893,16 +947,25 @@ function Form() {
                 </AnimatePresence>
               </div>
 
-              <button>
-                <FaUserCircle className="text-3xl hover:scale-[1.05] transition-all duration-200 ease-out" />
-              </button>
+              <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
+                <img
+                  src={user.avatar}
+                  onClick={() => setShowAccountModal(true)}
+                  className="h-10 w-10 cursor-pointer rounded-full"
+                />
+              </div>
             </div>
           </header>
 
           {resultPage && (
-            <>
-              <Results />
-            </>
+            <div className="flex-1 w-full overflow-hidden ">
+              <Results
+                defaultFormName={titleValue}
+                parentResponses={responses}
+                parentLoading={responsesLoading}
+                parentFormData={pages}
+              />
+            </div>
           )}
 
           {!resultPage && (
