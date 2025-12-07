@@ -37,6 +37,7 @@ import { RiPhoneFill } from "react-icons/ri";
 import { BsFillSendXFill } from "react-icons/bs";
 import Modal from "../components/Modal";
 import Results from "./Results";
+import Loading from "../components/Loading";
 
 function Form() {
   const { user, isAuthenticated } = useContext(AuthContext);
@@ -45,6 +46,7 @@ function Form() {
   const [isLoading, setIsLoading] = useState(true);
 
   const { id } = useParams();
+  const [loading, setLoading] = useState(false);
   const [publicid, setPublicid] = useState("");
   const saveRef = useRef();
   saveRef.current = Save;
@@ -410,6 +412,7 @@ function Form() {
     async function fetchFormData() {
       setIsLoading(true); // Start Loading
       try {
+        setLoading(true);
         const res = await axios.get(
           `${import.meta.env.VITE_BACKEND}/api/Form/${id}`
         );
@@ -440,7 +443,7 @@ function Form() {
           setError("Network error or server is unreachable.");
         }
       } finally {
-        setIsLoading(false); // End Loading
+        setLoading(false);
       }
     }
     if (id) {
@@ -576,6 +579,14 @@ function Form() {
 
   const handleDownloadQR = useQRCodeDownloader(qrCodeRef, `form-${publicid}`);
 
+  if (loading) {
+    return (
+      <div className="h-dvh w-full bg-(--white) flex items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
+
   if (error) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -615,7 +626,7 @@ function Form() {
               </Link>
               <div
                 ref={containerRef}
-                className="relative inline-flex items-center z-50 bg-(--white) max-w-1/3 flex-1 min-w-0"
+                className="relative inline-flex items-center z-50 bg-(--white) max-w-2/3 flex-1 min-w-0"
               >
                 <span
                   ref={spanRef}
@@ -639,10 +650,12 @@ function Form() {
               </div>
             </div>
 
-            <div className="inline-flex items-center gap-7 bg-(--white) flex-1 min-w-0">
-              {/* <Link to={`/newform/${id}`}> */}
+            <div className="inline-flex items-center gap-3 bg-(--white) flex-1 min-w-0">
               <div
-                onClick={() => setResultPage(false)}
+                onClick={() => {
+                  setResultPage(false);
+                  window.location.hash = "questions";
+                }}
                 className="group min-w-1/4 justify-center items-center  px-8 py-1 relative flex flex-col border-2 border-(--dirty-white) "
               >
                 <div className="absolute flex items-center justify-center top-0 right-0 w-4 h-4 bg-(--dirty-white)">
@@ -658,11 +671,12 @@ function Form() {
                   Questions
                 </p>
               </div>
-              {/* </Link> */}
 
-              {/* <Link to={`/newform/${id}/responses`}> */}
               <div
-                onClick={() => setResultPage(true)}
+                onClick={() => {
+                  setResultPage(true);
+                  window.location.hash = "responses";
+                }}
                 className="group min-w-1/4 justify-center items-center px-8 py-1 relative flex flex-col border-2 border-(--dirty-white) "
               >
                 <div className="absolute flex items-center justify-center top-0 right-0 w-4 h-4 bg-(--dirty-white)">
@@ -678,7 +692,6 @@ function Form() {
                   Responses
                 </p>
               </div>
-              {/* </Link> */}
             </div>
 
             <div className="inline-flex items-center gap-4 shrink-0">
@@ -970,7 +983,10 @@ function Form() {
 
           {!resultPage && (
             <>
-              <div className="flex-1 w-full flex overflow-hidden min-h-0">
+              <div
+                id="questions"
+                className="flex-1 w-full flex overflow-hidden min-h-0"
+              >
                 {/* leftside */}
                 <div className="w-[20%] min-w-[300px] p-2 z-10 bg-(--white) h-full min-h-0 border-t-2 overflow-y-auto border-(--dirty-white)">
                   {/* elements*/}

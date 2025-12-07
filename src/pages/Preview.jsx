@@ -6,6 +6,7 @@ import axios from "axios";
 import DotShader2 from "../components/DotShader2";
 
 import QuestionRenderer from "../components/QuestionRenderer";
+import Loading from "../components/Loading";
 
 // import { Steps } from "rsuite";
 
@@ -82,7 +83,7 @@ function Preview() {
   if (loading) {
     return (
       <div className="h-dvh w-full bg-(--white) flex items-center justify-center">
-        <div className="text-2xl text-gray-600">Loading form...</div>
+        <Loading />
       </div>
     );
   }
@@ -134,8 +135,8 @@ function Preview() {
 
       {/* progress bar */}
 
-      <div className="px-10 py-2">
-        <div className="w-5xl max-w-5xl justify-self-center h-3 bg-gray-300 rounded-full overflow-hidden">
+      <div className="px-10 py-2 ">
+        <div className="w-full max-w-5xl justify-self-center h-3 bg-gray-300 rounded-full overflow-hidden">
           <div
             className="h-full  bg-(--purple) transition-all duration-500"
             style={{ width: `${progress}%` }}
