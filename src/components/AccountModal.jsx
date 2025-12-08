@@ -103,7 +103,7 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
 
   return (
     <Dialog open={isOpen} onClose={close} className="relative z-50">
-      <div className="fixed inset-0 backdrop-blur-sm bg-black/10" aria-hidden="true" />
+      <div className="fixed inset-0 backdrop-blur-sm bg-black/10 " aria-hidden="true" />
 
       <div className={`fixed z-50 flex items-center justify-center p-4 ${dialogbox ? "inset-0" : "w-full max-w-md top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"}`}>
         <AnimatePresence>
@@ -114,7 +114,7 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
               exit={{ opacity: 0, scale: 0.95 }}
               className="w-full max-w-md"
             >
-              <DialogPanel className="rounded-2xl bg-[#DFE0F0] p-6 shadow-2xl border-2 border-white/50 backdrop-blur-md font-vagrounded">
+              <DialogPanel className="rounded-lg bg-[#DFE0F0] p-6 shadow-2xl border-2 border-white/50 backdrop-blur-md font-vagrounded">
                 
                 {/* Header with Avatar Upload */}
                 <div className="flex flex-col items-center gap-4 mb-6">
