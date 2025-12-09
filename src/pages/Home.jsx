@@ -310,13 +310,13 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
                             Generate with AI
                           </div>
                         ) : (
-                          <div className="flex flex-col gap-2 items-center justify-center w-full h-full animate-in fade-in zoom-in duration-200">
+                          <div className="flex flex-col gap-2 items-center justify-center w-full h-11/12 animate-in fade-in zoom-in duration-200">
                             <textarea
                               autoFocus
                               value={aiPrompt}
                               onChange={(e) => setAiPrompt(e.target.value)}
                               placeholder="Describe what you want to make ...."
-                              className="w-11/12 h-3/5 p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm resize-none shadow-inner"
+                              className="w-11/12 h-full p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm resize-none shadow-inner"
                             />
 
                             <div className="flex gap-2 w-11/12">
