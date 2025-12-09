@@ -496,13 +496,11 @@ function Results({
             )}
 
             {activeTab === "summary" && (
-              <div>
                 <SummaryView
-                  responses={parentResponses}
+                  parentResponses={parentResponses}
                   formData={parentFormData}
                   questionMap={questions}
                 />
-              </div>
             )}
 
             {checkedItems.length > 0 && (
@@ -678,7 +676,7 @@ const aggregateResponseData = (parentResponses, formData) => {
 };
 
 // Main Summary Component
-function SummaryView({ parentResponses, formData, questions }) {
+function SummaryView({ parentResponses, formData }) {
   const [summaryData, setSummaryData] = useState({});
 
   useEffect(() => {
@@ -691,7 +689,7 @@ function SummaryView({ parentResponses, formData, questions }) {
     }
   }, [parentResponses, formData]);
 
-  if (parentResponses || !formData) {
+  if (!parentResponses || !formData) {
     return <div>Loading summary...</div>;
   }
 
@@ -700,7 +698,7 @@ function SummaryView({ parentResponses, formData, questions }) {
   }
 
   return (
-    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+    <div className="max-w-4xl m-auto overflow-y-auto h-auto">
       <div className="flex justify-between mb-10 pb-6 border-b-1 border-gray-300">
         <h2
           style={{ marginTop: 0 }}
