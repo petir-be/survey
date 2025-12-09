@@ -380,7 +380,7 @@ function Workspaces() {
                       // === GRID VIEW UI ===
                       <>
                         <div className="flex justify-between items-start">
-                          <div className="w-10 h-10 bg-white/50 rounded-lg flex items-center justify-center">
+                          <div className="w-10 h-10  rounded-lg flex items-center justify-center">
                             <FaRegFileAlt className="text-black text-xl" />
                           </div>
                           {/* Trash Icon */}

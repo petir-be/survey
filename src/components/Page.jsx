@@ -10,6 +10,7 @@ import LongText from "./FormElements/LongText";
 import Email from "./FormElements/Email";
 import PhoneNumber from "./FormElements/PhoneNumber";
 import FileUpload from "./FormElements/FileUploader";
+import Switch from "./FormElements/Switch";
 import { FaPlus } from "react-icons/fa6";
 import { FaChevronLeft } from "react-icons/fa6";
 import { FaChevronRight, FaRegTrashAlt } from "react-icons/fa";
@@ -342,6 +343,15 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
   if (question.type === "file_uploader")
     return (
       <FileUpload
+        question={question}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+        onDuplicate={onDuplicate}
+      />
+    );
+      if (question.type === "switch")
+    return (
+      <Switch
         question={question}
         onUpdate={onUpdate}
         onDelete={onDelete}
