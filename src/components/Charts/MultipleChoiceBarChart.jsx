@@ -1,4 +1,13 @@
-
+import {
+  ResponsiveContainer,
+  BarChart,
+  Legend,
+  Bar,
+  Tooltip,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 function MutlipleChoiceBarChart({ data }) {
   const optionsObj = data.options;

@@ -1062,7 +1062,7 @@ function Form() {
           </header>
 
           {resultPage && (
-            <div className="flex-1 w-full overflow-hidden ">
+            <div className="flex-1 w-full overflow-auto ">
               <Results
                 defaultFormName={titleValue}
                 parentResponses={responses}

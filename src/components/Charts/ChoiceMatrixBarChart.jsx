@@ -1,4 +1,13 @@
-
+import {
+  ResponsiveContainer,
+  BarChart,
+  Legend,
+  Bar,
+  Tooltip,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 function ChoiceMatrixBarChart({ data }) {
   const chartData = Object.entries(data.rows).map(([rowName, columns]) => ({
