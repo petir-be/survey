@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import "../global.css";
 import DotShader from "../components/DotShader";
-import home1 from "/src/assets/2.svg";
 import HomeBox from "../components/HomeBox";
 import { FaSpinner } from "react-icons/fa";
 import aboutus from "../assets/hugeicons_ai-dna.svg";
@@ -114,7 +113,7 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
           {/* para matanggal lang error */}
           {motion}
 
-          <div className="flex items-center justify-center flex-1 min-h-full bg-[var(--white)] z-10">
+          <div className="flex items-center justify-center flex-1 min-h-full bg-(--white) z-10">
             <div className="relative w-2/7 h-dvh pt-25">
               <div className="m-12 flex flex-col">
                 <span className="text-[42px] font-vagrounded font-semibold">
@@ -151,7 +150,7 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
     />
               </div>
             </div>
-            <div className="w-3/7 relative h-dvh overflow-hidden pt-15 border-2 border-[var(--dirty-white)] bg-[var(--white)] z-10">
+            <div className="w-3/7 relative h-dvh overflow-hidden pt-15 border-2  bg-(--white) z-10">
               <div className="absolute z-1 w-full h-full flex justify-center items-center">
                 <ThreeDModel
                   url="/models/free__rubiks_cube_3d.glb"
@@ -160,13 +159,13 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
               </div>
               <div className="absolute top-0 left-0 h-full w-full">
                 <DotShader className="z-0" />
-                <span className="home-circle mixed-blend-multiply -top-40 left-1 w-45 h-45 bg-[var(--purple)] animate-moveCircleLtR"></span>
+                <span className="home-circle mixed-blend-multiply -top-40 left-1 w-45 h-45 bg-(--purple) animate-moveCircleLtR"></span>
                 {/*top left*/}
-                <span className="home-circle mixed-blend-multiply -top-38 right-1 w-30 h-30 bg-[var(--pink)] animate-moveCircleRtL"></span>
+                <span className="home-circle mixed-blend-multiply -top-38 right-1 w-30 h-30 bg-(--pink) animate-moveCircleRtL"></span>
                 {/*top right*/}
-                <span className="home-circle mixed-blend-multiply -bottom-32 left-1 w-30 h-30 bg-[var(--pink)] animate-moveCircleLtR"></span>
+                <span className="home-circle mixed-blend-multiply -bottom-32 left-1 w-30 h-30 bg-(--pink) animate-moveCircleLtR"></span>
                 {/*bottom left*/}
-                <span className="home-circle mixed-blend-multiply -bottom-38 right-1 w-45 h-45 bg-[var(--purple)] animate-moveCircleRtL"></span>
+                <span className="home-circle mixed-blend-multiply -bottom-38 right-1 w-45 h-45 bg-(--purple) animate-moveCircleRtL"></span>
                 {/*bottom right*/}
               </div>
             </div>
@@ -311,13 +310,13 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
                             Generate with AI
                           </div>
                         ) : (
-                          <div className="flex flex-col gap-2 items-center justify-center w-full h-full animate-in fade-in zoom-in duration-200">
+                          <div className="flex flex-col gap-2 items-center justify-center w-full h-11/12 animate-in fade-in zoom-in duration-200">
                             <textarea
                               autoFocus
                               value={aiPrompt}
                               onChange={(e) => setAiPrompt(e.target.value)}
                               placeholder="Describe what you want to make ...."
-                              className="w-11/12 h-3/5 p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm resize-none shadow-inner"
+                              className="w-11/12 h-full p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm resize-none shadow-inner"
                             />
 
                             <div className="flex gap-2 w-11/12">
@@ -330,7 +329,7 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
                               <button
                                 onClick={MakeAIForm}
                                 disabled={isLoading || !aiPrompt.trim()}
-                                className="flex-1 py-1 rounded bg-[var(--purple)] text-black text-md disabled:opacity-50"
+                                className="flex-1 py-1 rounded bg-(--purple) text-black text-md disabled:opacity-50"
                               >
                                 {isLoading ? "..." : "Generate"}
                               </button>
@@ -372,7 +371,7 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
           {/* para matanggal lang error */}
           {motion}
 
-          <div className="flex flex-col items-center justify-center flex-1 min-h-full bg-[var(--white)] z-10">
+          <div className="flex flex-col items-center justify-center flex-1 min-h-full bg-(--white) z-10">
             <div className="mt-30 flex flex-col justify-center items-center whitespace-nowrap mb-5">
               <span className=" text-[24px] font-vagrounded font-semibold">
                 Build Your Form{" "}
@@ -387,7 +386,7 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
             </div>
             
 
-            <div className="w-7/7 relative h-[360px] overflow-hidden pt-15 border-2 border-[var(--dirty-white)] bg-[var(--white)] z-10">
+            <div className="w-7/7 relative h-[360px] overflow-hidden pt-15 border-2 border-(--dirty-white) bg-(--white) z-10">
               <div className="absolute z-1 w-full h-full flex justify-center items-center">
                 <ThreeDModel
                   url="/models/free__rubiks_cube_3d.glb"
@@ -398,13 +397,13 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
               
               <div className="absolute top-0 left-0 h-full w-full">
                 <DotShader className="z-0" />
-                <span className="home-circle mixed-blend-multiply -top-40 left-1 w-45 h-45 bg-[var(--purple)] animate-moveCircleLtR"></span>
+                <span className="home-circle mixed-blend-multiply -top-40 left-1 w-45 h-45 bg-(--purple) animate-moveCircleLtR"></span>
                 {/*top left*/}
-                <span className="home-circle mixed-blend-multiply -top-38 right-1 w-30 h-30 bg-[var(--pink)] animate-moveCircleRtL"></span>
+                <span className="home-circle mixed-blend-multiply -top-38 right-1 w-30 h-30 bg-(--pink) animate-moveCircleRtL"></span>
                 {/*top right*/}
-                <span className="home-circle mixed-blend-multiply -bottom-32 left-1 w-30 h-30 bg-[var(--pink)] animate-moveCircleLtR"></span>
+                <span className="home-circle mixed-blend-multiply -bottom-32 left-1 w-30 h-30 bg-(--pink) animate-moveCircleLtR"></span>
                 {/*bottom left*/}
-                <span className="home-circle mixed-blend-multiply -bottom-38 right-1 w-45 h-45 bg-[var(--purple)] animate-moveCircleRtL"></span>
+                <span className="home-circle mixed-blend-multiply -bottom-38 right-1 w-45 h-45 bg-(--purple) animate-moveCircleRtL"></span>
                 {/*bottom right*/}
               </div>
             </div>
