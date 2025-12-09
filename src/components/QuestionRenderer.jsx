@@ -12,6 +12,7 @@ import Email from "./ResponseQuestions/Email";
 import PhoneNumber from "./ResponseQuestions/PhoneNumber";
 import FileUploader from "./ResponseQuestions/FileUploader";
 import ShortText from "./ResponseQuestions/ShortText";
+import Switch from "./ResponseQuestions/Switch";
 
 function QuestionRenderer({ question, value, onAnswer }) {
   const QUESTION_TYPES = {
@@ -26,6 +27,7 @@ function QuestionRenderer({ question, value, onAnswer }) {
     file_uploader: FileUploader,
     dropdown: Dropdown,
     phone_number: PhoneNumber,
+    switch:Switch,
   };
 
   const Component = QUESTION_TYPES[question.type];
