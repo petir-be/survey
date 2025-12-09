@@ -13,7 +13,7 @@ import Loading from "../components/Loading";
 const localStorageKey = (guid) => `formAnswersCache_${guid}`;
 // import { Steps } from "rsuite";
 
-function SubmitDone({ allowMultipleSubmission }) {
+function SubmitDone() {
   return (
     <div className="w-full font-vagrounded min-h-dvh flex justify-center items-center flex-col">
       {/* Animated Success Checkmark */}
@@ -77,15 +77,9 @@ function SubmitDone({ allowMultipleSubmission }) {
         <p className="text-2xl font-medium text-gray-600 mt-1">
           Your response has been recorded.
         </p>
-        {allowMultipleSubmission ? (
-          <button onClick={() => window.location.reload()}>
-            <p className="mt-8 text-lg underline underline-offset-4 text-blue-600 font-medium cursor-pointer hover:text-blue-700 transition-colors">
-              Submit another response
-            </p>
-          </button>
-        ) : (
-          <p>aasd</p>
-        )}
+        <p className="mt-8 text-lg underline underline-offset-4 text-blue-600 font-medium cursor-pointer hover:text-blue-700 transition-colors">
+          Submit another response
+        </p>
       </motion.div>
     </div>
   );
@@ -159,7 +153,6 @@ function Response() {
   const [hasReviewPage, setHasReviewPage] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
-  const [multipleSubmission, setMultipleSubmission] = useState(false);
 
   const loadAnswersFromCache = (key) => {
     try {
@@ -205,8 +198,7 @@ function Response() {
         setId(id);
         setHasReviewPage(response.data.hasReviewPage);
         setIsPublished(response.data.isPublished);
-        setMultipleSubmission(response.data.allowMultipleSubmissions);
-        // console.log(response.data)
+        // console.log(response.data);
 
         // console.log(typeof formData);
 
@@ -230,6 +222,10 @@ function Response() {
           removeAnswersFromCache();
 
           setError("You have already submitted in this form.");
+        } else if (!isPublished) {
+          setError(
+            "Form is not published. Please contact the owner for more details."
+          );
         } else if (err.response?.status === 404) {
           setError("Form not found or the link is invalid.");
         } else if (err.response?.status === 403) {
@@ -289,9 +285,7 @@ function Response() {
       submitAnswers();
     } else if (hasReviewPage && currentPageIndex === pages.length) {
       submitAnswers();
-    }
-   
-    else {
+    } else {
       setCurrentPageIndex(currentPageIndex + 1);
     }
   };
@@ -374,7 +368,7 @@ function Response() {
   return (
     <div className="h-dvh w-full bg-(--white) flex flex-col overflow-hidden">
       {hasSubmitted ? (
-        <SubmitDone allowMultipleSubmission={multipleSubmission} />
+        <SubmitDone />
       ) : (
         <>
           {/* progress bar */}
@@ -434,7 +428,7 @@ function Response() {
                   disabled={currentPageIndex === 0}
                   className={`px-4 py-2 rounded-lg font-medium ${
                     currentPageIndex === 0
-                      ? "opacity-0 !cursor-default"
+                      ? "opacity-0 cursor-default"
                       : "opacity-100 bg-(--white) ring-white ring hover:bg-gray-300 inset-shadow-md/10 font-vagrounded drop-shadow-sm/25 transition-color duration-200 ease-out"
                   }`}
                 >

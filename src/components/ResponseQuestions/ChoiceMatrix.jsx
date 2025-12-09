@@ -1,14 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 function ChoiceMatrix({ question, value = {}, onChange }) {
   const columns = question.columns || [];
   const rows = question.rows || [];
 
+  useEffect(() => {
+    const initial = {};
+    let hasMissing = false;
+
+    rows.forEach((row) => {
+      if (!value[row]) {
+        initial[row] = "Unanswered";
+        hasMissing = true;
+      }
+    });
+
+    if (hasMissing) {
+      onChange({ ...value, ...initial });
+    }
+  }, [rows]);
+
   // Handle selection for a specific row
   const handleSelect = (rowLabel, colLabel) => {
     const updated = {
       ...value,
-      [rowLabel]: colLabel,
+      [rowLabel]: colLabel || "Unanswered",
     };
 
     onChange(updated);

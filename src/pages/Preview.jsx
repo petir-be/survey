@@ -8,7 +8,6 @@ import DotShader2 from "../components/DotShader2";
 import QuestionRenderer from "../components/QuestionRenderer";
 import Loading from "../components/Loading";
 
-// import { Steps } from "rsuite";
 
 function Preview() {
   const { guid } = useParams();

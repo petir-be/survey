@@ -218,6 +218,7 @@ function Form() {
       email: "Email Address",
       "phone number": "Phone Number",
       "file uploader": "Upload a file",
+      "switch": "Toggle switch options:",
 
       checkbox: "Select all that apply:",
     };
@@ -237,6 +238,7 @@ function Form() {
       email: "email",
       "phone number": "phone_number",
       "file uploader": "file_uploader",
+      "switch": "switch",
       checkbox: "checkbox",
     };
     return typeMap[title?.toLowerCase?.()] || "text";

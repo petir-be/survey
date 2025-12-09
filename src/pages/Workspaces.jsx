@@ -6,7 +6,7 @@ import { BiGridHorizontal } from "react-icons/bi";
 import { FaRegFileAlt, FaTrash } from "react-icons/fa";
 import HomeBox from "../components/HomeBox";
 import { VscLoading } from "react-icons/vsc";
-
+import moment from "moment";
 import aboutus from "../assets/hugeicons_ai-dna.svg";
 import DotShader from "../components/DotShader2";
 import { useContext, useEffect, useState } from "react";
@@ -383,7 +383,7 @@ function Workspaces() {
                       // === GRID VIEW UI ===
                       <>
                         <div className="flex justify-between items-start">
-                          <div className="w-10 h-10 bg-white/50 rounded-lg flex items-center justify-center">
+                          <div className="w-10 h-10  rounded-lg flex items-center justify-center">
                             <FaRegFileAlt className="text-black text-xl" />
                           </div>
                           {/* Trash Icon */}
