@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaCircleXmark } from "react-icons/fa6";
 import { IoDuplicate } from "react-icons/io5";
+import { motion } from "framer-motion";
 
 function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
   const defaultRow = ["Row 1", "Row 2"];
@@ -12,12 +13,20 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
   const [addRowField, setAddRowField] = useState(question.rows || defaultRow);
   const [showAddButtons, setShowAddButtons] = useState(false);
 
+  const [required, setRequired] = useState(question.required || false);
+  
+    function toggleRequired() {
+      setRequired((prev) => !prev);
+      onUpdate(question.id, { required: !required });
+    }
+
   //initialization lang para sa JSON
   useEffect(() => {
     onUpdate(question.id, {
       columns: addColumnField,
       rows: addRowField,
     });
+    onUpdate(question.id, { required: required });
   }, []);
 
   const addColumn = () => {
@@ -167,20 +176,56 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
       </div>
 
       {showAddButtons && (
-        <div className="flex gap-4 mt-3">
-          <button
-            onClick={addColumn}
-            className="px-2 font-medium font-vagrounded py-1 text-(--purple) border-b-(--purple) border-transparent hover:border-b"
-          >
-            + Add Column
-          </button>
+        <div className="flex justify-between pr-5 items-center">
+          <div className="flex gap-4 mt-3">
+            <button
+              onClick={addColumn}
+              className="px-2 font-medium font-vagrounded py-1 text-(--purple) border-b-(--purple) border-transparent hover:border-b"
+            >
+              + Add Column
+            </button>
 
-          <button
-            onClick={addRow}
-            className="px-2 font-medium font-vagrounded py-1 text-(--purple) border-b-(--purple) border-transparent hover:border-b"
-          >
-            + Add Row
-          </button>
+            <button
+              onClick={addRow}
+              className="px-2 font-medium font-vagrounded py-1 text-(--purple) border-b-(--purple) border-transparent hover:border-b"
+            >
+              + Add Row
+            </button>
+          </div>
+          <div className="border-2 border-transparent pl-3 border-l-gray-400 flex gap-3 font-vagrounded items-center">
+              <span className="text-gray-600">Required</span>
+              <button
+                onClick={toggleRequired}
+                style={{
+                  width: 39,
+                  height: 18,
+                  backgroundColor: required ? "#9911ff" : "#ccc",
+                  borderRadius: 30,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: required ? "flex-end" : "flex-start",
+                  padding: 3,
+                  transition: "background-color 0.2s ease",
+                }}
+              >
+                <motion.div
+                  layout
+                  style={{
+                    width: 13,
+                    height: 13,
+                    backgroundColor: "white",
+                    borderRadius: "50%",
+                    boxShadow: "0 0 3px rgba(0,0,0,0.2)",
+                  }}
+                  transition={{
+                    type: "spring",
+                    duration: 0.25,
+                    bounce: 0.2,
+                  }}
+                />
+              </button>
+            </div>
         </div>
       )}
     </div>
