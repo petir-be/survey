@@ -11,7 +11,6 @@ import { motion } from "framer-motion";
 import Loading from "../components/Loading";
 
 const localStorageKey = (guid) => `formAnswersCache_${guid}`;
-// import { Steps } from "rsuite";
 
 function SubmitDone({ allowMultipleSubmission }) {
   return (
@@ -411,9 +410,16 @@ function Response() {
                             const currentAnswerObj = answers.find(
                               (a) => a.questionID === q.id
                             );
-                            const currentValue = currentAnswerObj
-                              ? currentAnswerObj.answer
-                              : "";
+                            const isFileQuestion =
+                              q.type === "File" || q.questionType === "File";
+
+                            let currentValue;
+                            if (currentAnswerObj) {
+                              currentValue = currentAnswerObj.answer;
+                            } else {
+                             
+                              currentValue = isFileQuestion ? [] : "";
+                            }
                             return (
                               <QuestionRenderer
                                 key={q.id}
