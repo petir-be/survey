@@ -380,11 +380,28 @@ function Results({
           )}
 
           {checkedItems.length > 0 && (
-            <div className="popup fixed bg-[var(--white)] shadow-lg left-0 right-0 bottom-20 m-auto p-1 w-min-content border-box justify-between max-w-2xs shadow-lg border-2 border-white rounded-lg flex">
-              <span className="p-4 text-base font-bold">
+            <div className="popup fixed bg-[var(--white)] shadow-lg left-0 right-0 bottom-20 m-auto p-1 max-w-2xs border-2 border-white rounded-lg flex items-stretch">
+              <span className="p-4 text-base font-bold flex items-center w-full">
                 {`${checkedItems.length}/${parentResponses.length} selected`}
               </span>
-              <button className="p-4 text-base font-bold ml-4 border-l border-gray-300 hover:bg-gray-300">
+
+              <button
+                className="flex items-center justify-center border-l border-gray-300 hover:bg-gray-300 w-24"
+                onClick={() => {
+                  setSelectAll(!selectAll);
+                  setCheckedItems([]);
+                }}
+              >
+                <FaDownload />
+              </button>
+
+              <button
+                className="flex items-center justify-center border-l border-gray-300 hover:bg-gray-300 w-24"
+                onClick={() => {
+                  setSelectAll(!selectAll);
+                  setCheckedItems([]);
+                }}
+              >
                 <FaX />
               </button>
             </div>
