@@ -1263,7 +1263,7 @@ function Form() {
                 </div>
 
                 {/* right side */}
-                <div className="flex flex-col fixed bottom-0 lg:relative h-full lg:w-[20%] z-100 bg-(--white) p-7.5 pr-0 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto hidden lg:block">
+                <div className="flex flex-col fixed bottom-0 lg:relative h-full lg:w-[20%]  bg-(--white) p-7.5 pr-0 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto hidden lg:block">
                   <div className="w-full">
                     <h1 className="text-3xl text-left">Layers</h1>
                   </div>
