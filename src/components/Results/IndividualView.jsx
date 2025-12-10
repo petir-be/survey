@@ -1,7 +1,7 @@
 import { AnswerRenderer } from "./AnswerRenderer";
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import DetailedResponsePDF from "../PDF/DetailedResponsePDF";
 import moment from "moment";
+import { DetailedResponsePDF } from "../PDF/DetailedResponsePDF";
 
 function formatDateTime(isoString) {
   const date = new Date(isoString);

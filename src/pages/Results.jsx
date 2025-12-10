@@ -7,6 +7,8 @@ import SearchBar from "../components/SearchBar";
 import IndividualView from "../components/Results/IndividualView";
 import SummaryView from "../components/Results/SummaryView";
 import moment from "moment";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { MultipleDetailedResponsesPDF } from "../components/PDF/DetailedResponsePDF";
 
 function Results({
   defaultFormName = "Form",
@@ -64,6 +66,7 @@ function Results({
       setCheckedItems(processedResponses.map((r) => r.id));
     }
     setSelectAll(!selectAll);
+    console.log(checkedItems);
   };
 
   const handleCheckItem = (id) => {
@@ -90,6 +93,10 @@ function Results({
     console.log(rowData);
 
     setActiveTab("individual");
+  };
+
+  const getAllCheckedResponses = () => {
+    return parentResponses.filter((res) => checkedItems.includes(res.id));
   };
 
   return (
@@ -274,7 +281,12 @@ function Results({
                             >
                               {/* Checkbox column — border on inner div */}
                               <td className="align-middle font-vagrounded">
-                                <div className="py-4 px-4 border-l border-r border-white">
+                                <div
+                                  className="py-4 px-4 border-l border-r border-white"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                  }}
+                                >
                                   <input
                                     type="checkbox"
                                     className="w-4 h-4 border-gray-300 pretty-checkbox row-checkbox"
@@ -385,15 +397,18 @@ function Results({
                 {`${checkedItems.length}/${parentResponses.length} selected`}
               </span>
 
-              <button
+              <PDFDownloadLink
                 className="flex items-center justify-center border-l border-gray-300 hover:bg-gray-300 w-24"
-                onClick={() => {
-                  setSelectAll(!selectAll);
-                  setCheckedItems([]);
-                }}
+                fileName="selectedResponses"
+                document={
+                  <MultipleDetailedResponsesPDF
+                    responses={getAllCheckedResponses()}
+                    formData={parentFormData}
+                  />
+                }
               >
                 <FaDownload />
-              </button>
+              </PDFDownloadLink>
 
               <button
                 className="flex items-center justify-center border-l border-gray-300 hover:bg-gray-300 w-24"
