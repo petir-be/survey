@@ -1,89 +1,176 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { FaFile } from "react-icons/fa6";
+import axios from "axios";
+
+
+const UPLOAD_URL = `${
+  import.meta.env.VITE_BACKEND
+}/api/Response/responses/media`;
 
 function FileUploader({ question, onChange, value = [] }) {
   const [uploadedFiles, setUploadedFiles] = useState([]);
 
+  // Sync with parent state and hydrate data
   useEffect(() => {
-    setUploadedFiles(value);
+    if (Array.isArray(value)) {
+      const formattedFiles = value.map((f) => ({
+        ...f,
+        id: f.mediaId || crypto.randomUUID(),
+        status: "completed", 
+        progress: 100,
+      }));
+      setUploadedFiles(formattedFiles);
+    } else {
+      setUploadedFiles([]);
+    }
   }, [value]);
 
-  const uploadFile = (file) =>
-    new Promise((resolve) => {
-      const reader = new FileReader();
-      const id = crypto.randomUUID();
+  const isImage = (file) => {
+    if (file.fileType && file.fileType.startsWith("image/")) return true;
+    return /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(file.name);
+  };
+
+  const uploadFileToServer = (file) =>
+    new Promise(async (resolve, reject) => {
+      const tempId = crypto.randomUUID();
 
       let fileData = {
-        id,
+        id: tempId,
         name: file.name,
         size: file.size,
         progress: 0,
-        base64: null,
+        status: "uploading",
+        mediaId: null,
+        mediaUrl: null,
+        fileType: file.type,
       };
 
-      reader.onprogress = (event) => {
-        if (event.lengthComputable) {
-          const percentage = Math.round((event.loaded / event.total) * 100);
+      setUploadedFiles((prev) => [...prev, fileData]);
 
-          setUploadedFiles((prev) =>
-            prev.map((f) => (f.id === id ? { ...f, progress: percentage } : f))
-          );
-        }
-      };
+      const formData = new FormData();
+      formData.append("File", file);
 
-      reader.onloadend = () => {
-        fileData = {
+      try {
+        const response = await axios.post(UPLOAD_URL, formData, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (progressEvent) => {
+            const { loaded, total } = progressEvent;
+            const percentage = Math.round((loaded * 100) / total);
+
+            setUploadedFiles((prev) =>
+              prev.map((f) =>
+                f.id === tempId ? { ...f, progress: percentage } : f
+              )
+            );
+          },
+        });
+
+        const fullMediaUrl = `${import.meta.env.VITE_BACKEND}${
+          response.data.url
+        }`;
+
+        const serverData = {
           ...fileData,
-          base64: reader.result,
           progress: 100,
+          status: "completed",
+          mediaId: response.data.id,
+          mediaUrl: fullMediaUrl,
         };
 
-        resolve(fileData);
-      };
+        setUploadedFiles((prev) =>
+          prev.map((f) => (f.id === tempId ? serverData : f))
+        );
 
-      reader.readAsDataURL(file);
-
-      // Add initial entry
-      setUploadedFiles((prev) => [...prev, fileData]);
+        resolve(serverData);
+      } catch (error) {
+        console.error("File upload failed:", error);
+        setUploadedFiles((prev) =>
+          prev.map((f) => (f.id === tempId ? { ...f, status: "failed" } : f))
+        );
+        reject(error);
+      }
     });
 
   const handleFileUpload = async (e) => {
     const files = Array.from(e.target.files);
+    e.target.value = null;
 
-    const uploaded = [];
-    for (const file of files) {
-      const data = await uploadFile(file);
-      uploaded.push(data);
-    }
+    const uploadedPromises = files.map((file) => uploadFileToServer(file));
+    await Promise.allSettled(uploadedPromises);
 
-    const updated = [...uploadedFiles, ...uploaded];
-    setUploadedFiles(updated);
-    onChange(updated);
+    setUploadedFiles((prev) => {
+      const validFiles = prev.filter(
+        (f) => f.mediaId && f.status === "completed"
+      );
+      const answerPayload = validFiles.map((f) => ({
+        mediaId: f.mediaId,
+        name: f.name,
+        size: f.size,
+        mediaUrl: f.mediaUrl,
+        fileType: f.fileType,
+      }));
+      onChange(answerPayload);
+      return prev;
+    });
   };
 
-  const handleRemoveFile = (id) => {
-    const updated = uploadedFiles.filter((f) => f.id !== id);
-    setUploadedFiles(updated);
-    onChange(updated);
+  const handleRemoveFile = async (id, mediaId) => {
+    if (mediaId) {
+      try {
+        await axios.delete(
+          `${
+            import.meta.env.VITE_BACKEND
+          }/api/Response/responses/media/${mediaId}`,
+          {
+            withCredentials: true,
+          }
+        );
+      } catch (error) {
+        console.warn("Could not delete file from server.", error);
+      }
+    }
+
+    setUploadedFiles((prev) => {
+      const updatedLocalFiles = prev.filter((f) => f.id !== id);
+      const updatedSubmittedAnswers = updatedLocalFiles
+        .filter((f) => f.mediaId)
+        .map((f) => ({
+          mediaId: f.mediaId,
+          name: f.name,
+          size: f.size,
+          mediaUrl: f.mediaUrl,
+          fileType: f.fileType,
+        }));
+      onChange(updatedSubmittedAnswers);
+      return updatedLocalFiles;
+    });
   };
 
   const handleDragOver = (e) => e.preventDefault();
 
   const handleDrop = async (e) => {
     e.preventDefault();
-
     const files = Array.from(e.dataTransfer.files);
-    const uploaded = [];
-
-    for (const file of files) {
-      const data = await uploadFile(file);
-      uploaded.push(data);
-    }
-
-    const updated = [...uploadedFiles, ...uploaded];
-    setUploadedFiles(updated);
-    onChange(updated);
+    const uploadedPromises = files.map((file) => uploadFileToServer(file));
+    await Promise.allSettled(uploadedPromises);
+    setUploadedFiles((prev) => {
+      const validFiles = prev.filter(
+        (f) => f.mediaId && f.status === "completed"
+      );
+      const answerPayload = validFiles.map((f) => ({
+        mediaId: f.mediaId,
+        name: f.name,
+        size: f.size,
+        mediaUrl: f.mediaUrl,
+        fileType: f.fileType,
+      }));
+      onChange(answerPayload);
+      return prev;
+    });
   };
 
   return (
@@ -119,32 +206,61 @@ function FileUploader({ question, onChange, value = [] }) {
             key={f.id}
             className="flex items-center justify-between w-full p-3 border border-(--black-lighter) rounded-lg bg-(--white)"
           >
-            <div className="flex items-center gap-2 flex-1 min-w-0 mt-2">
-              <FaFile className="text-lg flex-shrink-0" />
-              <span className="flex flex-col">
+            <div className="flex items-center gap-3 flex-1 min-w-0 mt-2">
+              {/* Preview Image or Icon */}
+              {f.status === "completed" && f.mediaUrl && isImage(f) ? (
+                <img
+                  src={f.mediaUrl}
+                  alt={f.name}
+                  className="w-10 h-10 object-cover rounded-md flex-shrink-0 border border-gray-200"
+                />
+              ) : (
+                <FaFile className="text-xl text-gray-500 flex-shrink-0" />
+              )}
+
+              <span className="flex flex-col min-w-0 w-full pr-4">
                 <span className="text-sm font-vagrounded truncate">
                   {f.name}
                 </span>
-                <span className="text-xs font-vagrounded">
-                  {(f.size / 1024 / 1024).toFixed(2)} MB{" "}
-                </span>
+
+                <div className="flex items-center gap-3 text-xs font-vagrounded text-gray-500 h-5">
+         
+                  <span className="whitespace-nowrap">
+                    {(f.size / 1024 / 1024).toFixed(2)} MB
+                  </span>
+
+          
+                  {f.status === "uploading" ? (
+           
+                    <div className="flex-1 max-w-[120px] h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-blue-500 transition-all duration-300 ease-out"
+                        style={{ width: `${f.progress}%` }}
+                      />
+                    </div>
+                  ) : (
+               
+                    <>
+                      {f.status === "failed" && (
+                        <span className="text-red-500 font-semibold">
+                          (Failed)
+                        </span>
+                      )}
+                    </>
+                  )}
+                </div>
               </span>
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="h-2 w-24 bg-gray-200 rounded overflow-hidden">
-                <div
-                  className="bg-(--black-lighter) h-full transition-all"
-                  style={{ width: `${f.progress}%` }}
-                />
-              </div>
+
 
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  handleRemoveFile(f.id);
+                  handleRemoveFile(f.id, f.mediaId);
                 }}
-                className="ml-2 flex-shrink-0 hover:bg-gray-100 rounded-full p-1 transition-colors"
+                className="ml-2 shrink-0 hover:bg-gray-100 rounded-full p-2 transition-colors text-gray-500 hover:text-red-500"
               >
                 <IoClose className="text-xl" />
               </button>
