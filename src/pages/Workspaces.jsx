@@ -19,7 +19,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { FaSpinner } from "react-icons/fa";
 import AccountModal from "../components/AccountModal";
 import { useMediaQuery } from "react-responsive";
-import moment from "moment/moment";
 
 function Workspaces() {
   
