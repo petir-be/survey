@@ -35,6 +35,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
+      {
+        path: "/Workspaces",
+        element: <Workspaces />,
+      },
     ],
   },
   {
@@ -68,10 +72,6 @@ const router = createBrowserRouter([
   {
     path: "/newform/:id/responses",
     element: <Results />,
-  },
-  {
-    path: "/Workspaces",
-    element: <Workspaces />,
   },
 ]);
 
