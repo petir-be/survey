@@ -12,6 +12,10 @@ import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../Context/authContext";
 import Select from 'react-select';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// You also need to import the specific icon object from the icons package
+import { faWpforms } from "@fortawesome/free-brands-svg-icons";
+import { GiArtificialIntelligence } from "react-icons/gi";import { HiTemplate } from "react-icons/hi";
 function Home() {
   const [showModal, setShowModal] = useState(false);
 
@@ -112,7 +116,6 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
         <>
           {/* para matanggal lang error */}
           {motion}
-
           <div className="flex items-center justify-center flex-1 min-h-full bg-(--white) z-10">
             <div className="relative w-2/7 h-dvh pt-25">
               <div className="m-12 flex flex-col">
@@ -200,164 +203,67 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
                     className="absolute w-full h-full bg-transparent"
                     onClick={() => setShowModal(false)}
                   ></span>
-
-                  <div className="p-10 w-2/3 h-2/3 bg-(--white) ring ring-white rounded-lg fixed z-50">
-                    <h1 className="font-vagrounded text-xl">
-                      Start a new Form
+  
+                  <div className=" max-w-5xl justify-center items-center p-5 bg-(--white) ring ring-white rounded-lg fixed z-50">
+                    
+                    <div className="py-5 h-full w-full items-center">
+                 
+                   <div className="px-5 flex items-center justify-between ">
+                   <h1 className="font-vagrounded text-[20px]">
+                      Start a new form
                     </h1>
-                    <div className="absolute top-0 right-0 w-15 h-15 flex items-center justify-center">
+             
                       <button
                         onClick={() => setShowModal(false)}
-                        className="w-full h-full cursor-pointer"
+                        className=" text-[32px] cursor-pointer"
                       >
-                        X
+                        &times;
                       </button>
+                    
                     </div>
-                    <div className="p-5 flex items-center justify-evenly w-full h-full">
+
+
+
+                    <div className="px-[20px] gap-10 py-5 text-center px-[2px] gap-2 flex items-center justify-between w-full h-full">
                       {/* create own forms */}
-                      <div
-                        className="flex flex-col gap-3 items-center w-full h-full font-vagrounded "
-                        onClick={MakeForm}
-                      >
-                        {isLoading ? (
-                          <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
-                            {/* button ng form */}
-                            <button
-                              className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"
-                              onClick={MakeForm}
-                            ></button>
+                      <div className="cursor-pointer hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 ease-in-out
+                      border border-1 border-gray-300 items-center justify-center  text-[16px]  
+                      flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
+                      
+                
+ 
+                       <div className="px-[50px] py-[35px]">
+<FontAwesomeIcon
+  icon={faWpforms}
+  className="text-[96px] text-white mb-2" />
+                     
+                     
 
-                            <FaSpinner className="text-5xl text-(--purple) animate-spin" />
-
-                            <span className="absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-34 rotate-45  "></span>
-                            <div
-                              className="absolute bottom-0 z-2 right-0 w-25 h-25 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
-                              style={{
-                                clipPath: "polygon(0 0, 100% 0, 0 100%)",
-                                filter:
-                                  "drop-shadow(2px 2px 4px rgba(0, 0, 0, 1))",
-                              }}
-                            />
-                            <div
-                              className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-28 h-29"
-                              style={{
-                                clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
-                                background: "#DFE0F0",
-                              }}
-                            />
-                          </span>
-                        ) : (
-                          <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
-                            {/* button ng form */}
-                            <button
-                              className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"
-                              onClick={MakeForm}
-                            ></button>
-
-                            {/* circle and rectangle */}
-                            <span className="inset-shadow-sm/40 w-5 h-5 absolute top-8 left-10 rounded-full"></span>
-                            <span className="inset-shadow-sm/40 w-5 h-5 absolute top-15 left-10 rounded-full"></span>
-                            <span className="w-5 h-5 inset-shadow-sm/40 absolute top-22 left-10 rounded-full"></span>
-
-                            <span className="w-7/12 h-3 inset-shadow-sm/40 absolute top-9 left-17"></span>
-                            <span className="w-4/12 h-3 inset-shadow-sm/40 absolute top-16 left-17"></span>
-                            <span className="w-2/12 h-3 inset-shadow-sm/40 absolute top-23 left-17"></span>
-
-                            {/* plus circle */}
-                            <span className="w-15 h-15 rounded-full inset-shadow-sm/40 absolute top-50 left-15 flex justify-center items-center">
-                              <span className="flex justify-center items-center w-11 h-11 rounded-full shadow-sm/40">
-                                <span className="w-8 h-2 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
-                                  {/* ayaw maalis pota */}
-                                  <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
-                                </span>
-                                <span className="fixed w-2 h-8 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
-                                  <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
-                                </span>
-                              </span>
-                            </span>
-
-                            <span className="absolute -bottom-4 right-12 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1 w-2 h-34 rotate-45  "></span>
-                            <div
-                              className="absolute bottom-0 z-2 right-0 w-25 h-25 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
-                              style={{
-                                clipPath: "polygon(0 0, 100% 0, 0 100%)",
-                                filter:
-                                  "drop-shadow(2px 2px 4px rgba(0, 0, 0, 1))",
-                              }}
-                            />
-                            <div
-                              className="font-vagrounded font-normal absolute z-0 -bottom-2 -right-2 w-28 h-29"
-                              style={{
-                                clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
-                                background: "#DFE0F0",
-                              }}
-                            />
-                          </span>
-                        )}
-                        Create you own forms
+                         
+                 
+                        Create own form
                       </div>
-
+</div>
                       {/* generate with ai */}
-                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded relative">
-                        {!showAIInput ? (
-                          <div
-                            className="flex flex-col gap-3 items-center w-full h-full cursor-pointer"
-                            onClick={() => setShowAIInput(true)}
-                          >
-                            <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center">
-                              <span className="text-4xl"></span>
-                            </span>
-                            Generate with AI
-                          </div>
-                        ) : (
-                          <div className="flex flex-col gap-2 items-center justify-center w-full h-11/12 animate-in fade-in zoom-in duration-200">
-                            <textarea
-                              autoFocus
-                              value={aiPrompt}
-                              onChange={(e) => setAiPrompt(e.target.value)}
-                              placeholder="Describe what you want to make ...."
-                              className="w-11/12 h-full p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm resize-none shadow-inner"
-                            />
-
-                            <div className="flex gap-2 w-11/12">
-                              <button
-                                onClick={() => setShowAIInput(false)}
-                                className="flex-1 py-1 rounded bg-gray-200 hover:bg-gray-300 text-md text-gray-600 transition-colors"
-                              >
-                                Back
-                              </button>
-                              <button
-                                onClick={MakeAIForm}
-                                disabled={isLoading || !aiPrompt.trim()}
-                                className="flex-1 py-1 rounded bg-(--purple) text-black text-md disabled:opacity-50"
-                              >
-                                {isLoading ? "..." : "Generate"}
-                              </button>
-                            </div>
-                          </div>
-                        )}
+                       <div className="cursor-pointer hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 ease-in-out
+                      border border-1 border-gray-300 items-center justify-center  text-[16px]  
+                      flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
+                       
+                       <div className="px-[50px] py-[35px]">
+                       <GiArtificialIntelligence  className="text-[96px] text-white mb-2"/>
+                        Generate with AI
                       </div>
-
+</div>
                       {/* Use a template */}
-                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded">
-                        <span className="relative flex  items-center justify-center w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
-                          {/* button ng form */}
-                          <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
-
-                          <div className=" gap-3 h-1/2 w-1/2 flex flex-col">
-                            <span className="w-full h-[60%] inset-shadow-sm/40 rounded-xl"></span>
-                            <div className="flex flex-row w-full h-full gap-3 justify-between">
-                              <span className="h-full w-1/2 rounded-xl inset-shadow-sm/30"></span>
-                              <div className="flex flex-col w-1/2 h-full items-center justify-between ">
-                                <span className="inset-shadow-sm/40 rounded-xl h-5 w-full"></span>
-                                <span className="inset-shadow-sm/40 rounded-xl h-5 w-full"></span>
-                                <span className="inset-shadow-sm/40 rounded-xl h-5 w-full"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </span>
-                        Use a template
+                    <div className="cursor-pointer hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 ease-in-out
+                      border border-1 border-gray-300 items-center justify-center  text-[16px]  
+                      flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
+                       
+                       <div className="px-[50px] py-[35px]">
+                        <HiTemplate className="text-[96px] text-white mb-2"/>
+                        Use a template</div>
                       </div>
+                    </div>
                     </div>
                   </div>
                 </motion.div>
@@ -478,89 +384,33 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
                         X
                       </button>
                     </div>
-                    <div className=" text-center px-[2px] gap-2 flex items-center justify-between w-full h-full">
+                    <div className="py-5 text-center px-[2px] gap-2 flex items-center justify-between w-full h-full">
                       {/* create own forms */}
-                      <div className="items-center justify-center  text-[8px]  flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
-                        <span className="relative w-full h-[80px] bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
-                          {/* button ng form */}
-                          <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
+                      <div className="hover:shadow-sm border border-1 border-gray-300 items-center justify-center  text-[8px]  flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
+                      
+                
 
-                          {/* circle and rectangle */}
-                          <span className="inset-shadow-sm/40 w-1 h-1 absolute top-3 left-2 rounded-full"></span>
-                          <span className="inset-shadow-sm/40 w-1 h-1 absolute top-6 left-2 rounded-full"></span>
-                          <span className="inset-shadow-sm/40 w-1 h-1 absolute top-9 left-2 rounded-full"></span>
+<FontAwesomeIcon
+  icon={faWpforms}
+  className="text-[48px] text-white" />
+                     
+                     
 
-                          <span className="w-7/12 h-1 inset-shadow-sm/40 absolute top-3 left-4"></span>
-                          <span className="w-4/12 h-1 inset-shadow-sm/40 absolute top-6 left-4"></span>
-                          <span className="w-2/12 h-1 inset-shadow-sm/40 absolute top-9 left-4"></span>
-
-                            {/* plus circle */}
-
-                         {/* outer circle */}
-                          <span className="w-4 h-4 rounded-full inset-shadow-sm/40 absolute top-14 left-4 flex justify-center items-center">
-                                   
-                                   {/* inner circle */}
-                            <span className="w-3 h-3 flex justify-center items-center  rounded-full shadow-sm/40">
-                             
-                             
-                              {/* horizontal cross */}
-                              <span className="w-3 h-1 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
-                              
-                                {/* ayaw maalis pota */}
-                                <span className="mix-blend-lighten w-1 h-1 bg-white/30"></span>
-                              </span>
-                               {/* vertical cross */}
-                              <span className="fixed w-1 h-3 inset-shadow-sm/40 rounded-lg flex justify-center items-center">
-                                <span className="mix-blend-lighten w-2 h-2 bg-white/30"></span>
-                              </span>
-                            </span>
-                          </span>
-
-                          <span className="w-1 h-6 absolute -bottom-1 right-3 shadow-[2px_0_5px_rgba(0,0,0,0.2)] z-1  rotate-45  "></span>
-                          <div
-                            className="absolute bottom-0 z-2 right-0 w-5 h-5 bg-linear-150 from-[#F9F9F9] to-[#CCCDD9]"
-                            style={{
-                              clipPath: "polygon(0 0, 100% 0, 0 100%)",
-                              filter:
-                                "drop-shadow(2px 2px 4px rgba(0, 0, 0, 1))",
-                            }}
-                          />
-                          <div
-                            className="font-vagrounded font-normal absolute z-0 -bottom-1 -right-1 w-6 h-6"
-                            style={{
-                              clipPath: "polygon(100% 0, 0 100%, 100% 100%)",
-                              background: "#DFE0F0",
-                              // background:'#000000'
-                            }}
-                          />
-                        </span>
+                         
+                 
                         Create own form
                       </div>
 
                       {/* generate with ai */}
-                      <div className="items-center justify-center text-[8px] flex flex-col gap-3 items-center w-full h-full font-vagrounded">
-                        <span className=" relative w-full h-[80px] bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease"></span>
+                      <div className="border border-1 border-gray-300 items-center justify-center text-[8px] flex flex-col gap-3 items-center w-full h-full font-vagrounded">
+                       <GiArtificialIntelligence  className="text-[48px] text-white"/>
                         Generate with AI
                       </div>
 
                       {/* Use a template */}
-                      <div className="items-center justify-center text-[8px] flex flex-col gap-3 items-center w-full h-full font-vagrounded">
-                        <span className="relative flex  items-center justify-center w-12/12 h-6/12 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease">
-                          {/* button ng form */}
-                          <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
-
-                          <div className=" gap-3 h-1/2 w-1/2 flex flex-col">
-                            <span className="w-full h-[60%] inset-shadow-sm/40 rounded-xl"></span>
-                            <div className="flex flex-row w-full h-full gap-3 justify-between">
-                              <span className="h-full w-1/2 rounded-xl inset-shadow-sm/30"></span>
-                              <div className="flex flex-col w-1/2 h-full items-center justify-between ">
-                                <span className="inset-shadow-sm/40 rounded-xl h-5 w-full"></span>
-                                <span className="inset-shadow-sm/40 rounded-xl h-5 w-full"></span>
-                                <span className="inset-shadow-sm/40 rounded-xl h-5 w-full"></span>
-                              </div>
-                            </div>
-                          </div>
-                        </span>
+                      <div className="  border border-1 border-gray-300 items-center justify-center text-[8px] flex flex-col gap-3 items-center w-full h-full font-vagrounded">
+                        
+                        <HiTemplate className="text-[48px] text-white"/>
                         Use a template
                       </div>
                     </div>
