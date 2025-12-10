@@ -45,9 +45,11 @@ function FAQ() {
             transform: "translate(-50%, -50%)",
             display: "flex",
             alignItems: "center",
+          
             paddingLeft:"20%",
             fontFamily:"Arial",
             color:"#845FFF",
+         
           }}
         >
           FAQ's
