@@ -69,6 +69,11 @@ function Form() {
 
   const [resultPage, setResultPage] = useState(false);
 
+  const [showMobileLayers, setShowMobileLayers] = useState(false);
+  const layersRef = useRef(null);
+
+  const [showMobileElements, setShowMobileElements] = useState(false);
+
   const toggleReview = () => {
     setHasReviewPage((prev) => !prev);
     setHasUnsavedChanges(true);
@@ -85,6 +90,8 @@ function Form() {
   const [responses, setResponses] = useState([]);
   const [responsesLoading, setResponsesLoading] = useState(true);
   const [showAccountModal, setShowAccountModal] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   let timeout = 2000;
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
@@ -220,7 +227,7 @@ function Form() {
       "phone number": "Phone Number",
       "file uploader": "Upload a file",
       switch: "Toggle switch options:",
-      "dropdown": "Select one option:",
+      dropdown: "Select one option:",
 
       checkbox: "Select all that apply:",
     };
@@ -688,7 +695,96 @@ function Form() {
       <Toaster position="top-right" />
       <DndProvider backend={HTML5Backend}>
         <div className="h-dvh w-full bg-(--white) flex flex-col overflow-x-hidden">
-          <header className="flex items-center justify-between bg-(--white) pt-8 pb-8 px-10 pr-12 relative z-50 border border-transparent border-b-(--dirty-white)">
+          <header className="flex items-center justify-between bg-(--white) pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-12 relative z-50 border border-transparent border-b-(--dirty-white) lg:pd-4">
+            {/* {Mobile Hamburger} */}
+            <AnimatePresence>
+              {mobileMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="lg:hidden absolute top-full left-0 w-full z-40
+                 bg-(--white) border-t border-(--dirty-white) shadow-lg"
+                >
+                  <div className="flex flex-col divide-y">
+                    {/* Questions */}
+                    <button
+                      onClick={() => {
+                        setResultPage(false);
+                        window.location.hash = "questions";
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      Questions
+                    </button>
+
+                    {/* Responses */}
+                    <button
+                      onClick={() => {
+                        setResultPage(true);
+                        window.location.hash = "responses";
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      Responses
+                    </button>
+
+                    {/* Preview */}
+                    <Link
+                      to={`../preview/${publicid}`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="px-6 py-4 hover:bg-(--dirty-white)"
+                    >
+                      Preview
+                    </Link>
+
+                    {/* Publish / Share */}
+                    <button
+                      onClick={(e) => {
+                        PublishForm(e);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      {isPublished ? "Share" : "Publish"}
+                    </button>
+
+                    {/* Settings */}
+                    <button
+                      onClick={() => {
+                        setShowSettings(true);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      Settings
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowMobileLayers(true);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      Layers
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowMobileElements(true);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      Form Elements
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <div className="inline-flex items-center gap-7 bg-(--white) flex-1 min-w-0">
               <Link to={"/"}>
                 <FaHome className="text-3xl cursor-pointer" />
@@ -719,7 +815,7 @@ function Form() {
               </div>
             </div>
 
-            <div className="inline-flex items-center gap-3 bg-(--white) flex-1 min-w-0">
+            <div className="hidden lg:inline-flex items-center gap-3 bg-(--white) flex-1 min-w-0">
               <div
                 onClick={() => {
                   setResultPage(false);
@@ -763,9 +859,16 @@ function Form() {
               </div>
             </div>
 
-            <div className="inline-flex items-center gap-4 shrink-0">
+            <button
+              onClick={() => setMobileMenuOpen((v) => !v)}
+              className="lg:hidden flex items-center justify-center"
+            >
+              <HiMenu className="text-3xl" />
+            </button>
+
+            <div className="hidden lg:inline-flex items-center gap-4 shrink-0">
               <Link to={`../preview/${publicid}`}>
-                <button className="px-7 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
+                <button className="px-7 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-lg/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
                   Preview
                 </button>
               </Link>
@@ -775,7 +878,7 @@ function Form() {
                   disabled={shareLoading}
                   ref={triggerRef}
                   className="flex items-center gap-2 px-7 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) 
-              inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 
+              inset-shadow-lg/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 
               transition-color duration-200 ease-out disabled:opacity-60"
                 >
                   {shareLoading ? (
@@ -808,7 +911,7 @@ function Form() {
                           <p className="text-xl">Share Link</p>
 
                           <div className="flex w-full gap-2 items-center">
-                            <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-md p-2 truncate">
+                            <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-lg p-2 truncate">
                               {`localhost:5173/form/${publicid}`}
                             </p>
 
@@ -851,7 +954,7 @@ function Form() {
                           <div className="flex flex-col font-vagrounded flex-1 justify-center gap-3">
                             <button
                               onClick={handleCopyQRImage}
-                              className="flex hover:bg-(--white) transition-all duration-200 ease-out bg-(--dirty-white) justify-center items-center gap-2 text-md p-2 border-2 border-(--black-lighter) rounded-lg "
+                              className="flex hover:bg-(--white) transition-all duration-200 ease-out bg-(--dirty-white) justify-center items-center gap-2 text-lg p-2 border-2 border-(--black-lighter) rounded-lg "
                             >
                               {copyQR ? (
                                 <IoIosCheckmarkCircle className="text-xl" />
@@ -862,7 +965,7 @@ function Form() {
                             </button>
                             <button
                               onClick={handleDownloadQR}
-                              className="flex bg-(--white) justify-center items-center gap-1 text-md p-2 border-2 border-(--black-lighter) rounded-lg "
+                              className="flex bg-(--white) justify-center items-center gap-1 text-lg p-2 border-2 border-(--black-lighter) rounded-lg "
                             >
                               <IoDownload className="text-2xl" />
                               Download
@@ -901,7 +1004,7 @@ function Form() {
                       <div className="min-w-50 w-83 py-3 z-10 bg-(--white) border border-(--purple) rounded shadow-lg">
                         <div className="flex flex-col w-full gap-2">
                           <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
-                            <span className="text-md flex gap-2 items-center font-vagrounded">
+                            <span className="text-lg flex gap-2 items-center font-vagrounded">
                               <MdPreview className="text-3xl" />
                               <span className="flex flex-col">
                                 Review Page
@@ -950,7 +1053,7 @@ function Form() {
 
                           {/* Multiple Submission */}
                           <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
-                            <span className="text-md flex gap-2 items-center font-vagrounded">
+                            <span className="text-lg flex gap-2 items-center font-vagrounded">
                               <BiSelectMultiple className="text-3xl" />
                               <span className="flex flex-col">
                                 Multiple Submission
@@ -1011,7 +1114,7 @@ function Form() {
                                 : "opacity-50 hover:none disable"
                             }`}
                           >
-                            <span className="text-md flex gap-2 items-center font-vagrounded">
+                            <span className="text-lg flex gap-2 items-center font-vagrounded">
                               <BsFillSendXFill className="text-2xl font-bold" />
                               <span className="flex flex-col">
                                 Unpublish Form
@@ -1057,7 +1160,7 @@ function Form() {
                 className="flex-1 w-full flex overflow-hidden min-h-0"
               >
                 {/* leftside */}
-                <div className="w-[20%] min-w-[300px] p-2 z-10 bg-(--white) h-full min-h-0 border-t-2 overflow-y-auto border-(--dirty-white)">
+                <div className="w-[20%] min-w-[300px] p-2 z-10 bg-(--white) h-full min-h-0 border-t-2 overflow-y-auto border-(--dirty-white) hidden static max-h-full lg:block">
                   {/* elements*/}
                   {/* Frequently Used */}
                   <span className="text-gray-500 font-vagrounded m-3">
@@ -1143,7 +1246,7 @@ function Form() {
                 </div>
 
                 {/* mid */}
-                <div className="h-screen w-[60%] min-h-0 border-2 border-(--dirty-white) py-7 flex flex-col">
+                <div className="h-screen  min-h-0 border-2 border-(--dirty-white) py-7 flex flex-col w-full lg:w-[60%]">
                   <Canvas
                     questions={pages[currentPageIndex].questions}
                     onDropElement={handleDrop}
@@ -1160,7 +1263,7 @@ function Form() {
                 </div>
 
                 {/* right side */}
-                <div className="flex flex-col relative h-full w-[20%] z-10 bg-(--white) p-7.5 pr-0 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto">
+                <div className="flex flex-col fixed bottom-0 lg:relative h-full lg:w-[20%] z-100 bg-(--white) p-7.5 pr-0 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto hidden lg:block">
                   <div className="w-full">
                     <h1 className="text-3xl text-left">Layers</h1>
                   </div>
@@ -1174,8 +1277,166 @@ function Form() {
                   <div className="flex w-14/15 mt-3 border border-t-(--dirty-white) border-transparent "></div>
                 </div>
               </div>
+
+              <AnimatePresence>
+                {showMobileLayers && (
+                  <>
+                    {/* Backdrop */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 0.4 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="fixed inset-0 bg-black z-40 lg:hidden"
+                      onClick={() => setShowMobileLayers(false)}
+                    />
+
+                    {/* Drawer */}
+                    <motion.div
+                      ref={layersRef}
+                      initial={{ y: "100%" }}
+                      animate={{ y: 0 }}
+                      exit={{ y: "100%" }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      className="
+          fixed bottom-0 left-0 right-0
+          h-[80vh]
+          bg-(--white)
+          z-50
+          p-6
+          border-t-2 border-(--dirty-white)
+          font-vagrounded
+          lg:hidden
+          flex flex-col
+        "
+                    >
+                      {/* Header */}
+                      <div className="flex items-center justify-between">
+                        <h1 className="text-2xl">Layers</h1>
+                        <button
+                          onClick={() => setShowMobileLayers(false)}
+                          className="text-xl px-3 py-1"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      {/* Content */}
+                      <div className="mt-4 flex-1 overflow-auto">
+                        <Layers
+                          questions={pages[currentPageIndex]?.questions || []}
+                          onReorder={handleReorderQuestions}
+                          onDelete={handleDeleteQuestion}
+                        />
+                      </div>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
             </>
           )}
+
+          <AnimatePresence>
+            {showMobileElements && (
+              <motion.div
+                initial={{ x: "-100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="
+        fixed top-0 left-0
+        h-full
+        w-[60%] max-w-[360px]
+        bg-(--white)
+        z-50
+        p-4
+        border-r-2 border-(--dirty-white)
+        font-vagrounded
+        lg:hidden
+        overflow-y-auto
+        pointer-events-auto
+      "
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between mb-3">
+                  <h1 className="text-xl">Elements</h1>
+                  <button
+                    onClick={() => setShowMobileElements(false)}
+                    className="text-xl px-3 py-1"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* === CONTENT UNCHANGED === */}
+
+                <span className="text-gray-500 m-3">Frequently used</span>
+                <div className="grid grid-cols-3 gap-3 p-2">
+                  {types.slice(0, 3).map((type, index) => (
+                    <FormElement
+                      key={index}
+                      bgKulay={"#20B15530"}
+                      foreKulay={"#20B155"}
+                      icon={type.Icon}
+                      title={type.title}
+                    />
+                  ))}
+                </div>
+
+                <span className="text-gray-500 m-3 mt-5">Display Text</span>
+                <div className="grid grid-cols-3 gap-3 p-2">
+                  {types.slice(3, 5).map((type, index) => (
+                    <FormElement
+                      key={index}
+                      bgKulay={"#52525230"}
+                      foreKulay={"#525252"}
+                      icon={type.Icon}
+                      title={type.title}
+                    />
+                  ))}
+                </div>
+
+                <span className="text-gray-500 m-3 mt-5">Choices</span>
+                <div className="grid grid-cols-3 gap-3 p-2">
+                  {types.slice(5, 11).map((type, index) => (
+                    <FormElement
+                      key={index}
+                      bgKulay={"#CC580530"}
+                      foreKulay={"#CC5805"}
+                      icon={type.Icon}
+                      title={type.title}
+                    />
+                  ))}
+                </div>
+
+                <span className="text-gray-500 m-3 mt-5">Text</span>
+                <div className="grid grid-cols-3 gap-3 p-2">
+                  {types.slice(11, 13).map((type, index) => (
+                    <FormElement
+                      key={index}
+                      bgKulay={"#CC06F930"}
+                      foreKulay={"#CC06F9"}
+                      icon={type.Icon}
+                      title={type.title}
+                    />
+                  ))}
+                </div>
+
+                <span className="text-gray-500 m-3 mt-5">Others</span>
+                <div className="grid grid-cols-3 gap-3 p-2">
+                  {types.slice(13, 17).map((type, index) => (
+                    <FormElement
+                      key={index}
+                      bgKulay={"#F9161630"}
+                      foreKulay={"#F91616"}
+                      icon={type.Icon}
+                      title={type.title}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <Modal
             isOpen={showUnpublishModal}
