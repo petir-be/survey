@@ -11,32 +11,31 @@ import { useMediaQuery } from "react-responsive";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../Context/authContext";
-import Select from 'react-select';
+import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // You also need to import the specific icon object from the icons package
 import { faWpforms } from "@fortawesome/free-brands-svg-icons";
-import { GiArtificialIntelligence } from "react-icons/gi";import { HiTemplate } from "react-icons/hi";
+import { GiArtificialIntelligence } from "react-icons/gi";
+import { HiTemplate } from "react-icons/hi";
 function Home() {
   const [showModal, setShowModal] = useState(false);
 
-    
-
   // 2. Define the options data
   const options = [
-    { value: 'Owned by Anyone', label: 'Owned by Anyone' },
-    { value: 'Owned by Me', label: 'Owned by Me' },
-    { value: 'Owned by Others', label: 'Owned by Others' }
+    { value: "Owned by Anyone", label: "Owned by Anyone" },
+    { value: "Owned by Me", label: "Owned by Me" },
+    { value: "Owned by Others", label: "Owned by Others" },
   ];
-const [selectedOption, setSelectedOption] = useState(options[0]);
+  const [selectedOption, setSelectedOption] = useState(options[0]);
   const handleChange = (selectedOptionValue) => {
     setSelectedOption(selectedOptionValue);
-      setInputValue(''); 
+    setInputValue("");
   };
- const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const MAX_LENGTH = 16;
- const handleInputChange = (newValue, actionMeta) => {
+  const handleInputChange = (newValue, actionMeta) => {
     // Only apply the limit when the user is typing/entering text
-    if (actionMeta.action === 'input-change') {
+    if (actionMeta.action === "input-change") {
       // Limit the value to 6 characters
       if (newValue.length <= MAX_LENGTH) {
         setInputValue(newValue);
@@ -44,7 +43,7 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
       // If over the limit, the state remains the previous valid value
     } else {
       // Handle cases like 'menu-close' or 'input-blur' where you might reset the input value state if needed
-      // setInputValue(''); 
+      // setInputValue('');
     }
   };
 
@@ -130,27 +129,24 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
                   Drag, Drop and Build Forms in Seconds.
                 </span>
               </div>
-             
-              <div className="flex justify-between items-center ">
-              <span
-                className="m-12  font-semibold text-[16px]"
-                
-              >
-                Recent Forms
-              </span>
 
-              <Select
+              <div className="flex justify-between items-center ">
+                <span className="m-12  font-semibold text-[16px]">
+                  Recent Forms
+                </span>
+
+                <Select
                   className="mr-12 cursor-pointer font-semibold text-[16px]"
-                    classNamePrefix="react-select"
-      options={options}
-      value={selectedOption}
-      onChange={handleChange}
-      isClearable // Allows clearing the selection
-      isSearchable // Enables search functionality
-      placeholder='Owned by Anyone'
-   inputValue={inputValue}
-      onInputChange={handleInputChange}
-    />
+                  classNamePrefix="react-select"
+                  options={options}
+                  value={selectedOption}
+                  onChange={handleChange}
+                  isClearable // Allows clearing the selection
+                  isSearchable // Enables search functionality
+                  placeholder="Owned by Anyone"
+                  inputValue={inputValue}
+                  onInputChange={handleInputChange}
+                />
               </div>
             </div>
             <div className="w-3/7 relative h-dvh overflow-hidden pt-15 border-2  bg-(--white) z-10">
@@ -203,67 +199,60 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
                     className="absolute w-full h-full bg-transparent"
                     onClick={() => setShowModal(false)}
                   ></span>
-  
+
                   <div className=" max-w-5xl justify-center items-center p-5 bg-(--white) ring ring-white rounded-lg fixed z-50">
-                    
                     <div className="py-5 h-full w-full items-center">
-                 
-                   <div className="px-5 flex items-center justify-between ">
-                   <h1 className="font-vagrounded text-[20px]">
-                      Start a new form
-                    </h1>
-             
-                      <button
-                        onClick={() => setShowModal(false)}
-                        className=" text-[32px] cursor-pointer"
-                      >
-                        &times;
-                      </button>
-                    
-                    </div>
+                      <div className="px-5 flex items-center justify-between ">
+                        <h1 className="font-vagrounded text-[20px]">
+                          Start a new form
+                        </h1>
 
-
-
-                    <div className="px-[20px] gap-10 py-5 text-center px-[2px] gap-2 flex items-center justify-between w-full h-full">
-                      {/* create own forms */}
-                      <div className="cursor-pointer hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 ease-in-out
-                      border border-1 border-gray-300 items-center justify-center  text-[16px]  
-                      flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
-                      
-                
- 
-                       <div className="px-[50px] py-[35px]">
-<FontAwesomeIcon
-  icon={faWpforms}
-  className="text-[96px] text-white mb-2" />
-                     
-                     
-
-                         
-                 
-                        Create own form
+                        <button
+                          onClick={() => setShowModal(false)}
+                          className=" text-[32px] cursor-pointer"
+                        >
+                          &times;
+                        </button>
                       </div>
-</div>
-                      {/* generate with ai */}
-                       <div className="cursor-pointer hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 ease-in-out
+
+                      <div className="px-[20px] gap-10 py-5 text-center px-[2px] gap-2 flex items-center justify-between w-full h-full">
+                        {/* create own forms */}
+                        <div
+                          className="cursor-pointer hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 ease-in-out
                       border border-1 border-gray-300 items-center justify-center  text-[16px]  
-                      flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
-                       
-                       <div className="px-[50px] py-[35px]">
-                       <GiArtificialIntelligence  className="text-[96px] text-white mb-2"/>
-                        Generate with AI
-                      </div>
-</div>
-                      {/* Use a template */}
-                    <div className="cursor-pointer hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 ease-in-out
+                      flex flex-col gap-3 items-center w-full h-full font-vagrounded "
+                        >
+                          <div className="px-[50px] py-[35px]">
+                            <FontAwesomeIcon
+                              icon={faWpforms}
+                              className="text-[96px] text-white mb-2"
+                            />
+                            Create own form
+                          </div>
+                        </div>
+                        {/* generate with ai */}
+                        <div
+                          className="cursor-pointer hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 ease-in-out
                       border border-1 border-gray-300 items-center justify-center  text-[16px]  
-                      flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
-                       
-                       <div className="px-[50px] py-[35px]">
-                        <HiTemplate className="text-[96px] text-white mb-2"/>
-                        Use a template</div>
+                      flex flex-col gap-3 items-center w-full h-full font-vagrounded "
+                        >
+                          <div className="px-[50px] py-[35px]">
+                            <GiArtificialIntelligence className="text-[96px] text-white mb-2" />
+                            Generate with AI
+                          </div>
+                        </div>
+                        {/* Use a template */}
+                        <div
+                          className="cursor-pointer hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 ease-in-out
+                      border border-1 border-gray-300 items-center justify-center  text-[16px]  
+                      flex flex-col gap-3 items-center w-full h-full font-vagrounded "
+                        >
+                          <div className="px-[50px] py-[35px]">
+                            <HiTemplate className="text-[96px] text-white mb-2" />
+                            Use a template
+                          </div>
+                        </div>
                       </div>
-                    </div>
                     </div>
                   </div>
                 </motion.div>
@@ -290,7 +279,6 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
                 Drag, Drop and Build Forms in Seconds.
               </span>
             </div>
-            
 
             <div className="w-7/7 relative h-[360px] overflow-hidden pt-15 border-2 border-(--dirty-white) bg-(--white) z-10">
               <div className="absolute z-1 w-full h-full flex justify-center items-center">
@@ -300,7 +288,6 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
                 />
               </div>
 
-              
               <div className="absolute top-0 left-0 h-full w-full">
                 <DotShader className="z-0" />
                 <span className="home-circle mixed-blend-multiply -top-40 left-1 w-45 h-45 bg-(--purple) animate-moveCircleLtR"></span>
@@ -314,27 +301,24 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
               </div>
             </div>
 
-<div className="w-full px-8 ">
-             <div className="flex justify-between items-center ">
-              <span
-                className="mt-12 cursor-pointer font-semibold text-[12px]"
-          
-              >
-                Recent Forms
-              </span>
+            <div className="w-full px-8 ">
+              <div className="flex justify-between items-center ">
+                <span className="mt-12 cursor-pointer font-semibold text-[12px]">
+                  Recent Forms
+                </span>
 
-              <Select
+                <Select
                   className="mt-12 cursor-pointer font-semibold text-[12px]"
-                    classNamePrefix="react-select"
-      options={options}
-      value={selectedOption}
-      onChange={handleChange}
-      isClearable // Allows clearing the selection
-      isSearchable // Enables search functionality
-      placeholder='Owned by Anyone'
-   inputValue={inputValue}
-      onInputChange={handleInputChange}
-    />
+                  classNamePrefix="react-select"
+                  options={options}
+                  value={selectedOption}
+                  onChange={handleChange}
+                  isClearable // Allows clearing the selection
+                  isSearchable // Enables search functionality
+                  placeholder="Owned by Anyone"
+                  inputValue={inputValue}
+                  onInputChange={handleInputChange}
+                />
               </div>
             </div>
             <div className=" justify-center flex flex-col gap-5 w-5/6 h-full pt-15 ">
@@ -387,30 +371,22 @@ const [selectedOption, setSelectedOption] = useState(options[0]);
                     <div className="py-5 text-center px-[2px] gap-2 flex items-center justify-between w-full h-full">
                       {/* create own forms */}
                       <div className="hover:shadow-sm border border-1 border-gray-300 items-center justify-center  text-[8px]  flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
-                      
-                
-
-<FontAwesomeIcon
-  icon={faWpforms}
-  className="text-[48px] text-white" />
-                     
-                     
-
-                         
-                 
+                        <FontAwesomeIcon
+                          icon={faWpforms}
+                          className="text-[48px] text-white"
+                        />
                         Create own form
                       </div>
 
                       {/* generate with ai */}
                       <div className="border border-1 border-gray-300 items-center justify-center text-[8px] flex flex-col gap-3 items-center w-full h-full font-vagrounded">
-                       <GiArtificialIntelligence  className="text-[48px] text-white"/>
+                        <GiArtificialIntelligence className="text-[48px] text-white" />
                         Generate with AI
                       </div>
 
                       {/* Use a template */}
                       <div className="  border border-1 border-gray-300 items-center justify-center text-[8px] flex flex-col gap-3 items-center w-full h-full font-vagrounded">
-                        
-                        <HiTemplate className="text-[48px] text-white"/>
+                        <HiTemplate className="text-[48px] text-white" />
                         Use a template
                       </div>
                     </div>
