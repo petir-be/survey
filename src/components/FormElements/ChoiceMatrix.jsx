@@ -13,20 +13,12 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
   const [addRowField, setAddRowField] = useState(question.rows || defaultRow);
   const [showAddButtons, setShowAddButtons] = useState(false);
 
-  const [required, setRequired] = useState(question.required || false);
-  
-    function toggleRequired() {
-      setRequired((prev) => !prev);
-      onUpdate(question.id, { required: !required });
-    }
-
   //initialization lang para sa JSON
   useEffect(() => {
     onUpdate(question.id, {
       columns: addColumnField,
       rows: addRowField,
     });
-    onUpdate(question.id, { required: required });
   }, []);
 
   const addColumn = () => {
@@ -192,40 +184,6 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
               + Add Row
             </button>
           </div>
-          <div className="border-2 border-transparent pl-3 border-l-gray-400 flex gap-3 font-vagrounded items-center">
-              <span className="text-gray-600">Required</span>
-              <button
-                onClick={toggleRequired}
-                style={{
-                  width: 39,
-                  height: 18,
-                  backgroundColor: required ? "#9911ff" : "#ccc",
-                  borderRadius: 30,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: required ? "flex-end" : "flex-start",
-                  padding: 3,
-                  transition: "background-color 0.2s ease",
-                }}
-              >
-                <motion.div
-                  layout
-                  style={{
-                    width: 13,
-                    height: 13,
-                    backgroundColor: "white",
-                    borderRadius: "50%",
-                    boxShadow: "0 0 3px rgba(0,0,0,0.2)",
-                  }}
-                  transition={{
-                    type: "spring",
-                    duration: 0.25,
-                    bounce: 0.2,
-                  }}
-                />
-              </button>
-            </div>
         </div>
       )}
     </div>

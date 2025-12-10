@@ -1,6 +1,7 @@
 import React from "react";
+import { IoAlertCircle } from "react-icons/io5";
 
-function Checkbox({ question, value = [], onChange }) {
+function Checkbox({ question, value = [], onChange, hasError }) {
   const options = question.options || [];
 
   const handleToggle = (selectedOption) => {
@@ -8,8 +9,7 @@ function Checkbox({ question, value = [], onChange }) {
 
     if (value.includes(selectedOption)) {
       updated = value.filter((v) => v !== selectedOption);
-    }
-    else {
+    } else {
       updated = [...value, selectedOption];
     }
 
@@ -18,7 +18,10 @@ function Checkbox({ question, value = [], onChange }) {
 
   return (
     <div>
-      <p className="text-lg font-medium">{question.question || "Select"}</p>
+      <p className="text-lg font-medium">
+        {question.question || "Select"}
+        {question.required ? <span className="text-red-600"> *</span> : null}
+      </p>
 
       {options.length === 0 ? (
         <p className="text-gray-400 italic">No options available.</p>
@@ -54,6 +57,14 @@ function Checkbox({ question, value = [], onChange }) {
               </button>
             );
           })}
+          {hasError && (
+            <div className="flex items-center font-vagrounded gap-1 my-2">
+              <IoAlertCircle className="fill-red-500 text-xl" />
+              <span className="text-md text-red-500">
+                This field is required.
+              </span>
+            </div>
+          )}
         </div>
       )}
     </div>

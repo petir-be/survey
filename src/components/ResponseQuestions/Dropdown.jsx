@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { IoAlertCircle } from "react-icons/io5";
 
-function Dropdown({ question, onChange, value = "" }) {
+function Dropdown({ question, onChange, value = "", hasError }) {
   const options = question.options || [];
   const [chosen, setChosen] = useState(value);
 
@@ -14,7 +15,10 @@ function Dropdown({ question, onChange, value = "" }) {
 
   return (
     <div className="my-6">
-      <p className="text-lg mb-3 font-medium">{question.question || "Select one option"}</p>
+      <p className="text-lg mb-3 font-medium">
+        {question.question || "Select one option"}
+        {question.required ? <span className="text-red-600"> *</span> : null}
+      </p>
 
       <div className="space-y-2 mt-3 group relative">
         <select
@@ -37,6 +41,14 @@ function Dropdown({ question, onChange, value = "" }) {
             <option disabled>No options available</option>
           )}
         </select>
+        {hasError && (
+          <div className="flex items-center font-vagrounded gap-1 my-2">
+            <IoAlertCircle className="fill-red-500 text-xl" />
+            <span className="text-md text-red-500">
+              This field is required.
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

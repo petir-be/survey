@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { PH } from "country-flag-icons/react/3x2";
+import { IoAlertCircle } from "react-icons/io5";
 
-function PhoneNumber({ question, onChange, value = "" }) {
+function PhoneNumber({ question, onChange, value = "", hasError }) {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
 
@@ -32,7 +33,10 @@ function PhoneNumber({ question, onChange, value = "" }) {
 
   return (
     <div className="my-6">
-      <p className="text-lg mb-3 font-medium">{question.question}</p>
+      <p className="text-lg mb-3 font-medium">
+        {question.question}{" "}
+        {question.required ? <span className="text-red-600"> *</span> : null}
+      </p>
 
       <div className="space-y-2">
         <div className="flex items-center px-3 py-1 bg-[var(--dirty-white)] border-b-2 border-b-[var(--black)] text-lg focus-within:border-[var(--purple)] focus:outline-none">
@@ -50,6 +54,12 @@ function PhoneNumber({ question, onChange, value = "" }) {
           <p className="text-red-400 text-sm font-vagrounded">{error}</p>
         )}
       </div>
+      {hasError && (
+        <div className="flex items-center font-vagrounded gap-1 my-2">
+          <IoAlertCircle className="fill-red-500 text-xl" />
+          <span className="text-md text-red-500">This field is required.</span>
+        </div>
+      )}
     </div>
   );
 }
