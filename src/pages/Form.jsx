@@ -695,8 +695,7 @@ function Form() {
       <Toaster position="top-right" />
       <DndProvider backend={HTML5Backend}>
         <div className="h-dvh w-full bg-(--white) flex flex-col overflow-x-hidden">
-          <header className="flex items-center justify-between bg-(--white) pt-4 pb-4 px-5 md:pt-8 md:pb-8 md:px-10 pr-12 relative z-50 border border-transparent border-b-(--dirty-white) md:pd-4">
-            
+          <header className="flex items-center justify-between bg-(--white) pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-12 relative z-50 border border-transparent border-b-(--dirty-white) lg:pd-4">
             {/* {Mobile Hamburger} */}
             <AnimatePresence>
               {mobileMenuOpen && (
@@ -705,7 +704,7 @@ function Form() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="md:hidden absolute top-full left-0 w-full z-40
+                  className="lg:hidden absolute top-full left-0 w-full z-40
                  bg-(--white) border-t border-(--dirty-white) shadow-lg"
                 >
                   <div className="flex flex-col divide-y">
@@ -816,7 +815,7 @@ function Form() {
               </div>
             </div>
 
-            <div className="hidden md:inline-flex items-center gap-3 bg-(--white) flex-1 min-w-0">
+            <div className="hidden lg:inline-flex items-center gap-3 bg-(--white) flex-1 min-w-0">
               <div
                 onClick={() => {
                   setResultPage(false);
@@ -862,14 +861,14 @@ function Form() {
 
             <button
               onClick={() => setMobileMenuOpen((v) => !v)}
-              className="md:hidden flex items-center justify-center"
+              className="lg:hidden flex items-center justify-center"
             >
               <HiMenu className="text-3xl" />
             </button>
 
-            <div className="hidden md:inline-flex items-center gap-4 shrink-0">
+            <div className="hidden lg:inline-flex items-center gap-4 shrink-0">
               <Link to={`../preview/${publicid}`}>
-                <button className="px-7 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
+                <button className="px-7 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-lg/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
                   Preview
                 </button>
               </Link>
@@ -879,7 +878,7 @@ function Form() {
                   disabled={shareLoading}
                   ref={triggerRef}
                   className="flex items-center gap-2 px-7 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) 
-              inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 
+              inset-shadow-lg/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 
               transition-color duration-200 ease-out disabled:opacity-60"
                 >
                   {shareLoading ? (
@@ -912,7 +911,7 @@ function Form() {
                           <p className="text-xl">Share Link</p>
 
                           <div className="flex w-full gap-2 items-center">
-                            <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-md p-2 truncate">
+                            <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-lg p-2 truncate">
                               {`localhost:5173/form/${publicid}`}
                             </p>
 
@@ -955,7 +954,7 @@ function Form() {
                           <div className="flex flex-col font-vagrounded flex-1 justify-center gap-3">
                             <button
                               onClick={handleCopyQRImage}
-                              className="flex hover:bg-(--white) transition-all duration-200 ease-out bg-(--dirty-white) justify-center items-center gap-2 text-md p-2 border-2 border-(--black-lighter) rounded-lg "
+                              className="flex hover:bg-(--white) transition-all duration-200 ease-out bg-(--dirty-white) justify-center items-center gap-2 text-lg p-2 border-2 border-(--black-lighter) rounded-lg "
                             >
                               {copyQR ? (
                                 <IoIosCheckmarkCircle className="text-xl" />
@@ -966,7 +965,7 @@ function Form() {
                             </button>
                             <button
                               onClick={handleDownloadQR}
-                              className="flex bg-(--white) justify-center items-center gap-1 text-md p-2 border-2 border-(--black-lighter) rounded-lg "
+                              className="flex bg-(--white) justify-center items-center gap-1 text-lg p-2 border-2 border-(--black-lighter) rounded-lg "
                             >
                               <IoDownload className="text-2xl" />
                               Download
@@ -1005,7 +1004,7 @@ function Form() {
                       <div className="min-w-50 w-83 py-3 z-10 bg-(--white) border border-(--purple) rounded shadow-lg">
                         <div className="flex flex-col w-full gap-2">
                           <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
-                            <span className="text-md flex gap-2 items-center font-vagrounded">
+                            <span className="text-lg flex gap-2 items-center font-vagrounded">
                               <MdPreview className="text-3xl" />
                               <span className="flex flex-col">
                                 Review Page
@@ -1054,7 +1053,7 @@ function Form() {
 
                           {/* Multiple Submission */}
                           <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
-                            <span className="text-md flex gap-2 items-center font-vagrounded">
+                            <span className="text-lg flex gap-2 items-center font-vagrounded">
                               <BiSelectMultiple className="text-3xl" />
                               <span className="flex flex-col">
                                 Multiple Submission
@@ -1115,7 +1114,7 @@ function Form() {
                                 : "opacity-50 hover:none disable"
                             }`}
                           >
-                            <span className="text-md flex gap-2 items-center font-vagrounded">
+                            <span className="text-lg flex gap-2 items-center font-vagrounded">
                               <BsFillSendXFill className="text-2xl font-bold" />
                               <span className="flex flex-col">
                                 Unpublish Form
@@ -1161,7 +1160,7 @@ function Form() {
                 className="flex-1 w-full flex overflow-hidden min-h-0"
               >
                 {/* leftside */}
-                <div className="w-[20%] min-w-[300px] p-2 z-10 bg-(--white) h-full min-h-0 border-t-2 overflow-y-auto border-(--dirty-white) hidden static max-h-full md:block">
+                <div className="w-[20%] min-w-[300px] p-2 z-10 bg-(--white) h-full min-h-0 border-t-2 overflow-y-auto border-(--dirty-white) hidden static max-h-full lg:block">
                   {/* elements*/}
                   {/* Frequently Used */}
                   <span className="text-gray-500 font-vagrounded m-3">
@@ -1247,7 +1246,7 @@ function Form() {
                 </div>
 
                 {/* mid */}
-                <div className="h-screen  min-h-0 border-2 border-(--dirty-white) py-7 flex flex-col w-full md:w-[60%]">
+                <div className="h-screen  min-h-0 border-2 border-(--dirty-white) py-7 flex flex-col w-full lg:w-[60%]">
                   <Canvas
                     questions={pages[currentPageIndex].questions}
                     onDropElement={handleDrop}
@@ -1264,7 +1263,7 @@ function Form() {
                 </div>
 
                 {/* right side */}
-                <div className="flex flex-col fixed bottom-0 md:relative h-full md:w-[20%] z-100 bg-(--white) p-7.5 pr-0 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto hidden md:block">
+                <div className="flex flex-col fixed bottom-0 lg:relative h-full lg:w-[20%] z-100 bg-(--white) p-7.5 pr-0 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto hidden lg:block">
                   <div className="w-full">
                     <h1 className="text-3xl text-left">Layers</h1>
                   </div>
@@ -1288,7 +1287,7 @@ function Form() {
                       animate={{ opacity: 0.4 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.2 }}
-                      className="fixed inset-0 bg-black z-40 md:hidden"
+                      className="fixed inset-0 bg-black z-40 lg:hidden"
                       onClick={() => setShowMobileLayers(false)}
                     />
 
@@ -1307,7 +1306,7 @@ function Form() {
           p-6
           border-t-2 border-(--dirty-white)
           font-vagrounded
-          md:hidden
+          lg:hidden
           flex flex-col
         "
                     >
@@ -1353,7 +1352,7 @@ function Form() {
         p-4
         border-r-2 border-(--dirty-white)
         font-vagrounded
-        md:hidden
+        lg:hidden
         overflow-y-auto
         pointer-events-auto
       "
