@@ -220,6 +220,7 @@ function Form() {
       "phone number": "Phone Number",
       "file uploader": "Upload a file",
       switch: "Toggle switch options:",
+      "dropdown": "Select one option:",
 
       checkbox: "Select all that apply:",
     };
