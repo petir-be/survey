@@ -69,6 +69,11 @@ function Form() {
 
   const [resultPage, setResultPage] = useState(false);
 
+  const [showMobileLayers, setShowMobileLayers] = useState(false);
+  const layersRef = useRef(null);
+
+  const [showMobileElements, setShowMobileElements] = useState(false);
+
   const toggleReview = () => {
     setHasReviewPage((prev) => !prev);
     setHasUnsavedChanges(true);
@@ -85,6 +90,8 @@ function Form() {
   const [responses, setResponses] = useState([]);
   const [responsesLoading, setResponsesLoading] = useState(true);
   const [showAccountModal, setShowAccountModal] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   let timeout = 2000;
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
@@ -220,7 +227,7 @@ function Form() {
       "phone number": "Phone Number",
       "file uploader": "Upload a file",
       switch: "Toggle switch options:",
-      "dropdown": "Select one option:",
+      dropdown: "Select one option:",
 
       checkbox: "Select all that apply:",
     };
@@ -688,7 +695,97 @@ function Form() {
       <Toaster position="top-right" />
       <DndProvider backend={HTML5Backend}>
         <div className="h-dvh w-full bg-(--white) flex flex-col overflow-x-hidden">
-          <header className="flex items-center justify-between bg-(--white) pt-8 pb-8 px-10 pr-12 relative z-50 border border-transparent border-b-(--dirty-white)">
+          <header className="flex items-center justify-between bg-(--white) pt-4 pb-4 px-5 md:pt-8 md:pb-8 md:px-10 pr-12 relative z-50 border border-transparent border-b-(--dirty-white) md:pd-4">
+            
+            {/* {Mobile Hamburger} */}
+            <AnimatePresence>
+              {mobileMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="md:hidden absolute top-full left-0 w-full z-40
+                 bg-(--white) border-t border-(--dirty-white) shadow-lg"
+                >
+                  <div className="flex flex-col divide-y">
+                    {/* Questions */}
+                    <button
+                      onClick={() => {
+                        setResultPage(false);
+                        window.location.hash = "questions";
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      Questions
+                    </button>
+
+                    {/* Responses */}
+                    <button
+                      onClick={() => {
+                        setResultPage(true);
+                        window.location.hash = "responses";
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      Responses
+                    </button>
+
+                    {/* Preview */}
+                    <Link
+                      to={`../preview/${publicid}`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="px-6 py-4 hover:bg-(--dirty-white)"
+                    >
+                      Preview
+                    </Link>
+
+                    {/* Publish / Share */}
+                    <button
+                      onClick={(e) => {
+                        PublishForm(e);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      {isPublished ? "Share" : "Publish"}
+                    </button>
+
+                    {/* Settings */}
+                    <button
+                      onClick={() => {
+                        setShowSettings(true);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      Settings
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowMobileLayers(true);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      Layers
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowMobileElements(true);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      Form Elements
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <div className="inline-flex items-center gap-7 bg-(--white) flex-1 min-w-0">
               <Link to={"/"}>
                 <FaHome className="text-3xl cursor-pointer" />
@@ -719,7 +816,7 @@ function Form() {
               </div>
             </div>
 
-            <div className="inline-flex items-center gap-3 bg-(--white) flex-1 min-w-0">
+            <div className="hidden md:inline-flex items-center gap-3 bg-(--white) flex-1 min-w-0">
               <div
                 onClick={() => {
                   setResultPage(false);
@@ -763,7 +860,14 @@ function Form() {
               </div>
             </div>
 
-            <div className="inline-flex items-center gap-4 shrink-0">
+            <button
+              onClick={() => setMobileMenuOpen((v) => !v)}
+              className="md:hidden flex items-center justify-center"
+            >
+              <HiMenu className="text-3xl" />
+            </button>
+
+            <div className="hidden md:inline-flex items-center gap-4 shrink-0">
               <Link to={`../preview/${publicid}`}>
                 <button className="px-7 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
                   Preview
@@ -1057,7 +1161,7 @@ function Form() {
                 className="flex-1 w-full flex overflow-hidden min-h-0"
               >
                 {/* leftside */}
-                <div className="w-[20%] min-w-[300px] p-2 z-10 bg-(--white) h-full min-h-0 border-t-2 overflow-y-auto border-(--dirty-white)">
+                <div className="w-[20%] min-w-[300px] p-2 z-10 bg-(--white) h-full min-h-0 border-t-2 overflow-y-auto border-(--dirty-white) hidden static max-h-full md:block">
                   {/* elements*/}
                   {/* Frequently Used */}
                   <span className="text-gray-500 font-vagrounded m-3">
@@ -1143,7 +1247,7 @@ function Form() {
                 </div>
 
                 {/* mid */}
-                <div className="h-screen w-[60%] min-h-0 border-2 border-(--dirty-white) py-7 flex flex-col">
+                <div className="h-screen  min-h-0 border-2 border-(--dirty-white) py-7 flex flex-col w-full md:w-[60%]">
                   <Canvas
                     questions={pages[currentPageIndex].questions}
                     onDropElement={handleDrop}
@@ -1160,7 +1264,7 @@ function Form() {
                 </div>
 
                 {/* right side */}
-                <div className="flex flex-col relative h-full w-[20%] z-10 bg-(--white) p-7.5 pr-0 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto">
+                <div className="flex flex-col fixed bottom-0 md:relative h-full md:w-[20%] z-100 bg-(--white) p-7.5 pr-0 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto hidden md:block">
                   <div className="w-full">
                     <h1 className="text-3xl text-left">Layers</h1>
                   </div>
@@ -1174,8 +1278,166 @@ function Form() {
                   <div className="flex w-14/15 mt-3 border border-t-(--dirty-white) border-transparent "></div>
                 </div>
               </div>
+
+              <AnimatePresence>
+                {showMobileLayers && (
+                  <>
+                    {/* Backdrop */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 0.4 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="fixed inset-0 bg-black z-40 md:hidden"
+                      onClick={() => setShowMobileLayers(false)}
+                    />
+
+                    {/* Drawer */}
+                    <motion.div
+                      ref={layersRef}
+                      initial={{ y: "100%" }}
+                      animate={{ y: 0 }}
+                      exit={{ y: "100%" }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      className="
+          fixed bottom-0 left-0 right-0
+          h-[80vh]
+          bg-(--white)
+          z-50
+          p-6
+          border-t-2 border-(--dirty-white)
+          font-vagrounded
+          md:hidden
+          flex flex-col
+        "
+                    >
+                      {/* Header */}
+                      <div className="flex items-center justify-between">
+                        <h1 className="text-2xl">Layers</h1>
+                        <button
+                          onClick={() => setShowMobileLayers(false)}
+                          className="text-xl px-3 py-1"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      {/* Content */}
+                      <div className="mt-4 flex-1 overflow-auto">
+                        <Layers
+                          questions={pages[currentPageIndex]?.questions || []}
+                          onReorder={handleReorderQuestions}
+                          onDelete={handleDeleteQuestion}
+                        />
+                      </div>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
             </>
           )}
+
+          <AnimatePresence>
+            {showMobileElements && (
+              <motion.div
+                initial={{ x: "-100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="
+        fixed top-0 left-0
+        h-full
+        w-[60%] max-w-[360px]
+        bg-(--white)
+        z-50
+        p-4
+        border-r-2 border-(--dirty-white)
+        font-vagrounded
+        md:hidden
+        overflow-y-auto
+        pointer-events-auto
+      "
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between mb-3">
+                  <h1 className="text-xl">Elements</h1>
+                  <button
+                    onClick={() => setShowMobileElements(false)}
+                    className="text-xl px-3 py-1"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* === CONTENT UNCHANGED === */}
+
+                <span className="text-gray-500 m-3">Frequently used</span>
+                <div className="grid grid-cols-3 gap-3 p-2">
+                  {types.slice(0, 3).map((type, index) => (
+                    <FormElement
+                      key={index}
+                      bgKulay={"#20B15530"}
+                      foreKulay={"#20B155"}
+                      icon={type.Icon}
+                      title={type.title}
+                    />
+                  ))}
+                </div>
+
+                <span className="text-gray-500 m-3 mt-5">Display Text</span>
+                <div className="grid grid-cols-3 gap-3 p-2">
+                  {types.slice(3, 5).map((type, index) => (
+                    <FormElement
+                      key={index}
+                      bgKulay={"#52525230"}
+                      foreKulay={"#525252"}
+                      icon={type.Icon}
+                      title={type.title}
+                    />
+                  ))}
+                </div>
+
+                <span className="text-gray-500 m-3 mt-5">Choices</span>
+                <div className="grid grid-cols-3 gap-3 p-2">
+                  {types.slice(5, 11).map((type, index) => (
+                    <FormElement
+                      key={index}
+                      bgKulay={"#CC580530"}
+                      foreKulay={"#CC5805"}
+                      icon={type.Icon}
+                      title={type.title}
+                    />
+                  ))}
+                </div>
+
+                <span className="text-gray-500 m-3 mt-5">Text</span>
+                <div className="grid grid-cols-3 gap-3 p-2">
+                  {types.slice(11, 13).map((type, index) => (
+                    <FormElement
+                      key={index}
+                      bgKulay={"#CC06F930"}
+                      foreKulay={"#CC06F9"}
+                      icon={type.Icon}
+                      title={type.title}
+                    />
+                  ))}
+                </div>
+
+                <span className="text-gray-500 m-3 mt-5">Others</span>
+                <div className="grid grid-cols-3 gap-3 p-2">
+                  {types.slice(13, 17).map((type, index) => (
+                    <FormElement
+                      key={index}
+                      bgKulay={"#F9161630"}
+                      foreKulay={"#F91616"}
+                      icon={type.Icon}
+                      title={type.title}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <Modal
             isOpen={showUnpublishModal}
