@@ -1,7 +1,14 @@
 import { useEffect, useState, useMemo, useRef } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
-import { FaArrowDown, FaCross, FaDownload, FaFile, FaX } from "react-icons/fa6";
+import {
+  FaArrowDown,
+  FaCross,
+  FaDownload,
+  FaFile,
+  FaX,
+  FaFilter,
+} from "react-icons/fa6";
 import ResponsesNavbar from "../components/ResponsesNavbar";
 import SearchBar from "../components/SearchBar";
 import IndividualView from "../components/Results/IndividualView";
@@ -12,11 +19,10 @@ import { MultipleDetailedResponsesPDF } from "../components/PDF/DetailedResponse
 
 function Results({
   defaultFormName = "Form",
-  parentResponses = [], // Default to empty array
+  parentResponses = [],
   parentLoading = false,
   parentFormData,
 }) {
-  const { id } = useParams();
   const [SearchBarValue, setSearchBarValue] = useState("");
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("responses");
@@ -25,23 +31,64 @@ function Results({
   const [summary, setSummary] = useState();
   const [questions, setQuestions] = useState();
   const [formName, setFormName] = useState(defaultFormName);
-  // const [formData, setFormData] = useState();
   const [isReversed, setIsReversed] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
-
   const [inDetailRow, setInDetailRow] = useState(null);
   const [chartImages, setChartImages] = useState([]);
+  const [showFilters, setShowFilters] = useState(false);
+
+  // Filter states
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
+  const [emailFilter, setEmailFilter] = useState("");
+
+  const emailQuestionId = useMemo(() => {
+    if (!parentFormData) return null;
+
+    for (const section of parentFormData) {
+      for (const question of section.questions ?? []) {
+        if (question.type === "email") {
+          return question.id;
+        }
+      }
+    }
+
+    return null;
+  }, [parentFormData]);
+
+  const normalizedResponses = useMemo(() => {
+    return parentResponses.map((response) => {
+      let email = "—";
+
+      if (emailQuestionId) {
+        const emailAnswer = response.responseData?.find(
+          (a) => a.questionID === emailQuestionId
+        );
+
+        if (typeof emailAnswer?.answer === "string") {
+          email = emailAnswer.answer;
+        }
+      }
+
+      return {
+        ...response,
+        respondent: {
+          name: response.respondent?.name ?? "Anonymous",
+          email,
+        },
+      };
+    });
+  }, [parentResponses, emailQuestionId]);
 
   const processedResponses = useMemo(() => {
-    // 1. Create a shallow copy so we don't mutate props
-    let data = [...parentResponses];
+    let data = [...normalizedResponses];
 
-    // 2. Handle Reversing
+    // Reverse order
     if (isReversed) {
       data.reverse();
     }
 
-    // 3. Handle Filtering
+    // Filter by name
     if (SearchBarValue) {
       data = data.filter((response) =>
         response.respondent.name
@@ -50,23 +97,51 @@ function Results({
       );
     }
 
-    return data;
-  }, [parentResponses, isReversed, SearchBarValue]);
+    // Filter by email
+    if (emailFilter) {
+      data = data.filter((response) =>
+        response.respondent.email
+          .toLowerCase()
+          .includes(emailFilter.toLowerCase())
+      );
+    }
 
-  // 2. SIMPLIFIED HANDLERS
+    // Filter by date range
+    if (dateFrom) {
+      const fromDate = moment(dateFrom).startOf("day");
+      data = data.filter((response) =>
+        moment(response.submittedAt).isSameOrAfter(fromDate)
+      );
+    }
+
+    if (dateTo) {
+      const toDate = moment(dateTo).endOf("day");
+      data = data.filter((response) =>
+        moment(response.submittedAt).isSameOrBefore(toDate)
+      );
+    }
+
+    return data;
+  }, [
+    normalizedResponses,
+    isReversed,
+    SearchBarValue,
+    emailFilter,
+    dateFrom,
+    dateTo,
+  ]);
+
   const handleReverseOrder = () => {
-    setIsReversed(!isReversed); // Just toggle the flag
+    setIsReversed(!isReversed);
   };
 
   const handleSelectAll = () => {
     if (selectAll) {
       setCheckedItems([]);
     } else {
-      // Use processedResponses so we select what is currently visible
       setCheckedItems(processedResponses.map((r) => r.id));
     }
     setSelectAll(!selectAll);
-    console.log(checkedItems);
   };
 
   const handleCheckItem = (id) => {
@@ -82,21 +157,22 @@ function Results({
     }
   };
 
-  const filteredResponses = parentResponses.filter((response) =>
-    response.respondent.name
-      .toLowerCase()
-      .includes(SearchBarValue.toLowerCase())
-  );
+  const clearAllFilters = () => {
+    setSearchBarValue("");
+    setEmailFilter("");
+    setDateFrom("");
+    setDateTo("");
+  };
+
+  const hasActiveFilters = SearchBarValue || emailFilter || dateFrom || dateTo;
 
   const seeInDetail = (rowData, formData) => {
     setInDetailRow(rowData);
-    console.log(rowData);
-
     setActiveTab("individual");
   };
 
   const getAllCheckedResponses = () => {
-    return parentResponses.filter((res) => checkedItems.includes(res.id));
+    return processedResponses.filter((res) => checkedItems.includes(res.id));
   };
 
   return (
@@ -127,7 +203,7 @@ function Results({
           }}
         >
           Responses{" "}
-          <span className="text-(--purple)">({parentResponses.length})</span>
+          <span className="text-(--purple)">({processedResponses.length})</span>
         </button>
 
         <button
@@ -191,17 +267,82 @@ function Results({
         <>
           {activeTab === "responses" && (
             <div>
-              <div className="w-full m-auto bruh p-6">
-                <SearchBar
-                  value={SearchBarValue}
-                  onChange={(e) => setSearchBarValue(e.target.value)}
-                />
+              <div className="w-full m-auto bruh p-4">
+                <div className="flex gap-3 items-center mb-4">
+                  <SearchBar
+                    value={SearchBarValue}
+                    onChange={(e) => setSearchBarValue(e.target.value)}
+                  />
+                  <button
+                    onClick={() => setShowFilters(!showFilters)}
+                    className="px-7 py-1.5 flex items-center gap-2 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out"
+                  >
+                    <FaFilter size={14} />
+                    Filters
+                  </button>
+                  {hasActiveFilters && (
+                    <button
+                      onClick={clearAllFilters}
+                      className="px-7 py-1.5 flex items-center gap-2 text-(--white) fill-(--white) rounded-xl bg-(--purple) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-purple-700 transition-color duration-200 ease-out"
+                    >
+                      <FaX size={14} style={{fill: "var(--white)"}} />
+                      Clear All
+                    </button>
+                  )}
+                </div>
+
+                {/* Filters Panel */}
+                {showFilters && (
+                  <div className="rounded-lg p-4 mb-4 ring ring-white shadow-md/10">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      {/* Email Filter */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2 font-vagrounded">
+                          Email
+                        </label>
+                        <input
+                          type="text"
+                          value={emailFilter}
+                          onChange={(e) => setEmailFilter(e.target.value)}
+                          placeholder="Filter by email..."
+                          className="w-full px-3 py-2 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 font-vagrounded"
+                        />
+                      </div>
+
+                      {/* Date From */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2 font-vagrounded">
+                          Date From
+                        </label>
+                        <input
+                          type="date"
+                          value={dateFrom}
+                          onChange={(e) => setDateFrom(e.target.value)}
+                          className="w-full px-3 py-2 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 font-vagrounded"
+                        />
+                      </div>
+
+                      {/* Date To */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2 font-vagrounded">
+                          Date To
+                        </label>
+                        <input
+                          type="date"
+                          value={dateTo}
+                          onChange={(e) => setDateTo(e.target.value)}
+                          className="w-full px-3 py-2 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 font-vagrounded"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {filteredResponses && filteredResponses.length > 0 ? (
-                <div className="w-full p-6 min-h-screen">
-                  <div className="rounded-lg overflow-hidden">
-                    <table className="w-full border-separate border-spacing-x-0 border-spacing-y-4 pr-1">
+              {processedResponses && processedResponses.length > 0 ? (
+                <div className="w-full p-4 min-h-screen">
+                  <div className="rounded-lg overflow-auto">
+                    <table className="w-full border-separate border-spacing-x-0 border-spacing-y-4 pr-1 overflow-x-auto">
                       <thead className="shadow-md font-vagrounded">
                         <tr
                           className="outline-1 outline-white border-box "
@@ -265,7 +406,6 @@ function Results({
                               className="border-b border-white outline-1 outline-white hover:bg-gray-50 transition-colors shadow-md rounded-sm"
                               onClick={() => seeInDetail(row)}
                             >
-                              {/* Checkbox column — border on inner div */}
                               <td className="align-middle font-vagrounded">
                                 <div
                                   className="py-4 px-4 border-l border-r border-white"
@@ -282,26 +422,22 @@ function Results({
                                 </div>
                               </td>
 
-                              {/* Index*/}
                               <td className="align-middle text-sm text-gray-900 font-vagrounded">
                                 <div className="py-4 px-4">{displayIndex}</div>
                               </td>
 
-                              {/* Name */}
                               <td className="align-middle text-sm text-gray-900 font-vagrounded">
                                 <div className="py-4 px-4 border-l border-white">
                                   {row.respondent.name}
                                 </div>
                               </td>
 
-                              {/* Email */}
                               <td className="align-middle text-sm text-gray-900 font-vagrounded">
                                 <div className="py-4 px-4 border-l border-white">
                                   {row.respondent.email}
                                 </div>
                               </td>
 
-                              {/* Date */}
                               <td className="align-middle text-sm text-gray-600 font-vagrounded">
                                 <div className="py-4 px-4 border-l border-white">
                                   {moment
@@ -311,7 +447,6 @@ function Results({
                                 </div>
                               </td>
 
-                              {/* Time — LAST COLUMN: no left border on inner div */}
                               <td className="align-middle text-sm text-gray-600 font-vagrounded">
                                 <div className="py-4 px-4  border-l border-white">
                                   {moment
@@ -336,7 +471,9 @@ function Results({
                   }}
                   className="font-vagrounded"
                 >
-                  No responses yet.
+                  {hasActiveFilters
+                    ? "No responses match the current filters."
+                    : "No responses yet."}
                 </p>
               )}
             </div>
@@ -369,7 +506,7 @@ function Results({
 
           {activeTab === "summary" && (
             <SummaryView
-              parentResponses={parentResponses}
+              parentResponses={processedResponses}
               formData={parentFormData}
               setChartImages={setChartImages}
               chartImages={chartImages}
@@ -380,7 +517,7 @@ function Results({
           {checkedItems.length > 0 && (
             <div className="popup fixed bg-[var(--white)] shadow-lg left-0 right-0 bottom-20 m-auto p-1 max-w-2xs border-2 border-white rounded-lg flex items-stretch">
               <span className="p-4 text-base font-bold flex items-center w-full">
-                {`${checkedItems.length}/${parentResponses.length} selected`}
+                {`${checkedItems.length}/${processedResponses.length} selected`}
               </span>
 
               <PDFDownloadLink
