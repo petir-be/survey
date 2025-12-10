@@ -10,51 +10,67 @@ import {
 import moment from "moment";
 
 const PAGE_WIDTH = 595;
-const PAGE_PADDING = 40;
+const PAGE_PADDING = 50;
 
 const styles = StyleSheet.create({
-  page: { padding: PAGE_PADDING },
-  section: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    width: "100%",
-    marginBottom: 30,
+  page: { 
+    padding: PAGE_PADDING,
+    backgroundColor: "#ffffff",
   },
-  // Wrap each chart+table to prevent splitting
-  chartTableWrapper: {
+  header: {
     marginBottom: 30,
+    borderBottom: "2px solid #845fff",
+    paddingBottom: 20,
   },
-  text: { fontSize: 12, marginBottom: 2, color: "#535353ff" },
   title: {
-    fontSize: "22px",
-    marginBottom: 10,
+    fontSize: 28,
+    marginBottom: 8,
     fontFamily: "Helvetica-Bold",
-    textAlign: "left",
+    color: "#1e293b",
+  },
+  subtitle: { 
+    fontSize: 11, 
+    marginBottom: 4, 
+    color: "#64748b",
+    lineHeight: 1.5,
+  },
+  chartTableWrapper: {
+    marginBottom: 35,
+    break: "avoid",
+  },
+  questionTitle: {
+    fontSize: 14,
+    fontFamily: "Helvetica-Bold",
+    color: "#1e293b",
+    marginBottom: 12,
+  },
+  chartContainer: {
+    marginBottom: 15,
+    borderRadius: 8,
+    overflow: "hidden",
   },
   table: {
     display: "table",
     width: "100%",
     borderStyle: "solid",
     borderWidth: 1,
-    borderColor: "#bfbfbf",
-    marginTop: 15,
-    marginBottom: 20,
+    borderColor: "#e2e8f0",
+    borderRadius: 6,
+    overflow: "hidden",
   },
   tableRow: { 
     flexDirection: "row",
-    minHeight: 32,
+    minHeight: 36,
   },
   tableCol: {
     flex: 1,
     borderRightWidth: 1,
-    borderRightColor: "#e0e0e0",
+    borderRightColor: "#f1f5f9",
     borderRightStyle: "solid",
     borderBottomWidth: 1,
-    borderBottomColor: "#e0e0e0",
+    borderBottomColor: "#f1f5f9",
     borderBottomStyle: "solid",
-    padding: 8,
+    padding: 10,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -62,9 +78,9 @@ const styles = StyleSheet.create({
   tableColLast: {
     flex: 1,
     borderBottomWidth: 1,
-    borderBottomColor: "#e0e0e0",
+    borderBottomColor: "#f1f5f9",
     borderBottomStyle: "solid",
-    padding: 8,
+    padding: 10,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -72,24 +88,24 @@ const styles = StyleSheet.create({
   tableHeader: {
     flex: 1,
     borderRightWidth: 1,
-    borderRightColor: "#bfbfbf",
+    borderRightColor: "#cbd5e1",
     borderRightStyle: "solid",
-    borderBottomWidth: 1,
-    borderBottomColor: "#bfbfbf",
+    borderBottomWidth: 2,
+    borderBottomColor: "#cbd5e1",
     borderBottomStyle: "solid",
-    padding: 8,
-    backgroundColor: "#f5f5f5",
+    padding: 10,
+    backgroundColor: "#f8fafc",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
   tableHeaderLast: {
     flex: 1,
-    borderBottomWidth: 1,
-    borderBottomColor: "#bfbfbf",
+    borderBottomWidth: 2,
+    borderBottomColor: "#cbd5e1",
     borderBottomStyle: "solid",
-    padding: 8,
-    backgroundColor: "#f5f5f5",
+    padding: 10,
+    backgroundColor: "#f8fafc",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -97,33 +113,61 @@ const styles = StyleSheet.create({
   tableCell: { 
     fontSize: 10, 
     textAlign: "center",
-    color: "#333",
+    color: "#475569",
   },
   tableCellHeader: {
-    fontSize: 10,
+    fontSize: 11,
     textAlign: "center",
     fontFamily: "Helvetica-Bold",
-    color: "#000",
+    color: "#334155",
+    letterSpacing: 0.3,
+  },
+  footer: {
+    position: "absolute",
+    bottom: 30,
+    left: PAGE_PADDING,
+    right: PAGE_PADDING,
+    textAlign: "center",
+    fontSize: 9,
+    color: "#94a3b8",
+    borderTop: "1px solid #e2e8f0",
+    paddingTop: 10,
+  },
+  statsBox: {
+    backgroundColor: "#f5f0ff",
+    padding: 12,
+    borderRadius: 6,
+    marginBottom: 8,
+    borderLeft: "3px solid #845fff",
+  },
+  statsText: {
+    fontSize: 11,
+    color: "#0f172a",
+    fontFamily: "Helvetica-Bold",
   },
 });
 
 function SummaryPDF({ chartImages, formTitle, aggregated }) {
   const availableWidth = PAGE_WIDTH - 2 * PAGE_PADDING;
+  const totalResponses = Object.keys(aggregated).length;
   
   return (
     <Document>
       <Page style={styles.page}>
-        <View style={styles.section}>
+        {/* Header Section */}
+        <View style={styles.header}>
           <Text style={styles.title}>{formTitle}</Text>
-          <Text style={styles.text}>
-            Total Responses collected: {Object.keys(aggregated).length}
-          </Text>
-          <Text style={styles.text}>
-            This report was created at{" "}
-            {moment().format("MMMM Do YYYY, h:mm:ss a")}
+          <View style={styles.statsBox}>
+            <Text style={styles.statsText}>
+              Total Responses: {totalResponses}
+            </Text>
+          </View>
+          <Text style={styles.subtitle}>
+            Generated on {moment().format("MMMM Do YYYY")} at {moment().format("h:mm A")}
           </Text>
         </View>
 
+        {/* Charts and Tables */}
         {chartImages.map(({ questionId, dataUrl }) => {
           const IMAGE_ORIGINAL_WIDTH = 200;
           const IMAGE_ORIGINAL_HEIGHT = 100;
@@ -134,6 +178,7 @@ function SummaryPDF({ chartImages, formTitle, aggregated }) {
           let headers = [];
           let rows = [];
           let q = aggregated[questionId];
+          let questionText = q.question || questionId;
 
           if (q.type === "choice_matrix") {
             headers = ["Row", ...Object.keys(Object.values(q.rows)[0])];
@@ -150,10 +195,14 @@ function SummaryPDF({ chartImages, formTitle, aggregated }) {
 
           return (
             <View key={questionId} style={styles.chartTableWrapper} wrap={false}>
-              <Image
-                src={dataUrl}
-                style={{ width: imageWidth, height: imageHeight }}
-              />
+              
+              {/* Chart */}
+              <View style={styles.chartContainer}>
+                <Image
+                  src={dataUrl}
+                  style={{ width: imageWidth, height: imageHeight }}
+                />
+              </View>
 
               {/* Table */}
               <View style={styles.table}>
@@ -185,6 +234,11 @@ function SummaryPDF({ chartImages, formTitle, aggregated }) {
             </View>
           );
         })}
+
+        {/* Footer */}
+        <Text style={styles.footer} fixed render={({ pageNumber, totalPages }) => (
+          `${pageNumber}`
+        )} />
       </Page>
     </Document>
   );
