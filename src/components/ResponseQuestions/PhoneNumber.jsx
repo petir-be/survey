@@ -17,11 +17,12 @@ function PhoneNumber({ question, onChange, value = "" }) {
 
     setPhone(val);
 
-    if (val.length > 10) val = val.slice(0, 10);
+    if (val.length > 11) val = val.slice(0, 11);
 
+    onChange(val);
     setPhone(val);
 
-    if (val.length === 10 || val.length === 0) {
+    if (val.length === 10 || val.length === 11 || val.length === 0) {
       setError("");
       onChange(val);
     } else {

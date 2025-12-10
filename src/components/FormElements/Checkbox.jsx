@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaCircleXmark } from "react-icons/fa6";
 import { IoDuplicate } from "react-icons/io5";
+import { motion } from "framer-motion";
 
 function Checkbox({ question, onUpdate, onDuplicate }) {
   const options = ["Option 1", "Option 2"];
@@ -10,6 +11,12 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
   const instanceId = React.useId();
 
   const textareaRef = useRef(null);
+  const [required, setRequired] = useState(question.required || false);
+
+  function toggleRequired() {
+    setRequired((prev) => !prev);
+    onUpdate(question.id, { required: !required });
+  }
 
   const adjustHeight = () => {
     const textarea = textareaRef.current;
@@ -18,13 +25,13 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
       textarea.style.height = textarea.scrollHeight + "px";
     }
   };
- 
 
   useEffect(() => {
     adjustHeight();
   }, [question.question]);
 
   useEffect(() => {
+    onUpdate(question.id, { required: required });
     onUpdate(question.id, {
       options: addOption,
     });
@@ -150,12 +157,48 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
         )}
 
         {showAddOption && (
-          <button
-            onClick={addOptionField}
-            className="mt-2 px-2 font-medium font-vagrounded py-1 text-(--purple) border-b-(--purple) border-transparent hover:border-b"
-          >
-            + Add Option
-          </button>
+          <div className="flex justify-between pr-5 items-center">
+            <button
+              onClick={addOptionField}
+              className="mt-2 px-2 font-medium font-vagrounded py-1 text-(--purple) border-b-(--purple) border-transparent hover:border-b"
+            >
+              + Add Option
+            </button>
+            <div className="border-2 border-transparent pl-3 border-l-gray-400 flex gap-3 font-vagrounded items-center">
+              <span className="text-gray-600">Required</span>
+              <button
+                onClick={toggleRequired}
+                style={{
+                  width: 39,
+                  height: 18,
+                  backgroundColor: required ? "#9911ff" : "#ccc",
+                  borderRadius: 30,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: required ? "flex-end" : "flex-start",
+                  padding: 3,
+                  transition: "background-color 0.2s ease",
+                }}
+              >
+                <motion.div
+                  layout
+                  style={{
+                    width: 13,
+                    height: 13,
+                    backgroundColor: "white",
+                    borderRadius: "50%",
+                    boxShadow: "0 0 3px rgba(0,0,0,0.2)",
+                  }}
+                  transition={{
+                    type: "spring",
+                    duration: 0.25,
+                    bounce: 0.2,
+                  }}
+                />
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </div>
