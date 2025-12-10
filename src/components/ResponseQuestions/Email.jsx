@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { IoDuplicate, IoMail } from "react-icons/io5";
+import { IoAlertCircle } from "react-icons/io5";
 
-function Email({ question, onChange, value = "" }) {
+function Email({ question, onChange, value = "", hasError }) {
   const [error, setError] = useState(null);
   const [email, setEmail] = useState("");
 
@@ -27,6 +28,7 @@ function Email({ question, onChange, value = "" }) {
     <div className="my-6">
       <p className="text-lg mb-3 font-medium">
         {question.question || "Enter your email address"}
+        {question.required ? <span className="text-red-600"> *</span> : null}
       </p>
 
       <div className="space-y-2 group relative">
@@ -43,6 +45,14 @@ function Email({ question, onChange, value = "" }) {
         </div>
         {error && (
           <p className="text-red-400 text-sm font-vagrounded">{error}</p>
+        )}
+        {hasError && (
+          <div className="flex items-center font-vagrounded gap-1 my-2">
+            <IoAlertCircle className="fill-red-500 text-xl" />
+            <span className="text-md text-red-500">
+              This field is required.
+            </span>
+          </div>
         )}
       </div>
     </div>
