@@ -98,7 +98,7 @@ function Login() {
       <div className="relative z-20 min-h-dvh flex flex-col">
         <header className="">
           <Link to={"/"}>
-            <p className="cursor-pointer font-zendots text-[30px] pt-8 pb-0 px-10">
+            <p className="cursor-pointer font-zendots text-[30px] pt-8 pb-0 px-12">
               C-MEN
             </p>
           </Link>
@@ -107,7 +107,7 @@ function Login() {
           <div className="flex justify-center items-center flex-col border border-[#FFFFFF] bg-[#DFE0F0] w-[500px] min-h-[550px] shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(132,95,255,0.8)] rounded-3xl gap-4">
             <div className="flex justify-center items-center gap-3 flex-col w-[80%]">
               <h1 className="font-baloo text-3xl text-center">
-                Baby back.
+                Welcome back!
               </h1>
               <button
                 onClick={handleGoogleLogin}
