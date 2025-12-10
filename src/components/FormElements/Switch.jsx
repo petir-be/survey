@@ -6,21 +6,11 @@ function Switch({ question, onUpdate, onDuplicate }) {
   const textareaRef = useRef(null);
   const captionRef = useRef(null);
 
-  const [showAddOption, setShowAddOption] = useState(false);
-
-  const [required, setRequired] = useState(question.required || false);
-
-  function toggleRequired() {
-    setRequired((prev) => !prev);
-    onUpdate(question.id, { required: !required });
-  }
-
   const [error, setError] = useState("");
   const [toggle, setToggle] = useState(false);
   const [caption, setCaption] = useState("");
 
   useEffect(() => {
-    onUpdate(question.id, { required: required });
     onUpdate(question.id, { toggle: question.toggle || false });
   }, []);
 
@@ -47,16 +37,7 @@ function Switch({ question, onUpdate, onDuplicate }) {
   }, [question.question, question.caption]);
 
   return (
-    <div
-      className="form-element-container group"
-      tabIndex={0}
-      onFocus={() => setShowAddOption(true)}
-      onBlur={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget)) {
-          setShowAddOption(false);
-        }
-      }}
-    >
+    <div className="form-element-container group">
       <div className="flex justify-between items-start">
         <div className="flex-1 inline-flex items-start">
           <textarea
@@ -126,44 +107,6 @@ function Switch({ question, onUpdate, onDuplicate }) {
         </button>
         {error && (
           <p className="text-red-400 text-sm font-vagrounded">{error}</p>
-        )}
-        {showAddOption && (
-          <div className="flex justify-end pr-5 items-center">
-            <div className="border-2 border-transparent pl-3 mt-1 border-l-gray-400 flex gap-3 font-vagrounded items-center">
-              <span className="text-gray-600">Required</span>
-              <button
-                onClick={toggleRequired}
-                style={{
-                  width: 39,
-                  height: 18,
-                  backgroundColor: required ? "#9911ff" : "#ccc",
-                  borderRadius: 30,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: required ? "flex-end" : "flex-start",
-                  padding: 3,
-                  transition: "background-color 0.2s ease",
-                }}
-              >
-                <motion.div
-                  layout
-                  style={{
-                    width: 13,
-                    height: 13,
-                    backgroundColor: "white",
-                    borderRadius: "50%",
-                    boxShadow: "0 0 3px rgba(0,0,0,0.2)",
-                  }}
-                  transition={{
-                    type: "spring",
-                    duration: 0.25,
-                    bounce: 0.2,
-                  }}
-                />
-              </button>
-            </div>
-          </div>
         )}
       </div>
     </div>

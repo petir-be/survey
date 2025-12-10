@@ -1,6 +1,7 @@
 import React from "react";
+import { IoAlertCircle } from "react-icons/io5";
 
-function MultipleChoice({ question, value = "", onChange }) {
+function MultipleChoice({ question, value = "", onChange, hasError }) {
   const options = question.options || [];
 
   const handleChange = (selectedLabel) => {
@@ -12,7 +13,7 @@ function MultipleChoice({ question, value = "", onChange }) {
       {/* Question Text */}
       <p className="text-lg font-medium">
         {question.question || "Select"}
-        {/* {question.required && <span className="text-red-500 ml-1">*</span>} */}
+        {question.required ? <span className="text-red-600"> *</span> : null}
       </p>
 
       {/* Options */}
@@ -28,9 +29,10 @@ function MultipleChoice({ question, value = "", onChange }) {
                 key={index}
                 className={`
                   flex items-center gap-4 px-3 py-2 rounded  ring-2 transition-all hover:bg-(--white) duration-200 ease-out
-                  ${isSelected 
-                    ? "bg-(--purple-lighter) ring-(--purple) " 
-                    : "bg-(--dirty-white) ring-(--black-lighter) "
+                  ${
+                    isSelected
+                      ? "bg-(--purple-lighter) ring-(--purple) "
+                      : "bg-(--dirty-white) ring-(--black-lighter) "
                   }
                 `}
                 onClick={() => handleChange(option)}
@@ -51,18 +53,12 @@ function MultipleChoice({ question, value = "", onChange }) {
           })}
         </div>
       )}
-
-      {/* Optional: Show "Other" field if you support it later */}
-      {/* {question.hasOther && (
-        <label className="flex items-center gap-4 p-4 rounded-xl border-2 border-dashed border-gray-300">
-          <input type="radio" name={`question-${question.id}`} />
-          <input
-            type="text"
-            placeholder="Other (please specify)"
-            className="flex-1 outline-none text-lg"
-          />
-        </label>
-      )} */}
+      {hasError && (
+        <div className="flex items-center font-vagrounded gap-1 my-2">
+          <IoAlertCircle className="fill-red-500 text-xl" />
+          <span className="text-md text-red-500">This field is required.</span>
+        </div>
+      )}
     </div>
   );
 }
