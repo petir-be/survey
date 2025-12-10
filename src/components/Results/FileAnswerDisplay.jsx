@@ -1,14 +1,55 @@
 import React from "react";
 import { FaFile, FaDownload, FaEye } from "react-icons/fa6";
+import toast from "react-hot-toast"; // Optional, for error feedback
 
 const FileAnswerDisplay = ({ files }) => {
+  if (!files || !Array.isArray(files) || files.length === 0) {
+    return <span className="text-gray-400 italic">No files uploaded</span>;
+  }
+
+  const isImage = (file) => {
+    if (file.fileType && file.fileType.startsWith("image/")) return true;
+    return /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(file.name);
+  };
+
+  // ✅ NEW: Function to force download with correct filename
+  const handleForceDownload = async (e, fileUrl, fileName) => {
+    e.preventDefault(); // Stop default link behavior
+
+    try {
+      // 1. Fetch the file data
+      const response = await fetch(fileUrl);
+
+      if (!response.ok) throw new Error("Network response was not ok");
+
+      // 2. Convert to Blob
+      const blob = await response.blob();
+
+      // 3. Create a temporary URL
+      const url = window.URL.createObjectURL(blob);
+
+      // 4. Create hidden link and click it
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName; // <--- This forces the correct extension!
+      document.body.appendChild(link);
+      link.click();
+
+      // 5. Cleanup
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Download failed:", err);
+      toast.error("Download failed. Opening in new tab instead.");
+      // Fallback: Just open it in a new tab if fetch fails
+      window.open(fileUrl, "_blank");
+    }
+  };
+
   return (
     <div className="flex flex-wrap gap-4 mt-2">
       {files.map((file, index) => {
-        // Determine if it's an image
-        const isImage =
-          file.fileType?.startsWith("image/") ||
-          /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name);
+        const isImg = isImage(file);
 
         return (
           <div
@@ -17,7 +58,7 @@ const FileAnswerDisplay = ({ files }) => {
           >
             {/* Preview Area */}
             <div className="h-28 w-full bg-gray-200 flex items-center justify-center overflow-hidden relative">
-              {isImage ? (
+              {isImg ? (
                 <img
                   src={file.mediaUrl}
                   alt={file.name}
@@ -28,23 +69,28 @@ const FileAnswerDisplay = ({ files }) => {
               )}
 
               {/* Hover Actions */}
-              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[1px]">
+              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[1px] gap-2">
+                {/* View Button (Opens in new tab) */}
                 <a
                   href={file.mediaUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-white text-gray-800 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg hover:bg-[var(--purple)] hover:text-white transition-colors flex items-center gap-2"
+                  className="bg-white text-gray-700 p-2 rounded-full shadow-lg hover:bg-[var(--purple)] hover:text-white transition-colors"
+                  title="View"
                 >
-                  {isImage ? (
-                    <>
-                      <FaEye /> View
-                    </>
-                  ) : (
-                    <>
-                      <FaDownload /> Download
-                    </>
-                  )}
+                  <FaEye />
                 </a>
+
+                {/* Download Button (Forces correct name) */}
+                <button
+                  onClick={(e) =>
+                    handleForceDownload(e, file.mediaUrl, file.name)
+                  }
+                  className="bg-white text-gray-700 p-2 rounded-full shadow-lg hover:bg-[var(--purple)] hover:text-white transition-colors cursor-pointer"
+                  title="Download"
+                >
+                  <FaDownload />
+                </button>
               </div>
             </div>
 
