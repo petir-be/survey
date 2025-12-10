@@ -114,7 +114,11 @@ export function DetailedResponsePDF({ response, formData, formTitle }) {
   );
 
   const validQuestions = allQuestions.filter(
-    (q) => q.question && q.question !== "" && q.type !== "heading" && q.type !== "paragraph"
+    (q) =>
+      q.question &&
+      q.question !== "" &&
+      q.type !== "heading" &&
+      q.type !== "paragraph"
   );
 
   const midpoint = Math.ceil(validQuestions.length / 2);
@@ -127,7 +131,7 @@ export function DetailedResponsePDF({ response, formData, formTitle }) {
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.respondentName}>
-            {response.respondent.name}
+            {response.respondent?.name || "Anonymous"}
           </Text>
           <Text style={styles.timestamp}>
             {moment.utc(response.submittedAt).local().format("MMMM D, YYYY")} at{" "}
@@ -179,9 +183,7 @@ export function DetailedResponsePDF({ response, formData, formTitle }) {
         {/* Page Number */}
         <Text
           style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber}`
-          }
+          render={({ pageNumber, totalPages }) => `${pageNumber}`}
           fixed
         />
       </Page>
@@ -189,7 +191,11 @@ export function DetailedResponsePDF({ response, formData, formTitle }) {
   );
 }
 
-export function MultipleDetailedResponsesPDF({ responses, formData, formTitle }) {
+export function MultipleDetailedResponsesPDF({
+  responses,
+  formData,
+  formTitle,
+}) {
   return (
     <Document>
       {responses.map((response, index) => {
@@ -202,7 +208,11 @@ export function MultipleDetailedResponsesPDF({ responses, formData, formTitle })
         );
 
         const validQuestions = allQuestions.filter(
-          (q) => q.question && q.question !== "" && q.type !== "heading" && q.type !== "paragraph"
+          (q) =>
+            q.question &&
+            q.question !== "" &&
+            q.type !== "heading" &&
+            q.type !== "paragraph"
         );
 
         const midpoint = Math.ceil(validQuestions.length / 2);
@@ -217,8 +227,11 @@ export function MultipleDetailedResponsesPDF({ responses, formData, formTitle })
                 {response.respondent.name}
               </Text>
               <Text style={styles.timestamp}>
-                {moment.utc(response.submittedAt).local().format("MMMM D, YYYY")} at{" "}
-                {moment.utc(response.submittedAt).local().format("h:mm A")}
+                {moment
+                  .utc(response.submittedAt)
+                  .local()
+                  .format("MMMM D, YYYY")}{" "}
+                at {moment.utc(response.submittedAt).local().format("h:mm A")}
               </Text>
             </View>
 
@@ -234,7 +247,9 @@ export function MultipleDetailedResponsesPDF({ responses, formData, formTitle })
                   return (
                     <View style={styles.questionBlock} key={question.id}>
                       <Text style={styles.questionLabel}>Question</Text>
-                      <Text style={styles.questionText}>{question.question}</Text>
+                      <Text style={styles.questionText}>
+                        {question.question}
+                      </Text>
 
                       <Text style={styles.answerLabel}>Answer</Text>
                       <AnswerRendererPDF answer={matchedAnswer?.answer} />
@@ -253,7 +268,9 @@ export function MultipleDetailedResponsesPDF({ responses, formData, formTitle })
                   return (
                     <View style={styles.questionBlock} key={question.id}>
                       <Text style={styles.questionLabel}>Question</Text>
-                      <Text style={styles.questionText}>{question.question}</Text>
+                      <Text style={styles.questionText}>
+                        {question.question}
+                      </Text>
 
                       <Text style={styles.answerLabel}>Answer</Text>
                       <AnswerRendererPDF answer={matchedAnswer?.answer} />
