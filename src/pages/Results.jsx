@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
 import { FaArrowDown, FaCross, FaDownload, FaFile, FaX } from "react-icons/fa6";
@@ -7,6 +7,9 @@ import SearchBar from "../components/SearchBar";
 import MultipleChoiceBarChart from "../components/Charts/MultipleChoiceBarChart";
 import ChoiceMatrixBarChart from "../components/Charts/ChoiceMatrixBarChart";
 import IndividualView from "../components/Results/IndividualView";
+import { toPng } from "html-to-image";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import SummaryPDF from "../components/PDF/SummaryPDF";
 
 function Results({
   defaultFormName = "Form",
@@ -28,6 +31,7 @@ function Results({
   const [isPublished, setIsPublished] = useState(false);
 
   const [inDetailRow, setInDetailRow] = useState(null);
+  const [chartImages, setChartImages] = useState([]);
 
   const processedResponses = useMemo(() => {
     // 1. Create a shallow copy so we don't mutate props
@@ -469,7 +473,8 @@ function Results({
             <SummaryView
               parentResponses={parentResponses}
               formData={parentFormData}
-              questionMap={questions}
+              setChartImages={setChartImages}
+              chartImages={chartImages}
             />
           )}
 
@@ -645,8 +650,27 @@ const aggregateResponseData = (parentResponses, formData) => {
 };
 
 // Main Summary Component
-function SummaryView({ parentResponses, formData }) {
+function SummaryView({ parentResponses, formData, setChartImages, chartImages }) {
   const [summaryData, setSummaryData] = useState({});
+  const chartRefs = useRef({}); // store refs by questionId
+
+  const handleExport = async () => {
+    const images = [];
+
+    for (const questionId of Object.keys(summaryData)) {
+      const node = chartRefs.current[questionId];
+      if (node) {
+        try {
+          const dataUrl = await toPng(node, { cacheBust: true });
+          images.push({ questionId, dataUrl });
+        } catch (err) {
+          console.error("Error exporting chart", questionId, err);
+        }
+      }
+    }
+
+    setChartImages(images); // save all chart images
+  };
 
   useEffect(() => {
     if (parentResponses && formData) {
@@ -675,7 +699,18 @@ function SummaryView({ parentResponses, formData }) {
         >
           Summary
         </h2>
-        <button className="p-2 hover:font-bold flex gap-1 text-slate-600">
+        {chartImages.length > 0 && (
+          <PDFDownloadLink
+            document={<SummaryPDF chartImages={chartImages} />}
+            fileName="charts.pdf"
+          >
+            {({ loading }) => (loading ? "Generating PDF..." : "Download PDF")}
+          </PDFDownloadLink>
+        )}
+        <button
+          className="p-2 hover:font-bold flex gap-1 text-slate-600"
+          onClick={handleExport}
+        >
           <FaFile />
           Print to PDF
         </button>
@@ -684,11 +719,12 @@ function SummaryView({ parentResponses, formData }) {
       <div className="questions flex flex-col gap-6 w-auto">
         {Object.entries(summaryData).map(([questionId, data]) => {
           let questionType = data.type;
-
           return (
             <div
               className="border-1 border-white shadow-xl rounded-lg flex flex-col p-4"
               key={questionId}
+              id={questionId}
+              ref={(el) => (chartRefs.current[questionId] = el)}
             >
               {/* {console.log(data)} */}
               <h3 className="text-lg font-bold">{data.question}</h3>
@@ -712,6 +748,5 @@ function SummaryView({ parentResponses, formData }) {
     </div>
   );
 }
-
 
 export default Results;
