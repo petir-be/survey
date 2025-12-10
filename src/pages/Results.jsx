@@ -175,6 +175,8 @@ function Results({
     return processedResponses.filter((res) => checkedItems.includes(res.id));
   };
 
+  console.log(processedResponses)
+
   return (
     <div className="m-auto w-full p-4 font-vagrounded">
       {/* Tab Buttons */}
@@ -428,13 +430,13 @@ function Results({
 
                               <td className="align-middle text-sm text-gray-900 font-vagrounded">
                                 <div className="py-4 px-4 border-l border-white">
-                                  {respondentName}
+                                  {row.respondent.name}
                                 </div>
                               </td>
 
                               <td className="align-middle text-sm text-gray-900 font-vagrounded">
                                 <div className="py-4 px-4 border-l border-white">
-                                  {respondentEmail}
+                                  {row.respondent.email}
                                 </div>
                               </td>
 
