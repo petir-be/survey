@@ -21,7 +21,7 @@ import { IoDocumentText } from "react-icons/io5";
 import { IoSparkles } from "react-icons/io5";
 import { IoGrid } from "react-icons/io5";
 import { IoFolderOpen } from "react-icons/io5";
-
+import Kabadingan from "../components/Kabadingan"
 import { FaThList } from "react-icons/fa";
 function Home() {
   const [showModal, setShowModal] = useState(false);
@@ -241,8 +241,12 @@ function Home() {
                 </span>
               </div>
 
-              <div className="flex justify-center">
-                <FAQ />
+              <div className="flex items-center text-center justify-center">
+             
+             
+                <FAQ className="items-center !text-center" />
+             
+             
               </div>
             </div>
             <AnimatePresence>
