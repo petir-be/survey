@@ -21,7 +21,9 @@ function NavBar() {
       {isDesktopOrLaptop && (
         <nav className="absolute w-full z-10">
           <div className="flex border-2 border-(--dirty-white) justify-between py-8 px-10 ">
-            <h1 className="font-zendots text-[30px] px-2">C-MEN</h1>
+            <Link to={`/`}>
+              <h1 className="font-zendots text-[30px] px-2">C-MEN</h1>
+            </Link>
             <div className="font-vagrounded w-1/6 z-10  flex align-center justify-end">
               {isAuthenticated ? (
                 <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
@@ -49,7 +51,9 @@ function NavBar() {
       {isTabletOrMobile && (
         <nav className="absolute w-full z-10">
           <div className="flex border-2 border-(--dirty-white) justify-between py-8 px-5 items-center  ">
-            <h1 className="font-zendots text-[14px] px-2">C-MEN</h1>
+            <Link to={`/`}>
+              <h1 className="font-zendots text-[22px] px-2">C-MEN</h1>
+            </Link>
             <div className="font-vagrounded w-1/2 z-10  flex text-center items-center whitespace-nowrap justify-end">
               {isAuthenticated ? (
                 <div className="bg-white h-9 w-9 rounded-full flex justify-center items-center">
