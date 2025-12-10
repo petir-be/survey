@@ -14,7 +14,7 @@ import FileUploader from "./ResponseQuestions/FileUploader";
 import ShortText from "./ResponseQuestions/ShortText";
 import Switch from "./ResponseQuestions/Switch";
 
-function QuestionRenderer({ question, value, onAnswer }) {
+function QuestionRenderer({ question, value, onAnswer, hasError }) {
   const QUESTION_TYPES = {
     multiple_choice: MultipleChoice,
     checkbox: Checkbox,
@@ -36,7 +36,7 @@ function QuestionRenderer({ question, value, onAnswer }) {
     return <div> Unsupported question type.</div>;
   }
 
-  return <Component question={question} value={value} onChange={onAnswer} />;
+  return <Component question={question} value={value} onChange={onAnswer} hasError={hasError} />;
 }
 
 export default QuestionRenderer;

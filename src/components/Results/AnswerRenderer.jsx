@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
-
+import FileAnswerDisplay from "./FileAnswerDisplay";
 const styles = StyleSheet.create({
   empty: {
     fontStyle: "italic",
@@ -27,15 +27,26 @@ export function AnswerRenderer({ answer }) {
     answer === undefined ||
     (Array.isArray(answer) && answer.length === 0)
   ) {
-    return <span>No answer</span>;
+    return <span className="text-gray-400 italic">No answer</span>;
   }
 
-  // ✅ Checkbox / multi-select answers (array)
   if (Array.isArray(answer)) {
+    const firstItem = answer[0];
+    if (
+      firstItem &&
+      typeof firstItem === "object" &&
+      (firstItem.mediaUrl || firstItem.size || firstItem.fileType)
+    ) {
+      return <FileAnswerDisplay files={answer} />;
+    }
+
     return (
       <ul className="list-disc list-inside">
         {answer.map((item, index) => (
-          <li key={index}>{item}</li>
+          <li key={index}>
+            {/* Added a tiny safety check here so it doesn't crash if an object slips through */}
+            {typeof item === "object" ? JSON.stringify(item) : item}
+          </li>
         ))}
       </ul>
     );
@@ -97,4 +108,3 @@ export function AnswerRendererPDF({ answer }) {
   // ✅ Primitive answers (string, number, boolean)
   return <Text>{String(answer)}</Text>;
 }
-

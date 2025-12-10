@@ -5,7 +5,11 @@ export default function Modal({ isOpen, close, title, children, dialogbox }) {
   return (
     <Dialog open={isOpen} onClose={close} className="relative z-50">
       <div className="fixed inset-0 backdrop-blur-sm" aria-hidden="true" />
-      <div className= {`fixed z-50 flex items-center justify-center p-4 ${dialogbox ? "inset-0": "w-1/3 top-50 right-1/2 translate-x-1/2"}`}>
+      <div
+        className={`fixed z-50 flex items-center justify-center p-4 ${
+          dialogbox ? "inset-0" : "w-1/3 top-50 right-1/2 translate-x-1/2"
+        }`}
+      >
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -15,7 +19,7 @@ export default function Modal({ isOpen, close, title, children, dialogbox }) {
               key="box"
               className="w-full max-w-md"
             >
-              <DialogPanel className="rounded-xl bg-white p-6 backdrop-blur-2xl min-h-[150px] shadow-lg">
+              <DialogPanel className="rounded-xl bg-[#DFE0F0] border border-white p-6 backdrop-blur-2xl min-h-[150px] shadow-lg">
                 <DialogTitle className="text-lg font-medium text-gray-900">
                   {title || "Modal Title"}
                 </DialogTitle>

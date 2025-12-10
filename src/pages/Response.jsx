@@ -11,7 +11,6 @@ import { motion } from "framer-motion";
 import Loading from "../components/Loading";
 
 const localStorageKey = (guid) => `formAnswersCache_${guid}`;
-// import { Steps } from "rsuite";
 
 function SubmitDone({ allowMultipleSubmission }) {
   return (
@@ -159,6 +158,7 @@ function Response() {
   const [hasReviewPage, setHasReviewPage] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
+  const [validationErrors, setValidationErrors] = useState([]);
 
   const loadAnswersFromCache = (key) => {
     try {
@@ -287,6 +287,10 @@ function Response() {
 
   const isReviewPage = hasReviewPage && currentPageIndex === pages.length;
   const goNext = () => {
+    if (!validateCurrentPage()) {
+      return;
+    }
+
     if (hasReviewPage && currentPageIndex < pages.length) {
       setCurrentPageIndex(currentPageIndex + 1);
     } else if (!hasReviewPage && currentPageIndex === pages.length - 1) {
@@ -322,9 +326,97 @@ function Response() {
       // Save updated answers to cache immediately
       saveAnswersToCache(localStorageKey(guid), updated);
 
+      setValidationErrors((prevErrors) => {
+        const isValidNow = checkSingleQuestionValidity(
+          questionId,
+          updated,
+          pages
+        );
+
+        if (isValidNow) {
+          return prevErrors.filter((id) => id !== questionId);
+        }
+        return prevErrors;
+      });
+
       return updated;
     });
   };
+
+  function checkSingleQuestionValidity(
+    questionId,
+    currentAnswers,
+    allQuestions
+  ) {
+    const question = allQuestions
+      .flatMap((page) => page.questions)
+      .find((q) => q.id === questionId);
+
+    if (!question || !question.required) {
+      return true; // Not a required question, so it's valid
+    }
+
+    const answerObj = currentAnswers.find((a) => a.questionID === questionId);
+    const answerValue = answerObj?.answer;
+
+    let isAnswered = false;
+
+    // Logic for determining "answered" (mirrored from validateCurrentPage)
+    if (Array.isArray(answerValue)) {
+      isAnswered = answerValue.length > 0;
+    } else if (typeof answerValue === "string") {
+      isAnswered = answerValue.trim().length > 0;
+    } else if (answerValue !== undefined && answerValue !== null) {
+      isAnswered = true;
+    }
+
+    return isAnswered;
+  }
+
+  function validateCurrentPage() {
+    const isReviewPage = hasReviewPage && currentPageIndex === pages.length;
+    if (isReviewPage) return true;
+
+    const currentPageQuestions = pages[currentPageIndex]?.questions || [];
+    const failedQuestionIds = [];
+
+    currentPageQuestions.forEach((q) => {
+      if (q.required) {
+        const answerObj = answers.find((a) => a.questionID === q.id);
+        const answerValue = answerObj?.answer;
+
+        let isAnswered = false;
+
+        // ... (Your existing logic to determine isAnswered) ...
+        if (Array.isArray(answerValue)) {
+          isAnswered = answerValue.length > 0;
+        } else if (typeof answerValue === "string") {
+          isAnswered = answerValue.trim().length > 0;
+        } else if (answerValue !== undefined && answerValue !== null) {
+          isAnswered = true;
+        }
+
+        if (!isAnswered) {
+          failedQuestionIds.push(q.id); // Collect the ID of the failed question
+        }
+      }
+    });
+
+    // 1. Update the error state
+    setValidationErrors(failedQuestionIds);
+
+    // 2. Return true only if no required questions failed validation
+    const isValid = failedQuestionIds.length === 0;
+
+    if (!isValid) {
+      // Provide user feedback
+      alert(
+        `Please answer ${failedQuestionIds.length} required question(s) before continuing.`
+      );
+    }
+
+    return isValid;
+  }
 
   if (loading) {
     return (
@@ -411,15 +503,23 @@ function Response() {
                             const currentAnswerObj = answers.find(
                               (a) => a.questionID === q.id
                             );
-                            const currentValue = currentAnswerObj
-                              ? currentAnswerObj.answer
-                              : "";
+                            const isFileQuestion =
+                              q.type === "File" || q.questionType === "File";
+
+                            let currentValue;
+                            if (currentAnswerObj) {
+                              currentValue = currentAnswerObj.answer;
+                            } else {
+                             
+                              currentValue = isFileQuestion ? [] : "";
+                            }
                             return (
                               <QuestionRenderer
                                 key={q.id}
                                 question={q}
                                 value={currentValue}
                                 onAnswer={(val) => updateAnswer(q.id, val)}
+                                hasError={validationErrors.includes(q.id)}
                               />
                             );
                           })}

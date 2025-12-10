@@ -23,7 +23,7 @@ function ReviewPage({ pages, answers }) {
                 }
                 const answerObj = answers.find((a) => a.questionID === q.id);
                 const displayAnswer = answerObj
-                  ? answerObj.answer
+                  ? answerObj.answer === "" ? "Unanswered" : answerObj.answer
                   : "Unanswered";
 
                 //for choice matrix shit
@@ -65,7 +65,7 @@ function ReviewPage({ pages, answers }) {
                             <div
                               className={`md:col-span-1 font-semibold ${
                                 rowValue.toString() === "Unanswered"
-                                  ? "text-gray-500"
+                                  ? "italic text-gray-500"
                                   : "text-gray-700"
                               } break-words`}
                             >
@@ -82,7 +82,7 @@ function ReviewPage({ pages, answers }) {
                   return (
                     <div
                       key={q.id}
-                      className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-3 "
+                      className="grid grid-cols-1 md:grid-cols-3 pb-3 "
                     >
                       <div className="md:col-span-2 font-medium text-gray-700 w-3/4  truncate">
                         {q.question}
@@ -99,6 +99,7 @@ function ReviewPage({ pages, answers }) {
                             ? "false"
                             : displayAnswer.toString()
                           : displayAnswer.toString()}
+
                       </div>
                     </div>
                   );
