@@ -13,6 +13,7 @@ import Response from "./pages/Response.jsx";
 import Results from "./pages/Results.jsx";
 import ReviewPage from "./components/ReviewPage.jsx";
 import Workspaces from "./pages/Workspaces.jsx";
+import Kabadingan from "./pages/Kabadingan.jsx";
 
 function Layout() {
   return (
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/Workspaces",
         element: <Workspaces />,
+      },
+      {
+        path: "/faq",
+        element: <Kabadingan />,
       },
     ],
   },

@@ -21,7 +21,7 @@ import { IoDocumentText } from "react-icons/io5";
 import { IoSparkles } from "react-icons/io5";
 import { IoGrid } from "react-icons/io5";
 import { IoFolderOpen } from "react-icons/io5";
-import Kabadingan from "../components/Kabadingan"
+import Kabadingan from "./Kabadingan";
 import { FaThList } from "react-icons/fa";
 function Home() {
   const [showModal, setShowModal] = useState(false);
@@ -137,9 +137,7 @@ function Home() {
               </div>
 
               <div className="flex justify-between px-11 items-center w-full ">
-                <span className="font-semibold text-[16px]">
-                  Recent Forms
-                </span>
+                <span className="font-semibold text-[16px]">Recent Forms</span>
 
                 <Select
                   className=" cursor-pointer font-semibold text-[16px]"
@@ -242,11 +240,9 @@ function Home() {
               </div>
 
               <div className="flex items-center text-center justify-center">
-             
-             
-                <FAQ className="items-center !text-center" />
-             
-             
+                <Link to={"faq"}>
+                  <FAQ className="items-center !text-center" />
+                </Link>
               </div>
             </div>
             <AnimatePresence>
@@ -488,6 +484,12 @@ function Home() {
                 <span className="vagrounded font-normal text-[12px] text-black">
                   Explore Tools and Automation
                 </span>
+              </div>
+
+              <div className="flex items-center text-center justify-center">
+                <Link to={"faq"}>
+                  <FAQ className="items-center !text-center" />
+                </Link>
               </div>
             </div>
             <span className="mt-10 bottom font-zendots font-semibold text-[12px]">
