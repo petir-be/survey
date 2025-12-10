@@ -11,7 +11,7 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
   const instanceId = React.useId();
 
   const textareaRef = useRef(null);
-  const [required, setRequired] = useState(false);
+  const [required, setRequired] = useState(question.required || false);
 
   function toggleRequired() {
     setRequired((prev) => !prev);

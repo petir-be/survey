@@ -9,7 +9,7 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
     { id: crypto.randomUUID(), label: "Option 2" },
   ];
 
-  const [required, setRequired] = useState(false);
+  const [required, setRequired] = useState(question.required || false);
 
   function toggleRequired() {
     setRequired((prev) => !prev);

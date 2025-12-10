@@ -13,7 +13,7 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
   const [addRowField, setAddRowField] = useState(question.rows || defaultRow);
   const [showAddButtons, setShowAddButtons] = useState(false);
 
-  const [required, setRequired] = useState(false);
+  const [required, setRequired] = useState(question.required || false);
   
     function toggleRequired() {
       setRequired((prev) => !prev);
