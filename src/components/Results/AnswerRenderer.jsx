@@ -1,18 +1,32 @@
+import React from "react";
+import FileAnswerDisplay from "./FileAnswerDisplay"; // Don't forget to import this!
+
 function AnswerRenderer({ answer }) {
   if (
     answer === null ||
     answer === undefined ||
     (Array.isArray(answer) && answer.length === 0)
   ) {
-    return <span>No answer</span>;
+    return <span className="text-gray-400 italic">No answer</span>;
   }
 
-  // ✅ Checkbox / multi-select answers (array)
   if (Array.isArray(answer)) {
+    const firstItem = answer[0];
+    if (
+      firstItem &&
+      typeof firstItem === "object" &&
+      (firstItem.mediaUrl || firstItem.size || firstItem.fileType)
+    ) {
+      return <FileAnswerDisplay files={answer} />;
+    }
+
     return (
       <ul className="list-disc list-inside">
         {answer.map((item, index) => (
-          <li key={index}>{item}</li>
+          <li key={index}>
+            {/* Added a tiny safety check here so it doesn't crash if an object slips through */}
+            {typeof item === "object" ? JSON.stringify(item) : item}
+          </li>
         ))}
       </ul>
     );
