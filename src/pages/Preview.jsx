@@ -2,19 +2,23 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import { FaHome } from "react-icons/fa";
 import { IoMdArrowRoundForward } from "react-icons/io";
+import { IoArrowBack } from "react-icons/io5";
 import axios from "axios";
 import DotShader2 from "../components/DotShader2";
-
+// Import the ReviewPage component if it exists in your components folder
+// NOTE: Assuming ReviewPage exists for completeness, though its content might be different for a Preview
+import ReviewPage from "../components/ReviewPage";
 import QuestionRenderer from "../components/QuestionRenderer";
 import Loading from "../components/Loading";
-
 
 function Preview() {
   const { guid } = useParams();
   const [id, setId] = useState(0);
   const [pages, setPages] = useState([]);
   const [title, setTitle] = useState("Untitled Form");
+  const [hasReviewPage, setHasReviewPage] = useState(false);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
+  // Answers state is an object in Preview, array in Response. Keep it as object for Preview.
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -32,6 +36,8 @@ function Preview() {
         );
 
         const { id, title, formData } = response.data;
+        // Setting hasReviewPage from response data
+        setHasReviewPage(response.data.hasReviewPage);
         setId(id);
 
         console.log(typeof formData);
@@ -62,12 +68,22 @@ function Preview() {
   }, [id]);
 
   const goNext = () => {
-    if (currentPageIndex < pages.length - 1) {
+    const isLastQuestionPage = currentPageIndex === pages.length - 1;
+    const isReviewPage = hasReviewPage && currentPageIndex === pages.length;
+
+    if (hasReviewPage && isLastQuestionPage) {
+      // Go to the review page
       setCurrentPageIndex(currentPageIndex + 1);
-    } else {
-      console.log("Submitted answers:", answers);
-      alert("Thank you! Your response has been recorded.");
-      // TODO: POST to your submission endpoint
+    } else if (isReviewPage || (!hasReviewPage && isLastQuestionPage)) {
+      // Simulating submission
+      console.log("Simulated Submission - Answers:", answers);
+      alert(
+        "Thank you! Your response has been recorded. (Simulated Submission in Preview)"
+      );
+      // No actual POST in Preview. Just reset or show a done message.
+    } else if (currentPageIndex < pages.length - 1) {
+      // Go to the next question page
+      setCurrentPageIndex(currentPageIndex + 1);
     }
   };
 
@@ -107,28 +123,33 @@ function Preview() {
     );
   }
 
-  const currentPage = pages[currentPageIndex];
-  const progress = ((currentPageIndex + 1) / pages.length) * 100;
+  // Calculate progress, which needs to include the review page if it exists.
+  // Total steps = pages.length + (hasReviewPage ? 1 : 0)
+  const totalSteps = pages.length + (hasReviewPage ? 1 : 0);
+  // Current step index: currentPageIndex is 0-indexed for pages. If it's the review page, it's pages.length.
+  const currentStep = currentPageIndex + 1;
+  const progress = (currentStep / totalSteps) * 100;
+
+  const isReviewPage = hasReviewPage && currentPageIndex === pages.length;
+  const currentPage = pages[currentPageIndex]; // This will be undefined on the review page index
+
+  // Map the answers object to the array format expected by ReviewPage
+  const answersForReview = Object.keys(answers).map((questionID) => ({
+    questionID: questionID,
+    answer: answers[questionID],
+  }));
 
   return (
     <div className="h-dvh w-full bg-(--white) flex flex-col overflow-hidden">
       <header className="flex w-full items-center justify-between bg-(--white) pt-8 pb-8 px-10 pr-12 relative z-50 border-b-2 border-(--dirty-white)">
         <div className="flex w-full items-center justify-between">
-          <div className="inline-flex items-center gap-7 bg-(--white) flex-1 min-w-0">
-            <Link to="/">
-              <FaHome className="text-3xl cursor-pointer" />
+          <div className="inline-flex items-center bg-(--white) flex-1 min-w-0">
+            <Link to={`/newform/${id}`} reloadDocument>
+              <button className="flex gap-2 items-center px-6 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
+                <IoArrowBack className="fill-black text-xl" /> Exit Preview
+              </button>
             </Link>
-
-            <span className="text-(--black) font-vagrounded text-xl py-1 px-2 max-w-1/3 truncate">
-              {title}
-            </span>
           </div>
-
-          <Link to={`/newform/${id}`} reloadDocument>
-            <button className="px-10 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
-              Exit Preview
-            </button>
-          </Link>
         </div>
       </header>
 
@@ -137,29 +158,21 @@ function Preview() {
       <div className="px-10 py-2 ">
         <div className="w-full max-w-5xl justify-self-center h-3 bg-gray-300 rounded-full overflow-hidden">
           <div
-            className="h-full  bg-(--purple) transition-all duration-500"
+            className="h-full bg-(--purple) transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
         </div>
       </div>
 
-      {/* nyaw gumana steps */}
-
-      {/* <div className="w-full flex justify-center py-6">
-        <Steps current={currentPageIndex} className="max-w-5xl w-full px-10">
-          {pages.map((p, index) => (
-            <Steps.Item key={index} title={`Page ${index + 1}`} />
-          ))}
-        </Steps>
-      </div> */}
-
       <DotShader2 className="z-50" />
       {/* questions d2 */}
 
       <div className="flex-1 overflow-y-auto px-10 pb-10 flex flex-col">
-        <div className="relative max-w-4xl w-full mx-auto px-10 py-7 border-gradient bg-(--white) pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-col  justify-between">
+        <div className="relative max-w-4xl w-full mx-auto px-10 py-7 border-gradient bg-(--white) pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between">
           <div className="flex-1">
-            {currentPage.questions.length === 0 ? (
+            {isReviewPage ? (
+              <ReviewPage pages={pages} answers={answersForReview} />
+            ) : currentPage?.questions.length === 0 ? (
               <div className="flex justify-center items-center text-xl text-gray-400 w-full h-full text-center">
                 Current page has no questions available.
               </div>
@@ -188,7 +201,7 @@ function Preview() {
               disabled={currentPageIndex === 0}
               className={`px-4 py-2 rounded-lg font-medium ${
                 currentPageIndex === 0
-                  ? "opacity-0"
+                  ? "opacity-0 cursor-default"
                   : "opacity-100 bg-red-100 hover:bg-red-200"
               }`}
             >
@@ -197,9 +210,20 @@ function Preview() {
 
             <button
               onClick={goNext}
-              className="flex items-center gap-1 pl-7 pr-6 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 transition-color duration-200 ease-out"
+              className={`flex items-center gap-1 pl-7 pr-6 py-1.5 rounded-xl font-vagrounded drop-shadow-sm/30 transition-color duration-200 ease-out
+         ${
+           isReviewPage
+             ? "bg-(--white) ring ring-green-500 hover:bg-green-200"
+             : "bg-(--white) ring ring-(--purple) inset-shadow-md/10 hover:bg-violet-200"
+         }`}
             >
-              {currentPageIndex === pages.length - 1 ? "Submit" : "Next"}{" "}
+              {isReviewPage
+                ? "Simulate Submission"
+                : currentPageIndex === pages.length - 1 && hasReviewPage
+                ? "Review Answers"
+                : currentPageIndex === pages.length - 1
+                ? "Simulate Submission"
+                : "Next"}
               <IoMdArrowRoundForward />
             </button>
           </div>
