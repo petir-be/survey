@@ -136,13 +136,13 @@ function Home() {
                 </span>
               </div>
 
-              <div className="flex justify-between items-center ">
-                <span className="m-12  font-semibold text-[16px]">
+              <div className="flex justify-between px-11 items-center w-full ">
+                <span className="font-semibold text-[16px]">
                   Recent Forms
                 </span>
 
                 <Select
-                  className="mr-12 cursor-pointer font-semibold text-[16px]"
+                  className=" cursor-pointer font-semibold text-[16px]"
                   classNamePrefix="react-select"
                   options={options}
                   value={selectedOption}
@@ -155,7 +155,7 @@ function Home() {
                 />
               </div>
             </div>
-            <div className="w-3/7 relative h-dvh overflow-hidden pt-15 border-2  bg-(--white) z-10">
+            <div className="w-3/7 relative h-dvh overflow-hidden pt-15 border-2 border-(--dirty-white) bg-(--white) z-10">
               <div className="absolute z-1 w-full h-full flex justify-center items-center">
                 <ThreeDModel
                   url="/models/free__rubiks_cube_3d.glb"
@@ -359,6 +359,8 @@ function Home() {
           </div>
         </>
       )}
+
+      {/* --------------------------------MOBILE VIEW-------------------------------- */}
       {isTabletOrMobile && (
         <>
           {/* para matanggal lang error */}
