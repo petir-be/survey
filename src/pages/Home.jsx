@@ -219,26 +219,6 @@ function Home() {
                 </div>
               </Link>
 
-              <div className=" cursor-pointer justify-center  hover:bg-gray-200 group px-5 h-30 relative flex flex-col border-2 border-[var(--dirty-white)]  duration-200 hover:border-purple-500 ">
-                <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[var(--dirty-white)]">
-                  <button className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
-                    <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
-                    <FaArrowUp
-                      className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
-                         transition-all duration-400 ease-out fill-orange-800"
-                    />
-                  </button>
-                </div>
-                <FaThList className="text-white mb-2 text-[24px]" />
-
-                <span className="vagrounded font-semibold text-[18px] text-black mb-[2px]">
-                  Features
-                </span>
-                <span className="vagrounded font-normal text-[12px] text-black">
-                  Explore Tools and Automation
-                </span>
-              </div>
-
               <div className="flex items-center text-center justify-center">
                 <Link to={"faq"}>
                   <FAQ className="items-center !text-center" />
@@ -338,18 +318,6 @@ function Home() {
                             </div>
                           </div>
                         )}
-                      </div>
-
-                      {/* Use a template */}
-                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded">
-                        <span className="relative flex  items-center gap-5 justify-center w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 flex-col duration-400 ease">
-                          {/* button ng form */}
-                          <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
-                          <IoGrid className="w-3/5 h-auto fill-gray-700" />
-                          <span className="text-lg font-vagrounded font-bold">
-                            Use a template
-                          </span>
-                        </span>
                       </div>
                     </div>
                   </div>
@@ -589,18 +557,6 @@ function Home() {
                             </div>
                           </div>
                         )}
-                      </div>
-
-                      {/* Use a template */}
-                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded">
-                        <span className="relative flex  items-center gap-5 justify-center w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 flex-col duration-400 ease">
-                          {/* button ng form */}
-                          <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
-                          <IoGrid className="w-1/2 h-auto fill-gray-700" />
-                          <span className="text-[9px] font-vagrounded font-bold">
-                            Use a template
-                          </span>
-                        </span>
                       </div>
                     </div>
                   </div>
