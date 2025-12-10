@@ -19,6 +19,8 @@ function formatDateTime(isoString) {
 }
 
 function IndividualView({ response, formData }) {
+  const respondentName = response.respondent?.name || "Anonymous Respondent";
+  const respondentEmail = response.respondent?.email || "No email provided";
   return (
     <div className="max-w-4xl m-auto p-4 overflow-y-auto h-auto">
       <div className="flex justify-between mb-10 pb-6 border-b-1 border-gray-300">
@@ -26,10 +28,10 @@ function IndividualView({ response, formData }) {
           style={{ marginTop: 0 }}
           className="text-3xl font-bold font-vagrounded"
         >
-          {response.respondent.name}
+          {respondentName}
         </h2>
         <h3 style={{ marginTop: 0 }} className="text-xl font-vagrounded">
-          {response.respondent.email}
+          {respondentEmail}
         </h3>
 
         {console.log(formData)}

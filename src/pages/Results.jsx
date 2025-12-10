@@ -41,11 +41,11 @@ function Results({
 
     // 3. Handle Filtering
     if (SearchBarValue) {
-      data = data.filter((response) =>
-        response.respondent.name
-          .toLowerCase()
-          .includes(SearchBarValue.toLowerCase())
-      );
+      data = data.filter((response) => {
+        // ✅ SAFE ACCESS: Check if respondent exists, otherwise use "Anonymous"
+        const name = response.respondent?.name || "Anonymous";
+        return name.toLowerCase().includes(SearchBarValue.toLowerCase());
+      });
     }
 
     return data;
@@ -265,6 +265,10 @@ function Results({
                             minute: "2-digit",
                             hour12: true,
                           });
+                          const respondentName =
+                            row.respondent?.name || "Anonymous";
+                          const respondentEmail =
+                            row.respondent?.email || "N/A";
 
                           return (
                             <tr
@@ -292,14 +296,14 @@ function Results({
                               {/* Name */}
                               <td className="align-middle text-sm text-gray-900 font-vagrounded">
                                 <div className="py-4 px-4 border-l border-white">
-                                  {row.respondent.name}
+                                  {respondentName}
                                 </div>
                               </td>
 
                               {/* Email */}
                               <td className="align-middle text-sm text-gray-900 font-vagrounded">
                                 <div className="py-4 px-4 border-l border-white">
-                                  {row.respondent.email}
+                                  {respondentEmail}
                                 </div>
                               </td>
 
