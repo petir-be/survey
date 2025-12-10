@@ -18,7 +18,6 @@ import { useRef, useState } from "react";
 import Modal from "./Modal";
 import ShortText from "./FormElements/ShortText";
 
-
 function DropZone({ index, onInsert }) {
   const [{ isOver }, dropRef] = useDrop({
     accept: "PALETTE_ITEM",
@@ -144,11 +143,11 @@ function Page({
         <div className="relative">
           <button
             onClick={onAddPage}
-            className="flex hover:bg-gray-200 transition-all duration-200 ease-out gap-2 items-center  font-bold  font-vagrounded px-2 py-2 rounded-lg border text-gray-500 border-(--black-lighter) bg-(--white)"
+            className="flex items-center px-5 gap-2 py-1.5 rounded-md mb-5 bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out"
           >
-            <FaPlus fill="gray" /> Add Page
+            <FaPlus fill="" className="fill-(--black)" /> Add Page
           </button>
-          <button onClick={() => captureScreenshot()}>ScreenShot</button>
+          {/* <button onClick={() => captureScreenshot()}>ScreenShot</button> */}
         </div>
       </div>
 
@@ -349,7 +348,7 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
         onDuplicate={onDuplicate}
       />
     );
-      if (question.type === "switch")
+  if (question.type === "switch")
     return (
       <Switch
         question={question}
