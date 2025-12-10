@@ -34,6 +34,7 @@ function ChoiceMatrixBarChart({ data }) {
             dataKey={columnName}
             fill={colors[index % colors.length]}
             stroke={colors[index % colors.length]}
+            isAnimationActive={false}
           />
         ))}
 

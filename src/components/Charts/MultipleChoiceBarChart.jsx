@@ -25,7 +25,7 @@ function MutlipleChoiceBarChart({ data }) {
         margin={{ top: 10, bottom: 10, right: 10, left: 0 }}
       >
         <Tooltip separator=" - " />
-        <Bar dataKey="Total" fill={color} stroke={color} />
+        <Bar dataKey="Total" fill={color} stroke={color} isAnimationActive={false}/>
 
         <XAxis dataKey="label" type="category" />
         <YAxis allowDecimals={false} padding={{ left: 1 }} />
