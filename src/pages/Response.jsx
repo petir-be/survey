@@ -13,7 +13,7 @@ import Loading from "../components/Loading";
 const localStorageKey = (guid) => `formAnswersCache_${guid}`;
 // import { Steps } from "rsuite";
 
-function SubmitDone() {
+function SubmitDone({ allowMultipleSubmission }) {
   return (
     <div className="w-full font-vagrounded min-h-dvh flex justify-center items-center flex-col">
       {/* Animated Success Checkmark */}
@@ -77,9 +77,15 @@ function SubmitDone() {
         <p className="text-2xl font-medium text-gray-600 mt-1">
           Your response has been recorded.
         </p>
-        <p className="mt-8 text-lg underline underline-offset-4 text-blue-600 font-medium cursor-pointer hover:text-blue-700 transition-colors">
-          Submit another response
-        </p>
+        {allowMultipleSubmission ? (
+          <button onClick={() => window.location.reload()}>
+            <p className="mt-8 text-lg underline underline-offset-4 text-blue-600 font-medium cursor-pointer hover:text-blue-700 transition-colors">
+              Submit another response
+            </p>
+          </button>
+        ) : (
+          <p></p>
+        )}
       </motion.div>
     </div>
   );
@@ -148,7 +154,7 @@ function Response() {
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [allowMultipleSubmission, setAllowMultipleSubmission] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
   const [hasReviewPage, setHasReviewPage] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -198,6 +204,8 @@ function Response() {
         setId(id);
         setHasReviewPage(response.data.hasReviewPage);
         setIsPublished(response.data.isPublished);
+        setAllowMultipleSubmission(response.data.allowMultipleSubmissions);
+
         // console.log(response.data);
 
         // console.log(typeof formData);
@@ -368,7 +376,7 @@ function Response() {
   return (
     <div className="h-dvh w-full bg-(--white) flex flex-col overflow-hidden">
       {hasSubmitted ? (
-        <SubmitDone />
+        <SubmitDone allowMultipleSubmission={allowMultipleSubmission} />
       ) : (
         <>
           {/* progress bar */}
