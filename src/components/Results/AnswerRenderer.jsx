@@ -1,7 +1,27 @@
-import React from "react";
-import FileAnswerDisplay from "./FileAnswerDisplay"; // Don't forget to import this!
+import { Text, View, StyleSheet } from "@react-pdf/renderer";
 
-function AnswerRenderer({ answer }) {
+const styles = StyleSheet.create({
+  empty: {
+    fontStyle: "italic",
+    color: "#777",
+  },
+  list: {
+    marginLeft: 10,
+  },
+  listItem: {
+    marginBottom: 2,
+  },
+  column: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 4,
+  },
+  bold: {
+    fontWeight: "bold",
+  },
+});
+
+export function AnswerRenderer({ answer }) {
   if (
     answer === null ||
     answer === undefined ||
@@ -49,4 +69,42 @@ function AnswerRenderer({ answer }) {
   return <span>{String(answer)}</span>;
 }
 
-export default AnswerRenderer;
+export function AnswerRendererPDF({ answer }) {
+  // ✅ No answer
+  if (
+    answer === null ||
+    answer === undefined ||
+    (Array.isArray(answer) && answer.length === 0)
+  ) {
+    return <Text style={styles.empty}>No answer</Text>;
+  }
+
+  // ✅ Checkbox / multi-select answers (array)
+  if (Array.isArray(answer)) {
+    return (
+      <View style={styles.list}>
+        {answer.map((item, index) => (
+          <Text key={index} style={styles.listItem}>
+            • {String(item)}
+          </Text>
+        ))}
+      </View>
+    );
+  }
+
+  // ✅ Choice matrix / object answers
+  if (typeof answer === "object") {
+    return (
+      <View style={styles.column}>
+        {Object.entries(answer).map(([row, column]) => (
+          <Text key={row}>
+            <Text style={styles.bold}>{row}:</Text> {String(column)}
+          </Text>
+        ))}
+      </View>
+    );
+  }
+
+  // ✅ Primitive answers (string, number, boolean)
+  return <Text>{String(answer)}</Text>;
+}
