@@ -82,11 +82,13 @@ function Results({
     }
   };
 
-  const filteredResponses = parentResponses.filter((response) =>
-    response.respondent.name
-      .toLowerCase()
-      .includes(SearchBarValue.toLowerCase())
-  );
+
+  const filteredResponses = parentResponses.filter((response) => {
+
+    const name = response.respondent?.name || "Anonymous";
+
+    return name.toLowerCase().includes(SearchBarValue.toLowerCase());
+  });
 
   const seeInDetail = (rowData, formData) => {
     setInDetailRow(rowData);
