@@ -256,22 +256,8 @@ function Results({
                       </thead>
 
                       <tbody>
-                        {parentResponses.map((row, index) => {
-                          const d = new Date(row.submittedAt);
-                          const displayIndex = isReversed
-                            ? parentResponses.length - index
-                            : index + 1;
-
-                          const formattedDate = d.toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          });
-                          const formattedTime = d.toLocaleTimeString("en-US", {
-                            hour: "numeric",
-                            minute: "2-digit",
-                            hour12: true,
-                          });
+                        {processedResponses.map((row, index) => {
+                          const displayIndex = index + 1;
 
                           return (
                             <tr
