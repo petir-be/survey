@@ -10,7 +10,7 @@ function Dropdown({ question, onUpdate, onDuplicate }) {
   const textareaRef = useRef(null);
   const instanceId = React.useId();
 
-  const [required, setRequired] = useState(false);
+  const [required, setRequired] = useState(question.required || false);
 
   function toggleRequired() {
     setRequired((prev) => !prev);
