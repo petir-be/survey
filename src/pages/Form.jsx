@@ -34,11 +34,12 @@ import {
   IoShareSocialSharp,
 } from "react-icons/io5";
 import { IoEllipsisHorizontalCircleSharp, IoDownload } from "react-icons/io5";
+import { MdLinearScale } from "react-icons/md";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { FaArrowUp } from "react-icons/fa6";
 import AccountModal from "../components/AccountModal";
 import { HiMiniH1, HiMiniArrowsUpDown } from "react-icons/hi2";
-import { HiMenuAlt4, HiUpload } from "react-icons/hi";
+import { HiMenuAlt4, HiUpload, HiMenu } from "react-icons/hi";
 import { BsGrid3X3GapFill } from "react-icons/bs";
 import { RiPhoneFill } from "react-icons/ri";
 import { BsFillSendXFill } from "react-icons/bs";
@@ -218,7 +219,7 @@ function Form() {
       email: "Email Address",
       "phone number": "Phone Number",
       "file uploader": "Upload a file",
-      "switch": "Toggle switch options:",
+      switch: "Toggle switch options:",
 
       checkbox: "Select all that apply:",
     };
@@ -238,7 +239,7 @@ function Form() {
       email: "email",
       "phone number": "phone_number",
       "file uploader": "file_uploader",
-      "switch": "switch",
+      switch: "switch",
       checkbox: "checkbox",
     };
     return typeMap[title?.toLowerCase?.()] || "text";
@@ -367,56 +368,30 @@ function Form() {
 
   const types = [
     // frequently used
-    { Icon: IoMenu, foreKulay: "", bgKulay: "", title: "Long Text" },
-    {
-      Icon: IoEllipsisHorizontalCircleSharp,
-      foreKulay: "",
-      bgKulay: "",
-      title: "Multiple Choice",
-    },
-    { Icon: IoMail, foreKulay: "", bgKulay: "", title: "Email" },
+    { Icon: HiMenu, title: "Long Text" },
+    { Icon: IoEllipsisHorizontalCircleSharp, title: "Multiple Choice" },
+    { Icon: IoMail, title: "Email" },
 
     // display text
-    { Icon: HiMiniH1, foreKulay: "", bgKulay: "", title: "Heading" },
-    { Icon: IoDocumentText, foreKulay: "", bgKulay: "", title: "Paragraph" },
+    { Icon: HiMiniH1, title: "Heading" },
+    { Icon: IoDocumentText, title: "Paragraph" },
 
     // choices
-    {
-      Icon: BsGrid3X3GapFill,
-      foreKulay: "",
-      bgKulay: "",
-      title: "Choice Matrix",
-    },
-    {
-      Icon: IoEllipsisHorizontalCircleSharp,
-      foreKulay: "",
-      bgKulay: "",
-      title: "Multiple Choice",
-    },
-    { Icon: IoCheckbox, foreKulay: "", bgKulay: "", title: "Checkbox" },
-    { Icon: IoToggleSharp, foreKulay: "", bgKulay: "", title: "Switch" },
-    { Icon: HiMiniArrowsUpDown, foreKulay: "", bgKulay: "", title: "Dropdown" },
-    {
-      Icon: BiSolidUserRectangle,
-      foreKulay: "",
-      bgKulay: "",
-      title: "Linear Scale",
-    },
+    { Icon: BsGrid3X3GapFill, title: "Choice Matrix" },
+    { Icon: IoEllipsisHorizontalCircleSharp, title: "Multiple Choice" },
+    { Icon: IoCheckbox, title: "Checkbox" },
+    { Icon: IoToggleSharp, title: "Switch" },
+    { Icon: HiMiniArrowsUpDown, title: "Dropdown" },
+    { Icon: MdLinearScale, title: "Linear Scale" },
 
     // text
-    { Icon: IoMenu, foreKulay: "", bgKulay: "", title: "Long Text" },
-    { Icon: HiMenuAlt4, foreKulay: "", bgKulay: "", title: "Short Text" },
-    {
-      Icon: BiSolidUserRectangle,
-      foreKulay: "",
-      bgKulay: "",
-      title: "Contact",
-    },
+    { Icon: HiMenu, title: "Long Text" },
+    { Icon: HiMenuAlt4, title: "Short Text" },
 
     //others
-    { Icon: RiPhoneFill, foreKulay: "", bgKulay: "", title: "Phone Number" },
-    { Icon: IoMail, foreKulay: "", bgKulay: "", title: "Email" },
-    { Icon: HiUpload, foreKulay: "", bgKulay: "", title: "File Uploader" },
+    { Icon: RiPhoneFill, title: "Phone Number" },
+    { Icon: IoMail, title: "Email" },
+    { Icon: HiUpload, title: "File Uploader" },
   ];
 
   const [titleValue, setTitleValue] = useState("");
@@ -1091,6 +1066,8 @@ function Form() {
                     {types.slice(0, 3).map((type, index) => (
                       <FormElement
                         key={index}
+                        bgKulay={"#20B15530"}
+                        foreKulay={"#20B155"}
                         icon={type.Icon}
                         title={type.title}
                       />
@@ -1105,6 +1082,8 @@ function Form() {
                     {types.slice(3, 5).map((type, index) => (
                       <FormElement
                         key={index}
+                        bgKulay={"#52525230"}
+                        foreKulay={"#525252"}
                         icon={type.Icon}
                         title={type.title}
                       />
@@ -1119,6 +1098,10 @@ function Form() {
                     {types.slice(5, 11).map((type, index) => (
                       <FormElement
                         key={index}
+                        bgKulay={"#CC580530"}
+                        foreKulay={"#CC5805"}
+                        // bgKulay={"#B438FF30"}
+                        // foreKulay={"#B438FF"}
                         icon={type.Icon}
                         title={type.title}
                       />
@@ -1133,6 +1116,8 @@ function Form() {
                     {types.slice(11, 13).map((type, index) => (
                       <FormElement
                         key={index}
+                        bgKulay={"#CC06F930"}
+                        foreKulay={"#CC06F9"}
                         icon={type.Icon}
                         title={type.title}
                       />
@@ -1147,6 +1132,8 @@ function Form() {
                     {types.slice(13, 17).map((type, index) => (
                       <FormElement
                         key={index}
+                        bgKulay={"#F9161630"}
+                        foreKulay={"#F91616"}
                         icon={type.Icon}
                         title={type.title}
                       />
