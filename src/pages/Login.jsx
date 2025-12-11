@@ -109,16 +109,10 @@ function Login() {
               <h1 className="font-baloo text-3xl text-center">
                 Welcome back!
               </h1>
-              <button
-                onClick={handleGoogleLogin}
-                className="flex flex-row justify-center items-end gap-2.5 font-vagrounded text-xl bg-[#DFE0F0] ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full"
-              >
-                <FcGoogle className="text-3xl" /> Continue with Google
-              </button>
+              
             </div>
             <div className="flex items-center justify-center gap-4 w-[85%] m-2">
               <hr className="flex-1 border-black" />
-              <p className="text-xl text-gray-500 font-vagrounded">or</p>
               <hr className="flex-1 border-black" />
             </div>
             <div className="flex items-center justify-center flex-col gap-7 text-gray-400 w-[80%]">

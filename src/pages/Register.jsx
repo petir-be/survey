@@ -125,19 +125,10 @@ function Register() {
               <h1 className="font-vagrounded text-3xl text-center">
                 Let's Get Started!
               </h1>
-              <button
-                disabled={loading}
-                className={`flex flex-row justify-center items-end gap-2.5 font-vagrounded text-xl ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-md/30 w-full ${
-                  loading ? `  bg-gray-500` : `bg-[#DFE0F0]`
-                }`}
-                onClick={handleGoogleLogin}
-              >
-                <FcGoogle className="text-3xl" /> Continue with Google
-              </button>
+              
             </div>
             <div className="flex items-center justify-center gap-4 w-[85%] my-2">
               <hr className="flex-1 border-black" />
-              <p className="text-xl text-gray-500 font-vagrounded">or</p>
               <hr className="flex-1 border-black" />
             </div>
             <div className="flex items-center justify-center flex-col gap-7 text-gray-400 w-[80%]">

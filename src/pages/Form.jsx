@@ -390,7 +390,6 @@ function Form() {
     { Icon: IoCheckbox, title: "Checkbox" },
     { Icon: IoToggleSharp, title: "Switch" },
     { Icon: HiMiniArrowsUpDown, title: "Dropdown" },
-    { Icon: MdLinearScale, title: "Linear Scale" },
 
     // text
     { Icon: HiMenu, title: "Long Text" },
@@ -1199,7 +1198,7 @@ function Form() {
                     Choices
                   </span>
                   <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto">
-                    {types.slice(5, 11).map((type, index) => (
+                    {types.slice(5, 10).map((type, index) => (
                       <FormElement
                         key={index}
                         bgKulay={"#CC580530"}
@@ -1217,7 +1216,7 @@ function Form() {
                     Text
                   </span>
                   <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto">
-                    {types.slice(11, 13).map((type, index) => (
+                    {types.slice(10, 12).map((type, index) => (
                       <FormElement
                         key={index}
                         bgKulay={"#CC06F930"}
@@ -1233,7 +1232,7 @@ function Form() {
                     Others
                   </span>
                   <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto">
-                    {types.slice(13, 17).map((type, index) => (
+                    {types.slice(12, 16).map((type, index) => (
                       <FormElement
                         key={index}
                         bgKulay={"#F9161630"}

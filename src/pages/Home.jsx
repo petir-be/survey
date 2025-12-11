@@ -136,22 +136,6 @@ function Home() {
                 </span>
               </div>
 
-              <div className="flex justify-between px-11 items-center w-full ">
-                <span className="font-semibold text-[16px]">Recent Forms</span>
-
-                <Select
-                  className=" cursor-pointer font-semibold text-[16px]"
-                  classNamePrefix="react-select"
-                  options={options}
-                  value={selectedOption}
-                  onChange={handleChange}
-                  isClearable // Allows clearing the selection
-                  isSearchable // Enables search functionality
-                  placeholder="Owned by Anyone"
-                  inputValue={inputValue}
-                  onInputChange={handleInputChange}
-                />
-              </div>
             </div>
             <div className="w-3/7 relative h-dvh overflow-hidden pt-15 border-2 border-(--dirty-white) bg-(--white) z-10">
               <div className="absolute z-1 w-full h-full flex justify-center items-center">
@@ -240,7 +224,7 @@ function Home() {
                     onClick={() => setShowModal(false)}
                   ></span>
 
-                  <div className="p-10 w-2/3 h-2/3 bg-(--white) ring ring-white rounded-lg fixed z-50">
+                  <div className="p-10 w-2/4 h-2/3 bg-(--white) ring ring-white rounded-lg fixed z-50">
                     <h1 className="font-vagrounded text-xl">
                       Start a new Form
                     </h1>
@@ -369,26 +353,6 @@ function Home() {
               </div>
             </div>
 
-            <div className="w-full px-8 ">
-              <div className="flex justify-between items-center ">
-                <span className="mt-12 cursor-pointer font-semibold text-[12px]">
-                  Recent Forms
-                </span>
-
-                <Select
-                  className="mt-12 cursor-pointer font-semibold text-[12px]"
-                  classNamePrefix="react-select"
-                  options={options}
-                  value={selectedOption}
-                  onChange={handleChange}
-                  isClearable // Allows clearing the selection
-                  isSearchable // Enables search functionality
-                  placeholder="Owned by Anyone"
-                  inputValue={inputValue}
-                  onInputChange={handleInputChange}
-                />
-              </div>
-            </div>
             <div className=" justify-center flex flex-col gap-5 w-5/6 h-full pt-15 ">
               {/* Redirect to login page if dont have acc log */}
               <button className="text-left" onClick={() => setShowModal(true)}>
@@ -479,7 +443,7 @@ function Home() {
                     onClick={() => setShowModal(false)}
                   ></span>
 
-                  <div className="p-5 w-2/3 h-1/3 bg-(--white) ring ring-white rounded-lg fixed z-50">
+                  <div className="p-5 w-2/4 h-1/3 bg-(--white) ring ring-white rounded-lg fixed z-50">
                     <h1 className="font-vagrounded text-xs">
                       Start a new Form
                     </h1>
