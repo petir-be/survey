@@ -558,7 +558,7 @@ function Home() {
                           </div>
                         )}
                       </div>
-                      div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded">
+                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded">
                         <span className="relative flex  items-center gap-5 justify-center w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 flex-col duration-400 ease">
                           {/* button ng form */}
                           <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
