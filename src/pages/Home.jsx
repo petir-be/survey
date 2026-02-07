@@ -3,8 +3,8 @@ import "../global.css";
 import { FaArrowUp } from "react-icons/fa6";
 import DotShader from "../components/DotShader";
 import HomeBox from "../components/HomeBox";
+import toast, { Toaster } from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
-import aboutus from "../assets/hugeicons_ai-dna.svg";
 import FAQ from "../components/FAQ";
 import { motion, AnimatePresence } from "framer-motion";
 import ThreeDModel from "../components/ThreeDmodel";
@@ -63,8 +63,16 @@ function Home() {
   const navigate = useNavigate();
 
   async function MakeForm() {
+    if (!user?.id) {
+      console.log("nyaw");
+      navigate("/login");
+      toast.error("Please log in to create a form.");
+      return;
+    }
+
     if (isLoading) return;
     setIsLoading(true);
+
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND}/api/Form/createform`,
@@ -74,7 +82,7 @@ function Home() {
         },
         {
           withCredentials: true,
-        }
+        },
       );
       if (res.data && res.data.surveyId) {
         navigate(`/newform/${res.data.surveyId}`);
@@ -100,7 +108,7 @@ function Home() {
         },
         {
           withCredentials: true,
-        }
+        },
       );
       if (res.data && res.data.surveyId) {
         navigate(`/newform/${res.data.surveyId}`);
@@ -117,6 +125,7 @@ function Home() {
 
   return (
     <>
+      <Toaster position="top-right" />
       {isDesktopOrLaptop && (
         <>
           {/* para matanggal lang error */}
@@ -179,13 +188,13 @@ function Home() {
               <button className="text-left" onClick={() => setShowModal(true)}>
                 <div className=" shadow-md justify-center  hover:bg-gray-200 group px-5 h-30 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-purple-500 ">
                   <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[var(--dirty-white)]">
-                    <button className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
+                    <div className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
                       <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
                       <FaArrowUp
                         className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
                          transition-all duration-400 ease-out fill-orange-900"
                       />
-                    </button>
+                    </div>
                   </div>
                   <IoDocumentText className="text-white mb-2 text-[24px]" />
                   <span className="vagrounded font-semibold text-[18px] text-black mb-[2px]">
@@ -254,10 +263,7 @@ function Home() {
                     </div>
                     <div className="p-5 flex items-center justify-evenly w-full h-full">
                       {/* create own forms */}
-                      <div
-                        className="flex flex-col gap-3 items-center w-full h-full font-vagrounded "
-                        onClick={MakeForm}
-                      >
+                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
                         {isLoading ? (
                           <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
                             <FaSpinner className="text-5xl text-(--purple) animate-spin" />
@@ -318,6 +324,16 @@ function Home() {
                             </div>
                           </div>
                         )}
+                      </div>
+                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded">
+                        <span className="relative flex  items-center gap-5 justify-center w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 flex-col duration-400 ease">
+                          {/* button ng form */}
+                          <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
+                          <IoGrid className="w-3/5 h-auto fill-gray-700" />
+                          <span className="text-lg font-vagrounded font-bold">
+                            Use a template
+                          </span>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -394,13 +410,13 @@ function Home() {
               <button className="text-left" onClick={() => setShowModal(true)}>
                 <div className=" shadow-md justify-center  hover:bg-gray-200 group px-5 h-30 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-purple-500 ">
                   <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[var(--dirty-white)]">
-                    <button className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
+                    <div className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
                       <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
                       <FaArrowUp
                         className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
                          transition-all duration-400 ease-out fill-orange-900"
                       />
-                    </button>
+                    </div>
                   </div>
                   <IoDocumentText className="text-white mb-2 text-[24px]" />
                   <span className="vagrounded font-semibold text-[18px] text-black mb-[2px]">
@@ -493,10 +509,7 @@ function Home() {
                     </div>
                     <div className="p-5 flex items-center justify-evenly w-full h-full">
                       {/* create own forms */}
-                      <div
-                        className="flex flex-col gap-3 items-center w-full h-full font-vagrounded "
-                        onClick={MakeForm}
-                      >
+                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
                         {isLoading ? (
                           <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
                             <FaSpinner className="text-5xl text-(--purple) animate-spin" />
