@@ -75,7 +75,7 @@ function Page({
   };
   return (
     <>
-      <div className="w-full px-7 flex justify-between items-center">
+      {/* <div className="w-full px-7 flex justify-between items-center">
         <h1 className="text-xl text-left font-vagrounded mb-2">
           Page {pageNumber} of {totalPages}
         </h1>
@@ -109,45 +109,68 @@ function Page({
             </>
           )}
         </div>
-      </div>
+      </div> */}
 
-      <div
-        ref={canvasRef}
-        className="w-[92%] flex flex-col overflow-hidden min-h-[80%] bg-[rgb(223,224,240)]  items-center border-gradient pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] pl-4 "
-      >
-        <div className="relative flex flex-col overflow-y-auto h-full w-full">
-          {questions.length === 0 && (
-            <div className="w-full absolute translate-x-1/2 text-center translate-y-1/2 bottom-1/2 right-1/2 text-gray-600">
-              Drag and Drop From Left Side
-            </div>
-          )}
-
-          <DropZone index={0} onInsert={onInsert} />
-          {questions.map((question, idx) => (
-            <div key={question?.id || idx} className="w-full ">
-              <div>
-                {renderElement(
-                  question,
-                  onUpdateQuestion,
-                  onDeleteQuestion,
-                  onDuplicateQuestion
-                )}
+      <div className="flex flex-col h-full w-full items-center justify-center gap-2">
+        <div
+          ref={canvasRef}
+          className="w-[92%] flex flex-col overflow-hidden h-[80%] bg-[rgb(223,224,240)] mt-2 items-center border-gradient pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] pl-4 "
+        >
+          <div className="relative flex flex-col overflow-y-auto h-full w-full">
+            {questions.length === 0 && (
+              <div className="w-full absolute translate-x-1/2 text-center translate-y-1/2 bottom-1/2 right-1/2 text-gray-600">
+                Drag and Drop From Left Side
               </div>
-              <DropZone index={idx + 1} onInsert={onInsert} />
-            </div>
-          ))}
-        </div>
-      </div>
+            )}
 
-      <div className="flex flex-row w-[92%] justify-self-center mt-5 h-15 z-10">
-        <div className="relative">
-          <button
-            onClick={onAddPage}
-            className="flex items-center px-5 gap-2 py-1.5 rounded-md mb-5 bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out"
-          >
-            <FaPlus fill="" className="fill-(--black)" /> Add Page
-          </button>
-          {/* <button onClick={() => captureScreenshot()}>ScreenShot</button> */}
+            <DropZone index={0} onInsert={onInsert} />
+            {questions.map((question, idx) => (
+              <div key={question?.id || idx} className="w-full ">
+                <div>
+                  {renderElement(
+                    question,
+                    onUpdateQuestion,
+                    onDeleteQuestion,
+                    onDuplicateQuestion,
+                  )}
+                </div>
+                <DropZone index={idx + 1} onInsert={onInsert} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-row justify-self-center mt-2 pb-2 w-[92%] h-15 items-center  z-10 gap-5">
+          <div className="flex">
+            <button
+              onClick={onAddPage}
+              // onClick={() => {
+              //   setDeleteTarget({ type: "page", index: currentPageIndex });
+              //   setShowDeleteModal(true);
+              // }}
+              className="flex items-center w-35 flex-row px-5 gap-2 py-2 mb-1 rounded-md bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out"
+            >
+              <FaPlus fill="" className="fill-(--black)" /> Add page
+            </button>
+
+            {/* <button onClick={() => captureScreenshot()}>ScreenShot</button> */}
+          </div>
+          <div className="border-l mb-5 border-l-neutral-400" />
+          <div className="flex gap-2 overflow-x-auto items-center px-2 py-2 ">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => onPageChange(index)}
+                className={`px-4 rounded-md  py-2 min-w-21 justify-center items-center flex font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out ${
+                  index === currentPageIndex
+                    ? "bg-purple-300 ring ring-white"
+                    : "bg-(--white) ring ring-white inset-shadow-md/10"
+                }`}
+              >
+                Page {index + 1}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
