@@ -17,22 +17,92 @@ function ReviewPage({ pages, answers }) {
             <div className=" p-4 space-y-4">
               {page.questions.map((q) => {
                 // Find the answer for this specific question
-                const answerObj = answers.find((a) => a.questionID === q.id);
-                const displayAnswer = answerObj ? answerObj.answer : "Unanswered";
 
-                return (
-                  <div
-                    key={q.id}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-3 "
-                  >
-                    <div className="md:col-span-2 font-medium text-gray-700 w-3/4  truncate">
-                      {q.question}
+                if (q.type === "heading" || q.type === "paragraph") {
+                  return;
+                }
+                const answerObj = answers.find((a) => a.questionID === q.id);
+                const displayAnswer = answerObj
+                  ? answerObj.answer
+                  : "Unanswered";
+
+                //for choice matrix shit
+                if (q.type === "choice_matrix") {
+                  if (displayAnswer === "Unanswered") {
+                    return (
+                      // Render the question and "Unanswered" message in the single-row format
+                      <div
+                        key={q.id}
+                        className="grid grid-cols-1 md:grid-cols-3 mb-2 pb-3 "
+                      >
+                        <div className="md:col-span-2 font-medium text-gray-700 w-3/4 truncate">
+                          {q.question}
+                        </div>
+                        <div className="md:col-span-1 font-bold text-gray-500 italic break-words">
+                          Unanswered
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div key={q.id} className="pb-3 mb-4">
+                      {/* Main Question/Title of the Matrix */}
+                      <div className="font-medium text-gray-700 mb-2">
+                        {q.question}
+                      </div>
+
+                      {Object.entries(displayAnswer).map(
+                        ([rowKey, rowValue]) => (
+                          <div
+                            key={rowKey}
+                            className="grid grid-cols-1 md:grid-cols-3 mb-2 pb-1 text-sm text-gray-700"
+                          >
+                            <div className="md:col-span-2 font-medium truncate pl-0 md:pl-4">
+                              {rowKey}
+                            </div>
+
+                            <div
+                              className={`md:col-span-1 font-semibold ${
+                                rowValue.toString() === "Unanswered"
+                                  ? "text-gray-500"
+                                  : "text-gray-700"
+                              } break-words`}
+                            >
+                              {rowValue.toString()}
+                            </div>
+                          </div>
+                        )
+                      )}
                     </div>
-                    <div className={`md:col-span-1 font-bold  break-words ${displayAnswer === "Unanswered" ? "text-gray-500 italic" : "text-gray-900 normal"}`}>
-                      {displayAnswer.toString()}
+                  );
+
+                  // not choice matrix shit
+                } else {
+                  return (
+                    <div
+                      key={q.id}
+                      className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-3 "
+                    >
+                      <div className="md:col-span-2 font-medium text-gray-700 w-3/4  truncate">
+                        {q.question}
+                      </div>
+                      <div
+                        className={`md:col-span-1 font-bold break-words ${
+                          displayAnswer === "Unanswered"
+                            ? "text-gray-500 italic"
+                            : "text-gray-900 normal"
+                        }`}
+                      >
+                        {q.type === "switch"
+                          ? displayAnswer === "Unanswered"
+                            ? "false"
+                            : displayAnswer.toString()
+                          : displayAnswer.toString()}
+                      </div>
                     </div>
-                  </div>
-                );
+                  );
+                }
               })}
             </div>
           </div>

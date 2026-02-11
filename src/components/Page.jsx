@@ -10,12 +10,14 @@ import LongText from "./FormElements/LongText";
 import Email from "./FormElements/Email";
 import PhoneNumber from "./FormElements/PhoneNumber";
 import FileUpload from "./FormElements/FileUploader";
+import Switch from "./FormElements/Switch";
 import { FaPlus } from "react-icons/fa6";
 import { FaChevronLeft } from "react-icons/fa6";
 import { FaChevronRight, FaRegTrashAlt } from "react-icons/fa";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Modal from "./Modal";
 import ShortText from "./FormElements/ShortText";
+import { toPng } from "html-to-image";
 
 function DropZone({ index, onInsert }) {
   const [{ isOver }, dropRef] = useDrop({
@@ -51,8 +53,27 @@ function Page({
   totalPages,
   onPageChange,
 }) {
+  const canvasRef = useRef(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
+
+  const captureScreenshot = async () => {
+    if (!canvasRef.current) return;
+
+    try {
+      const dataUrl = await toPng(canvasRef.current, {
+        cacheBust: true,
+      });
+
+      const link = document.createElement("a");
+      link.download = `ds.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error("Screenshot failed:", err);
+      alert("Could not save image. See console for details.");
+    }
+  };
   return (
     <>
       <div className="w-full px-7 flex justify-between items-center">
@@ -91,7 +112,10 @@ function Page({
         </div>
       </div>
 
-      <div className="w-[92%] flex flex-col overflow-hidden min-h-[80%] bg-[rgb(223,224,240)]  items-center border-gradient pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] pl-4 ">
+      <div
+        ref={canvasRef}
+        className="w-[92%] flex flex-col overflow-hidden min-h-[80%] bg-[rgb(223,224,240)]  items-center border-gradient pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] pl-4 "
+      >
         <div className="relative flex flex-col overflow-y-auto h-full w-full">
           {questions.length === 0 && (
             <div className="w-full absolute translate-x-1/2 text-center translate-y-1/2 bottom-1/2 right-1/2 text-gray-600">
@@ -118,11 +142,13 @@ function Page({
 
       <div className="flex flex-row w-[92%] justify-self-center mt-5 h-15 z-10">
         <div className="relative">
-          <button onClick={onAddPage} className="flex hover:bg-gray-200 transition-all duration-200 ease-out gap-2 items-center  font-bold  font-vagrounded px-2 py-2 rounded-lg border text-gray-500 border-(--black-lighter) bg-(--white)">
+          <button
+            onClick={onAddPage}
+            className="flex hover:bg-gray-200 transition-all duration-200 ease-out gap-2 items-center  font-bold  font-vagrounded px-2 py-2 rounded-lg border text-gray-500 border-(--black-lighter) bg-(--white)"
+          >
             <FaPlus fill="gray" /> Add Page
           </button>
-          
-          
+          <button onClick={() => captureScreenshot()}>ScreenShot</button>
         </div>
       </div>
 
@@ -317,6 +343,15 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
   if (question.type === "file_uploader")
     return (
       <FileUpload
+        question={question}
+        onUpdate={onUpdate}
+        onDelete={onDelete}
+        onDuplicate={onDuplicate}
+      />
+    );
+      if (question.type === "switch")
+    return (
+      <Switch
         question={question}
         onUpdate={onUpdate}
         onDelete={onDelete}
