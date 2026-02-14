@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import "../global.css";
 import { FaArrowUp } from "react-icons/fa6";
 import DotShader from "../components/DotShader";
-import HomeBox from "../components/HomeBox";
+
 import toast, { Toaster } from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
 import FAQ from "../components/FAQ";
@@ -13,20 +13,13 @@ import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../Context/authContext";
 import Select from "react-select";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// You also need to import the specific icon object from the icons package
-import { HiTemplate } from "react-icons/hi";
-import { GiArtificialIntelligence } from "react-icons/gi";
-import { IoDocumentText } from "react-icons/io5";
-import { IoSparkles } from "react-icons/io5";
-import { IoGrid } from "react-icons/io5";
-import { IoFolderOpen } from "react-icons/io5";
-import Kabadingan from "./Kabadingan";
+import { IoDocumentText, IoSparkles, IoGrid,IoFolderOpen } from "react-icons/io5";
+
+
 import { FaThList } from "react-icons/fa";
 function Home() {
   const [showModal, setShowModal] = useState(false);
 
-  // 2. Define the options data
   const options = [
     { value: "Owned by Anyone", label: "Owned by Anyone" },
     { value: "Owned by Me", label: "Owned by Me" },
@@ -126,30 +119,22 @@ function Home() {
   return (
     <>
       <Toaster position="top-right" />
+      
       {isDesktopOrLaptop && (
+
+        
         <>
           {/* para matanggal lang error */}
           {motion}
-          <div className="flex items-center justify-center flex-1 min-h-full bg-(--white) z-10">
-            <div className="relative w-2/7 h-dvh pt-25">
-              <div className="m-12 flex flex-col">
-                <span className="text-[42px] font-vagrounded font-semibold">
-                  Build Your Form{" "}
-                </span>
-                <span className="text-[42px] font-vagrounded font-black">
-                  {" "}
-                  INSTANTLY!
-                </span>
-                <span className="font-regular italic">
-                  Drag, Drop and Build Forms in Seconds.
-                </span>
-              </div>
-
-              <div className="flex justify-between px-11 items-center w-full ">
-                <span className="font-semibold text-[16px]">Recent Forms</span>
+         
+          <div className="flex flex-col items-center justify-center min-h-screen  z-10">
+            
+            <div className=" justify-center items-center ">
+            {/*    <div className="relative flex  px-10  justify-between items-center  ">
+                <span className="text-white font-semibold text-[16px]">Recent Forms</span>
 
                 <Select
-                  className=" cursor-pointer font-semibold text-[16px]"
+                  className=" text-white cursor-pointer font-semibold text-[16px]"
                   classNamePrefix="react-select"
                   options={options}
                   value={selectedOption}
@@ -160,80 +145,92 @@ function Home() {
                   inputValue={inputValue}
                   onInputChange={handleInputChange}
                 />
+              </div> */}
+              <div className="m-12 flex items-center justify-center flex-col">
+                <span className="text-[42px] text-white font-vagrounded font-semibold">
+                  Build Your Form Instantly
+                </span>
+               
+                <span className="text-white font-regular italic">
+                  Drag, Drop and Build Forms in Seconds.
+                </span>
               </div>
-            </div>
-            <div className="w-3/7 relative h-dvh overflow-hidden pt-15 border-2 border-(--dirty-white) bg-(--white) z-10">
-              <div className="absolute z-1 w-full h-full flex justify-center items-center">
+
+            
+           
+         { /*  <div className="w-3/7 relative h-dvh overflow-hidden pt-15  z-10">*/} 
+             { /* <div className="absolute z-1 w-full h-full flex justify-center items-center">
                 <ThreeDModel
                   url="/models/free__rubiks_cube_3d.glb"
                   scale={0.2} // <<< CHANGE SIZE HERE
                 />
-              </div>
-              <div className="absolute top-0 left-0 h-full w-full">
-                <DotShader className="z-0" />
-                <span className="home-circle mixed-blend-multiply -top-40 left-1 w-45 h-45 bg-(--purple) animate-moveCircleLtR"></span>
+              </div> */}  
+             { /* <div className="absolute top-0 left-0 h-full w-full">/}
+              { /*   <DotShader className="z-0" />*/}
+              { /*   <span className="home-circle mixed-blend-multiply -top-40 left-1 w-45 h-45 bg-(--purple) animate-moveCircleLtR"></span>/}
                 {/*top left*/}
-                <span className="home-circle mixed-blend-multiply -top-38 right-1 w-30 h-30 bg-(--pink) animate-moveCircleRtL"></span>
+               { /*   <span className="home-circle mixed-blend-multiply -top-38 right-1 w-30 h-30 bg-(--pink) animate-moveCircleRtL"></span>
                 {/*top right*/}
-                <span className="home-circle mixed-blend-multiply -bottom-32 left-1 w-30 h-30 bg-(--pink) animate-moveCircleLtR"></span>
+               { /*   <span className="home-circle mixed-blend-multiply -bottom-32 left-1 w-30 h-30 bg-(--pink) animate-moveCircleLtR"></span>
                 {/*bottom left*/}
-                <span className="home-circle mixed-blend-multiply -bottom-38 right-1 w-45 h-45 bg-(--purple) animate-moveCircleRtL"></span>
+                { /*  <span className="home-circle mixed-blend-multiply -bottom-38 right-1 w-45 h-45 bg-(--purple) animate-moveCircleRtL"></span>
                 {/*bottom right*/}
-              </div>
-            </div>
+             { /*  </div> /}
+           { /*  </div>*/}
 
             {/* CREATE FORMS. MY WORKSPACES. FEATURES */}
-            <div className=" justify-center flex flex-col gap-5 w-2/7 h-dvh pt-25 px-10">
+            <div className=" justify-center flex  items-center gap-5 w-full  pt-2 px-10">
               {/* Redirect to login page if dont have acc log */}
-              <button className="text-left" onClick={() => setShowModal(true)}>
-                <div className=" shadow-md justify-center  hover:bg-gray-200 group px-5 h-30 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-purple-500 ">
+              <button className="text-left w-[250px]" onClick={() => setShowModal(true)}>
+                <div className=" shadow-md justify-center bg-black border-2 hover:bg-[#1E1E1E] hover:border-2[#1E1E1E]  group px-5 h-30 relative flex flex-col  border-[var(--dirty-white)] duration-200  ">
                   <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[var(--dirty-white)]">
                     <div className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
                       <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
                       <FaArrowUp
                         className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
-                         transition-all duration-400 ease-out fill-orange-900"
+                         transition-all duration-400 ease-out fill-green-700"
                       />
                     </div>
                   </div>
-                  <IoDocumentText className="text-white mb-2 text-[24px]" />
-                  <span className="vagrounded font-semibold text-[18px] text-black mb-[2px]">
+                  <IoDocumentText color="white" size={24} className="mb-[2px]" />
+                  <span className="text-white vagrounded font-semibold text-[18px] mb-[2px]">
                     Create Forms
                   </span>
-                  <span className="vagrounded font-normal text-[12px] text-black">
+                  <span className="text-white vagrounded font-normal text-[12px] text-black">
                     Start with a blank template and more
                   </span>
                 </div>
               </button>
               {/* Contains of functionality of the system */}
               <Link to={`Workspaces`} className="contents">
-                <div className="  justify-center  hover:bg-gray-200 group px-5 h-30 relative flex flex-col border-2 border-[var(--dirty-white)]  duration-200 hover:border-purple-500 ">
+              <div className=" w-[250px] shadow-md justify-center bg-black border-2 hover:bg-[#1E1E1E] hover:border-2[#1E1E1E]  group px-5 h-30 relative flex flex-col  border-[var(--dirty-white)] duration-200  ">
                   <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[var(--dirty-white)]">
-                    <button className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
+                    <button className=" relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
                       <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
                       <FaArrowUp
                         className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
-                         transition-all duration-400 ease-out fill-orange-800"
+                         transition-all duration-400 ease-out fill-green-700"
                       />
                     </button>
                   </div>
 
-                  <IoFolderOpen className="text-white mb-2 text-[24px]" />
-                  <span className="vagrounded font-semibold text-[18px] text-black mb-[2px]">
+                  <IoFolderOpen color="white" size={24} className="mb-2" />
+                  <span className="vagrounded font-semibold text-[18px] text-white mb-[2px]">
                     My Workspaces
                   </span>
-                  <span className="vagrounded font-normal text-[12px] text-black">
+                  <span className="vagrounded font-normal text-[12px] text-white">
                     Manage Forms and Responses
                   </span>
                 </div>
               </Link>
-
-              <div className="flex items-center text-center justify-center">
+ </div>
+           
+            </div>
+               <div className=" fixed bottom-0 right-0 p-10 ">
                 <Link to={"faq"}>
                   <FAQ className="items-center !text-center" />
                 </Link>
               </div>
-            </div>
             <AnimatePresence>
               {showModal && (
                 <motion.div
