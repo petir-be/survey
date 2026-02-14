@@ -1,4 +1,5 @@
 /* Light */
+
 @font-face {
   font-family: "VagRounded";
   src: url("/assets/fonts/VAG Rounded Next Light.ttf");
@@ -134,7 +135,7 @@
 
 /* Styles the dropdown menu */
 .react-select__menu {
-  background-color: rgba(223, 224, 240, 1)!important;
+  background-color: rgba(0, 0, 0, 1)!important;
   border: 1px solid  rgba(255, 255,255, 1) !important;
 }
 .react-select__option{
@@ -143,12 +144,12 @@
 /* Styles individual options on hover/focus */
 .react-select__option--is-focused {
   background-color: transparent !important;
-  color: rgba(0, 0, 0, 0.60)!important;
+  color: rgba(244, 244, 244, 0.60)!important;
   cursor: pointer;
 } 
 .react-select__option--is-selected {
   background-color: transparent !important; /* Changes blue to white */
- color: rgba(0, 0, 0, 0.30)!important;
+ color: rgba(244, 244, 244, 0.30)!important;
 }
 
   button {
@@ -231,11 +232,7 @@
   }
 }
 
-@layer theme {
-  * {
-    @apply text-[#212529];
-  }
-}
+
 .App {
   padding: 15px;
 }
