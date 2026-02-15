@@ -16,6 +16,31 @@ import { AuthContext } from "../Context/authContext";
 import { IoDocumentText, IoSparkles, IoGrid, IoFolderOpen } from "react-icons/io5";
 import Footer from "../components/Footer";
 
+  const options = [
+    { value: "Owned by Anyone", label: "Owned by Anyone" },
+    { value: "Owned by Me", label: "Owned by Me" },
+    { value: "Owned by Others", label: "Owned by Others" },
+  ];
+  const [selectedOption, setSelectedOption] = useState(options[0]);
+  const handleChange = (selectedOptionValue) => {
+    setSelectedOption(selectedOptionValue);
+    setInputValue("");
+  };
+  const [inputValue, setInputValue] = useState("");
+  const MAX_LENGTH = 16;
+  const handleInputChange = (newValue, actionMeta) => {
+    // Only apply the limit when the user is typing/entering text
+    if (actionMeta.action === "input-change") {
+      // Limit the value to 6 characters
+      if (newValue.length <= MAX_LENGTH) {
+        setInputValue(newValue);
+      }
+      // If over the limit, the state remains the previous valid value
+    } else {
+      // Handle cases like 'menu-close' or 'input-blur' where you might reset the input value state if needed
+      // setInputValue('');
+    }
+  };
 
 function Home() {
   const [showModal, setShowModal] = useState(false);
@@ -225,6 +250,17 @@ function Home() {
                 </Link>
               </div>
 
+                  <IoFolderOpen color="white" size={24} className="mb-2" />
+                  <span className="vagrounded font-semibold text-[18px] text-white mb-[2px]">
+                    My Workspaces
+                  </span>
+                  <span className="vagrounded font-normal text-[12px] text-white">
+                    Manage Forms and Responses
+                  </span>
+                </div>
+              </Link>
+ </div>
+           
             </div>
             <div className=" fixed bottom-0 right-0 p-10 ">
               <Link to={"faq"}>
