@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
     "@fortawesome/free-brands-svg-icons": "^7.1.0",
     "@fortawesome/react-fontawesome": "^3.1.1",
@@ -19,22 +18,14 @@
     "@react-pdf/renderer": "^4.3.1",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.0",
-=======
-    "@react-oauth/google": "^0.12.2",
->>>>>>> 6b9a9b1 (Add Google authentication and registration features)
     "@tailwindcss/vite": "^4.1.15",
     "axios": "^1.12.2",
-<<<<<<< HEAD
     "country-flag-icons": "^1.6.3",
     "dotenv": "^17.2.3",
     "html-to-image": "^1.11.13",
     "jwt-decode": "^4.0.0",
     "ldrs": "^1.1.9",
     "moment": "^2.30.1",
-=======
-    "dotenv": "^17.2.3",
-    "jwt-decode": "^4.0.0",
->>>>>>> 4404ba5 (auth login jwttoken)
     "motion": "^12.23.24",
     "qrcode.react": "^4.2.0",
     "rc-steps": "^6.0.1",
@@ -42,15 +33,11 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.1.1",
-<<<<<<< HEAD
     "react-draggable": "^4.5.0",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.5.0",
     "react-resizable-panels": "^3.0.6",
     "react-responsive": "^10.0.1",
-=======
-    "react-icons": "^5.5.0",
->>>>>>> 6b9a9b1 (Add Google authentication and registration features)
     "react-router": "^7.9.4",
     "react-select": "^5.10.2",
     "recharts": "^3.5.1",

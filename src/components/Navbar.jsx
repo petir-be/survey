@@ -49,29 +49,30 @@ function NavBar() {
       )}
 
       {isTabletOrMobile && (
-        <nav className="absolute w-full z-10">
-          <div className="flex justify-between py-8 px-5 items-center  ">
+        <nav className="absolute w-full z-50">
+          <div className="flex justify-between py-8 px-10 ">
             <Link to={`/`}>
-              <h1 className="text-white font-zendots text-[22px] px-2">SnapQ</h1>
+              <h1 className="font-zendots text-white text-[24px] px-2">SnapQ</h1>
             </Link>
-            <div className="font-vagrounded w-1/2 z-10  flex text-center items-center whitespace-nowrap justify-end">
+            <div className="font-vagrounded w-1/6 z-10  flex align-center justify-end">
               {isAuthenticated ? (
-                <div className="bg-white h-9 w-9 rounded-full flex justify-center items-center">
+                <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
                   <img
                     src={user.avatar}
                     onClick={() => setShowAccountModal(true)}
-                    className="h-7 w-7 cursor-pointer rounded-full"
+                    className="h-10 w-10 cursor-pointer rounded-full"
                   />
                 </div>
               ) : (
-                <Link className="w-full h-full" to={`login`}>
-                  <button
-                    className=" py-[2px] ring ring-white text-[14px] font-vagrounded font-bold w-2/3 h-full rounded-[6px]
-             drop-shadow-md/20 bg-(--white) cursor-pointer "
-                  >
-                    Get Started
-                  </button>
-                </Link>
+              <div class="font-vagrounded min-w-fit z-10 flex items-center justify-end">
+  <Link className="h-full" to={`login`}>
+    <button 
+      className="flex items-center justify-center px-8 py-3 whitespace-nowrap ring ring-white text-[14px] font-bold rounded-3xl drop-shadow-md text-white bg-black hover:bg-[#1E1E1E] cursor-pointer"
+    >
+      Get Started
+    </button>
+  </Link>
+</div>
               )}
             </div>
           </div>

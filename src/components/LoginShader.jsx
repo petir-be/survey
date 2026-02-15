@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // import Motion
 import React, { useEffect, useRef } from "react";
 import {
@@ -48,21 +47,10 @@ const LoginShader = () => {
       }
     }
   };
-=======
-import React, { useEffect, useRef } from "react";
-
-const LoginShader = () => {
-  const canvasRef = useRef(null);
-  const animationRef = useRef(null);
->>>>>>> 6b9a9b1 (Add Google authentication and registration features)
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-<<<<<<< HEAD
-=======
-
->>>>>>> 6b9a9b1 (Add Google authentication and registration features)
     const ctx = canvas.getContext("2d");
     const dpr = window.devicePixelRatio || 1;
 
@@ -75,46 +63,13 @@ const LoginShader = () => {
 
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
-<<<<<<< HEAD
     return () => {
       window.removeEventListener("resize", resizeCanvas);
-=======
-
-    const dotSpacing = 30;
-    const dotRadius = 3.5;
-    const drawDots = () => {
-      const width = canvas.width / dpr;
-      const height = canvas.height / dpr;
-
-      ctx.clearRect(0, 0, width, height);
-
-      for (let x = 0; x < width; x += dotSpacing) {
-        for (let y = 0; y < height; y += dotSpacing) {
-          ctx.beginPath();
-          ctx.arc(x, y, dotRadius, 0, Math.PI * 2);
-          ctx.fillStyle = "#C8C9DA";
-          ctx.fill();
-        }
-      }
-    };
-
-    drawDots();
-
-    return () => {
-      window.removeEventListener("resize", resizeCanvas);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
->>>>>>> 6b9a9b1 (Add Google authentication and registration features)
     };
   }, []);
 
   return (
-<<<<<<< HEAD
     <div className="fixed inset-0 w-full h-screen bg-[#DFE0F0] overflow-hidden">
-=======
-    <div className="fixed inset-0  w-full h-screen bg-[#DFE0F0] overflow-hidden">
->>>>>>> 6b9a9b1 (Add Google authentication and registration features)
       <canvas
         ref={canvasRef}
         className="absolute inset-0 opacity-50"
