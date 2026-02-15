@@ -14,10 +14,11 @@ import Results from "./pages/Results.jsx";
 import ReviewPage from "./components/ReviewPage.jsx";
 import Workspaces from "./pages/Workspaces.jsx";
 import Kabadingan from "./pages/Kabadingan.jsx";
-
+import ShaderBackground from './components/ShaderBackground';
 function Layout() {
   return (
     <>
+    <ShaderBackground />
       <Navbar />
       <div>
         <Outlet />
@@ -83,7 +84,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <div className="min-h-screen flex flex-col bg-(--white)">
+      <div className="min-h-screen flex flex-col bg-transparent">
         <div className="min-h-screen ">
           <RouterProvider router={router} />
         </div>
