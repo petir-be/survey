@@ -22,7 +22,7 @@ function NavBar() {
         <nav className="absolute w-full z-10">
           <div className="flex justify-between py-8 px-10 ">
             <Link to={`/`}>
-              <h1 className="font-zendots text-white   text-[30px] px-2">C-MEN</h1>
+              <h1 className="font-zendots text-white text-[24px] px-2">SnapQ</h1>
             </Link>
             <div className="font-vagrounded w-1/6 z-10  flex align-center justify-end">
               {isAuthenticated ? (
@@ -50,9 +50,9 @@ function NavBar() {
 
       {isTabletOrMobile && (
         <nav className="absolute w-full z-10">
-          <div className="flex border-2 border-(--dirty-white) justify-between py-8 px-5 items-center  ">
+          <div className="flex justify-between py-8 px-5 items-center  ">
             <Link to={`/`}>
-              <h1 className="font-zendots text-[22px] px-2">C-MEN</h1>
+              <h1 className="text-white font-zendots text-[22px] px-2">SnapQ</h1>
             </Link>
             <div className="font-vagrounded w-1/2 z-10  flex text-center items-center whitespace-nowrap justify-end">
               {isAuthenticated ? (

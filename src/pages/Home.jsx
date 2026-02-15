@@ -1,22 +1,22 @@
 import React, { useContext, useState } from "react";
 import "../global.css";
 import { FaArrowUp } from "react-icons/fa6";
-import DotShader from "../components/DotShader";
+
 
 import toast, { Toaster } from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
 import FAQ from "../components/FAQ";
 import { motion, AnimatePresence } from "framer-motion";
-import ThreeDModel from "../components/ThreeDmodel";
+
 import { useMediaQuery } from "react-responsive";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../Context/authContext";
-import Select from "react-select";
-import { IoDocumentText, IoSparkles, IoGrid,IoFolderOpen } from "react-icons/io5";
+
+import { IoDocumentText, IoSparkles, IoGrid, IoFolderOpen } from "react-icons/io5";
+import Footer from "../components/Footer";
 
 
-import { FaThList } from "react-icons/fa";
 function Home() {
   const [showModal, setShowModal] = useState(false);
 
@@ -119,18 +119,18 @@ function Home() {
   return (
     <>
       <Toaster position="top-right" />
-      
+
       {isDesktopOrLaptop && (
 
-        
+
         <>
           {/* para matanggal lang error */}
           {motion}
-         
+
           <div className="flex flex-col items-center justify-center min-h-screen  z-10">
-            
+
             <div className=" justify-center items-center ">
-            {/*    <div className="relative flex  px-10  justify-between items-center  ">
+              {/*    <div className="relative flex  px-10  justify-between items-center  ">
                 <span className="text-white font-semibold text-[16px]">Recent Forms</span>
 
                 <Select
@@ -148,89 +148,92 @@ function Home() {
               </div> */}
               <div className="m-12 flex items-center justify-center flex-col">
                 <span className="text-[42px] text-white font-vagrounded font-semibold">
-                  Build Your Form Instantly
+                  Build Your Form Instantly!
                 </span>
-               
+
                 <span className="text-white font-regular italic">
                   Drag, Drop and Build Forms in Seconds.
                 </span>
               </div>
 
-            
-           
-         { /*  <div className="w-3/7 relative h-dvh overflow-hidden pt-15  z-10">*/} 
-             { /* <div className="absolute z-1 w-full h-full flex justify-center items-center">
+
+
+              { /*  <div className="w-3/7 relative h-dvh overflow-hidden pt-15  z-10">*/}
+              { /* <div className="absolute z-1 w-full h-full flex justify-center items-center">
                 <ThreeDModel
                   url="/models/free__rubiks_cube_3d.glb"
                   scale={0.2} // <<< CHANGE SIZE HERE
                 />
-              </div> */}  
-             { /* <div className="absolute top-0 left-0 h-full w-full">/}
+              </div> */}
+              { /* <div className="absolute top-0 left-0 h-full w-full">/}
               { /*   <DotShader className="z-0" />*/}
               { /*   <span className="home-circle mixed-blend-multiply -top-40 left-1 w-45 h-45 bg-(--purple) animate-moveCircleLtR"></span>/}
                 {/*top left*/}
-               { /*   <span className="home-circle mixed-blend-multiply -top-38 right-1 w-30 h-30 bg-(--pink) animate-moveCircleRtL"></span>
+              { /*   <span className="home-circle mixed-blend-multiply -top-38 right-1 w-30 h-30 bg-(--pink) animate-moveCircleRtL"></span>
                 {/*top right*/}
-               { /*   <span className="home-circle mixed-blend-multiply -bottom-32 left-1 w-30 h-30 bg-(--pink) animate-moveCircleLtR"></span>
+              { /*   <span className="home-circle mixed-blend-multiply -bottom-32 left-1 w-30 h-30 bg-(--pink) animate-moveCircleLtR"></span>
                 {/*bottom left*/}
-                { /*  <span className="home-circle mixed-blend-multiply -bottom-38 right-1 w-45 h-45 bg-(--purple) animate-moveCircleRtL"></span>
+              { /*  <span className="home-circle mixed-blend-multiply -bottom-38 right-1 w-45 h-45 bg-(--purple) animate-moveCircleRtL"></span>
                 {/*bottom right*/}
-             { /*  </div> /}
+              { /*  </div> /}
            { /*  </div>*/}
 
-            {/* CREATE FORMS. MY WORKSPACES. FEATURES */}
-            <div className=" justify-center flex  items-center gap-5 w-full  pt-2 px-10">
-              {/* Redirect to login page if dont have acc log */}
-              <button className="text-left w-[250px]" onClick={() => setShowModal(true)}>
-                <div className=" shadow-md justify-center bg-black border-2 hover:bg-[#1E1E1E] hover:border-2[#1E1E1E]  group px-5 h-30 relative flex flex-col  border-[var(--dirty-white)] duration-200  ">
-                  <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[var(--dirty-white)]">
-                    <div className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
-                      <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
-                      <FaArrowUp
-                        className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
+              {/* CREATE FORMS. MY WORKSPACES. FEATURES */}
+              <div className=" justify-center flex  items-center gap-5 w-full  pt-2 px-10">
+                {/* Redirect to login page if dont have acc log */}
+                <button className="text-left w-[250px]" onClick={() => setShowModal(true)}>
+                  <div className=" shadow-md justify-center bg-black border-2 hover:bg-[#1E1E1E] hover:border-2[#1E1E1E]  group px-5 h-30 relative flex flex-col  border-[var(--dirty-white)] duration-200  ">
+                    <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[var(--dirty-white)]">
+                      <div className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
+                        <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
+                        <FaArrowUp
+                          className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
                          transition-all duration-400 ease-out fill-green-700"
-                      />
+                        />
+                      </div>
                     </div>
+                    <IoDocumentText color="white" size={24} className="mb-[2px]" />
+                    <span className="text-white vagrounded font-semibold text-[18px] mb-[2px]">
+                      Create Forms
+                    </span>
+                    <span className="text-white vagrounded font-normal text-[12px] text-black">
+                      Start with a blank template and more
+                    </span>
                   </div>
-                  <IoDocumentText color="white" size={24} className="mb-[2px]" />
-                  <span className="text-white vagrounded font-semibold text-[18px] mb-[2px]">
-                    Create Forms
-                  </span>
-                  <span className="text-white vagrounded font-normal text-[12px] text-black">
-                    Start with a blank template and more
-                  </span>
-                </div>
-              </button>
-              {/* Contains of functionality of the system */}
-              <Link to={`Workspaces`} className="contents">
-              <div className=" w-[250px] shadow-md justify-center bg-black border-2 hover:bg-[#1E1E1E] hover:border-2[#1E1E1E]  group px-5 h-30 relative flex flex-col  border-[var(--dirty-white)] duration-200  ">
-                  <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[var(--dirty-white)]">
-                    <button className=" relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
-                      <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
-                      <FaArrowUp
-                        className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
+                </button>
+                {/* Contains of functionality of the system */}
+                <Link to={`Workspaces`} className="contents">
+                  <div className=" w-[250px] shadow-md justify-center bg-black border-2 hover:bg-[#1E1E1E] hover:border-2[#1E1E1E]  group px-5 h-30 relative flex flex-col  border-[var(--dirty-white)] duration-200  ">
+                    <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[var(--dirty-white)]">
+                      <button className=" relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
+                        <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
+                        <FaArrowUp
+                          className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
                          transition-all duration-400 ease-out fill-green-700"
-                      />
-                    </button>
-                  </div>
+                        />
+                      </button>
+                    </div>
 
-                  <IoFolderOpen color="white" size={24} className="mb-2" />
-                  <span className="vagrounded font-semibold text-[18px] text-white mb-[2px]">
-                    My Workspaces
-                  </span>
-                  <span className="vagrounded font-normal text-[12px] text-white">
-                    Manage Forms and Responses
-                  </span>
-                </div>
-              </Link>
- </div>
-           
-            </div>
-               <div className=" fixed bottom-0 right-0 p-10 ">
-                <Link to={"faq"}>
-                  <FAQ className="items-center !text-center" />
+                    <IoFolderOpen color="white" size={24} className="mb-2" />
+                    <span className="vagrounded font-semibold text-[18px] text-white mb-[2px]">
+                      My Workspaces
+                    </span>
+                    <span className="vagrounded font-normal text-[12px] text-white">
+                      Manage Forms and Responses
+                    </span>
+                  </div>
                 </Link>
               </div>
+
+            </div>
+            <div className=" fixed bottom-0 right-0 p-10 ">
+              <Link to={"faq"}>
+                <FAQ className="items-center !text-center" />
+              </Link>
+            </div>
+            <Footer />
+
+
             <AnimatePresence>
               {showModal && (
                 <motion.div
@@ -278,6 +281,7 @@ function Home() {
                             </span>
                           </span>
                         )}
+
                       </div>
 
                       {/* generate with ai */}
@@ -347,66 +351,24 @@ function Home() {
           {/* para matanggal lang error */}
           {motion}
 
-          <div className="flex flex-col items-center justify-center flex-1 min-h-full bg-(--white) z-10">
-            <div className="mt-30 flex flex-col justify-center items-center whitespace-nowrap mb-5">
-              <span className=" text-[24px] font-vagrounded font-semibold">
-                Build Your Form{" "}
+<div className="fixed inset-0 flex flex-col items-center pt-20 overflow-hidden z-10">
+            <div className="m-12 flex  text-center items-center justify-center flex-col">
+              <span className="text-[42px] text-white font-vagrounded font-semibold">
+                Build Your Form Instantly!
               </span>
-              <span className="text-[24px] font-vagrounded font-black">
-                {" "}
-                INSTANTLY!
-              </span>
-              <span className="text-[12px]">
+
+              <span className="text-white font-regular italic">
                 Drag, Drop and Build Forms in Seconds.
               </span>
             </div>
 
-            <div className="w-7/7 relative h-[360px] overflow-hidden pt-15 border-2 border-(--dirty-white) bg-(--white) z-10">
-              <div className="absolute z-1 w-full h-full flex justify-center items-center">
-                <ThreeDModel
-                  url="/models/free__rubiks_cube_3d.glb"
-                  scale={0.2} // <<< CHANGE SIZE HERE
-                />
-              </div>
 
-              <div className="absolute top-0 left-0 h-full w-full">
-                <DotShader className="z-0" />
-                <span className="home-circle mixed-blend-multiply -top-40 left-1 w-45 h-45 bg-(--purple) animate-moveCircleLtR"></span>
-                {/*top left*/}
-                <span className="home-circle mixed-blend-multiply -top-38 right-1 w-30 h-30 bg-(--pink) animate-moveCircleRtL"></span>
-                {/*top right*/}
-                <span className="home-circle mixed-blend-multiply -bottom-32 left-1 w-30 h-30 bg-(--pink) animate-moveCircleLtR"></span>
-                {/*bottom left*/}
-                <span className="home-circle mixed-blend-multiply -bottom-38 right-1 w-45 h-45 bg-(--purple) animate-moveCircleRtL"></span>
-                {/*bottom right*/}
-              </div>
-            </div>
 
-            <div className="w-full px-8 ">
-              <div className="flex justify-between items-center ">
-                <span className="mt-12 cursor-pointer font-semibold text-[12px]">
-                  Recent Forms
-                </span>
-
-                <Select
-                  className="mt-12 cursor-pointer font-semibold text-[12px]"
-                  classNamePrefix="react-select"
-                  options={options}
-                  value={selectedOption}
-                  onChange={handleChange}
-                  isClearable // Allows clearing the selection
-                  isSearchable // Enables search functionality
-                  placeholder="Owned by Anyone"
-                  inputValue={inputValue}
-                  onInputChange={handleInputChange}
-                />
-              </div>
-            </div>
-            <div className=" justify-center flex flex-col gap-5 w-5/6 h-full pt-15 ">
+            <div className=" justify-center flex flex-col gap-5   ">
               {/* Redirect to login page if dont have acc log */}
               <button className="text-left" onClick={() => setShowModal(true)}>
-                <div className=" shadow-md justify-center  hover:bg-gray-200 group px-5 h-30 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-purple-500 ">
-                  <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[var(--dirty-white)]">
+                <div className=" shadow-md justify-center bg-black border-2 hover:bg-[#1E1E1E] hover:border-2[#1E1E1E]  group px-5 h-30 relative flex flex-col  border-[var(--dirty-white)] duration-200  ">
+                  <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 ">
                     <div className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
                       <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
                       <FaArrowUp
@@ -416,18 +378,18 @@ function Home() {
                     </div>
                   </div>
                   <IoDocumentText className="text-white mb-2 text-[24px]" />
-                  <span className="vagrounded font-semibold text-[18px] text-black mb-[2px]">
+                  <span className="vagrounded font-semibold text-[18px] text-white mb-[2px]">
                     Create Forms
                   </span>
-                  <span className="vagrounded font-normal text-[12px] text-black">
+                  <span className="vagrounded font-normal text-[12px] text-white">
                     Start with a blank template and more
                   </span>
                 </div>
               </button>
               {/* Contains of functionality of the system */}
               <Link to={`Workspaces`} className="contents">
-                <div className="  justify-center  hover:bg-gray-200 group px-5 h-30 relative flex flex-col border-2 border-[var(--dirty-white)]  duration-200 hover:border-purple-500 ">
-                  <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[var(--dirty-white)]">
+                <div className=" shadow-md justify-center bg-black border-2 hover:bg-[#1E1E1E] hover:border-2[#1E1E1E]  group px-5 h-30 relative flex flex-col  border-[var(--dirty-white)] duration-200  ">
+                  <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9">
                     <button className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
                       <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
                       <FaArrowUp
@@ -438,45 +400,28 @@ function Home() {
                   </div>
 
                   <IoFolderOpen className="text-white mb-2 text-[24px]" />
-                  <span className="vagrounded font-semibold text-[18px] text-black mb-[2px]">
+                  <span className="vagrounded font-semibold text-[18px] text-white mb-[2px]">
                     My Workspaces
                   </span>
-                  <span className="vagrounded font-normal text-[12px] text-black">
+                  <span className="vagrounded font-normal text-[12px] text-white">
                     Manage Forms and Responses
                   </span>
                 </div>
               </Link>
 
-              <div className=" cursor-pointer justify-center  hover:bg-gray-200 group px-5 h-30 relative flex flex-col border-2 border-[var(--dirty-white)]  duration-200 hover:border-purple-500 ">
-                <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[var(--dirty-white)]">
-                  <button className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
-                    <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
-                    <FaArrowUp
-                      className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
-                         transition-all duration-400 ease-out fill-orange-800"
-                    />
-                  </button>
-                </div>
-                <FaThList className="text-white mb-2 text-[24px]" />
 
-                <span className="vagrounded font-semibold text-[18px] text-black mb-[2px]">
-                  Features
-                </span>
-                <span className="vagrounded font-normal text-[12px] text-black">
-                  Explore Tools and Automation
-                </span>
-              </div>
 
-              <div className="flex items-center text-center justify-center">
+              <div className="flex fixed pb-6  bottom-0 right-8">
                 <Link to={"faq"}>
-                  <FAQ className="items-center !text-center" />
+                  <FAQ />
                 </Link>
               </div>
             </div>
-            <span className="mt-10 bottom font-zendots font-semibold text-[12px]">
-              {" "}
-              by C-men
-            </span>
+
+            <div className="absolute bottom-20 w-full">
+         <Footer />
+      </div> 
+
             <AnimatePresence>
               {showModal && (
                 <motion.div
