@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "../global.css";
-import { FaArrowUp } from "react-icons/fa6";
+import { FaArrowUp, FaSpinner, } from "react-icons/fa6";
 
 
 import toast, { Toaster } from "react-hot-toast";
-import { FaSpinner } from "react-icons/fa";
+
 import FAQ from "../components/FAQ";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -18,7 +18,13 @@ import Footer from "../components/Footer";
 
 
 function Home() {
-  const [showModal, setShowModal] = useState(false);
+
+
+
+
+  const [fadeState, setFadeState] = useState("fade-in");
+  const [fadeText, setFadeText] = useState('');
+
 
   const options = [
     { value: "Owned by Anyone", label: "Owned by Anyone" },
@@ -42,7 +48,7 @@ function Home() {
       // If over the limit, the state remains the previous valid value
     } else {
       // Handle cases like 'menu-close' or 'input-blur' where you might reset the input value state if needed
-      // setInputValue('');
+      setInputValue('');
     }
   };
 
@@ -115,6 +121,73 @@ function Home() {
       setAiPrompt("");
     }
   }
+const [text, setText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loopNum, setLoopNum] = useState(0);
+  const [typingSpeed, setTypingSpeed] = useState(150);
+  // -------------------------
+
+  const [isFocused, setIsFocused] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  useEffect(() => {
+    const textOptions = [
+      'A questionnaire about quantum physics.',
+      'A survey using only 5-point Likert scales.',
+      'A questionnaire regarding behavioral psychology.',
+      'A thesis survey about renewable energy adoption.',
+    ];
+
+   {/* let index = 0;
+    setFadeText(textOptions[index]);
+
+    const interval = setInterval(() => {
+      setFadeState("fade-out");
+      setTimeout(() => {
+        index = (index + 1) % textOptions.length;
+        setFadeText(textOptions[index]);
+        setFadeState("fade-in");
+      }, 500);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+   */}
+   const i = loopNum % textOptions.length;
+    const fullText = textOptions[i];
+
+    const handleType = () => {
+      setText(isDeleting
+        ? fullText.substring(0, text.length - 1)
+        : fullText.substring(0, text.length + 1)
+      );
+
+      // Default speed (typing)
+      let speed = 50;
+
+      if (isDeleting) {
+        speed = 20; // Deleting is faster
+      }
+
+      if (!isDeleting && text === fullText) {
+        // Finished typing the sentence, pause before deleting
+        speed = 2000;
+        setIsDeleting(true);
+      } else if (isDeleting && text === '') {
+        // Finished deleting, move to next sentence
+        setIsDeleting(false);
+        setLoopNum(loopNum + 1);
+        speed = 500;
+      }
+
+      setTypingSpeed(speed);
+    };
+
+    const timer = setTimeout(handleType, typingSpeed);
+
+    return () => clearTimeout(timer);
+  }, [text, isDeleting, loopNum, typingSpeed]);
+
 
   return (
     <>
@@ -154,8 +227,44 @@ function Home() {
                 <span className="text-white font-regular italic">
                   Drag, Drop and Build Forms in Seconds.
                 </span>
+
               </div>
 
+              <div className='flex relative w-full items-center'>
+                <div className='absolute left-4 '>
+                  <IoSparkles size={14} color='#707070' />
+
+                </div>
+             {/*   {!searchQuery &&
+                  <div
+                    className={`absolute left-10 top-1/2 transform -translate-y-1/2 
+                        text-white/50 pointer-events-none z-10 transition-opacity duration-500 ${fadeState === "fade-in" ? "opacity-100" : "opacity-0"}`}
+                    style={{ whiteSpace: "nowrap" }}
+                    dangerouslySetInnerHTML={{ __html: fadeText }}
+                  />}
+             */
+             }
+         {!searchQuery && (
+                  <div className="absolute left-10 top-1/2 transform -translate-y-1/2 text-white/50 pointer-events-none z-10 flex items-center">
+                    <span style={{ whiteSpace: "nowrap" }}>{text}</span>
+                    <span className="ml-1 w-[2px] h-[14px] bg-white/50 animate-pulse"></span>
+                  </div>
+                )}
+                <input
+                  type="text"
+                  placeholder=""
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  className={` w-[600px] text-white text-[12px]  py-4 pr-26 pl-10 bg-black outline rounded-xl 
+          hover:bg-[#1E1E1E] transition-all ${isFocused ? 'outline-[2px] outline-green-700 bg-[#1E1E1E]' : 'outline-[#707070] '}`}
+                />
+                <div className='absolute right-7 '>
+                  <button className="text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[12px] cursor-pointer">Generate</button>
+
+                </div>
+              </div>
 
 
               { /*  <div className="w-3/7 relative h-dvh overflow-hidden pt-15  z-10">*/}
@@ -179,51 +288,7 @@ function Home() {
            { /*  </div>*/}
 
               {/* CREATE FORMS. MY WORKSPACES. FEATURES */}
-              <div className=" justify-center flex  items-center gap-5 w-full  pt-2 px-10">
-                {/* Redirect to login page if dont have acc log */}
-                <button className="text-left w-[250px]" onClick={() => setShowModal(true)}>
-                  <div className=" shadow-md justify-center bg-black border-2 hover:bg-[#1E1E1E] hover:border-2[#1E1E1E]  group px-5 h-30 relative flex flex-col  border-[var(--dirty-white)] duration-200  ">
-                    <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[var(--dirty-white)]">
-                      <div className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
-                        <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
-                        <FaArrowUp
-                          className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
-                         transition-all duration-400 ease-out fill-green-700"
-                        />
-                      </div>
-                    </div>
-                    <IoDocumentText color="white" size={24} className="mb-[2px]" />
-                    <span className="text-white vagrounded font-semibold text-[18px] mb-[2px]">
-                      Create Forms
-                    </span>
-                    <span className="text-white vagrounded font-normal text-[12px] text-black">
-                      Start with a blank template and more
-                    </span>
-                  </div>
-                </button>
-                {/* Contains of functionality of the system */}
-                <Link to={`Workspaces`} className="contents">
-                  <div className=" w-[250px] shadow-md justify-center bg-black border-2 hover:bg-[#1E1E1E] hover:border-2[#1E1E1E]  group px-5 h-30 relative flex flex-col  border-[var(--dirty-white)] duration-200  ">
-                    <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[var(--dirty-white)]">
-                      <button className=" relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
-                        <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
-                        <FaArrowUp
-                          className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
-                         transition-all duration-400 ease-out fill-green-700"
-                        />
-                      </button>
-                    </div>
 
-                    <IoFolderOpen color="white" size={24} className="mb-2" />
-                    <span className="vagrounded font-semibold text-[18px] text-white mb-[2px]">
-                      My Workspaces
-                    </span>
-                    <span className="vagrounded font-normal text-[12px] text-white">
-                      Manage Forms and Responses
-                    </span>
-                  </div>
-                </Link>
-              </div>
 
             </div>
             <div className=" fixed bottom-0 right-0 p-10 ">
@@ -351,7 +416,7 @@ function Home() {
           {/* para matanggal lang error */}
           {motion}
 
-<div className="fixed inset-0 flex flex-col items-center pt-20 overflow-hidden z-10">
+          <div className="fixed inset-0 flex flex-col items-center pt-20 overflow-hidden z-10">
             <div className="m-12 flex  text-center items-center justify-center flex-col">
               <span className="text-[42px] text-white font-vagrounded font-semibold">
                 Build Your Form Instantly!
@@ -360,7 +425,10 @@ function Home() {
               <span className="text-white font-regular italic">
                 Drag, Drop and Build Forms in Seconds.
               </span>
+
+
             </div>
+
 
 
 
@@ -419,8 +487,8 @@ function Home() {
             </div>
 
             <div className="absolute bottom-20 w-full">
-         <Footer />
-      </div> 
+              <Footer />
+            </div>
 
             <AnimatePresence>
               {showModal && (
