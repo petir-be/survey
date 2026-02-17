@@ -107,10 +107,10 @@ function NavBar() {
         <nav className="absolute w-full z-10">
           <div className="flex items-center justify-between py-8 px-10 ">
             <Link to={`/`}>
-              <h1 className="font-zendots text-white text-[24px] px-2">SnapQ</h1>
+              <h1 className="font-zendots text-white text-[24px] ">SnapQ</h1>
             </Link>
 
-            <div className=" flex  items-center  gap-25 ">
+            <div className=" flex  items-center   gap-25 ">
                 {/* Redirect to login page if dont have acc log */}
                 <button className="text-left " onClick={() => setShowModal(true)}>
               
@@ -264,9 +264,9 @@ function NavBar() {
 
       {isTabletOrMobile && (
         <nav className="absolute w-full z-50">
-          <div className="flex justify-between py-8 px-10 ">
+          <div className="flex items-center justify-between p-4 ">
             <Link to={`/`}>
-              <h1 className="font-zendots text-white text-[24px] px-2">SnapQ</h1>
+              <h1 className="font-zendots text-white text-[16px] px-2">SnapQ</h1>
             </Link>
             <div className="font-vagrounded w-1/6 z-10  flex align-center justify-end">
               {isAuthenticated ? (

@@ -39,7 +39,7 @@ function Workspaces() {
 
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 700px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 699px)" });
-
+  const [isFocused, setIsFocused] = useState(false);
   const [viewMode, setViewMode] = useState(() => {
     return localStorage.getItem("viewMode") || "list";
   });
@@ -207,35 +207,38 @@ function Workspaces() {
         <>
           <div className="relative w-full h-screen overflow-hidden">
             {/* SIDEBAR */}
-            <div className="absolute top-0 left-0 w-[20%] h-full z-20 bg-[#DFE0F0] border-r border-gray-300 flex flex-col">
+            <div className="absolute top-0 left-0 w-[20%] h-full z-20 bg-black border-r border-gray-300 flex flex-col">
               <div
                 className="flex border-b-2 border-gray-300 justify-between py-8 px-10 cursor-pointer"
                 onClick={() => navigate(`/`)}
               >
-                <h1 className="font-zendots text-[30px] px-2">C-MEN</h1>
+                <h1 className="font-zendots  text-white text-[30px] px-2">SnapQ</h1>
               </div>
 
               <div className="px-10 mt-8 flex-1">
                 <div className="relative w-full mb-10">
-                  <FaMagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+                  <FaMagnifyingGlass size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
                   <input
                     type="text"
+                    placeholder="Search"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-[#DFE0F0] border border-gray-300 rounded-xl placeholder:text-gray-400 text-black outline-none focus:ring-2 focus:ring-[var(--purple)]"
-                    placeholder="Search"
-                  />
+                    onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+                className={` w-full text-white placeholder-gray-400 text-[12px]  py-4 pr-4 pl-10 bg-black outline rounded-xl 
+          hover:bg-[#1E1E1E] transition-all ${isFocused ? 'outline-[2px] outline-green-700 bg-[#1E1E1E]' : 'outline-[#707070] '}`}
+                />
                 </div>
 
-                <div className="mb-10">
-                  <p className="text-xl md:text-4xl  leading-tight">
+                <div className="mb-8">
+                  <p className="text-xl md:text-4xl text-white leading-tight">
                     <span className="font-bold font-vagrounded">Manage</span>{" "}
-                    Your <br />
-                    Forms{" "}
-                    <span className="font-bold font-vagrounded">Here!</span>
+                    Your 
+                    Forms 
+                <span className="font-bold font-vagrounded"> Here!</span>{" "}
                   </p>
-                  <p className="font-vagrounded text-gray-600 mt-4 text-lg">
-                    This is where you can view, edit, <br /> and organize all
+                  <p className="font-vagrounded text-white mt-4 text-[14px]">
+                    This is where you can view, edit,  and organize all
                     your created forms.
                   </p>
                 </div>
@@ -245,8 +248,8 @@ function Workspaces() {
                   className="text-left"
                   onClick={() => setShowModal(true)}
                 >
-                  <div className=" shadow-md justify-center hover:bg-gray-200 group px-5 h-30 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-purple-500 ">
-                    <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[var(--dirty-white)]">
+                  <div className="  justify-center bg-black hover:bg-gray-[#1E1E1E] group px-5 h-30 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-000 ">
+                    <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 ">
                       <button className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
                         <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
                         <FaArrowUp
@@ -256,10 +259,10 @@ function Workspaces() {
                       </button>
                     </div>
                     <IoDocumentText className="text-white mb-2 text-[24px]" />
-                    <span className="vagrounded font-semibold text-[15px] text-black mb-[2px]">
+                    <span className="vagrounded font-semibold text-[15px] text-white mb-[2px]">
                       Create Forms
                     </span>
-                    <span className="vagrounded font-normal text-[10px] text-black">
+                    <span className="vagrounded font-normal text-[10px] text-white">
                       Start with a blank template and more
                     </span>
                   </div>
@@ -283,13 +286,14 @@ function Workspaces() {
                 <div className="flex flex-col gap-6">
                   <div className="flex justify-between items-end">
                     <div className="flex items-center gap-3">
-                      <h2 className="text-2xl font-bold text-black tracking-wide">
+                      <h2 className="text-2xl font-bold text-white tracking-wide">
                         My workspaces
                       </h2>
                     </div>
 
                     <div className="flex items-center gap-4">
-                      <button className="px-4 py-1.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-black/5 transition">
+                      <button className="px-4 py-1.5 border border-gray-300 rounded-lg text-sm
+                       font-medium text-white hover:bg-black/5 transition">
                         Date Created
                       </button>
                       <div className="flex border border-gray-300 rounded-lg p-1">
@@ -326,7 +330,7 @@ function Workspaces() {
                     }`}
                   >
                     {viewMode === "list" && (
-                      <div className="grid grid-cols-12 text-xs font-semibold text-black uppercase tracking-wider mb-3 px-6">
+                      <div className="grid grid-cols-12 text-xs font-semibold text-white uppercase tracking-wider mb-3 px-6">
                         <div className="col-span-5"></div>
                         <div className="col-span-2 text-center">Responses</div>
                         <div className="col-span-2 text-center">Published</div>
@@ -466,17 +470,8 @@ function Workspaces() {
               </div>
             </div>
 
-            <div className="absolute top-0 left-0 h-full w-full">
-              <DotShader className="z-0" />
-              <span className="home-circle mixed-blend-multiply -top-40 left-1 w-45 h-45 bg-[var(--purple)] animate-moveCircleLtR"></span>
-              {/*top left*/}
-              <span className="home-circle mixed-blend-multiply -top-38 right-1 w-30 h-30 bg-[var(--pink)] animate-moveCircleRtL"></span>
-              {/*top right*/}
-              <span className="home-circle mixed-blend-multiply -bottom-32 left-1 w-30 h-30 bg-[var(--pink)] animate-moveCircleLtR"></span>
-              {/*bottom left*/}
-              <span className="home-circle mixed-blend-multiply -bottom-38 right-1 w-45 h-45 bg-[var(--purple)] animate-moveCircleRtL"></span>
-              {/*bottom right*/}
-            </div>
+          
+          
           </div>
 
           {/* DELETE CONFIRMATION MODAL */}
@@ -688,13 +683,14 @@ function Workspaces() {
                 <div className="flex flex-col gap-6">
                   <div className="flex justify-between items-end">
                     <div className="flex items-center gap-3">
-                      <h2 className="text-2xl font-bold text-black tracking-wide">
+                      <h2 className="text-2xl font-bold text-white tracking-wide">
                         My workspaces
                       </h2>
                     </div>
 
                     <div className="flex items-center gap-4">
-                      <button className="px-4 py-1.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-black/5 transition">
+                      <button className="px-4 py-1.5 border border-gray-300 rounded-lg text-sm font-medium 
+                      text-white hover:bg-black/5 transition">
                         Date Created
                       </button>
                       <div className="flex border border-gray-300 rounded-lg p-1">

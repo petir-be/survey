@@ -19,7 +19,7 @@ function Layout() {
   return (
     <>
     <ShaderBackground />
-      <Navbar />
+      
       <div>
         <Outlet />
       </div>

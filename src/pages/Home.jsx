@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import "../global.css";
 import { FaArrowUp, FaSpinner, } from "react-icons/fa6";
 
-
+import Navbar from "../components/Navbar.jsx";
 import toast, { Toaster } from "react-hot-toast";
 
 import FAQ from "../components/FAQ";
@@ -196,7 +196,7 @@ const [text, setText] = useState('');
       {isDesktopOrLaptop && (
 
 
-        <>
+        <><Navbar />
           {/* para matanggal lang error */}
           {motion}
 
@@ -219,6 +219,7 @@ const [text, setText] = useState('');
                   onInputChange={handleInputChange}
                 />
               </div> */}
+             
               <div className="m-12 flex items-center justify-center flex-col">
                 <span className="text-[42px] text-white font-vagrounded font-semibold">
                   Build Your Form Instantly!
@@ -230,8 +231,8 @@ const [text, setText] = useState('');
 
               </div>
 
-              <div className='flex relative w-full items-center'>
-                <div className='absolute left-4 '>
+              <div className='flex relative w-full items-center justify-center'>
+                <div className='absolute left-6 '>
                   <IoSparkles size={14} color='#707070' />
 
                 </div>
@@ -245,7 +246,7 @@ const [text, setText] = useState('');
              */
              }
          {!searchQuery && (
-                  <div className="absolute left-10 top-1/2 transform -translate-y-1/2 text-white/50 pointer-events-none z-10 flex items-center">
+                  <div className="absolute left-12 top-1/2 transform -translate-y-1/2 text-white/50 pointer-events-none z-10 flex items-center">
                     <span style={{ whiteSpace: "nowrap" }}>{text}</span>
                     <span className="ml-1 w-[2px] h-[14px] bg-white/50 animate-pulse"></span>
                   </div>
@@ -260,12 +261,12 @@ const [text, setText] = useState('');
                   className={` w-[600px] text-white text-[12px]  py-4 pr-26 pl-10 bg-black outline rounded-xl 
           hover:bg-[#1E1E1E] transition-all ${isFocused ? 'outline-[2px] outline-green-700 bg-[#1E1E1E]' : 'outline-[#707070] '}`}
                 />
-                <div className='absolute right-7 '>
-                  <button className="text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[12px] cursor-pointer">Generate</button>
+                <div className='absolute right-4 '>
+                  <button className="text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[8px] cursor-pointer">Generate</button>
 
                 </div>
-              </div>
-
+             
+</div>
 
               { /*  <div className="w-3/7 relative h-dvh overflow-hidden pt-15  z-10">*/}
               { /* <div className="absolute z-1 w-full h-full flex justify-center items-center">
@@ -416,8 +417,28 @@ const [text, setText] = useState('');
           {/* para matanggal lang error */}
           {motion}
 
-          <div className="fixed inset-0 flex flex-col items-center pt-20 overflow-hidden z-10">
+          <div className="fixed inset-0 flex flex-col items-center pt-15 px-4 overflow-hidden z-10">
             <div className="m-12 flex  text-center items-center justify-center flex-col">
+                    <div className=" flex  items-center  gap-15 mb-10 ">
+                              {/* Redirect to login page if dont have acc log */}
+                              <button className="text-left " onClick={() => setShowModal(true)}>
+                            
+                                
+                                  <span className="text-white vagrounded font-semibold text-[12px] hover:text-gray-300">
+                                    Create Forms
+                                  </span>
+                               
+                           
+                              </button>
+                              {/* Contains of functionality of the system */}
+                              <Link to={`Workspaces`} className="contents">
+                                <button className="  justify-center flex   ">
+                                  <span className="vagrounded font-semibold text-[12px] text-white hover:text-gray-300 ">
+                                    My Workspaces
+                                  </span>
+                                </button>
+                              </Link>
+                            </div>
               <span className="text-[42px] text-white font-vagrounded font-semibold">
                 Build Your Form Instantly!
               </span>
@@ -429,56 +450,47 @@ const [text, setText] = useState('');
 
             </div>
 
+ <div className='flex relative w-full items-center'>
+                <div className='absolute left-4 '>
+                  <IoSparkles size={14} color='#707070' />
 
+                </div>
+             {/*   {!searchQuery &&
+                  <div
+                    className={`absolute left-10 top-1/2 transform -translate-y-1/2 
+                        text-white/50 pointer-events-none z-10 transition-opacity duration-500 ${fadeState === "fade-in" ? "opacity-100" : "opacity-0"}`}
+                    style={{ whiteSpace: "nowrap" }}
+                    dangerouslySetInnerHTML={{ __html: fadeText }}
+                  />}
+             */
+             }
+         {!searchQuery && (
+                  <div className="absolute left-10 top-1/2 transform -translate-y-1/2 text-white/50 pointer-events-none z-10 flex items-center">
+                    <span style={{ whiteSpace: "nowrap", fontSize:'10px'} }>{text}</span>
+                    <span className="ml-1 w-[2px] h-[14px] bg-white/50 animate-pulse"></span>
+                  </div>
+                )}
+              <input
+  type="text"
+  placeholder=""
+  value={searchQuery}
+  onChange={(e) => setSearchQuery(e.target.value)}
+  onFocus={() => setIsFocused(true)}
+  onBlur={() => setIsFocused(false)}
+  // Changed w-[500px] to w-full max-w-[500px]
+  className={`w-full max-w-[500px] text-white text-[12px] py-4 pr-24 pl-10 bg-black outline rounded-xl 
+  hover:bg-[#1E1E1E] transition-all ${isFocused ? 'outline-[2px] outline-green-700 bg-[#1E1E1E]' : 'outline-[#707070]'}`}
+/>
+                <div className='absolute right-2 '> 
+                  <button value={aiPrompt}
+       onChange={(e) => setAiPrompt(e.target.value)} className="text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[12px] cursor-pointer">
+                    Generate</button>
 
+                </div>
+              </div>
 
             <div className=" justify-center flex flex-col gap-5   ">
               {/* Redirect to login page if dont have acc log */}
-              <button className="text-left" onClick={() => setShowModal(true)}>
-                <div className=" shadow-md justify-center bg-black border-2 hover:bg-[#1E1E1E] hover:border-2[#1E1E1E]  group px-5 h-30 relative flex flex-col  border-[var(--dirty-white)] duration-200  ">
-                  <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 ">
-                    <div className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
-                      <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
-                      <FaArrowUp
-                        className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
-                         transition-all duration-400 ease-out fill-orange-900"
-                      />
-                    </div>
-                  </div>
-                  <IoDocumentText className="text-white mb-2 text-[24px]" />
-                  <span className="vagrounded font-semibold text-[18px] text-white mb-[2px]">
-                    Create Forms
-                  </span>
-                  <span className="vagrounded font-normal text-[12px] text-white">
-                    Start with a blank template and more
-                  </span>
-                </div>
-              </button>
-              {/* Contains of functionality of the system */}
-              <Link to={`Workspaces`} className="contents">
-                <div className=" shadow-md justify-center bg-black border-2 hover:bg-[#1E1E1E] hover:border-2[#1E1E1E]  group px-5 h-30 relative flex flex-col  border-[var(--dirty-white)] duration-200  ">
-                  <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9">
-                    <button className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
-                      <FaArrowUp className="rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
-                      <FaArrowUp
-                        className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
-                         transition-all duration-400 ease-out fill-orange-800"
-                      />
-                    </button>
-                  </div>
-
-                  <IoFolderOpen className="text-white mb-2 text-[24px]" />
-                  <span className="vagrounded font-semibold text-[18px] text-white mb-[2px]">
-                    My Workspaces
-                  </span>
-                  <span className="vagrounded font-normal text-[12px] text-white">
-                    Manage Forms and Responses
-                  </span>
-                </div>
-              </Link>
-
-
-
               <div className="flex fixed pb-6  bottom-0 right-8">
                 <Link to={"faq"}>
                   <FAQ />
