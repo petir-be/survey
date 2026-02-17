@@ -103,7 +103,7 @@ function NavBar() {
        <Toaster position="top-right" />
       
       {isDesktopOrLaptop && (
-        
+        <>
         <nav className="absolute w-full z-10">
           <div className="flex items-center justify-between py-8 px-10 ">
             <Link to={`/`}>
@@ -152,7 +152,9 @@ function NavBar() {
               )}
             </div>
           </div>
-          <AnimatePresence>
+         
+        </nav>
+         <AnimatePresence>
               {showModal && (
                 <motion.div
                   key="modal"
@@ -160,21 +162,24 @@ function NavBar() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.9, y: 30 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs"
+                  className="fixed inset-0 !z-[9999] flex items-center justify-center backdrop-blur-xs"
                 >
                   <span
-                    className="absolute w-full h-full bg-transparent"
+                    className="absolute  w-full h-full bg-transparent"
                     onClick={() => setShowModal(false)}
                   ></span>
 
-                  <div className="p-10 w-2/3 h-2/3 bg-(--white) ring ring-white rounded-lg fixed z-50">
+                  <div className="p-10 w-2/3 h-2/3 bg-black ring ring-white rounded-lg fixed z-950">
                     <h1 className="font-vagrounded text-xl">
                       Start a new Form
                     </h1>
+
+
+                    
                     <div className="absolute top-0 right-0 w-15 h-15 flex items-center justify-center">
                       <button
                         onClick={() => setShowModal(false)}
-                        className="w-full h-full cursor-pointer"
+                        className="w-full text-white h-full cursor-pointer"
                       >
                         X
                       </button>
@@ -186,18 +191,15 @@ function NavBar() {
                           <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
                             <FaSpinner className="text-5xl text-(--purple) animate-spin" />
                           </span>
-                        ) : (
-                          <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 gap-5 duration-400 ease flex flex-col justify-center items-center ">
-                            {/* button ng form */}
-                            <button
-                              className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"
-                              onClick={MakeForm}
-                            ></button>
-                            <IoDocumentText className="w-3/5 h-auto fill-gray-700" />
-                            <span className="text-lg font-vagrounded font-bold">
+                        ) : (  
+                    
+                              <button onClick={MakeForm} className="relative flex  items-center gap-5 justify-center w-11/12 h-4/5 border-4 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
+                               <IoDocumentText className="w-3/5 h-auto fill-white" />
+                            <span className="text-white text-lg font-vagrounded font-bold">
                               Create your own
                             </span>
-                          </span>
+                            </button>
+                     
                         )}
 
                       </div>
@@ -209,12 +211,12 @@ function NavBar() {
                             className="flex flex-col gap-3 items-center w-full h-full cursor-pointer"
                             onClick={() => setShowAIInput(true)}
                           >
-                            <span className="relative w-11/12 h-4/5 bg-white/20 gap-5 shadow-md/20 hover:scale-101 duration-400 ease flex flex-col justify-center items-center">
-                              <IoSparkles className="w-3/5 h-auto fill-gray-700" />
-                              <span className="text-lg font-vagrounded font-bold">
+                             <button className="relative flex  items-center gap-5 justify-center w-11/12 h-4/5 border-4 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
+                              <IoSparkles className="w-3/5 h-auto fill-white" />
+                              <span className="text-lg text-white font-vagrounded font-bold">
                                 Generate with AI
                               </span>
-                            </span>
+                            </button>
                           </div>
                         ) : (
                           <div className="flex flex-col gap-2 items-center justify-center w-full h-11/12 animate-in fade-in zoom-in duration-200">
@@ -236,7 +238,7 @@ function NavBar() {
                               <button
                                 onClick={MakeAIForm}
                                 disabled={isLoading || !aiPrompt.trim()}
-                                className="flex-1 py-1 rounded bg-(--purple) text-black text-md disabled:opacity-50"
+                                className="flex-1 py-1 rounded bg-(--purple) text-white text-md disabled:opacity-50"
                               >
                                 {isLoading ? "..." : "Generate"}
                               </button>
@@ -244,22 +246,23 @@ function NavBar() {
                           </div>
                         )}
                       </div>
-                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded">
-                        <span className="relative flex  items-center gap-5 justify-center w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 flex-col duration-400 ease">
+                      <div className="flex flex-col  items-center w-full h-full font-vagrounded">
+                       
                           {/* button ng form */}
-                          <button className="h-full w-full bg-transparent absolute top-0 left-0 z-50 cursor-pointer"></button>
-                          <IoGrid className="w-3/5 h-auto fill-gray-700" />
-                          <span className="text-lg font-vagrounded font-bold">
+                          <button className="relative flex  items-center gap-5 justify-center w-11/12 h-4/5 border-4 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
+                          <IoGrid className="w-3/5 h-auto fill-white" />
+                          <span className="text-white text-lg font-vagrounded font-bold">
                             Use a template
                           </span>
-                        </span>
+                          </button>
+
                       </div>
                     </div>
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
-        </nav>
+        </>
       )}
 
       {isTabletOrMobile && (
