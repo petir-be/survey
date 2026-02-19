@@ -114,7 +114,7 @@ function Page({
       <div className="flex flex-col h-full w-full items-center justify-center gap-2">
         <div
           ref={canvasRef}
-          className="w-[92%] flex flex-col overflow-hidden h-[80%] bg-[rgb(223,224,240)] mt-2 items-center border-gradient pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] pl-4 "
+          className="w-[92%] flex flex-col overflow-hidden h-[80%] bg-[#1e1e1e] mt-2 items-center border-gradient pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] pl-4 "
         >
           <div className="relative flex flex-col overflow-y-auto h-full w-full">
             {questions.length === 0 && (
@@ -148,9 +148,9 @@ function Page({
               //   setDeleteTarget({ type: "page", index: currentPageIndex });
               //   setShowDeleteModal(true);
               // }}
-              className="flex items-center w-35 flex-row px-5 gap-2 py-2 mb-1 rounded-md bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out"
+              className="text-white flex items-center w-35 flex-row px-5 gap-2 py-2 mb-1 rounded-md bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out"
             >
-              <FaPlus fill="" className="fill-(--black)" /> Add page
+              <FaPlus fill="" className="fill-white" /> Add page
             </button>
 
             {/* <button onClick={() => captureScreenshot()}>ScreenShot</button> */}

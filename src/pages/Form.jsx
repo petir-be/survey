@@ -46,7 +46,7 @@ import { BsFillSendXFill } from "react-icons/bs";
 import Modal from "../components/Modal";
 import Results from "./Results";
 import Loading from "../components/Loading";
-
+import ShaderBackground from "../components/ShaderBackground"
 function Form() {
   const { user, isAuthenticated } = useContext(AuthContext);
   const [error, setError] = useState(null);
@@ -694,9 +694,9 @@ function Form() {
       ></AccountModal>
       <Toaster position="top-right" />
       <DndProvider backend={HTML5Backend}>
-        <div className="h-dvh w-full bg-(--white) flex flex-col overflow-x-hidden">
-          <header className="flex items-center justify-between bg-(--white) pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-12 relative z-50 border border-transparent border-b-(--dirty-white) lg:pd-4">
-            {/* {Mobile Hamburger} */}
+        <div className="h-dvh w-full bg-black flex flex-col overflow-x-hidden">
+        
+<header className="flex items-center justify-between bg-black pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-12 relative z-50 border border-transparent border-b-(--dirty-white) lg:pd-4">            {/* {Mobile Hamburger} */}
             <AnimatePresence>
               {mobileMenuOpen && (
                 <motion.div
@@ -747,7 +747,7 @@ function Form() {
                         PublishForm(e);
                         setMobileMenuOpen(false);
                       }}
-                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                      className="px-6 py-4 text-left hover:bg-[#1E1E1E]"
                     >
                       {isPublished ? "Share" : "Publish"}
                     </button>
@@ -785,17 +785,16 @@ function Form() {
               )}
             </AnimatePresence>
 
-            <div className="inline-flex items-center gap-7 bg-(--white) flex-1 min-w-0">
-              <Link to={"/"}>
-                <FaHome className="text-3xl cursor-pointer" />
+<div className="inline-flex items-center gap-7 flex-1 min-w-0">              <Link to={"/"}>
+                <FaHome fill='white' className="text-3xl cursor-pointer" />
               </Link>
               <div
                 ref={containerRef}
-                className="relative inline-flex items-center z-50 bg-(--white) max-w-2/3 flex-1 min-w-0"
+                className="relative inline-flex items-center z-50  max-w-2/3 flex-1 min-w-0"
               >
                 <span
                   ref={spanRef}
-                  className="invisible absolute whitespace-pre font-medium px-2 text-xl"
+                  className="text-[#1E1E1E] invisible absolute whitespace-pre font-medium px-2 text-xl"
                 >
                   {titleValue || "Untitled Form"}
                 </span>
@@ -803,7 +802,7 @@ function Form() {
                   ref={inputRef}
                   type="text"
                   placeholder="Untitled Form"
-                  className={`text-(--black) placeholder:text-gray-600 text-xl py-1 px-2 rounded-lg transition-all relative duration-200 focus:outline-none focus:ring ring-black ${
+                  className={`text-white placeholder:text-gray-400 text-xl py-1 px-2 rounded-lg transition-all relative duration-200 focus:outline-none focus:ring ring-black ${
                     !isFocused && titleValue ? "truncate" : ""
                   }`}
                   value={titleValue}
@@ -814,51 +813,61 @@ function Form() {
                 />
               </div>
             </div>
-
-            <div className="hidden lg:inline-flex items-center gap-3 bg-(--white) flex-1 min-w-0">
-              <div
-                onClick={() => {
+<div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 gap-5 items-center">
+            <button
+                            className="text-left"
+                            onClick={() => {
                   setResultPage(false);
                   window.location.hash = "questions";
                 }}
-                className="group min-w-1/4 justify-center items-center  px-8 py-1 relative flex flex-col border-2 border-(--dirty-white) "
-              >
-                <div className="absolute flex items-center justify-center top-0 right-0 w-4 h-4 bg-(--dirty-white)">
-                  <button className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
-                    <FaArrowUp className="text-xs rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
-                    <FaArrowUp
-                      className=" text-xs absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-400 ease-out"
-                      fill="purple"
-                    />
-                  </button>
-                </div>
-                <p className="text-md font-vagrounded mt-1 font-bold">
-                  Questions
-                </p>
-              </div>
 
-              <div
-                onClick={() => {
+                          >
+                            <div className="  justify-center bg-black hover:bg-gray-[#1E1E1E] group px-5  py-2  relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-000 ">
+                              <div className="absolute flex items-center justify-center top-0 right-0  bg-[#C8C9DA]">
+                                <button className="relative w-full h-full font-bold cursor-pointer  flex items-center justify-center overflow-hidden">
+                                  <FaArrowUp size={12} className="fill-black rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
+                                  <FaArrowUp size={12}
+                                    className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
+                                               transition-all duration-400 ease-out fill-green-700"
+                                  />
+                                </button>
+                              </div>
+                            
+                              <span className="vagrounded font-semibold text-[15px] text-white mb-[2px]">
+                                Questions
+                              </span>
+                            
+                            </div>
+                          </button>
+
+  <button
+                            className="text-left"
+                  onClick={() => {
                   setResultPage(true);
                   window.location.hash = "responses";
                 }}
-                className="group min-w-1/4 justify-center items-center px-8 py-1 relative flex flex-col border-2 border-(--dirty-white) "
-              >
-                <div className="absolute flex items-center justify-center top-0 right-0 w-4 h-4 bg-(--dirty-white)">
-                  <button className="relative w-full h-full font-bold cursor-pointer flex items-center justify-center overflow-hidden">
-                    <FaArrowUp className="text-xs rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
-                    <FaArrowUp
-                      className="text-xs absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-400 ease-out"
-                      fill="purple"
-                    />
-                  </button>
-                </div>
-                <p className="text-md font-vagrounded mt-1 font-bold">
-                  Responses
-                </p>
-              </div>
-            </div>
 
+                          >
+                            <div className="  justify-center bg-black hover:bg-gray-[#1E1E1E] group px-5  py-2 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-000 ">
+                              <div className="absolute flex items-center justify-center top-0 right-0  bg-[#C8C9DA]">
+                                <button className="relative w-full h-full font-bold cursor-pointer  flex items-center justify-center overflow-hidden">
+                                  <FaArrowUp size={12} className="fill-black rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
+                                  <FaArrowUp size={12}
+                                    className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
+                                               transition-all duration-400 ease-out fill-green-700"
+                                  />
+                                </button>
+                              </div>
+                         
+                              <span className="vagrounded font-semibold text-[15px] text-white mb-[2px]">
+                               Responses
+                              </span>
+                            
+                            </div>
+                          </button>
+
+           </div>
+<div className="flex-1 flex justify-end items-center gap-4">
             <button
               onClick={() => setMobileMenuOpen((v) => !v)}
               className="lg:hidden flex items-center justify-center"
@@ -868,7 +877,7 @@ function Form() {
 
             <div className="hidden lg:inline-flex items-center gap-4 shrink-0">
               <Link to={`../preview/${publicid}`}>
-                <button className="px-7 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-lg/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
+                <button className="text-white px-7 py-1.5 rounded-xl bg-black ring ring-white inset-shadow-lg/10 font-vagrounded drop-shadow-sm/30 hover:bg-[#1E1E1E] transition-color duration-200 ease-out">
                   Preview
                 </button>
               </Link>
@@ -877,9 +886,9 @@ function Form() {
                   onClick={PublishForm}
                   disabled={shareLoading}
                   ref={triggerRef}
-                  className="flex items-center gap-2 px-7 py-1.5 rounded-xl bg-(--white) ring ring-(--purple) 
-              inset-shadow-lg/10 font-vagrounded drop-shadow-sm/30 hover:bg-violet-200 
-              transition-color duration-200 ease-out disabled:opacity-60"
+                  className="flex text-white items-center gap-2 px-7 py-1.5 rounded-xl bg-black outline outline-green-400 
+              inset-shadow-lg/10 font-vagrounded drop-shadow-sm/30 hover:bg-[#1E1E1E]
+              transition-color duration-200 transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(34,197,94,0)] hover:shadow-[inset_0_0_15px_rgba(34,197,94,1)]  disabled:opacity-60"
                 >
                   {shareLoading ? (
                     <span className="w-6 h-6 border-2 border-(--purple) border-t-transparent rounded-full animate-spin"></span>
@@ -890,7 +899,7 @@ function Form() {
                   ) : (
                     "Publish"
                   )}
-                </button>
+                </button></div>
                 <AnimatePresence>
                   {showPublishModal && (
                     <motion.div
@@ -1160,13 +1169,13 @@ function Form() {
                 className="flex-1 w-full flex overflow-hidden min-h-0"
               >
                 {/* leftside */}
-                <div className="w-[20%] min-w-[300px] p-2 z-10 bg-(--white) h-full min-h-0 border-t-2 overflow-y-auto border-(--dirty-white) hidden static max-h-full lg:block">
+                <div className="w-[20%] min-w-[300px] p-2 z-10 bg-black h-full min-h-0 border-t-2 overflow-y-auto border-(--dirty-white) hidden static max-h-full lg:block">
                   {/* elements*/}
                   {/* Frequently Used */}
                   <span className="text-gray-500 font-vagrounded m-3">
                     Frequently used
                   </span>
-                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto ">
+                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white ">
                     {types.slice(0, 3).map((type, index) => (
                       <FormElement
                         key={index}
@@ -1182,7 +1191,7 @@ function Form() {
                   <span className="text-gray-500 font-vagrounded m-3 mt-5">
                     Display Text
                   </span>
-                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto">
+                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white">
                     {types.slice(3, 5).map((type, index) => (
                       <FormElement
                         key={index}
@@ -1195,10 +1204,10 @@ function Form() {
                   </div>
 
                   {/* Choices */}
-                  <span className="text-gray-500 font-vagrounded m-3 mt-5">
+                  <span className="text-gray-500 font-vagrounded m-3 mt-5 ">
                     Choices
                   </span>
-                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto">
+                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white">
                     {types.slice(5, 11).map((type, index) => (
                       <FormElement
                         key={index}
@@ -1216,7 +1225,7 @@ function Form() {
                   <span className="text-gray-500 font-vagrounded m-3 mt-5">
                     Text
                   </span>
-                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto">
+                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white ">
                     {types.slice(11, 13).map((type, index) => (
                       <FormElement
                         key={index}
@@ -1232,7 +1241,7 @@ function Form() {
                   <span className="text-gray-500 font-vagrounded m-3 mt-5">
                     Others
                   </span>
-                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto">
+                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white">
                     {types.slice(13, 17).map((type, index) => (
                       <FormElement
                         key={index}
@@ -1263,9 +1272,9 @@ function Form() {
                 </div>
 
                 {/* right side */}
-                <div className="flex flex-col fixed bottom-0 lg:relative h-full lg:w-[20%]  bg-(--white) p-7.5 pr-0 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto hidden lg:block">
+                <div className="flex flex-col fixed bottom-0 lg:relative h-full lg:w-[20%]  bg-black p-7.5 pr-0 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto hidden lg:block">
                   <div className="w-full">
-                    <h1 className="text-3xl text-left">Layers</h1>
+                    <h1 className="text-white text-3xl text-left">Layers</h1>
                   </div>
                   <div className="w-full mt-4 max-h-10/12 overflow-auto">
                     <Layers
@@ -1371,7 +1380,7 @@ function Form() {
                 {/* === CONTENT UNCHANGED === */}
 
                 <span className="text-gray-500 m-3">Frequently used</span>
-                <div className="grid grid-cols-3 gap-3 p-2">
+                <div className="grid grid-cols-3 gap-3 p-2 ">
                   {types.slice(0, 3).map((type, index) => (
                     <FormElement
                       key={index}
@@ -1380,6 +1389,7 @@ function Form() {
                       icon={type.Icon}
                       title={type.title}
                     />
+                    
                   ))}
                 </div>
 
@@ -1387,6 +1397,7 @@ function Form() {
                 <div className="grid grid-cols-3 gap-3 p-2">
                   {types.slice(3, 5).map((type, index) => (
                     <FormElement
+                    
                       key={index}
                       bgKulay={"#52525230"}
                       foreKulay={"#525252"}

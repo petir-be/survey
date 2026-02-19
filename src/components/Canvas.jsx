@@ -30,7 +30,7 @@ function Canvas({
       className="h-full w-full flex justify-center items-center flex-col overflow-auto mb-20"
     >
       <CustomDragLayer />
-      <DotShader2 />
+     
       <Page
         questions={questions}
         onInsert={onDropElement}

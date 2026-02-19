@@ -4,7 +4,7 @@ import "ldrs/react/Quantum.css";
 import { motion } from "framer-motion";
 
 function Loading() {
-  return <Quantum size="120" speed="1" color="black" />;
+  return <Quantum size="120" speed="1" color="green" />;
 }
 
 export default Loading;

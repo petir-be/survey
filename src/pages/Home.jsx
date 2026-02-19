@@ -417,7 +417,7 @@ function Home() {
 
                   {/* Header */}
                   <div className="flex w-full items-center justify-between mb-4">
-                    <h1 className="font-vagrounded text-white text-md f">
+                    <h1 className="font-vagrounded text-white text-md ">
                       Start a new Form
                     </h1>
 
@@ -432,7 +432,7 @@ function Home() {
 
 
                   <div className=" flex items-stretch justify-between gap-2 w-full min-h-[220px]">
-                   
+
                     {/* create own forms */}
 
                     <div className="flex-1 font-vagrounded ">
@@ -444,15 +444,15 @@ function Home() {
                         <button onClick={MakeForm} className="relative flex items-center gap-5 justify-center w-full h-full p-6 border-2 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
                           <IoDocumentText size={24} fill="white" />
                           <div className="h-10 flex items-start justify-center">
-                          <span className="text-white text-xs font-vagrounded font-bold">
-                            Create your own forms
-                          </span></div>
+                            <span className="text-white text-xs font-vagrounded font-bold">
+                              Create your own forms
+                            </span></div>
                         </button>
                       )}
                     </div>
 
                     {/* generate with ai */}
-                   <div className="flex-1 font-vagrounded relative">
+                    <div className="flex-1 font-vagrounded relative">
                       {!showAIInput ? (
                         <div
                           className="flex flex-col gap-3 items-center w-full h-full cursor-pointer"
@@ -460,10 +460,10 @@ function Home() {
                         >
                           <button className="relative flex p-6 items-center gap-5 justify-center w-full h-full border-2 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
                             <IoSparkles size={24} fill="white" />
-                              <div className="h-10 flex items-start justify-center">
-                            <span className="text-xs text-white font-vagrounded font-bold">
-                              Generate with AI
-                            </span>
+                            <div className="h-10 flex items-start justify-center">
+                              <span className="text-xs text-white font-vagrounded font-bold">
+                                Generate with AI
+                              </span>
                             </div>
                           </button>
                         </div>
@@ -495,14 +495,15 @@ function Home() {
                         </div>
                       )}
                     </div>
-                    <div className="flex-1 relative"> 
+
+                    <div className="flex-1 relative">
                       <button className="relative p-4 flex  items-center gap-5 justify-center w-full h-full border-2 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
                         <IoGrid size={24} fill="white" />
 
-                         <div className="h-10 flex items-start justify-center">
-                        <span className="text-white text-xs font-vagrounded font-bold">
-                          Use a template
-                        </span></div>
+                        <div className="h-10 flex items-start justify-center">
+                          <span className="text-white text-xs font-vagrounded font-bold">
+                            Use a template
+                          </span></div>
                       </button>
                     </div>
                   </div>

@@ -25,16 +25,16 @@ function NavBar() {
 
   const { isAuthenticated, user } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
- 
 
-   
+
+
   const [form, setForm] = useState({});
   const [showAIInput, setShowAIInput] = useState(false);
   const [aiPrompt, setAiPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  
-   async function MakeForm() {
+
+  async function MakeForm() {
     if (!user?.id) {
       console.log("nyaw");
       navigate("/login");
@@ -100,26 +100,26 @@ function NavBar() {
         close={() => setShowAccountModal(false)}
         title="Account Information"
       ></AccountModal>
-       <Toaster position="top-right" />
-      
+      <Toaster position="top-right" />
+
       {isDesktopOrLaptop && (
         <>
-        <nav className="absolute w-full z-10">
-          <div className="flex items-center justify-between py-8 px-10 ">
-            <Link to={`/`}>
-              <h1 className="font-zendots text-white text-[24px] ">SnapQ</h1>
-            </Link>
+          <nav className="absolute w-full z-10">
+            <div className="flex items-center justify-between py-8 px-10 ">
+              <Link to={`/`}>
+                <h1 className="font-zendots text-white text-[24px] ">Ispecmn</h1>
+              </Link>
 
-            <div className=" flex  items-center   gap-25 ">
+              <div className=" flex  items-center   gap-25 ">
                 {/* Redirect to login page if dont have acc log */}
                 <button className="text-left " onClick={() => setShowModal(true)}>
-              
-                  
-                    <span className="text-white vagrounded font-semibold text-[12px] hover:text-gray-300">
-                      Create Forms
-                    </span>
-                 
-             
+
+
+                  <span className="text-white vagrounded font-semibold text-[12px] hover:text-gray-300">
+                    Create Forms
+                  </span>
+
+
                 </button>
                 {/* Contains of functionality of the system */}
                 <Link to={`Workspaces`} className="contents">
@@ -131,137 +131,140 @@ function NavBar() {
                 </Link>
               </div>
 
-              
-            <div className="font-vagrounded">
-              {isAuthenticated ? (
-                <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
-                  <img
-                    src={user.avatar}
-                    onClick={() => setShowAccountModal(true)}
-                    className="h-10 w-10 cursor-pointer rounded-full"
-                  />
-                </div>
-              ) : (
-                <Link className="w-full h-full" to={`login`}>
-            <button 
-      className="flex items-center justify-center px-10  py-3  ring ring-white text-[14px] font-bold rounded-3xl drop-shadow-md text-white bg-black hover:bg-[#1E1E1E] cursor-pointer"
-    >
-      Get Started
-    </button>
-                </Link>
-              )}
-            </div>
-          </div>
-         
-        </nav>
-         <AnimatePresence>
-              {showModal && (
-                <motion.div
-                  key="modal"
-                  initial={{ opacity: 0, scale: 0.9, y: 30 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, y: 30 }}
-                  transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="fixed inset-0 !z-[9999] flex items-center justify-center backdrop-blur-xs"
-                >
-                  <span
-                    className="absolute  w-full h-full bg-transparent"
-                    onClick={() => setShowModal(false)}
-                  ></span>
 
-                  <div className="p-10 w-2/3 h-2/3 bg-black ring ring-white rounded-lg fixed z-950">
-                    <h1 className="font-vagrounded text-xl">
+              <div className="font-vagrounded">
+                {isAuthenticated ? (
+                  <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
+                    <img
+                      src={user.avatar}
+                      onClick={() => setShowAccountModal(true)}
+                      className="h-10 w-10 cursor-pointer rounded-full"
+                    />
+                  </div>
+                ) : (
+                  <Link className="w-full h-full" to={`login`}>
+                    <button
+                      className="flex items-center justify-center px-10  py-3  ring ring-white text-[14px] font-bold rounded-3xl drop-shadow-md text-white bg-black hover:bg-[#1E1E1E] cursor-pointer"
+                    >
+                      Get Started
+                    </button>
+                  </Link>
+                )}
+              </div>
+            </div>
+
+          </nav>
+          <AnimatePresence>
+            {showModal && (
+              <motion.div
+                key="modal"
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 30 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="fixed inset-0 !z-[9999] flex items-center justify-center backdrop-blur-xs"
+              >
+                <div className="w-full max-w-5xl relative py-10 px-8 bg-black outline-1 outline-white rounded-lg fixed z-50">
+
+                  {/* Header */}
+                  <div className="flex w-full items-center justify-between mb-4">
+                    <h1 className="font-vagrounded text-white text-lg ">
                       Start a new Form
                     </h1>
 
+                    <button
+                      onClick={() => setShowModal(false)}
+                      className=" text-white text-md cursor-pointer"
+                    >
+                      X
+                    </button>
 
-                    
-                    <div className="absolute top-0 right-0 w-15 h-15 flex items-center justify-center">
-                      <button
-                        onClick={() => setShowModal(false)}
-                        className="w-full text-white h-full cursor-pointer"
-                      >
-                        X
-                      </button>
-                    </div>
-                    <div className="p-5 flex items-center justify-evenly w-full h-full">
-                      {/* create own forms */}
-                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded ">
-                        {isLoading ? (
-                          <span className="relative w-11/12 h-4/5 bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
-                            <FaSpinner className="text-5xl text-(--purple) animate-spin" />
-                          </span>
-                        ) : (  
-                    
-                              <button onClick={MakeForm} className="relative flex  items-center gap-5 justify-center w-11/12 h-4/5 border-4 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
-                               <IoDocumentText className="w-3/5 h-auto fill-white" />
+                  </div>
+
+
+
+
+                  <div className=" flex items-stretch justify-between gap-5 w-full min-h-[280px]">
+                    {/* create own forms */}
+                    <div className="flex-1 font-vagrounded ">
+                      {isLoading ? (
+                        <span className="w-full h-full bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
+                          <FaSpinner className="text-5xl text-(--green) animate-spin" />
+                        </span>
+                      ) : (
+                        <button onClick={MakeForm} className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
+                          <IoDocumentText size={124} fill="white" />
+                          <div className="h-10 flex items-start justify-center">
                             <span className="text-white text-lg font-vagrounded font-bold">
-                              Create your own
-                            </span>
-                            </button>
-                     
-                        )}
+                              Create your own forms
+                            </span></div>
+                        </button>
+                      )}
+                    </div>
 
-                      </div>
 
-                      {/* generate with ai */}
-                      <div className="flex flex-col gap-3 items-center w-full h-full font-vagrounded relative">
-                        {!showAIInput ? (
-                          <div
-                            className="flex flex-col gap-3 items-center w-full h-full cursor-pointer"
-                            onClick={() => setShowAIInput(true)}
-                          >
-                             <button className="relative flex  items-center gap-5 justify-center w-11/12 h-4/5 border-4 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
-                              <IoSparkles className="w-3/5 h-auto fill-white" />
+
+
+                    {/* generate with ai */}
+                    <div className="flex-1 font-vagrounded relative">
+                      {!showAIInput ? (
+                        <div
+                          className="flex flex-col gap-3 items-center w-full h-full cursor-pointer"
+                          onClick={() => setShowAIInput(true)}
+                        >
+                          <button className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
+                            <IoSparkles size={120} fill="white" />
+                            <div className="h-10 flex items-start justify-center">
                               <span className="text-lg text-white font-vagrounded font-bold">
                                 Generate with AI
                               </span>
+                            </div>
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col gap-2 items-center justify-center w-full h-11/12 animate-in fade-in zoom-in duration-200">
+                          <textarea
+                            autoFocus
+                            value={aiPrompt}
+                            onChange={(e) => setAiPrompt(e.target.value)}
+                            placeholder="Describe what you want to make ...."
+                            className="w-11/12 h-full p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm resize-none shadow-inner"
+                          />
+
+                          <div className="flex gap-2 w-11/12">
+                            <button
+                              onClick={() => setShowAIInput(false)}
+                              className="flex-1 py-1 rounded bg-gray-200 hover:bg-gray-300 text-md text-gray-600 transition-colors"
+                            >
+                              Back
+                            </button>
+                            <button
+                              onClick={MakeAIForm}
+                              disabled={isLoading || !aiPrompt.trim()}
+                              className="flex-1 py-1 rounded bg-(--purple) text-white text-md disabled:opacity-50"
+                            >
+                              {isLoading ? "..." : "Generate"}
                             </button>
                           </div>
-                        ) : (
-                          <div className="flex flex-col gap-2 items-center justify-center w-full h-11/12 animate-in fade-in zoom-in duration-200">
-                            <textarea
-                              autoFocus
-                              value={aiPrompt}
-                              onChange={(e) => setAiPrompt(e.target.value)}
-                              placeholder="Describe what you want to make ...."
-                              className="w-11/12 h-full p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm resize-none shadow-inner"
-                            />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 relative">
+                      <button className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
+                        <IoGrid size={120} fill="white" />
 
-                            <div className="flex gap-2 w-11/12">
-                              <button
-                                onClick={() => setShowAIInput(false)}
-                                className="flex-1 py-1 rounded bg-gray-200 hover:bg-gray-300 text-md text-gray-600 transition-colors"
-                              >
-                                Back
-                              </button>
-                              <button
-                                onClick={MakeAIForm}
-                                disabled={isLoading || !aiPrompt.trim()}
-                                className="flex-1 py-1 rounded bg-(--purple) text-white text-md disabled:opacity-50"
-                              >
-                                {isLoading ? "..." : "Generate"}
-                              </button>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex flex-col  items-center w-full h-full font-vagrounded">
-                       
-                          {/* button ng form */}
-                          <button className="relative flex  items-center gap-5 justify-center w-11/12 h-4/5 border-4 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
-                          <IoGrid className="w-3/5 h-auto fill-white" />
+                        <div className="h-10 flex items-start justify-center">
                           <span className="text-white text-lg font-vagrounded font-bold">
                             Use a template
-                          </span>
-                          </button>
+                          </span></div>
+                      </button>
 
-                      </div>
                     </div>
                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </>
       )}
 
@@ -269,7 +272,7 @@ function NavBar() {
         <nav className="absolute w-full z-50">
           <div className="flex items-center justify-between p-4 ">
             <Link to={`/`}>
-              <h1 className="font-zendots text-white text-[16px] px-2">SnapQ</h1>
+              <h1 className="font-zendots text-white text-[16px] px-2">Ispecmn</h1>
             </Link>
             <div className="font-vagrounded w-1/6 z-10  flex align-center justify-end">
               {isAuthenticated ? (
@@ -281,15 +284,15 @@ function NavBar() {
                   />
                 </div>
               ) : (
-              <div class="font-vagrounded min-w-fit z-10 flex items-center justify-end">
-  <Link className="h-full" to={`login`}>
-    <button 
-      className="flex items-center justify-center px-8 py-3 whitespace-nowrap ring ring-white text-[14px] font-bold rounded-3xl drop-shadow-md text-white bg-black hover:bg-[#1E1E1E] cursor-pointer"
-    >
-      Get Started
-    </button>
-  </Link>
-</div>
+                <div class="font-vagrounded min-w-fit z-10 flex items-center justify-end">
+                  <Link className="h-full" to={`login`}>
+                    <button
+                      className="flex items-center justify-center px-8 py-3 whitespace-nowrap ring ring-white text-[14px] font-bold rounded-3xl drop-shadow-md text-white bg-black hover:bg-[#1E1E1E] cursor-pointer"
+                    >
+                      Get Started
+                    </button>
+                  </Link>
+                </div>
               )}
             </div>
           </div>

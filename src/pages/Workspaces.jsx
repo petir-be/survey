@@ -213,7 +213,7 @@ function Workspaces() {
                 className="flex border-b-2 border-gray-300 justify-between py-8 px-10 cursor-pointer"
                 onClick={() => navigate(`/`)}
               >
-                <h1 className="font-zendots  text-white text-[30px] px-2">SnapQ</h1>
+                <h1 className="font-zendots  text-white text-[30px] px-2">Ispecmn</h1>
               </div>
 
               <div className="px-10 mt-8 flex-1">
