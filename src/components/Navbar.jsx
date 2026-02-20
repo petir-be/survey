@@ -104,56 +104,55 @@ function NavBar() {
 
       {isDesktopOrLaptop && (
         <>
-          <nav className="absolute w-full z-10">
-            <div className="flex items-center justify-between py-8 px-10 ">
-              <Link to={`/`}>
-                <h1 className="font-zendots text-white text-[24px] ">Ispecmn</h1>
-              </Link>
+         <nav className="absolute w-full z-10">
+  <div className="flex items-center py-8 px-10">
+    
+    {/* 1. Left Section (Logo) - flex-1 pushes everything else */}
+    <div className="flex-1">
+      <Link to={`/`}>
+        <h1 className="font-zendots text-white text-[24px]">Ispecmn</h1>
+      </Link>
+    </div>
 
-              <div className=" flex  items-center   gap-25 ">
-                {/* Redirect to login page if dont have acc log */}
-                <button className="text-left " onClick={() => setShowModal(true)}>
+    {/* 2. Middle Section - Stays perfectly centered */}
+    <div className="flex items-center gap-10"> {/* Adjusted gap from 25 to 10 for better spacing, change as needed */}
+      <button onClick={() => setShowModal(true)}>
+        <span className="text-white vagrounded font-semibold text-[12px] hover:text-gray-300">
+          Create Forms
+        </span>
+      </button>
+      
+      <Link to={`Workspaces`}>
+        <button className="flex justify-center">
+          <span className="vagrounded font-semibold text-[12px] text-white hover:text-gray-300">
+            My Workspaces
+          </span>
+        </button>
+      </Link>
+    </div>
 
-
-                  <span className="text-white vagrounded font-semibold text-[12px] hover:text-gray-300">
-                    Create Forms
-                  </span>
-
-
-                </button>
-                {/* Contains of functionality of the system */}
-                <Link to={`Workspaces`} className="contents">
-                  <button className="  justify-center flex   ">
-                    <span className="vagrounded font-semibold text-[12px] text-white hover:text-gray-300 ">
-                      My Workspaces
-                    </span>
-                  </button>
-                </Link>
-              </div>
-
-
-              <div className="font-vagrounded">
-                {isAuthenticated ? (
-                  <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
-                    <img
-                      src={user.avatar}
-                      onClick={() => setShowAccountModal(true)}
-                      className="h-10 w-10 cursor-pointer rounded-full"
-                    />
-                  </div>
-                ) : (
-                  <Link className="w-full h-full" to={`login`}>
-                    <button
-                      className="flex items-center justify-center px-10  py-3  ring ring-white text-[14px] font-bold rounded-3xl drop-shadow-md text-white bg-black hover:bg-[#1E1E1E] cursor-pointer"
-                    >
-                      Get Started
-                    </button>
-                  </Link>
-                )}
-              </div>
-            </div>
-
-          </nav>
+    {/* 3. Right Section - flex-1 + justify-end mirrors the left side */}
+    <div className="flex-1 flex justify-end font-vagrounded">
+      {isAuthenticated ? (
+        <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
+          <img
+            src={user.avatar}
+            onClick={() => setShowAccountModal(true)}
+            className="h-10 w-10 cursor-pointer rounded-full"
+            alt="User avatar"
+          />
+        </div>
+      ) : (
+        <Link to={`login`}>
+          <button className="flex items-center justify-center px-10 py-3 ring ring-white text-[14px] font-bold rounded-3xl drop-shadow-md text-white bg-black hover:bg-[#1E1E1E] cursor-pointer">
+            Get Started
+          </button>
+        </Link>
+      )}
+    </div>
+    
+  </div>
+</nav>
           <AnimatePresence>
             {showModal && (
               <motion.div

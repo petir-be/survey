@@ -1178,11 +1178,9 @@ const [activeTab, setActiveTab] = useState('questions');
             <>
               <div
                 id="questions"
-                className="flex-1 w-full flex overflow-hidden min-h-0"
-              >
+className="flex-1 w-full flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden min-h-0"              >
                 {/* leftside */}
-                <div className="w-[20%] min-w-[300px] p-2 z-10 bg-black h-full min-h-0 border-t-2 overflow-y-auto border-(--dirty-white) hidden static max-h-full lg:block">
-                  {/* elements*/}
+<div className="w-full lg:w-[20%] min-w-[300px] p-2 z-10 bg-black h-auto lg:h-full min-h-0 border-t-2 lg:border-r-2 overflow-y-auto border-(--dirty-white) static max-h-full">                  {/* elements*/}
                   {/* Frequently Used */}
                   <span className="text-gray-500 font-vagrounded m-3">
                     Frequently used
@@ -1286,8 +1284,7 @@ const [activeTab, setActiveTab] = useState('questions');
                 </div>
 
                 {/* right side */}
-                <div className="flex flex-col fixed bottom-0 lg:relative h-full lg:w-[20%]  bg-black p-7.5 pr-0 min-h-0 border-t-2 border-(--dirty-white) font-vagrounded overflow-auto hidden lg:block">
-                  <div className="w-full">
+<div className="flex flex-col relative h-auto lg:h-full w-full lg:w-[20%] bg-black p-7.5 pr-0 min-h-0 border-t-2 lg:border-t-0 lg:border-l-2 border-(--dirty-white) font-vagrounded overflow-auto pb-10">                  <div className="w-full">
                     <h1 className="text-white text-3xl text-left">Layers</h1>
                   </div>
                   <div className="w-full mt-4 max-h-10/12 overflow-auto">

@@ -12,7 +12,7 @@ import { useMediaQuery } from "react-responsive";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../Context/authContext";
-
+import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Import a loader icon
 import { IoDocumentText, IoSparkles, IoGrid, IoFolderOpen } from "react-icons/io5";
 import Footer from "../components/Footer";
 
@@ -254,16 +254,27 @@ function Home() {
                 <input
                   type="text"
                   placeholder=""
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  
+                  value={searchQuery || aiPrompt}
+                  onChange={(e) => setSearchQuery(e.target.value) ||setAiPrompt(e.target.value)} 
+
+          
+                        
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
                   className={` w-[600px] text-white text-[12px]  py-4 pr-26 pl-10 bg-black outline rounded-xl 
           hover:bg-[#1E1E1E] transition-all ${isFocused ? 'outline-[2px] outline-green-700 bg-[#1E1E1E]' : 'outline-[#707070] '}`}
                 />
                 <div className='absolute right-4 '>
-                  <button className="text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[8px] cursor-pointer">Generate</button>
-
+                  <button        onClick={MakeAIForm}         disabled={isLoading || !aiPrompt.trim()}
+                            className="flex items-center justify-center min-w-[100px] text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[8px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      {isLoading ? (
+        <AiOutlineLoading3Quarters className="animate-spin" size={16} />
+      ) : (
+        "Generate"
+      )}
+    </button>
                 </div>
 
               </div>
@@ -367,22 +378,33 @@ function Home() {
                   <span className="ml-1 w-[2px] h-[14px] bg-white/50 animate-pulse"></span>
                 </div>
               )}
-              <input
-                type="text"
-                placeholder=""
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
+            <input
+                  type="text"
+                  placeholder=""
+                  
+                  value={searchQuery || aiPrompt}
+                  onChange={(e) => setSearchQuery(e.target.value) ||setAiPrompt(e.target.value)} 
+
+          
+                        
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+
                 // Changed w-[500px] to w-full max-w-[500px]
                 className={`w-full text-white text-[12px] py-4 pr-24 pl-10 bg-black outline rounded-xl 
   hover:bg-[#1E1E1E] transition-all ${isFocused ? 'outline-[2px] outline-green-700 bg-[#1E1E1E]' : 'outline-[#707070]'}`}
               />
               <div className='absolute right-2 '>
                 <button value={aiPrompt}
-                  onChange={(e) => setAiPrompt(e.target.value)} className="text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[12px] cursor-pointer">
-                  Generate</button>
-
+                 onClick={MakeAIForm}         disabled={isLoading || !aiPrompt.trim()} className="text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[12px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      {isLoading ? (
+        <AiOutlineLoading3Quarters className="animate-spin" size={14} />
+      ) : (
+        "Generate"
+      )}
+    </button>
+               
               </div>
             </div>
 
