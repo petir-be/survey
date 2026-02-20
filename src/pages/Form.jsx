@@ -50,7 +50,19 @@ import ShaderBackground from "../components/ShaderBackground"
 function Form() {
   const { user, isAuthenticated } = useContext(AuthContext);
   const [error, setError] = useState(null);
+const [activeTab, setActiveTab] = useState('questions');
 
+  // Helper function for conditional classes
+  const getTabStyles = (tabName) => {
+    const isActive = activeTab === tabName;
+    return `
+      justify-center px-8 py-4 relative flex flex-col border-2 duration-200 transition-all outline-none
+      ${isActive 
+        ? 'bg-[#1e1e1e] border-green-500' // The "Focused" look
+        : 'bg-black border-[var(--dirty-white)] hover:bg-[#1e1e1e] hover:border-green-500'
+      }
+    `;
+  };
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [publicid, setPublicid] = useState("");
@@ -822,9 +834,9 @@ function Form() {
                 }}
 
                           >
-                            <div className="  justify-center bg-black hover:bg-gray-[#1E1E1E] group px-5  py-2  relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-000 ">
-                              <div className="absolute flex items-center justify-center top-0 right-0  bg-[#C8C9DA]">
-                                <button className="relative w-full h-full font-bold cursor-pointer  flex items-center justify-center overflow-hidden">
+                            <div tabIndex='1' className="  justify-center bg-black hover:bg-gray-[#1E1E1E] focus:bg-[#1e1e1e] group px-8  py-4  relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-000 ">
+                              <div className="absolute flex items-center justify-center top-0 right-0 w-5 h-5  bg-[#C8C9DA]">
+                                <button onClick={() => setActiveTab('questions')}className="relative w-full h-full font-bold cursor-pointer  flex items-center justify-center overflow-hidden">
                                   <FaArrowUp size={12} className="fill-black rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
                                   <FaArrowUp size={12}
                                     className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
@@ -848,8 +860,8 @@ function Form() {
                 }}
 
                           >
-                            <div className="  justify-center bg-black hover:bg-gray-[#1E1E1E] group px-5  py-2 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-000 ">
-                              <div className="absolute flex items-center justify-center top-0 right-0  bg-[#C8C9DA]">
+                            <div tabIndex='0'className="  justify-center  bg-black hover:bg-gray-[#1E1E1E] focus:bg-[#1e1e1e] group px-8 py-4 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-000 ">
+                              <div className="absolute flex items-center justify-center top-0 right-0   w-5 h-5 bg-[#C8C9DA]">
                                 <button className="relative w-full h-full font-bold cursor-pointer  flex items-center justify-center overflow-hidden">
                                   <FaArrowUp size={12} className="fill-black rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
                                   <FaArrowUp size={12}
@@ -877,7 +889,7 @@ function Form() {
 
             <div className="hidden lg:inline-flex items-center gap-4 shrink-0">
               <Link to={`../preview/${publicid}`}>
-                <button className="text-white px-7 py-1.5 rounded-xl bg-black ring ring-white inset-shadow-lg/10 font-vagrounded drop-shadow-sm/30 hover:bg-[#1E1E1E] transition-color duration-200 ease-out">
+                <button className="text-white px-7 py-1.5 rounded-xl bg-black ring inset-shadow-lg/10   font-vagrounded drop-shadow-sm/30 hover:bg-[#1E1E1E] transition-color duration-200 ease-out">
                   Preview
                 </button>
               </Link>
@@ -886,9 +898,9 @@ function Form() {
                   onClick={PublishForm}
                   disabled={shareLoading}
                   ref={triggerRef}
-                  className="flex text-white items-center gap-2 px-7 py-1.5 rounded-xl bg-black outline outline-green-400 
-              inset-shadow-lg/10 font-vagrounded drop-shadow-sm/30 hover:bg-[#1E1E1E]
-              transition-color duration-200 transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(34,197,94,0)] hover:shadow-[inset_0_0_15px_rgba(34,197,94,1)]  disabled:opacity-60"
+                  className="flex text-white items-center gap-2 px-7 py-1.5 rounded-xl bg-green-700 ring ring-green-700
+              inset-shadow-lg/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 ease duration-200 hover:ring-green-800
+              disabled:opacity-60"
                 >
                   {shareLoading ? (
                     <span className="w-6 h-6 border-2 border-(--purple) border-t-transparent rounded-full animate-spin"></span>
@@ -996,7 +1008,7 @@ function Form() {
                   ref={settingsBtnRef}
                   className="bg-transparent ease-out flex items-center justify-center rounded-full"
                 >
-                  <IoSettingsSharp className="text-3xl hover:scale-[1.05] transition-all duration-200 ease-out" />
+                  <IoSettingsSharp fill="white" className="text-3xl hover:scale-[1.05] transition-all duration-200 ease-out" />
                 </button>
                 <AnimatePresence>
                   {showSettings && (
@@ -1183,7 +1195,9 @@ function Form() {
                         foreKulay={"#20B155"}
                         icon={type.Icon}
                         title={type.title}
-                      />
+
+
+                        />
                     ))}
                   </div>
 

@@ -679,8 +679,152 @@ function Workspaces() {
 
                    
                   </div>
+ <div
+                    className={`w-full mt-4 ${
+                      viewMode === "grid"
+                        ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+                        : "flex flex-col"
+                    }`}
+                  >
+                    {viewMode === "list" && (
+                      <div className="grid grid-cols-12 text-xs font-semibold text-white uppercase tracking-wider mb-3 px-6">
+                        <div className="col-span-5"></div>
+                        <div className="col-span-2 text-center">Responses</div>
+                        <div className="col-span-2 text-center">Published</div>
+                        <div className="col-span-2 text-center">
+                          Last Modified
+                        </div>
+                      
+                      </div>
+                    )}
 
-                  
+                    {isLoading && (
+                      <div className="mt-5 w-full justify-center flex items-center col-span-full">
+                        <VscLoading className="animate-spin text-3xl" />
+                      </div>
+                    )}
+
+                    {filteredForms.map((item) => (
+                      <div
+                        key={item.id}
+                        onClick={() => navigate(`/newform/${item.id}`)}
+                        className={`
+                      group bg-[#DFE0F0] backdrop-blur-sm border border-black/30 hover:border-[var(--purple)] 
+                      rounded-xl shadow-sm transition-all cursor-pointer relative
+                      ${
+                        viewMode === "list"
+                          ? "p-4 grid grid-cols-12 items-center mt-3"
+                          : "p-6 flex flex-col justify-between h-56"
+                      }
+                    `}
+                      >
+                        {viewMode === "list" ? (
+                          <>
+                            <div className="col-span-5 flex items-center gap-4">
+                              <div className="w-8 h-8 rounded-md flex items-center justify-center text-white">
+                                <FaRegFileAlt className="text-black text-xl" />
+                              </div>
+                              <span className="font-medium text-gray-800 truncate">
+                                {item.title || "Untitled"}
+                              </span>
+                            </div>
+
+                            <div className="col-span-2 text-center text-sm font-medium">
+                              {item.responseCount || 0}
+                            </div>
+
+                            {/* Switch (Inline JSX) */}
+                            <div className="col-span-2 flex justify-center">
+                              <div
+                                onClick={(e) => handleToggleClick(e, item)}
+                                className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${
+                                  item.isPublished
+                                    ? "bg-green-500"
+                                    : "bg-gray-300"
+                                }`}
+                              >
+                                <div
+                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
+                                    item.isPublished
+                                      ? "translate-x-5"
+                                      : "translate-x-0"
+                                  }`}
+                                />
+                              </div>
+                            </div>
+
+                            <div className="col-span-2 text-center text-sm text-gray-500">
+                              {moment.utc(item.createdAt).local().fromNow()}
+                            </div>
+
+                            <div className="col-span-1 flex justify-end">
+                              <button
+                                onClick={(e) => handleDeleteClick(e, item.id)}
+                                className="relative z-20 p-2 rounded-full hover:bg-red-100 transition-colors group/delete"
+                              >
+                                <FaTrash className="text-lg fill-gray-400 group-hover/delete:fill-red-500 transition-colors" />
+                              </button>
+                            </div>
+                          </>
+                        ) : (
+                          // === GRID VIEW UI ===
+                          <>
+                            <div className="flex justify-between items-start">
+                              <div className="w-10 h-10  rounded-lg flex items-center justify-center">
+                                <FaRegFileAlt className="text-black text-xl" />
+                              </div>
+                              {/* Trash Icon */}
+                              <div className="absolute top-4 right-4 z-30">
+                                <button
+                                  onClick={(e) => handleDeleteClick(e, item.id)}
+                                  className="p-2 rounded-full hover:bg-red-100 transition-colors group/delete"
+                                >
+                                  <FaTrash className="text-lg fill-gray-400 group-hover/delete:fill-red-500 transition-colors" />
+                                </button>
+                              </div>
+                            </div>
+
+                            <div className="mt-4">
+                              <h3 className="font-bold text-lg text-gray-800 line-clamp-1 mb-1">
+                                {item.title || "Untitled"}
+                              </h3>
+                              <p className="text-xs text-gray-500">
+                                {item.responseCount || 0} responses
+                              </p>
+                            </div>
+
+                            <div className="mt-4 pt-4 border-t border-black/10 flex justify-between items-center">
+                              <span className="text-xs text-gray-500">
+                                {moment
+                                  .utc(item.createdAt)
+                                  .local()
+                                  .fromNow(true)}
+                              </span>
+                              {/* Switch (Inline JSX) */}
+                              <div
+                                onClick={(e) => handleToggleClick(e, item)}
+                                className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${
+                                  item.isPublished
+                                    ? "bg-green-500"
+                                    : "bg-gray-300"
+                                }`}
+                              >
+                                <div
+                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
+                                    item.isPublished
+                                      ? "translate-x-5"
+                                      : "translate-x-0"
+                                  }`}
+                                />
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+               
+                 
                 </div>
               </div>
             </div>

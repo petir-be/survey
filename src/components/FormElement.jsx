@@ -17,7 +17,7 @@ function FormElement({ title, icon: Icon, foreKulay, bgKulay }) {
   return (
     <div
       ref={dragRef}
-      className="w-full flex flex-col pt-3 items-center min-h-20 text-center pb-1.5 ring drag-item ring-white overflow-hidden  rounded shadow-[0px_1px_4px_2px_rgba(0,0,0,0.15)] hover:shadow-[0_1px_5px_2px_rgba(132,95,255,0.5)]"
+      className="w-full bg-[#1e1e1e] ring  flex flex-col pt-3 items-center min-h-20 text-center pb-1.5  rounded-[6px] drag-item  overflow-hidden  rounded shadow-[0px_1px_4px_2px_rgba(0,0,0,0.1)] transition-all duration-600 ease hover:bg-[#2a2a2a] "
     >
       <div
         className={`min-w-7 h-7 flex justify-center items-center rounded p-0.5`}
