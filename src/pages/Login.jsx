@@ -10,7 +10,7 @@ import { useNavigate } from "react-router";
 import { VscLoading } from "react-icons/vsc";
 import toast, { Toaster } from "react-hot-toast";
 import { IoMdClose } from "react-icons/io";
-
+import ShaderBackground from "../components/ShaderBackground";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -93,43 +93,44 @@ function Login() {
  
   return (
     <>
-      <LoginShader />
+<ShaderBackground/>
       <Toaster position="top-right" />
       <div className="relative z-20 min-h-dvh flex flex-col">
-        <header className="">
+        <header className="w-fit">
           <Link to={"/"}>
-            <p className="cursor-pointer font-zendots text-[30px] pt-8 pb-0 px-12">
-              C-MEN
+            <p className="text-white  cursor-pointer font-zendots text-[30px] pt-8 pb-0 px-12">
+             Ispecmn
             </p>
           </Link>
         </header>
-        <div className="flex-1 flex justify-center items-center py-5 sm:py-10">
-          <div className="flex justify-center items-center flex-col border border-[#FFFFFF] bg-[#DFE0F0] w-[500px] min-h-[550px] shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(132,95,255,0.8)] rounded-3xl gap-4">
-            <div className="flex justify-center items-center gap-3 flex-col w-[80%]">
+        <div className="flex-1 flex justify-center items-center py-5 ">
+          <div className="flex justify-center items-center flex-col  bg-black w-[500px] min-h-[540px] shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(34,197,94,0.4)] rounded-3xl gap-4">
+            <div className="flex text-white justify-center items-center gap-5 flex-col w-[80%] ">
               <h1 className="font-baloo text-3xl text-center">
                 Welcome back!
               </h1>
               <button
                 onClick={handleGoogleLogin}
-                className="flex flex-row justify-center items-end gap-2.5 font-vagrounded text-xl bg-[#DFE0F0] ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full"
+                className="text-black flex flex-row justify-center items-end gap-2.5 font-vagrounded text-xl bg-white hover:bg-white/80  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full"
               >
                 <FcGoogle className="text-3xl" /> Continue with Google
               </button>
             </div>
             <div className="flex items-center justify-center gap-4 w-[85%] m-2">
-              <hr className="flex-1 border-black" />
+                  
+              <hr className="flex-1 border-gray-400" />
               <p className="text-xl text-gray-500 font-vagrounded">or</p>
-              <hr className="flex-1 border-black" />
+              <hr className="flex-1 border-gray-400"/>
             </div>
-            <div className="flex items-center justify-center flex-col gap-7 text-gray-400 w-[80%]">
-              <div className="flex justify-center items-center flex-col gap-4 w-full">
+            <div className="flex items-center justify-center flex-col gap-7  w-[80%]">
+              <div className="flex bg- justify-center text-white items-center flex-col gap-4 w-full">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="Enter your email"
-                  className="login-input"
+                  className="login-input  "
                 />
                 <div className="relative w-full">
                   <input
@@ -152,8 +153,8 @@ function Login() {
               <button
                 onClick={Auth}
                 disabled={loading}
-                className={`flex justify-center items-center hover:bg-purple-400 transition-color ease-out text-black duration-400 w-full py-2.5 font-vagrounded text-xl ring ring-white drop-shadow-md/30 rounded-2xl
-                ${loading ? `bg-gray-400` : `bg-purple-300`}`}
+                className={`flex justify-center hover:bg-[#00A300] items-center transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-xl ring ring-white drop-shadow-md/30 rounded-2xl
+                ${loading ? `bg-[#00A300]/80 ` : `bg-black`}`}
               >
                 {loading ? (
                   <VscLoading className="text-3xl  animate-spin" />
@@ -162,12 +163,12 @@ function Login() {
                 )}
               </button>
             </div>
-            <div className="font-vagrounded flex justify-center items-center gap-1 mt-3">
+            <div className="text-white font-vagrounded flex justify-center items-center gap-1 mt-3">
               <p>
                 Dont have account yet?{" "}
                 <Link
                   to="/sign-up"
-                  className="text-blue-600 underline underline-offset-2"
+                  className="text-[#00A300] hover:text-[#00A300]/80 underline underline-offset-2"
                 >
                   Sign up for free
                 </Link>

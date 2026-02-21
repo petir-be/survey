@@ -136,7 +136,7 @@ function NavBar() {
       {isAuthenticated ? (
         <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
           <img
-            src={user.avatar}
+            src={user?.avatar}
             onClick={() => setShowAccountModal(true)}
             className="h-10 w-10 cursor-pointer rounded-full"
             alt="User avatar"

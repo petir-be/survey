@@ -108,7 +108,7 @@
     @apply absolute rounded-full blur-3xl;
   }
   .login-input {
-    @apply placeholder-gray-400 text-[#212529] w-full font-vagrounded text-lg bg-[#DFE0F0] ring ring-white px-8 py-3 rounded-2xl drop-shadow-md/30 focus:outline-none focus:ring-gray-400;
+    @apply border-2 border-gray-500 text-white placeholder:text-gray-400  focus:border-green-800  w-full font-vagrounded text-lg bg-[#2A2A2A] px-8 py-3 rounded-2xl drop-shadow-md/30 focus:outline-none focus:ring-gray-400;
   }
   .form-element-container {
     @apply p-4 justify-self-center w-11/12 transition-all duration-200 ease-out bg-(--white) hover:ring-2 hover:ring-(--purple);
