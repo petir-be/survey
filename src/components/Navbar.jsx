@@ -195,7 +195,7 @@ function NavBar() {
                           <IoDocumentText size={124} fill="white" />
                           <div className="h-10 flex items-start justify-center">
                             <span className="text-white text-lg font-vagrounded font-bold">
-                              Create your own forms
+                              Blank form
                             </span></div>
                         </button>
                       )}
