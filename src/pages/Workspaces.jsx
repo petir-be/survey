@@ -687,13 +687,8 @@ function Workspaces() {
                     }`}
                   >
                     {viewMode === "list" && (
-                      <div className="grid grid-cols-12 text-xs font-semibold text-white uppercase tracking-wider mb-3 px-6">
-                        <div className="col-span-5"></div>
-                        <div className="col-span-2 text-center">Responses</div>
-                        <div className="col-span-2 text-center">Published</div>
-                        <div className="col-span-2 text-center">
-                          Last Modified
-                        </div>
+                      <div className=" flex items-center justify-center text-xs font-semibold text-white uppercase tracking-wider ">
+                     <span > No items here </span>
                       
                       </div>
                     )}

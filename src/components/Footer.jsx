@@ -103,8 +103,8 @@ function Footer() {
       {isTabletOrMobile &&
         <>
           <footer
-            className="p-10 flex cursor-default fixed bottom-0 left-0 w-fit text-center 
-       bg-header-gradient text-white font-zendots text-[md] z-20"
+            className="py-10 px-6 flex cursor-default fixed bottom-0 left-0 w-fit text-center 
+       bg-header-gradient text-white font-zendots text-[md] z-20 select-none"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >

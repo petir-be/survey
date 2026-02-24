@@ -108,7 +108,7 @@ function Login() {
           </Link>
         </header>
         <div className="flex-1 flex justify-center items-center py-5 ">
-          <div className="flex justify-center items-center flex-col  bg-black w-[500px] min-h-[540px] shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(34,197,94,0.4)] rounded-3xl gap-4">
+          <div className="flex justify-center items-center flex-col  bg-black w-[500px] py-10 shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(34,197,94,0.4)] rounded-3xl gap-4">
             <div className="flex text-white justify-center items-center gap-5 flex-col w-[80%] ">
               <h1 className="font-baloo text-3xl text-center">
                 Welcome back!
@@ -189,7 +189,7 @@ function Login() {
       <div className="relative z-20 min-h-dvh flex flex-col">
         <header className="w-fit">
           <Link to={"/"}>
-            <p className="text-white  cursor-pointer font-zendots text-[24px] pt-8 pb-0 px-12">
+            <p className="text-white  cursor-pointer font-zendots text-[16px] pt-4 pb-0 px-6">
              Ispecmn
             </p>
           </Link>

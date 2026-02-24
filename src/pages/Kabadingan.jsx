@@ -11,8 +11,8 @@ import { BiSolidMessageSquareMinus } from "react-icons/bi";
 
 function Kabadingan() {
   // State to track the currently active item
-  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 700px)" });
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 699px)" });
+  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1301px)" });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1300px)" });
 
   const navItems = [
     "Getting started with CMEN",
@@ -239,11 +239,14 @@ d="M10,50 L26,56 M10,50 L24,40"
       </div>
 
       {/* Chat Button */}
-      <button className=" -mt-15 w-fit group transition-transform hover:scale-105  duration-600">
+      <a href="https://www.mcganir.pro/"target="_blank" 
+  rel="noopener noreferrer">
+      <button className=" block -mt-15 w-fit group transition-transform hover:scale-105  duration-600">
         <div className="bg-green-500 hover:bg-green-600  rounded-full p-4 flex items-center justify-center shadow-lg">
           <BiSolidMessageSquareMinus color="white" size={32} />
         </div>
       </button>
+      </a>
     </div>
    </div>
       
@@ -397,12 +400,14 @@ d="M10,50 L26,56 M10,50 L24,40"
         </svg>
       </div>
 
+<a href="https://www.mcganir.pro/" target="_blank" rel="noopenner noreferrer">
       {/* Chat Button */}
-      <button className=" -mt-15 w-fit group transition-transform hover:scale-105  duration-600">
+      <button className=" block -mt-15 w-fit group transition-transform hover:scale-105  duration-600">
         <div className="bg-green-500 hover:bg-green-600  rounded-full p-4 flex items-center justify-center shadow-lg">
           <BiSolidMessageSquareMinus color="white" size={32} />
         </div>
       </button>
+      </a>
     </div>
    </div>
       

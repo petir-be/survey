@@ -410,7 +410,7 @@ function Home() {
 
             <div className=" justify-center flex flex-col gap-5   ">
               {/* Redirect to login page if dont have acc log */}
-              <div className="flex fixed pb-6  bottom-0 right-8">
+              <div className="flex fixed pb-6  bottom-0 right-6">
                 <Link to={"faq"}>
                   <FAQ />
                 </Link>
