@@ -120,26 +120,26 @@ function Register() {
             </p>
           </Link>
         </header>
-        <div className="flex-1 flex justify-center items-center py-6">
-          <div className="text-white flex justify-center items-center flex-col bg-black w-[500px] min-h-[680px] shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(34,197,94,0.4)] rounded-3xl gap-4">
+        <div className=" flex justify-center mt-10 py-5">
+          <div className="text-white flex py-10 justify-center items-center flex-col bg-black w-[360px] shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(34,197,94,0.4)] rounded-3xl gap-4">
             <div className="flex justify-center items-center gap-5 flex-col w-[80%]">
-              <h1 className="font-vagrounded text-3xl text-center">
+              <h1 className="font-vagrounded text-2xl text-center">
                 Let's Get Started!
               </h1>
               <button
                 onClick={handleGoogleLogin}
                 disabled={loading}
-                className={`text-black flex flex-row justify-center items-end gap-2.5 font-vagrounded text-xl bg-white  hover:bg-white/80  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full ${
+                className={`text-black flex flex-row justify-center items-center gap-2.5 font-vagrounded text-l bg-white  hover:bg-white/80  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full ${
                   loading ? `  bg-gray-500` : `bg-[#DFE0F0]`
                 }`}
               
               >
-                <FcGoogle className="text-3xl" /> Continue with Google
+                <FcGoogle className="text-xl" /> Continue with Google
               </button>
             </div>
             <div className="flex items-center justify-center gap-4 w-[85%] my-2">
               <hr className="flex-1 border-gray-400" />
-              <p className="text-xl text-gray-500 font-vagrounded">or</p>
+              <p className="text-l text-gray-500 font-vagrounded">or</p>
               <hr className="flex-1 border-gray-400"/>
             </div>
             <div className="flex items-center justify-center flex-col gap-7 text-gray-400 w-[80%]">
@@ -149,7 +149,7 @@ function Register() {
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="login-input"
+                  className="login-input !text-[12px]"
                 />
                 <input
                   type="text"
@@ -166,7 +166,7 @@ function Register() {
                       setUsernameError("");
                     }
                   }}
-                  className="login-input "
+                  className="login-input !text-[12px]"
                 />
                 {userNameError && (
                   <>
@@ -181,7 +181,7 @@ function Register() {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                  className="login-input"
+                  className="login-input !text-[12px]"
                   />
                   <button
                     type="button"
@@ -204,7 +204,7 @@ function Register() {
                         setError("");
                       }
                     }}
-                  className="login-input"
+                  className="login-input !text-[12px]"
                   />
                   <button
                     type="button"
@@ -225,7 +225,7 @@ function Register() {
               <button
                 onClick={Register}
                 disabled={loading}
-                className={`flex justify-center items-center hover:bg-[#00A300] transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-xl ring ring-white drop-shadow-md/30 rounded-2xl   
+                className={`flex justify-center items-center hover:bg-[#00A300] transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-l ring ring-white drop-shadow-md/30 rounded-2xl   
                 ${loading ? 'bg-[#00A300]/80' : 'bg-black'}`}
               >
                 {loading ? (
@@ -235,12 +235,12 @@ function Register() {
                 )}
               </button>
             </div>
-            <div className="font-vagrounded flex justify-center items-center gap-1 mt-3">
+            <div className="text-[12px] font-vagrounded flex justify-center items-center gap-1 mt-3">
               <p>
                 Already a member?{" "}
                 <Link
                   to="/login"
-                  className="text-[#00A300] hover:text-[#00A300]/80 underline underline-offset-2"
+                  className= " text-[12px] text-[#00A300] hover:text-[#00A300]/80 underline underline-offset-2"
                 >
                   Login
                 </Link>

@@ -11,13 +11,15 @@ import { VscLoading } from "react-icons/vsc";
 import toast, { Toaster } from "react-hot-toast";
 import { IoMdClose } from "react-icons/io";
 import ShaderBackground from "../components/ShaderBackground";
+import { useMediaQuery } from "react-responsive";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
   const { loginWithGoogle, isAuthenticated, login } = useContext(AuthContext);
-
+  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 700px)" });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 699px)" });
   let navigate = useNavigate();
   useEffect(() => {
     if (isAuthenticated) {
@@ -94,6 +96,8 @@ function Login() {
   return (
     <>
 <ShaderBackground/>
+{isDesktopOrLaptop &&
+<>
       <Toaster position="top-right" />
       <div className="relative z-20 min-h-dvh flex flex-col">
         <header className="w-fit">
@@ -177,6 +181,96 @@ function Login() {
           </div>
         </div>
       </div>
+         </>
+}
+{isTabletOrMobile &&
+<>
+      <Toaster position="top-right" />
+      <div className="relative z-20 min-h-dvh flex flex-col">
+        <header className="w-fit">
+          <Link to={"/"}>
+            <p className="text-white  cursor-pointer font-zendots text-[24px] pt-8 pb-0 px-12">
+             Ispecmn
+            </p>
+          </Link>
+        </header>
+        <div className=" flex justify-center  mt-10 py-5 ">
+          <div className="flex justify-center items-center flex-col py-10 bg-black w-[360px]  shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(34,197,94,0.4)] rounded-3xl gap-4">
+            <div className="flex text-white justify-center items-center gap-5 flex-col w-[80%] ">
+              <h1 className="font-baloo text-2xl text-center">
+                Welcome back!
+              </h1>
+              <button
+                onClick={handleGoogleLogin}
+                className="text-black flex flex-row justify-center items-center gap-2.5 font-vagrounded text-l bg-white hover:bg-white/80  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full"
+              >
+                <FcGoogle className="text-xl " /> 
+                Continue with Google
+              </button>
+            </div>
+            <div className="flex items-center justify-center gap-4 w-[85%] m-2">
+                  
+              <hr className="flex-1 border-gray-400" />
+              <p className="text-l text-gray-500 font-vagrounded">or</p>
+              <hr className="flex-1 border-gray-400"/>
+            </div>
+            <div className="flex items-center justify-center flex-col gap-7  w-[80%]">
+              <div className="flex justify-center text-white items-center flex-col gap-4 w-full">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="Enter your email"
+                  className="login-input !text-[16px] "
+                />
+                <div className="relative w-full">
+                  <input
+                    type={showPass ? "text" : "password"}
+                    placeholder="Password"
+                    value={password}
+                    required
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="login-input !text-[16px]"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPass(!showPass)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600"
+                  >
+                    {showPass ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
+              </div>
+              <button
+                onClick={Auth}
+                disabled={loading}
+                className={`flex justify-center hover:bg-[#00A300] items-center transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-l ring ring-white drop-shadow-md/30 rounded-2xl
+                ${loading ? `bg-[#00A300]/80 ` : `bg-black`}`}
+              >
+                {loading ? (
+                  <VscLoading className="text-xl  animate-spin" />
+                ) : (
+                  "Log in"
+                )}
+              </button>
+            </div>
+            <div className="text-[12px] text-white font-vagrounded flex justify-center items-center gap-1 mt-3">
+              <p>
+                Dont have account yet?{" "}
+                <Link
+                  to="/sign-up"
+                  className="text-[12px] text-[#00A300] hover:text-[#00A300]/80 underline underline-offset-2"
+                >
+                  Sign up for free
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+         </>
+}
     </>
   );
 }

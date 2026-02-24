@@ -91,7 +91,7 @@ content: "Details about who should use the product go here.\n" +
   }
   return (
     <>
-   
+   {isDesktopOrLaptop &&
       <div className="flex flex-col mt-[40px]  mx-[40px]">
 
 <div className="flex items-baseline text-white gap-10">
@@ -248,6 +248,167 @@ d="M10,50 L26,56 M10,50 L24,40"
    </div>
       
       </div>
+}
+  {isTabletOrMobile &&
+  <>
+      <div className="flex flex-col mt-[40px]  mx-[40px]">
+
+<div className="flex items-center gap-5 text-white ">
+ 
+        <Link to={"/"}>
+         <button className="flex">
+ <IoChevronBack size={36} color="white" className="mb-[40px]"/>
+    </button>
+    </Link>
+
+      <span className="text-[28px] font-bold">Frequently Asked Questions</span>
+</div>
+
+    <div className="flex flex-col mx-[40px] mt-10">
+     
+        <div className="flex ">
+          <div className="flex flex-1 flex-col  text-white">
+          
+            <p className="text-[16px] max-w-[500px]  z-100">
+              {" "}
+              If you're new to <span className="font-zendots">Ispecmn</span> or looking for creating a surveys for just
+              a minutes, this guide will help you learn more about the platform
+              and its features.
+            </p>
+            <div className="flex  flex-col mt-[40px]  gap-2">
+              <span className="text-[12px]">Already have a CMEN account?</span>
+              <button onClick={MakeForm} className="text-left text-[12px] font-semibold">
+                Create forms Now
+              </button>
+            </div>
+          </div>
+          
+       
+        </div>
+
+ <div className=" flex flex-col flex-1 font-sans text-gray-800 mt-20">
+      
+      {/* Search Input Area */}
+      <div className="mb-6 relative">
+        <div className="flex items-center pb-2 border-b border-dotted border-gray-400">
+          {/* Search Icon */}
+          <svg
+            className="w-5 h-5 text-gray-400 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            ></path>
+          </svg>
+          <input
+            type="text"
+            placeholder="What are you looking for?"
+            className="w-full outline-none text-gray-600 placeholder-gray-400 text-lg"
+          />
+        </div>
+      </div>
+
+      {/* Accordion List */}
+      <div className="border-t border-gray-300">
+        {faqItems.map((item, index) => (
+          <div key={index} className="border-b border-gray-300">
+            <button
+              onClick={() => toggleAccordion(index)}
+              className="w-full flex items-center py-4 text-left focus:outline-none hover:text-gray-600 transition-colors"
+            >
+              {/* Chevron Icon */}
+              <svg
+                className={`w-4 h-4 mr-4 text-gray-500 transition-transform duration-400 ${
+                  activeIndex === index ? "transform rotate-90" : ""
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                 d="M9 5l7 7-7 7"
+                ></path>
+              </svg>
+              <span className="text-white font-medium text-[15px]">{item.title}</span>
+            </button>
+
+            {/* Expandable Content */}
+        {activeIndex === index && (
+  <div className=" pb-5 pl-8 pr-4 text-[14px] leading-relaxed text-white whitespace-pre-line">
+    {/* Split by single newline instead of double */}
+    {item.content.split("\n").map((line, lIndex) => (
+      <p key={lIndex} className={lIndex > 0 ? "mt-1" : ""}>
+        {line}
+      </p>
+    ))}
+  </div>
+)}
+          </div>
+        ))}
+      </div>
+    </div>
+      {/* Text Content */}
+      <div className="flex flex-col my-20">
+      <div className=" w-fit flex flex-col mb-4">
+        <span className="text-[12px] text-gray-400">
+          Can't find what you are looking for?
+        </span>
+        <span className="text-white text-[16px] font-semibold">
+          We would like to chat with you.
+        </span>
+      </div>
+
+      {/* Decorative Arrow Container */}
+     <div className="ml-16 -mt-2 ">
+      <svg
+          width="100"
+          height="70"
+          viewBox="0 0 100 80"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="text-white opacity-90"
+        >
+          <path
+            /* aroowTbody */
+            d="M65,2 C 70,10 110,40 10,50"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+          />
+          <path
+            /* arrowhead  */
+d="M10,50 L26,56 M10,50 L24,40"
+ 
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+
+      {/* Chat Button */}
+      <button className=" -mt-15 w-fit group transition-transform hover:scale-105  duration-600">
+        <div className="bg-green-500 hover:bg-green-600  rounded-full p-4 flex items-center justify-center shadow-lg">
+          <BiSolidMessageSquareMinus color="white" size={32} />
+        </div>
+      </button>
+    </div>
+   </div>
+      
+      </div>
+      </>
+}
     </>
   );
 }
