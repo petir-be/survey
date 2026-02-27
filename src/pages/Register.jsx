@@ -121,7 +121,7 @@ const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 700px)" });
       <div className="relative z-20 min-h-dvh flex flex-col">
         <header className="text-white">
           <Link to={"/"}>
-            <p className="text-white cursor-pointer font-zendots text-[30px] pt-8 pb-0 px-12">
+            <p className="text-white cursor-pointer font-zendots text-[24px] pt-8 pb-0 px-12">
               Ispecmn
             </p>
           </Link>
@@ -149,7 +149,7 @@ const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 700px)" });
               <hr className="flex-1 border-gray-400"/>
             </div>
             <div className="flex items-center justify-center flex-col gap-7 text-gray-400 w-[80%]">
-              <div className="flex justify-center items-center flex-col gap-4 w-full">
+              <div className="flex justify-center items-center flex-col gap-4 w-full ">
                 <input
                   type="email"
                   placeholder="Enter your email"
@@ -269,7 +269,7 @@ const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 700px)" });
           </Link>
         </header>
         <div className=" flex justify-center mt-10 py-5">
-          <div className="text-white flex py-10 justify-center items-center flex-col bg-black w-[360px] shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(34,197,94,0.4)] rounded-3xl gap-4">
+          <div className="text-white flex py-10 justify-center items-center flex-col bg-black w-full mx-5 shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(34,197,94,0.4)] rounded-3xl gap-4">
             <div className="flex justify-center items-center gap-5 flex-col w-[80%]">
               <h1 className="font-vagrounded text-2xl text-center">
                 Let's Get Started!

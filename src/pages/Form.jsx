@@ -46,8 +46,11 @@ import { BsFillSendXFill } from "react-icons/bs";
 import Modal from "../components/Modal";
 import Results from "./Results";
 import Loading from "../components/Loading";
-import ShaderBackground from "../components/ShaderBackground"
+import { useMediaQuery } from "react-responsive";
+
 function Form() {
+   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 822px)" });
+    const isTabletOrMobile = useMediaQuery({ query: "(max-width: 821px)" });
   const { user, isAuthenticated } = useContext(AuthContext);
   const [error, setError] = useState(null);
 const [activeTab, setActiveTab] = useState('questions');
@@ -699,6 +702,8 @@ const [activeTab, setActiveTab] = useState('questions');
 
   return (
     <>
+    {isDesktopOrLaptop &&
+    <>
       <AccountModal
         isOpen={showAccountModal}
         close={() => setShowAccountModal(false)}
@@ -1180,7 +1185,7 @@ const [activeTab, setActiveTab] = useState('questions');
                 id="questions"
 className="flex-1 w-full flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden min-h-0"              >
                 {/* leftside */}
-<div className="w-full lg:w-[20%] min-w-[300px] p-2 z-10 bg-black h-auto lg:h-full min-h-0 border-t-2 lg:border-r-2 overflow-y-auto border-(--dirty-white) static max-h-full">                  {/* elements*/}
+<div className="w-full lg:w-[20%]  p-2 z-10 bg-black h-auto h-full min-h-0 border-t-1 border-r-1 overflow-y-auto border-(--dirty-white) static max-h-full">                  {/* elements*/}
                   {/* Frequently Used */}
                   <span className="text-gray-500 font-vagrounded m-3">
                     Frequently used
@@ -1491,7 +1496,808 @@ className="flex-1 w-full flex flex-col lg:flex-row overflow-y-auto lg:overflow-h
           </Modal>
         </div>
       </DndProvider>
-    </>
+     </>} 
+     
+     
+      {isTabletOrMobile &&
+    <>
+      <AccountModal
+        isOpen={showAccountModal}
+        close={() => setShowAccountModal(false)}
+        title="Account Information"
+      ></AccountModal>
+      <Toaster position="top-right" />
+      <DndProvider backend={HTML5Backend}>
+        <div className="h-dvh w-full bg-black flex flex-col overflow-x-hidden">
+        
+<header className="flex items-center justify-between bg-black pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-6 lg:pr-10 relative z-50 border border-transparent border-b-(--dirty-white)">          {/* {Mobile Hamburger} */}
+            <AnimatePresence>
+              {mobileMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="lg:hidden absolute top-full left-0 w-full z-40
+                 bg-(--white) border-t border-(--dirty-white) shadow-lg"
+                >
+                  <div className="flex flex-col divide-y">
+                    {/* Questions */}
+                    <button
+                      onClick={() => {
+                        setResultPage(false);
+                        window.location.hash = "questions";
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      Questions
+                    </button>
+
+                    {/* Responses */}
+                    <button
+                      onClick={() => {
+                        setResultPage(true);
+                        window.location.hash = "responses";
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      Responses
+                    </button>
+
+                    {/* Preview */}
+                    <Link
+                      to={`../preview/${publicid}`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="px-6 py-4 hover:bg-(--dirty-white)"
+                    >
+                      Preview
+                    </Link>
+
+                    {/* Publish / Share */}
+                    <button
+                      onClick={(e) => {
+                        PublishForm(e);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-[#1E1E1E]"
+                    >
+                      {isPublished ? "Share" : "Publish"}
+                    </button>
+
+                    {/* Settings */}
+                    <button
+                      onClick={() => {
+                        setShowSettings(true);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      Settings
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowMobileLayers(true);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      Layers
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowMobileElements(true);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                    >
+                      Form Elements
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+<div className="inline-flex items-center gap-7 flex-1 min-w-0">              <Link to={"/"}>
+                <FaHome fill='white' className="text-2xl cursor-pointer" />
+              </Link>
+              <div
+                ref={containerRef}
+                className="relative inline-flex items-center z-50  max-w-2/3 flex-1 min-w-0"
+              >
+                <span
+                  ref={spanRef}
+                  className="text-[#1E1E1E] invisible absolute whitespace-pre font-medium px-2 text-xl"
+                >
+                  {titleValue || "Untitled Form"}
+                </span>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  placeholder="Untitled Form"
+                  className={`text-white placeholder:text-gray-400 text-xl py-1 px-2 rounded-lg transition-all relative duration-200 focus:outline-none focus:ring ring-black ${
+                    !isFocused && titleValue ? "truncate" : ""
+                  }`}
+                  value={titleValue}
+                  onChange={(e) => handleTitleUpdate(e.target.value)}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  style={{ width: "180px" }}
+                />
+              </div>
+            </div>
+<div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 gap-5 items-center">
+            <button
+                            className="text-left"
+                            onClick={() => {
+                  setResultPage(false);
+                  window.location.hash = "questions";
+                }}
+
+                          >
+                            <div tabIndex='1' className="  justify-center bg-black hover:bg-gray-[#1E1E1E] focus:bg-[#1e1e1e] group px-8  py-4  relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-000 ">
+                              <div className="absolute flex items-center justify-center top-0 right-0 w-5 h-5  bg-[#C8C9DA]">
+                                <button onClick={() => setActiveTab('questions')}className="relative w-full h-full font-bold cursor-pointer  flex items-center justify-center overflow-hidden">
+                                  <FaArrowUp size={12} className="fill-black rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
+                                  <FaArrowUp size={12}
+                                    className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
+                                               transition-all duration-400 ease-out fill-green-700"
+                                  />
+                                </button>
+                              </div>
+                            
+                              <span className="vagrounded font-semibold text-[15px] text-white mb-[2px]">
+                                Questions
+                              </span>
+                            
+                            </div>
+                          </button>
+
+  <button
+                            className="text-left"
+                  onClick={() => {
+                  setResultPage(true);
+                  window.location.hash = "responses";
+                }}
+
+                          >
+                            <div tabIndex='0'className="  justify-center  bg-black hover:bg-gray-[#1E1E1E] focus:bg-[#1e1e1e] group px-8 py-4 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-000 ">
+                              <div className="absolute flex items-center justify-center top-0 right-0   w-5 h-5 bg-[#C8C9DA]">
+                                <button className="relative w-full h-full font-bold cursor-pointer  flex items-center justify-center overflow-hidden">
+                                  <FaArrowUp size={12} className="fill-black rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
+                                  <FaArrowUp size={12}
+                                    className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
+                                               transition-all duration-400 ease-out fill-green-700"
+                                  />
+                                </button>
+                              </div>
+                         
+                              <span className="vagrounded font-semibold text-[15px] text-white mb-[2px]">
+                               Responses
+                              </span>
+                            
+                            </div>
+                          </button>
+
+           </div>
+<div className="flex-1 flex justify-end items-center gap-4">
+            <button
+              onClick={() => setMobileMenuOpen((v) => !v)}
+              className="lg:hidden flex items-center justify-center"
+            >
+              <HiMenu className="text-3xl" />
+            </button>
+
+            <div className="hidden lg:inline-flex items-center gap-4 shrink-0">
+              <Link to={`../preview/${publicid}`}>
+                <button className="text-white px-7 py-1.5 rounded-xl bg-black ring inset-shadow-lg/10   font-vagrounded drop-shadow-sm/30 hover:bg-[#1E1E1E] transition-color duration-200 ease-out">
+                  Preview
+                </button>
+              </Link>
+              <div className="relative">
+                <button
+                  onClick={PublishForm}
+                  disabled={shareLoading}
+                  ref={triggerRef}
+                  className="flex text-white items-center gap-2 px-7 py-1.5 rounded-xl bg-green-700 ring ring-green-700
+              inset-shadow-lg/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 ease duration-200 hover:ring-green-800
+              disabled:opacity-60"
+                >
+                  {shareLoading ? (
+                    <span className="w-6 h-6 border-2 border-(--purple) border-t-transparent rounded-full animate-spin"></span>
+                  ) : isPublished ? (
+                    <>
+                      <IoShareSocialSharp className="text-lg" /> Share
+                    </>
+                  ) : (
+                    "Publish"
+                  )}
+                </button></div>
+                <AnimatePresence>
+                  {showPublishModal && (
+                    <motion.div
+                      ref={dropdownRef}
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.7 }}
+                      transition={{ duration: 0.18, ease: "easeOut" }}
+                      style={{ transformOrigin: "top right" }}
+                      className="absolute top-12 right-0 z-50"
+                    >
+                      {/* Pointer triangle */}
+                      <span className="bg-(--white) border -z-10 border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-5 rounded"></span>
+
+                      {/* Modal Box */}
+                      <div className="font-vagrounded min-w-100 w-80 py-4 px-2 bg-(--white) border border-(--purple) rounded shadow-lg">
+                        <div className="gap-1 px-3 flex-col flex">
+                          <p className="text-xl">Share Link</p>
+
+                          <div className="flex w-full gap-2 items-center">
+                            <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-lg p-2 truncate">
+                              {`localhost:5173/form/${publicid}`}
+                            </p>
+
+                            <button
+                              onClick={handleCopyButton}
+                              className="flex items-center justify-center gap-2 text-sm p-2 border-(--purple) bg-(--purple-lighter) hover:bg-[#b099f5] transition-all duration-200 ease-out border-2 rounded-lg px-4"
+                            >
+                              {copy ? (
+                                <IoIosCheckmarkCircle className="text-xl" />
+                              ) : (
+                                <FaCopy className="text-xl" />
+                              )}
+                              {copy ? "Copied" : "Copy"}
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-center gap-4 px-3 my-2">
+                          <hr className="flex-1 border-gray-400" />
+                          <p className="text-sm text-gray-500 font-vagrounded">
+                            or
+                          </p>
+                          <hr className="flex-1 border-gray-400" />
+                        </div>
+                        <p className="px-3 text-xl font-vagrounded">
+                          Get the QR Code
+                        </p>
+                        <p className="px-3 text-gray-500 text-sm font-vagrounded">
+                          Scan the code to launch your form
+                        </p>
+
+                        {/* // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------  */}
+                        <div className="flex px-3 mt-3 gap-2 ">
+                          <QRCodeCanvas
+                            bgColor="#dfe0f0"
+                            value={`localhost:5173/form/${publicid}`}
+                            size={220}
+                            ref={qrCodeRef}
+                          />
+                          <div className="flex flex-col font-vagrounded flex-1 justify-center gap-3">
+                            <button
+                              onClick={handleCopyQRImage}
+                              className="flex hover:bg-(--white) transition-all duration-200 ease-out bg-(--dirty-white) justify-center items-center gap-2 text-lg p-2 border-2 border-(--black-lighter) rounded-lg "
+                            >
+                              {copyQR ? (
+                                <IoIosCheckmarkCircle className="text-xl" />
+                              ) : (
+                                <FaCopy className="text-xl" />
+                              )}
+                              {copyQR ? "Copied" : "Copy Code"}
+                            </button>
+                            <button
+                              onClick={handleDownloadQR}
+                              className="flex bg-(--white) justify-center items-center gap-1 text-lg p-2 border-2 border-(--black-lighter) rounded-lg "
+                            >
+                              <IoDownload className="text-2xl" />
+                              Download
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <div className="relative">
+                <button
+                  onClick={() => {
+                    setShowSettings((show) => !show);
+                    setShowPublishModal(false);
+                  }}
+                  ref={settingsBtnRef}
+                  className="bg-transparent ease-out flex items-center justify-center rounded-full"
+                >
+                  <IoSettingsSharp fill="white" className="text-2xl hover:scale-[1.05] transition-all duration-200 ease-out" />
+                </button>
+                <AnimatePresence>
+                  {showSettings && (
+                    <motion.div
+                      ref={dropdownRef}
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.7 }}
+                      transition={{ duration: 0.18, ease: "easeOut" }}
+                      style={{ transformOrigin: "top right" }}
+                      className="absolute top-11 right-0 z-50"
+                    >
+                      <span className="bg-(--white) -z-10 border border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
+                      <div className="min-w-50 w-83 py-3 z-10 bg-(--white) border border-(--purple) rounded shadow-lg">
+                        <div className="flex flex-col w-full gap-2">
+                          <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
+                            <span className="text-lg flex gap-2 items-center font-vagrounded">
+                              <MdPreview className="text-3xl" />
+                              <span className="flex flex-col">
+                                Review Page
+                                <span className="text-xs">
+                                  Let users review their submission
+                                </span>
+                              </span>
+                            </span>
+
+                            <button
+                              onClick={toggleReview}
+                              style={{
+                                width: 45,
+                                height: 21,
+                                backgroundColor: hasReviewPage
+                                  ? "#9911ff"
+                                  : "#ccc",
+                                borderRadius: 30,
+                                cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: hasReviewPage
+                                  ? "flex-end"
+                                  : "flex-start",
+                                padding: 3,
+                                transition: "background-color 0.2s ease",
+                              }}
+                            >
+                              <motion.div
+                                layout
+                                style={{
+                                  width: 15,
+                                  height: 15,
+                                  backgroundColor: "white",
+                                  borderRadius: "50%",
+                                  boxShadow: "0 0 3px rgba(0,0,0,0.2)",
+                                }}
+                                transition={{
+                                  type: "spring",
+                                  duration: 0.25,
+                                  bounce: 0.2,
+                                }}
+                              />
+                            </button>
+                          </div>
+
+                          {/* Multiple Submission */}
+                          <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
+                            <span className="text-lg flex gap-2 items-center font-vagrounded">
+                              <BiSelectMultiple className="text-3xl" />
+                              <span className="flex flex-col">
+                                Multiple Submission
+                                <span className="text-xs">
+                                  Allows user to answer multiple times
+                                </span>
+                              </span>
+                            </span>
+
+                            <button
+                              onClick={toggleMulti}
+                              style={{
+                                width: 45,
+                                height: 21,
+                                backgroundColor: allowMultipleSubmissionsValue
+                                  ? "#9911ff"
+                                  : "#ccc",
+                                borderRadius: 30,
+                                cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: allowMultipleSubmissionsValue
+                                  ? "flex-end"
+                                  : "flex-start",
+                                padding: 3,
+                                transition: "background-color 0.2s ease",
+                              }}
+                            >
+                              <motion.div
+                                layout
+                                style={{
+                                  width: 15,
+                                  height: 15,
+                                  backgroundColor: "white",
+                                  borderRadius: "50%",
+                                  boxShadow: "0 0 3px rgba(0,0,0,0.2)",
+                                }}
+                                transition={{
+                                  type: "spring",
+                                  duration: 0.25,
+                                  bounce: 0.2,
+                                }}
+                              />
+                            </button>
+                          </div>
+
+                          {/* UNPUBLISH BUTTOn  */}
+                          <div className="flex items-center justify-center gap-4 px-3">
+                            <hr className="flex-1 border-gray-400" />
+                          </div>
+                          <div
+                            onClick={() => {
+                              isPublished ? setShowUnpublishModal(true) : null;
+                            }}
+                            className={`w-full px-3 py-2 flex items-center justify-between ${
+                              isPublished
+                                ? "hover:bg-(--dirty-white) "
+                                : "opacity-50 hover:none disable"
+                            }`}
+                          >
+                            <span className="text-lg flex gap-2 items-center font-vagrounded">
+                              <BsFillSendXFill className="text-2xl font-bold" />
+                              <span className="flex flex-col">
+                                Unpublish Form
+                                <span className="text-xs">
+                                  The form will no longer be visible to
+                                  responders.
+                                </span>
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
+                <img
+                  src={user.avatar}
+                  onClick={() => setShowAccountModal(true)}
+                  className="h-10 w-10 cursor-pointer rounded-full"
+                />
+              </div>
+            </div>
+          </header>
+
+          {resultPage && (
+            <div className="flex-1 w-full overflow-auto ">
+              <Results
+                defaultFormName={titleValue}
+                parentResponses={responses}
+                parentLoading={responsesLoading}
+                parentFormData={pages}
+              />
+            </div>
+          )}
+
+          {!resultPage && (
+            <>
+              <div
+                id="questions"
+className="flex-1 w-full flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden min-h-0"              >
+               
+
+                {/* form  */}
+                <div className="h-screen  min-h-0 border-2 border-(--dirty-white) py-7 flex flex-col w-full lg:w-[60%]">
+                  <Canvas
+                    questions={pages[currentPageIndex].questions}
+                    onDropElement={handleDrop}
+                    onUpdateQuestion={handleUpdateQuestion}
+                    onDeleteQuestion={handleDeleteQuestion}
+                    onDuplicateQuestion={handleDuplicateQuestion}
+                    onAddPage={handleAddPage}
+                    onRemovePage={handleRemovePage}
+                    currentPageIndex={currentPageIndex}
+                    pageNumber={currentPageIndex + 1}
+                    totalPages={pages.length}
+                    onPageChange={setCurrentPageIndex}
+                  />
+                </div>
+
+                 {/* dragable */}
+<div className="w-full lg:w-[20%] min-w-[300px] p-2 z-10 bg-black h-auto lg:h-full min-h-0 border-t-2 lg:border-r-2 overflow-y-auto border-(--dirty-white) static max-h-full">                  {/* elements*/}
+                  {/* Frequently Used */}
+                  <span className="text-gray-500 font-vagrounded m-3">
+                    Frequently used
+                  </span>
+                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white ">
+                    {types.slice(0, 3).map((type, index) => (
+                      <FormElement
+                        key={index}
+                        bgKulay={"#20B15530"}
+                        foreKulay={"#20B155"}
+                        icon={type.Icon}
+                        title={type.title}
+
+
+                        />
+                    ))}
+                  </div>
+
+                  {/* Display Text */}
+                  <span className="text-gray-500 font-vagrounded m-3 mt-5">
+                    Display Text
+                  </span>
+                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white">
+                    {types.slice(3, 5).map((type, index) => (
+                      <FormElement
+                        key={index}
+                        bgKulay={"#52525230"}
+                        foreKulay={"#525252"}
+                        icon={type.Icon}
+                        title={type.title}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Choices */}
+                  <span className="text-gray-500 font-vagrounded m-3 mt-5 ">
+                    Choices
+                  </span>
+                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white">
+                    {types.slice(5, 11).map((type, index) => (
+                      <FormElement
+                        key={index}
+                        bgKulay={"#CC580530"}
+                        foreKulay={"#CC5805"}
+                        // bgKulay={"#B438FF30"}
+                        // foreKulay={"#B438FF"}
+                        icon={type.Icon}
+                        title={type.title}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Text */}
+                  <span className="text-gray-500 font-vagrounded m-3 mt-5">
+                    Text
+                  </span>
+                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white ">
+                    {types.slice(11, 13).map((type, index) => (
+                      <FormElement
+                        key={index}
+                        bgKulay={"#CC06F930"}
+                        foreKulay={"#CC06F9"}
+                        icon={type.Icon}
+                        title={type.title}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Others */}
+                  <span className="text-gray-500 font-vagrounded m-3 mt-5">
+                    Others
+                  </span>
+                  <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white">
+                    {types.slice(13, 17).map((type, index) => (
+                      <FormElement
+                        key={index}
+                        bgKulay={"#F9161630"}
+                        foreKulay={"#F91616"}
+                        icon={type.Icon}
+                        title={type.title}
+                      />
+                    ))}
+                  </div>
+                </div>  </div>
+              
+            </>
+          )}
+
+          <AnimatePresence>
+            {showMobileElements && (
+              <motion.div
+                initial={{ x: "-100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="
+        fixed top-0 left-0
+        h-full
+        w-[60%] max-w-[360px]
+        bg-(--white)
+        z-50
+        p-4
+        border-r-2 border-(--dirty-white)
+        font-vagrounded
+        lg:hidden
+        overflow-y-auto
+        pointer-events-auto
+      "
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between mb-3">
+                  <h1 className="text-xl">Elements</h1>
+                  <button
+                    onClick={() => setShowMobileElements(false)}
+                    className="text-xl px-3 py-1"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* === CONTENT UNCHANGED === */}
+
+                <span className="text-gray-500 m-3">Frequently used</span>
+                <div className="grid grid-cols-3 gap-3 p-2 ">
+                  {types.slice(0, 3).map((type, index) => (
+                    <FormElement
+                      key={index}
+                      bgKulay={"#20B15530"}
+                      foreKulay={"#20B155"}
+                      icon={type.Icon}
+                      title={type.title}
+                    />
+                    
+                  ))}
+                </div>
+
+                <span className="text-gray-500 m-3 mt-5">Display Text</span>
+                <div className="grid grid-cols-3 gap-3 p-2">
+                  {types.slice(3, 5).map((type, index) => (
+                    <FormElement
+                    
+                      key={index}
+                      bgKulay={"#52525230"}
+                      foreKulay={"#525252"}
+                      icon={type.Icon}
+                      title={type.title}
+                    />
+                  ))}
+                </div>
+
+                <span className="text-gray-500 m-3 mt-5">Choices</span>
+                <div className="grid grid-cols-3 gap-3 p-2">
+                  {types.slice(5, 11).map((type, index) => (
+                    <FormElement
+                      key={index}
+                      bgKulay={"#CC580530"}
+                      foreKulay={"#CC5805"}
+                      icon={type.Icon}
+                      title={type.title}
+                    />
+                  ))}
+                </div>
+
+                <span className="text-gray-500 m-3 mt-5">Text</span>
+                <div className="grid grid-cols-3 gap-3 p-2">
+                  {types.slice(11, 13).map((type, index) => (
+                    <FormElement
+                      key={index}
+                      bgKulay={"#CC06F930"}
+                      foreKulay={"#CC06F9"}
+                      icon={type.Icon}
+                      title={type.title}
+                    />
+                  ))}
+                </div>
+
+                <span className="text-gray-500 m-3 mt-5">Others</span>
+                <div className="grid grid-cols-3 gap-3 p-2">
+                  {types.slice(13, 17).map((type, index) => (
+                    <FormElement
+                      key={index}
+                      bgKulay={"#F9161630"}
+                      foreKulay={"#F91616"}
+                      icon={type.Icon}
+                      title={type.title}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+  {/* right side */}
+  {/*
+<div className="flex flex-col relative h-auto lg:h-full w-full lg:w-[20%] bg-black p-7.5 pr-0 min-h-0 border-t-2 lg:border-t-0 lg:border-l-2 border-(--dirty-white) font-vagrounded overflow-auto pb-10">                  <div className="w-full">
+                    <h1 className="text-white text-3xl text-left">Layers</h1>
+                  </div>
+                  <div className="w-full mt-4 max-h-10/12 overflow-auto">
+                    <Layers
+                      questions={pages[currentPageIndex]?.questions || []}
+                      onReorder={handleReorderQuestions}
+                      onDelete={handleDeleteQuestion}
+                    />
+                  </div>
+                  <div className="flex w-14/15 mt-3 border border-t-(--dirty-white) border-transparent "></div>
+                </div>
+            
+
+              <AnimatePresence>
+                {showMobileLayers && (
+                  <>
+                
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 0.4 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="fixed inset-0 bg-black z-40 lg:hidden"
+                      onClick={() => setShowMobileLayers(false)}
+                    />
+
+                   
+                    <motion.div
+                      ref={layersRef}
+                      initial={{ y: "100%" }}
+                      animate={{ y: 0 }}
+                      exit={{ y: "100%" }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      className="
+          fixed bottom-0 left-0 right-0
+          h-[80vh]
+          bg-(--white)
+          z-50
+          p-6
+          border-t-2 border-(--dirty-white)
+          font-vagrounded
+          lg:hidden
+          flex flex-col
+        "
+                    >
+                     
+                      <div className="flex items-center justify-between">
+                        <h1 className="text-2xl">Layers</h1>
+                        <button
+                          onClick={() => setShowMobileLayers(false)}
+                          className="text-xl px-3 py-1"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                    
+                      <div className="mt-4 flex-1 overflow-auto">
+                        <Layers
+                          questions={pages[currentPageIndex]?.questions || []}
+                          onReorder={handleReorderQuestions}
+                          onDelete={handleDeleteQuestion}
+                        />
+                      </div>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+      */}
+          <Modal
+            isOpen={showUnpublishModal}
+            close={() => setShowUnpublishModal(false)}
+            title="Unpublish form"
+          >
+            <p>
+              The form will no longer be visible to responders. Responders will
+              see a blank page if they open the form link. Form editors can
+              still make changes and publish the form again.
+            </p>
+            <div className="flex justify-end gap-2 mt-4">
+              <button
+                onClick={() => setShowUnpublishModal(false)}
+                className="px-3 py-1.5 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setIsPublished(false);
+                  setShowUnpublishModal(false);
+                  setHasUnsavedChanges(true);
+                }}
+                className="px-3 py-1.5 bg-red-600 text-white rounded hover:bg-red-700"
+              >
+                Unpublish
+              </button>
+            </div>
+          </Modal>
+        </div>
+      </DndProvider>
+     </>}
+     </>
   );
 }
 export default Form;

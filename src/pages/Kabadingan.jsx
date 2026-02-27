@@ -254,13 +254,13 @@ d="M10,50 L26,56 M10,50 L24,40"
 }
   {isTabletOrMobile &&
   <>
-      <div className="flex flex-col mt-[40px]  mx-[40px]">
+      <div className="flex flex-col mt-[20px]  mx-[20px]">
 
 <div className="flex items-center gap-5 text-white ">
  
         <Link to={"/"}>
          <button className="flex">
- <IoChevronBack size={36} color="white" className="mb-[40px]"/>
+ <IoChevronBack size={32} color="white" className="mb-[40px]"/>
     </button>
     </Link>
 
