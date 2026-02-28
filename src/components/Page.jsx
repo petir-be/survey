@@ -17,8 +17,12 @@ import { FaChevronRight, FaRegTrashAlt } from "react-icons/fa";
 import { useRef, useState } from "react";
 import Modal from "./Modal";
 import ShortText from "./FormElements/ShortText";
+import { useMediaQuery } from "react-responsive";
+
+
 
 function DropZone({ index, onInsert }) {
+ 
   const [{ isOver }, dropRef] = useDrop({
     accept: "PALETTE_ITEM",
     drop: (item) => {
@@ -52,6 +56,8 @@ function Page({
   totalPages,
   onPageChange,
 }) {
+    const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 822px)" });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 821px)" });
   const canvasRef = useRef(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
@@ -74,6 +80,8 @@ function Page({
     }
   };
   return (
+    <>
+    {isDesktopOrLaptop &&
     <>
       <div className="flex flex-col h-full w-full items-center justify-center gap-2">
         {/* --- UNCOMMENTED AND FIXED HEADER FOR PAGE DELETION --- */}
@@ -208,6 +216,145 @@ function Page({
           </button>
         </div>
       </Modal>
+      </>
+}
+{isTabletOrMobile &&
+    <>
+      <div className="flex flex-col h-full w-full items-center justify-center gap-2">
+        {/* --- UNCOMMENTED AND FIXED HEADER FOR PAGE DELETION --- */}
+        <div className="w-[92%] px-4  flex justify-between items-center text-white">
+          <h1 className="text-md text-left font-vagrounded mb-2">
+            Page {pageNumber} of {totalPages}
+          </h1>
+          <div className="flex gap-2 items-center">
+            {totalPages > 1 && (
+              <>
+                <button
+                  onClick={() => onPageChange(currentPageIndex - 1)}
+                  disabled={currentPageIndex === 0}
+                  className="px-3 py-2 mb-2 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] bg-gray-200 text-black rounded disabled:opacity-50 active:scale-90 duration-100"
+                >
+                  <FaChevronLeft size={12}/>
+                </button>
+                <button
+                  onClick={() => onPageChange(currentPageIndex + 1)}
+                  disabled={currentPageIndex === totalPages - 1}
+                  className="px-3 py-2 mb-2  drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] bg-gray-200 text-black rounded disabled:opacity-50 active:scale-90 duration-100"
+                >
+                  <FaChevronRight size={12} />
+                </button>
+                <button
+                  onClick={() => {
+                    // Targets the EXACT page index you are viewing
+                    setDeleteTarget({ type: "page", index: currentPageIndex });
+                    setShowDeleteModal(true);
+                  }}
+                  className="px-3 py-2 mb-2  drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] bg-red-500 text-white rounded hover:bg-red-600 active:scale-90 duration-100"
+                  title="Delete current page"
+                >
+                  <FaRegTrashAlt size= {14} className="fill-white" />
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+
+        <div
+          ref={canvasRef}
+          className="w-[92%] flex flex-col overflow-hidden h-full bg-[#1e1e1e] mt-2 items-center ring ring-white  rounded-[12px] drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] pl-4 "
+        >
+          <div className="relative flex flex-col overflow-y-auto h-full w-full">
+            {questions.length === 0 && (
+              <div className="w-full absolute translate-x-1/2 text-center translate-y-1/2 bottom-1/2 right-1/2 text-gray-600">
+                Drag and Drop From Left Side
+              </div>
+            )}
+
+            <DropZone index={0} onInsert={onInsert} />
+            {questions.map((question, idx) => (
+              <div key={question?.id || idx} className="w-full ">
+                <div>
+                  {renderElement(
+                    question,
+                    onUpdateQuestion,
+                    onDeleteQuestion,
+                    onDuplicateQuestion
+                  )}
+                </div>
+                <DropZone index={idx + 1} onInsert={onInsert} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-row justify-self-center mt-2 pb-2 w-[92%] h-15 items-center  z-10 gap-2">
+          <div className="flex">
+            <button
+              onClick={onAddPage}
+              className="text-white text-[12px] flex items-center  flex-row px-5 gap-2 py-2 mb-1 rounded-md bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 transition-color duration-200 ease-out"
+            >
+              <FaPlus fill="" className="fill-white" /> Add page
+            </button>
+          </div>
+          <div className="border-l mb-5 border-l-neutral-400" />
+          <div className="flex gap-2 overflow-x-auto items-center px-2 py-2 ">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => onPageChange(index)}
+                className={`text-white text-[12px] px-4 rounded-md  py-2  justify-center items-center flex font-vagrounded drop-shadow-sm/30 hover:bg-green-700 transition-color duration-200 ease-out ${
+                  index === currentPageIndex
+                    ? "bg-green-800 ring ring-white"
+                    : " ring ring-white inset-shadow-md/10"
+                }`}
+              >
+                Page {index + 1}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <Modal
+        isOpen={showDeleteModal}
+        close={() => setShowDeleteModal(false)}
+        title="Confirm Deletion"
+      >
+        <p>
+          {deleteTarget?.type === "page"
+            ? `Are you sure you want to delete Page ${pageNumber}?`
+            : "Are you sure you want to delete this question?"}
+        </p>
+        <div className="flex justify-end gap-2 mt-4">
+          <button
+            onClick={() => setShowDeleteModal(false)}
+            className="px-3 py-1.5 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => {
+              // --- UPDATED DELETE EXECUTION LOGIC ---
+              if (deleteTarget?.type === "page") {
+                onRemovePage(deleteTarget.index);
+                
+                // If the user deletes the last page, shift their view back by 1 so they aren't on a blank screen
+                if (deleteTarget.index === totalPages - 1 && deleteTarget.index > 0) {
+                  onPageChange(deleteTarget.index - 1);
+                }
+              } else if (deleteTarget?.type === "question") {
+                onDeleteQuestion(deleteTarget.id);
+              }
+              setShowDeleteModal(false);
+            }}
+            className="px-3 py-1.5 bg-red-600 text-white rounded hover:bg-red-700"
+          >
+            Delete
+          </button>
+        </div>
+      </Modal>
+      </>
+}
     </>
   );
 }
@@ -219,6 +366,9 @@ function renderElement(question, onUpdate, onDelete, onDuplicate) {
   }
   if (question.title && !question.question) {
     return (
+    
+      
+     
       <div className="p-4 border-2 border-red-500 rounded-xl bg-red-50">
         <p className="text-red-600 font-bold">⚠️ Old Data Structure Detected</p>
         <p className="text-sm text-red-500 mt-1">
