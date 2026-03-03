@@ -2191,6 +2191,7 @@ function Form() {
                   </motion.div>
                 )}
               </AnimatePresence>
+              
               {/* right side */}
               {/*
 <div className="flex flex-col relative h-auto lg:h-full w-full lg:w-[20%] bg-black p-7.5 pr-0 min-h-0 border-t-2 lg:border-t-0 lg:border-l-2 border-(--dirty-white) font-vagrounded overflow-auto pb-10">                  <div className="w-full">
@@ -2292,6 +2293,7 @@ function Form() {
                   </button>
                 </div>
               </Modal>
+              
             </div>
           </DndProvider>
         </>}

@@ -3,7 +3,7 @@ import { CiBoxList } from "react-icons/ci";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { BsPerson } from "react-icons/bs";
 import { BiGridHorizontal } from "react-icons/bi";
-import { FaArrowUp, FaRegFileAlt, FaTrash } from "react-icons/fa";
+import { FaArrowUp, FaRegFileAlt, FaTrash ,FaEllipsisV} from "react-icons/fa";
 import HomeBox from "../components/HomeBox";
 import { VscLoading } from "react-icons/vsc";
 import moment from "moment";
@@ -46,7 +46,7 @@ function Workspaces() {
   });
 
   const { user } = useContext(AuthContext);
-
+const [openDropdownId, setOpenDropdownId] = useState(null);
   // Modal State
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
@@ -671,7 +671,7 @@ function Workspaces() {
             {/* MAIN CONTENT AREA */}
             <div className="flex flex-col items-center justify-center flex-1 min-h-full">
               <div className="px-10 py-5 w-full max-w-7xl">
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
                   <div className="flex justify-between items-end">
                     <div className="flex flex-1 items-center justify-between gap-3">
                       <h2 className="text-xl font-bold text-white tracking-wide">
@@ -699,126 +699,94 @@ function Workspaces() {
         </span>
       </div>
     )}
-                    {filteredForms.map((item) => (
-                      <div
-                        key={item.id}
-                        onClick={() => navigate(`/newform/${item.id}`)}
-                        className={`
-                      group bg-white border border-black/30 hover:border-[var(--purple)] 
-                      rounded-xl shadow-sm transition-all cursor-pointer relative
-                      ${
-                        viewMode === "list"
-                          ? "p-4 grid grid-cols-12 items-center mt-3"
-                          : "p-6 flex flex-col justify-between h-56"
-                      }
-                    `}
-                      >
-                        {viewMode === "list" ? (
-                          <>
-                            <div className="col-span-5 flex items-center gap-4">
-                              <div className="w-8 h-8 rounded-md flex items-center justify-center text-white">
-                                <FaRegFileAlt className="text-black text-xl" />
-                              </div>
-                              <span className="font-medium text-gray-800 truncate">
-                                {item.title || "Untitled"}
-                              </span>
-                            </div>
+               <div className="flex flex-col gap-2 mt-2">
+{filteredForms.map((item) => (
 
-                            <div className="col-span-2 text-center text-sm font-medium">
-                              {item.responseCount || 0}
-                            </div>
 
-                            {/* Switch (Inline JSX) */}
-                            <div className="col-span-2 flex justify-center">
-                              <div
-                                onClick={(e) => handleToggleClick(e, item)}
-                                className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${
-                                  item.isPublished
-                                    ? "bg-green-500"
-                                    : "bg-gray-300"
-                                }`}
-                              >
-                                <div
-                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
-                                    item.isPublished
-                                      ? "translate-x-5"
-                                      : "translate-x-0"
-                                  }`}
-                                />
-                              </div>
-                            </div>
+  <div
+    key={item.id}
+    onClick={() => navigate(`/newform/${item.id}`)}
+    className=" group bg-white border border-black/30 hover:border-[var(--purple)] rounded-xl shadow-sm transition-all cursor-pointer relative p-4 grid grid-cols-12 items-center "
+  >
+    {/* Title & Icon (Expanded to col-span-6) */}
+    <div className="col-span-6 flex items-center gap-4">
+      <div className="w-4 h-4 rounded-md flex items-center justify-center text-white">
+        <FaRegFileAlt className="text-black text-xl" />
+      </div>
+      <span className="text-[12px] font-medium text-gray-800 truncate">
+        {item.title || "Untitled"}
+      </span>
+    </div>
 
-                            <div className="col-span-2 text-center text-sm text-gray-500">
-                              {moment.utc(item.createdAt).local().fromNow()}
-                            </div>
+    {/* Responses */}
+    <div className="col-span-2 text-center text-sm font-medium">
+      {item.responseCount || 0}
+    </div>
 
-                            <div className="col-span-1 flex justify-end">
-                              <button
-                                onClick={(e) => handleDeleteClick(e, item.id)}
-                                className="relative z-20 p-2 rounded-full hover:bg-red-100 transition-colors group/delete"
-                              >
-                                <FaTrash className="text-lg fill-gray-400 group-hover/delete:fill-red-500 transition-colors" />
-                              </button>
-                            </div>
-                          </>
-                        ) : (
-                          // === GRID VIEW UI ===
-                          <>
-                            <div className="flex justify-between items-start">
-                              <div className="w-10 h-10  rounded-lg flex items-center justify-center">
-                                <FaRegFileAlt className="text-black text-xl" />
-                              </div>
-                              {/* Trash Icon */}
-                              <div className="absolute top-4 right-4 z-30">
-                                <button
-                                  onClick={(e) => handleDeleteClick(e, item.id)}
-                                  className="p-2 rounded-full hover:bg-red-100 transition-colors group/delete"
-                                >
-                                  <FaTrash className="text-lg fill-gray-400 group-hover/delete:fill-red-500 transition-colors" />
-                                </button>
-                              </div>
-                            </div>
+    {/* Date (Expanded to col-span-3) */}
+    <div className="col-span-3 text-center text-[10px] text-gray-500">
+      {moment.utc(item.createdAt).local().fromNow()}
+    </div>
 
-                            <div className="mt-4">
-                              <h3 className="font-bold text-lg text-gray-800 line-clamp-1 mb-1">
-                                {item.title || "Untitled"}
-                              </h3>
-                              <p className="text-xs text-gray-500">
-                                {item.responseCount || 0} responses
-                              </p>
-                            </div>
+    {/* Options Menu */}
+    <div className=" flex flex-1 items-center relative">
+      <button
+        onClick={(e) => {
+          e.stopPropagation(); // Prevents navigating to the form
+          setOpenDropdownId(openDropdownId === item.id ? null : item.id);
+        }}
+        className="relative z-20 p-2 rounded-full hover:bg-gray-100 transition-colors"
+      >
+        <FaEllipsisV className="text-md text-gray-500" />
+      </button>
 
-                            <div className="mt-4 pt-4 border-t border-black/10 flex justify-between items-center">
-                              <span className="text-xs text-gray-500">
-                                {moment
-                                  .utc(item.createdAt)
-                                  .local()
-                                  .fromNow(true)}
-                              </span>
-                              {/* Switch (Inline JSX) */}
-                              <div
-                                onClick={(e) => handleToggleClick(e, item)}
-                                className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${
-                                  item.isPublished
-                                    ? "bg-green-500"
-                                    : "bg-gray-300"
-                                }`}
-                              >
-                                <div
-                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
-                                    item.isPublished
-                                      ? "translate-x-5"
-                                      : "translate-x-0"
-                                  }`}
-                                />
-                              </div>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-               
+      {/* Dropdown Content */}
+      {openDropdownId === item.id && (
+        <div className="absolute right-0 top-10 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-30 py-2 flex flex-col">
+          
+          {/* Publish Toggle Inside Menu */}
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              handleToggleClick(e, item);
+            }}
+            className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center justify-between transition-colors"
+          >
+            <span className="text-sm text-gray-700 font-medium">Published</span>
+            <div
+              className={`w-9 h-4 flex items-center rounded-full p-1 transition-colors duration-300 ${
+                item.isPublished ? "bg-green-500" : "bg-gray-300"
+              }`}
+            >
+              <div
+                className={`bg-white w-2 h-2 rounded-full shadow-md transform transition-transform duration-300 ${
+                  item.isPublished ? "translate-x-5" : "translate-x-0"
+                }`}
+              />
+            </div>
+          </div>
+
+          <hr className="border-gray-100 my-1" />
+
+          {/* Delete Button Inside Menu */}
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDeleteClick(e, item.id);
+              setOpenDropdownId(null); // Close menu after deleting
+            }}
+            className="px-4 py-2 hover:bg-red-50 cursor-pointer flex items-center gap-3 text-red-500 transition-colors group/delete"
+          >
+            <FaTrash className="text-sm group-hover/delete:scale-110 transition-transform" />
+            <span className="text-sm font-medium">Delete Form</span>
+          </div>
+
+        </div>
+      )}
+    </div>
+  </div>
+))}      </div>
+               </div>
                  
                 </div>
               </div>
