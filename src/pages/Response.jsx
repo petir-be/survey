@@ -510,7 +510,7 @@ function Response() {
                             if (currentAnswerObj) {
                               currentValue = currentAnswerObj.answer;
                             } else {
-                             
+
                               currentValue = isFileQuestion ? [] : "";
                             }
                             return (
@@ -534,11 +534,10 @@ function Response() {
                 <button
                   onClick={goPrev}
                   disabled={currentPageIndex === 0}
-                  className={`px-4 py-2 rounded-lg font-medium ${
-                    currentPageIndex === 0
+                  className={`px-4 py-2 rounded-lg font-medium ${currentPageIndex === 0
                       ? "opacity-0 cursor-default"
                       : "opacity-100 bg-(--white) ring-white ring hover:bg-gray-300 inset-shadow-md/10 font-vagrounded drop-shadow-sm/25 transition-color duration-200 ease-out"
-                  }`}
+                    }`}
                 >
                   Previous
                 </button>
@@ -546,18 +545,17 @@ function Response() {
                 <button
                   onClick={goNext}
                   className={`flex items-center gap-1 pl-7 pr-6 py-1.5 rounded-xl font-vagrounded drop-shadow-sm/30 transition-color duration-200 ease-out
-                    ${
-                      isReviewPage
-                        ? "bg-(--white) ring ring-green-500 hover:bg-green-200"
-                        : "bg-(--white) ring ring-(--purple) inset-shadow-md/10 hover:bg-violet-200"
+                    ${isReviewPage
+                      ? "bg-(--white) ring ring-green-500 hover:bg-green-200"
+                      : "bg-(--white) ring ring-(--purple) inset-shadow-md/10 hover:bg-violet-200"
                     }`}
                 >
                   {isReviewPage ||
-                  (!hasReviewPage && currentPageIndex === pages.length - 1)
+                    (!hasReviewPage && currentPageIndex === pages.length - 1)
                     ? "Submit Response"
                     : currentPageIndex === pages.length - 1 && hasReviewPage
-                    ? "Review Answers"
-                    : "Next"}
+                      ? "Review Answers"
+                      : "Next"}
                   <IoMdArrowRoundForward />
                 </button>
               </div>

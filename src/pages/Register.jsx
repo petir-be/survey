@@ -25,7 +25,7 @@ function Register() {
   const [userNameError, setUsernameError] = useState("");
   const { loginWithGoogle, isAuthenticated, login } = useContext(AuthContext);
   const [email, setEmail] = useState();
-const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 700px)" });
+  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 700px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 699px)" });
   let navigate = useNavigate();
 
@@ -113,296 +113,294 @@ const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 700px)" });
   }
   return (
     <>
-     <ShaderBackground/>
+      <ShaderBackground />
 
-     {isDesktopOrLaptop &&
-     <>
-      <Toaster position="top-right" />
-      <div className="relative z-20 min-h-dvh flex flex-col">
-        <header className="text-white">
-          <Link to={"/"}>
-            <p className="text-white cursor-pointer font-zendots text-[24px] pt-8 pb-0 px-12">
-              Ispecmn
-            </p>
-          </Link>
-        </header>
-        <div className=" flex justify-center mt-10 py-5">
-          <div className="text-white flex py-10 justify-center items-center flex-col bg-black w-[500px]  shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(34,197,94,0.4)] rounded-3xl gap-4">
-            <div className="flex justify-center items-center gap-5 flex-col w-[80%]">
-             <h1 className="font-baloo text-3xl text-center">
-                Let's Get Started!
-              </h1>
-              <button
-                onClick={handleGoogleLogin}
-                disabled={loading}
-                className={`text-black flex flex-row justify-center items-center gap-2.5 font-vagrounded text-xl bg-white  hover:bg-white/80  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full ${
-                  loading ? `  bg-gray-500` : `bg-[#DFE0F0]`
-                }`}
-              
-              >
-                 <FcGoogle className="text-3xl" /> Continue with Google
-              </button>
-            </div>
-            <div className="flex items-center justify-center gap-4 w-[85%] my-2">
-              <hr className="flex-1 border-gray-400" />
-              <p className="text-l text-gray-500 font-vagrounded">or</p>
-              <hr className="flex-1 border-gray-400"/>
-            </div>
-            <div className="flex items-center justify-center flex-col gap-7 text-gray-400 w-[80%]">
-              <div className="flex justify-center items-center flex-col gap-4 w-full ">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="login-input "
-                />
-                <input
-                  type="text"
-                  placeholder="Enter your username"
-                  value={username}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setUsername(value);
-                    if (value.length < 4) {
-                      setUsernameError(
-                        "Username can't be lower than 4 letters"
-                      );
-                    } else {
-                      setUsernameError("");
-                    }
-                  }}
-                  className="login-input"
-                />
-                {userNameError && (
-                  <>
-                    <div className="font-vagrounded text-red-500">
-                      {userNameError}
-                    </div>
-                  </>
-                )}
-                <div className="relative w-full">
-                  <input
-                    type={showPass ? "text" : "password"}
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  className="login-input"
-                  />
+      {isDesktopOrLaptop &&
+        <>
+          <Toaster position="top-right" />
+          <div className="relative z-20 min-h-dvh flex flex-col">
+            <header className="text-white">
+              <Link to={"/"}>
+                <p className="text-white cursor-pointer font-zendots text-[24px] pt-8 pb-0 px-12">
+                  Ispecmn
+                </p>
+              </Link>
+            </header>
+            <div className=" flex justify-center mt-10 py-5">
+              <div className="text-white flex py-10 justify-center items-center flex-col bg-black w-[500px]  shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(34,197,94,0.4)] rounded-3xl gap-4">
+                <div className="flex justify-center items-center gap-5 flex-col w-[80%]">
+                  <h1 className="font-baloo text-3xl text-center">
+                    Let's Get Started!
+                  </h1>
                   <button
-                    type="button"
-                    onClick={() => setShowPass(!showPass)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600"
+                    onClick={handleGoogleLogin}
+                    disabled={loading}
+                    className={`text-black flex flex-row justify-center items-center gap-2.5 font-vagrounded text-xl bg-white  hover:bg-white/80  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full ${loading ? `  bg-gray-500` : `bg-[#DFE0F0]`
+                      }`}
+
                   >
-                    {showPass ? <FaEyeSlash /> : <FaEye />}
+                    <FcGoogle className="text-3xl" /> Continue with Google
                   </button>
                 </div>
-                <div className="relative w-full">
-                  <input
-                    type={showConfirm ? "text" : "password"}
-                    placeholder="Confirm Password"
-                    value={confirmPass}
-                    onChange={(e) => {
-                      setConfirmPass(e.target.value);
-                      if (password !== e.target.value) {
-                        setError("Password and Confirm Password don't match");
-                      } else {
-                        setError("");
-                      }
-                    }}
-                  className="login-input "
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirm(!showConfirm)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 cursor-pointer"
-                  >
-                    {showConfirm ? <FaEyeSlash /> : <FaEye />}
-                  </button>
+                <div className="flex items-center justify-center gap-4 w-[85%] my-2">
+                  <hr className="flex-1 border-gray-400" />
+                  <p className="text-l text-gray-500 font-vagrounded">or</p>
+                  <hr className="flex-1 border-gray-400" />
                 </div>
-                {error && (
-                  <>
-                    <div>
-                      <p className="font-vagrounded text-red-500">{error}</p>
+                <div className="flex items-center justify-center flex-col gap-7 text-gray-400 w-[80%]">
+                  <div className="flex justify-center items-center flex-col gap-4 w-full ">
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="login-input "
+                    />
+                    <input
+                      type="text"
+                      placeholder="Enter your username"
+                      value={username}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setUsername(value);
+                        if (value.length < 4) {
+                          setUsernameError(
+                            "Username can't be lower than 4 letters"
+                          );
+                        } else {
+                          setUsernameError("");
+                        }
+                      }}
+                      className="login-input"
+                    />
+                    {userNameError && (
+                      <>
+                        <div className="font-vagrounded text-red-500">
+                          {userNameError}
+                        </div>
+                      </>
+                    )}
+                    <div className="relative w-full">
+                      <input
+                        type={showPass ? "text" : "password"}
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="login-input"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPass(!showPass)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600"
+                      >
+                        {showPass ? <FaEyeSlash /> : <FaEye />}
+                      </button>
                     </div>
-                  </>
-                )}
-              </div>
-              <button
-                onClick={Register}
-                disabled={loading}
-                className={`flex justify-center items-center hover:bg-[#00A300] transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-xl ring ring-white drop-shadow-md/30 rounded-2xl   
+                    <div className="relative w-full">
+                      <input
+                        type={showConfirm ? "text" : "password"}
+                        placeholder="Confirm Password"
+                        value={confirmPass}
+                        onChange={(e) => {
+                          setConfirmPass(e.target.value);
+                          if (password !== e.target.value) {
+                            setError("Password and Confirm Password don't match");
+                          } else {
+                            setError("");
+                          }
+                        }}
+                        className="login-input "
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirm(!showConfirm)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 cursor-pointer"
+                      >
+                        {showConfirm ? <FaEyeSlash /> : <FaEye />}
+                      </button>
+                    </div>
+                    {error && (
+                      <>
+                        <div>
+                          <p className="font-vagrounded text-red-500">{error}</p>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <button
+                    onClick={Register}
+                    disabled={loading}
+                    className={`flex justify-center items-center hover:bg-[#00A300] transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-xl ring ring-white drop-shadow-md/30 rounded-2xl   
                 ${loading ? 'bg-[#00A300]/80' : 'bg-black'}`}
-              >
-                {loading ? (
-                  <VscLoading className="text-3xl  animate-spin" />
-                ) : (
-                  "Sign in"
-                )}
-              </button>
-            </div>
-            <div className=" font-vagrounded flex justify-center items-center gap-1 mt-3">
-              <p>
-                Already a member?{" "}
-                <Link
-                  to="/login"
-                  className= "  text-[#00A300] hover:text-[#00A300]/80 underline underline-offset-2"
-                >
-                  Login
-                </Link>
-              </p>
+                  >
+                    {loading ? (
+                      <VscLoading className="text-3xl  animate-spin" />
+                    ) : (
+                      "Sign in"
+                    )}
+                  </button>
+                </div>
+                <div className=" font-vagrounded flex justify-center items-center gap-1 mt-3">
+                  <p>
+                    Already a member?{" "}
+                    <Link
+                      to="/login"
+                      className="  text-[#00A300] hover:text-[#00A300]/80 underline underline-offset-2"
+                    >
+                      Login
+                    </Link>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      </>
-}
-     {isTabletOrMobile &&
-     <>
-      <Toaster position="top-right" />
-      <div className="relative z-20 min-h-dvh flex flex-col">
-        <header className="text-white">
-          <Link to={"/"}>
-            <p className="cursor-pointer font-zendots text-[16px] pt-4 pb-0 px-6">
-              Ispecmn
-            </p>
-          </Link>
-        </header>
-        <div className=" flex justify-center mt-10 py-5">
-          <div className="text-white flex py-10 justify-center items-center flex-col bg-black w-full mx-5 shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(34,197,94,0.4)] rounded-3xl gap-4">
-            <div className="flex justify-center items-center gap-5 flex-col w-[80%]">
-              <h1 className="font-vagrounded text-2xl text-center">
-                Let's Get Started!
-              </h1>
-              <button
-                onClick={handleGoogleLogin}
-                disabled={loading}
-                className={`text-black flex flex-row justify-center items-center gap-2.5 font-vagrounded text-l bg-white  hover:bg-white/80  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full ${
-                  loading ? `  bg-gray-500` : `bg-[#DFE0F0]`
-                }`}
-              
-              >
-                <FcGoogle className="text-xl" /> Continue with Google
-              </button>
-            </div>
-            <div className="flex items-center justify-center gap-4 w-[85%] my-2">
-              <hr className="flex-1 border-gray-400" />
-              <p className="text-l text-gray-500 font-vagrounded">or</p>
-              <hr className="flex-1 border-gray-400"/>
-            </div>
-            <div className="flex items-center justify-center flex-col gap-7 text-gray-400 w-[80%]">
-              <div className="flex justify-center items-center flex-col gap-4 w-full">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="login-input !text-[12px]"
-                />
-                <input
-                  type="text"
-                  placeholder="Enter your username"
-                  value={username}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setUsername(value);
-                    if (value.length < 4) {
-                      setUsernameError(
-                        "Username can't be lower than 4 letters"
-                      );
-                    } else {
-                      setUsernameError("");
-                    }
-                  }}
-                  className="login-input !text-[12px]"
-                />
-                {userNameError && (
-                  <>
-                    <div className="font-vagrounded text-red-500">
-                      {userNameError}
-                    </div>
-                  </>
-                )}
-                <div className="relative w-full">
-                  <input
-                    type={showPass ? "text" : "password"}
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  className="login-input !text-[12px]"
-                  />
+        </>
+      }
+      {isTabletOrMobile &&
+        <>
+          <Toaster position="top-right" />
+          <div className="relative z-20 min-h-dvh flex flex-col">
+            <header className="text-white">
+              <Link to={"/"}>
+                <p className="cursor-pointer font-zendots text-[16px] pt-4 pb-0 px-6">
+                  Ispecmn
+                </p>
+              </Link>
+            </header>
+            <div className=" flex justify-center mt-10 py-5">
+              <div className="text-white flex py-10 justify-center items-center flex-col bg-black w-full mx-5 shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(34,197,94,0.4)] rounded-3xl gap-4">
+                <div className="flex justify-center items-center gap-5 flex-col w-[80%]">
+                  <h1 className="font-vagrounded text-2xl text-center">
+                    Let's Get Started!
+                  </h1>
                   <button
-                    type="button"
-                    onClick={() => setShowPass(!showPass)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600"
+                    onClick={handleGoogleLogin}
+                    disabled={loading}
+                    className={`text-black flex flex-row justify-center items-center gap-2.5 font-vagrounded text-l bg-white  hover:bg-white/80  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full ${loading ? `  bg-gray-500` : `bg-[#DFE0F0]`
+                      }`}
+
                   >
-                    {showPass ? <FaEyeSlash /> : <FaEye />}
+                    <FcGoogle className="text-xl" /> Continue with Google
                   </button>
                 </div>
-                <div className="relative w-full">
-                  <input
-                    type={showConfirm ? "text" : "password"}
-                    placeholder="Confirm Password"
-                    value={confirmPass}
-                    onChange={(e) => {
-                      setConfirmPass(e.target.value);
-                      if (password !== e.target.value) {
-                        setError("Password and Confirm Password don't match");
-                      } else {
-                        setError("");
-                      }
-                    }}
-                  className="login-input !text-[12px]"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirm(!showConfirm)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 cursor-pointer"
-                  >
-                    {showConfirm ? <FaEyeSlash /> : <FaEye />}
-                  </button>
+                <div className="flex items-center justify-center gap-4 w-[85%] my-2">
+                  <hr className="flex-1 border-gray-400" />
+                  <p className="text-l text-gray-500 font-vagrounded">or</p>
+                  <hr className="flex-1 border-gray-400" />
                 </div>
-                {error && (
-                  <>
-                    <div>
-                      <p className="font-vagrounded text-red-500">{error}</p>
+                <div className="flex items-center justify-center flex-col gap-7 text-gray-400 w-[80%]">
+                  <div className="flex justify-center items-center flex-col gap-4 w-full">
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="login-input !text-[12px]"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Enter your username"
+                      value={username}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setUsername(value);
+                        if (value.length < 4) {
+                          setUsernameError(
+                            "Username can't be lower than 4 letters"
+                          );
+                        } else {
+                          setUsernameError("");
+                        }
+                      }}
+                      className="login-input !text-[12px]"
+                    />
+                    {userNameError && (
+                      <>
+                        <div className="font-vagrounded text-red-500">
+                          {userNameError}
+                        </div>
+                      </>
+                    )}
+                    <div className="relative w-full">
+                      <input
+                        type={showPass ? "text" : "password"}
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="login-input !text-[12px]"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPass(!showPass)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600"
+                      >
+                        {showPass ? <FaEyeSlash /> : <FaEye />}
+                      </button>
                     </div>
-                  </>
-                )}
-              </div>
-              <button
-                onClick={Register}
-                disabled={loading}
-                className={`flex justify-center items-center hover:bg-[#00A300] transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-l ring ring-white drop-shadow-md/30 rounded-2xl   
+                    <div className="relative w-full">
+                      <input
+                        type={showConfirm ? "text" : "password"}
+                        placeholder="Confirm Password"
+                        value={confirmPass}
+                        onChange={(e) => {
+                          setConfirmPass(e.target.value);
+                          if (password !== e.target.value) {
+                            setError("Password and Confirm Password don't match");
+                          } else {
+                            setError("");
+                          }
+                        }}
+                        className="login-input !text-[12px]"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirm(!showConfirm)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 cursor-pointer"
+                      >
+                        {showConfirm ? <FaEyeSlash /> : <FaEye />}
+                      </button>
+                    </div>
+                    {error && (
+                      <>
+                        <div>
+                          <p className="font-vagrounded text-red-500">{error}</p>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <button
+                    onClick={Register}
+                    disabled={loading}
+                    className={`flex justify-center items-center hover:bg-[#00A300] transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-l ring ring-white drop-shadow-md/30 rounded-2xl   
                 ${loading ? 'bg-[#00A300]/80' : 'bg-black'}`}
-              >
-                {loading ? (
-                  <VscLoading className="text-2xl  animate-spin" />
-                ) : (
-                  "Sign in"
-                )}
-              </button>
-            </div>
-            <div className="text-[12px] font-vagrounded flex justify-center items-center gap-1 mt-3">
-              <p>
-                Already a member?{" "}
-                <Link
-                  to="/login"
-                  className= " text-[12px] text-[#00A300] hover:text-[#00A300]/80 underline underline-offset-2"
-                >
-                  Login
-                </Link>
-              </p>
+                  >
+                    {loading ? (
+                      <VscLoading className="text-2xl  animate-spin" />
+                    ) : (
+                      "Sign in"
+                    )}
+                  </button>
+                </div>
+                <div className="text-[12px] font-vagrounded flex justify-center items-center gap-1 mt-3">
+                  <p>
+                    Already a member?{" "}
+                    <Link
+                      to="/login"
+                      className=" text-[12px] text-[#00A300] hover:text-[#00A300]/80 underline underline-offset-2"
+                    >
+                      Login
+                    </Link>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      </>
-}
-   
+        </>
+      }
+
     </>
 
-    
+
   );
 }
 

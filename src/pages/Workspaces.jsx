@@ -3,7 +3,7 @@ import { CiBoxList } from "react-icons/ci";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { BsPerson } from "react-icons/bs";
 import { BiGridHorizontal } from "react-icons/bi";
-import { FaArrowUp, FaRegFileAlt, FaTrash ,FaEllipsisV} from "react-icons/fa";
+import { FaArrowUp, FaRegFileAlt, FaTrash, FaEllipsisV } from "react-icons/fa";
 import HomeBox from "../components/HomeBox";
 import { VscLoading } from "react-icons/vsc";
 import moment from "moment";
@@ -39,7 +39,7 @@ function Workspaces() {
   const [showAccountModal, setShowAccountModal] = useState(false);
 
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 821px)" });
-  const isTablet =useMediaQuery({query: "(max-width: 820px)"})
+  const isTablet = useMediaQuery({ query: "(max-width: 820px)" })
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 699px)" });
   const [isFocused, setIsFocused] = useState(false);
   const [viewMode, setViewMode] = useState(() => {
@@ -47,7 +47,7 @@ function Workspaces() {
   });
 
   const { user } = useContext(AuthContext);
-const [openDropdownId, setOpenDropdownId] = useState(null);
+  const [openDropdownId, setOpenDropdownId] = useState(null);
   // Modal State
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
@@ -205,76 +205,76 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
       ></AccountModal>
       <Toaster position="top-right" />
 
-     {isDesktopOrLaptop && (
-    <>
+      {isDesktopOrLaptop && (
+        <>
 
-      <div className="flex w-full h-screen overflow-hidden bg-black">
-        
-   
-        <div className="w-[260px] xl:w-[20%] shrink-0 h-full z-20 bg-black border-r border-gray-300 flex flex-col">
-          <div
-          
-            className="flex border-b-2 border-gray-300 justify-between py-10 px-5 xl:px-10 cursor-pointer"
-            onClick={() => navigate(`/`)}
-          >
-            <h1 className="font-zendots text-white text-[24px]">Ispecmn</h1>
-          </div>
+          <div className="flex w-full h-screen overflow-hidden bg-black">
 
-          <div className="px-5 xl:px-10 mt-8 flex-1">
-            <div className="relative w-full mb-10">
-              <FaMagnifyingGlass size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
-              <input
-                type="text"
-                placeholder="Search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                className={`w-full text-white placeholder-gray-400 text-[12px] py-4 pr-4 pl-10 bg-black outline rounded-xl hover:bg-[#1E1E1E] transition-all ${isFocused ? 'outline-[2px] outline-green-700 bg-[#1E1E1E]' : 'outline-[#707070]'}`}
-              />
-            </div>
 
-            <div className="mb-8">
-              {/* 4. Responsive text: Starts smaller (text-2xl) and scales up to 4xl on large screens */}
-              <p className="text-2xl lg:text-3xl xl:text-4xl text-white leading-tight">
-                <span className="font-bold font-vagrounded">Manage</span>{" "}
-                Your 
-                Forms 
-                <span className="font-bold font-vagrounded"> Here!</span>{" "}
-              </p>
-              <p className="font-vagrounded text-white mt-4 text-[12px] xl:text-[14px]">
-                This is where you can view, edit, and organize all your created forms.
-              </p>
-            </div>
+            <div className="w-[260px] xl:w-[20%] shrink-0 h-full z-20 bg-black border-r border-gray-300 flex flex-col">
+              <div
 
-            {/* Create Forms Button... */}
-            <button
-              className="text-left w-full"
-              onClick={() => setShowModal(true)}
-            >
-              {/* Note: I added w-full to the button so it stretches nicely */}
-              <div className="justify-center w-full bg-black hover:bg-[#1E1E1E] group px-5 py-4 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-700">
-                <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[#C8C9DA]">
-                  <div className="relative w-full h-full font-bold flex items-center justify-center overflow-hidden">
-                    <FaArrowUp className="fill-black rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
-                    <FaArrowUp className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 transition-all duration-400 ease-out fill-green-700" />
-                  </div>
-                </div>
-                <IoDocumentText className="text-white mb-2 text-[24px]" />
-                <span className="vagrounded font-semibold text-[15px] text-white mb-[2px]">
-                  Create Forms
-                </span>
-                <span className="vagrounded font-normal text-[10px] text-white">
-                  Start with a blank template and more
-                </span>
+                className="flex border-b-2 border-gray-300 justify-between py-10 px-5 xl:px-10 cursor-pointer"
+                onClick={() => navigate(`/`)}
+              >
+                <h1 className="font-zendots text-white text-[24px]">Ispecmn</h1>
               </div>
-            </button>
-          </div>
-        </div>
 
-        {/* 5. MAIN CONTENT: Uses flex-1 to automatically fill the rest of the screen */}
-        <div className="flex-1 h-full z-10 overflow-y-auto">
-          <div className="px-5 lg:px-10 py-8">
+              <div className="px-5 xl:px-10 mt-8 flex-1">
+                <div className="relative w-full mb-10">
+                  <FaMagnifyingGlass size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    className={`w-full text-white placeholder-gray-400 text-[12px] py-4 pr-4 pl-10 bg-black outline rounded-xl hover:bg-[#1E1E1E] transition-all ${isFocused ? 'outline-[2px] outline-green-700 bg-[#1E1E1E]' : 'outline-[#707070]'}`}
+                  />
+                </div>
+
+                <div className="mb-8">
+                  {/* 4. Responsive text: Starts smaller (text-2xl) and scales up to 4xl on large screens */}
+                  <p className="text-2xl lg:text-3xl xl:text-4xl text-white leading-tight">
+                    <span className="font-bold font-vagrounded">Manage</span>{" "}
+                    Your
+                    Forms
+                    <span className="font-bold font-vagrounded"> Here!</span>{" "}
+                  </p>
+                  <p className="font-vagrounded text-white mt-4 text-[12px] xl:text-[14px]">
+                    This is where you can view, edit, and organize all your created forms.
+                  </p>
+                </div>
+
+                {/* Create Forms Button... */}
+                <button
+                  className="text-left w-full"
+                  onClick={() => setShowModal(true)}
+                >
+                  {/* Note: I added w-full to the button so it stretches nicely */}
+                  <div className="justify-center w-full bg-black hover:bg-[#1E1E1E] group px-5 py-4 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-700">
+                    <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[#C8C9DA]">
+                      <div className="relative w-full h-full font-bold flex items-center justify-center overflow-hidden">
+                        <FaArrowUp className="fill-black rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
+                        <FaArrowUp className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 transition-all duration-400 ease-out fill-green-700" />
+                      </div>
+                    </div>
+                    <IoDocumentText className="text-white mb-2 text-[24px]" />
+                    <span className="vagrounded font-semibold text-[15px] text-white mb-[2px]">
+                      Create Forms
+                    </span>
+                    <span className="vagrounded font-normal text-[10px] text-white">
+                      Start with a blank template and more
+                    </span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            {/* 5. MAIN CONTENT: Uses flex-1 to automatically fill the rest of the screen */}
+            <div className="flex-1 h-full z-10 overflow-y-auto">
+              <div className="px-5 lg:px-10 py-8">
                 <div className="flex justify-end mb-16">
                   <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
                     <img
@@ -301,21 +301,19 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
                       <div className="flex border border-gray-300 rounded-lg p-1">
                         <button
                           onClick={() => setViewMode("list")}
-                          className={`p-1.5 rounded transition-colors ${
-                            viewMode === "list"
+                          className={`p-1.5 rounded transition-colors ${viewMode === "list"
                               ? "bg-gray-400 text-white shadow-sm"
                               : "text-gray-500 hover:text-black"
-                          }`}
+                            }`}
                         >
                           <CiBoxList className="text-lg" />
                         </button>
                         <button
                           onClick={() => setViewMode("grid")}
-                          className={`p-1.5 rounded transition-colors ${
-                            viewMode === "grid"
+                          className={`p-1.5 rounded transition-colors ${viewMode === "grid"
                               ? "bg-gray-400 text-white shadow-sm"
                               : "text-gray-500 hover:text-black"
-                          }`}
+                            }`}
                         >
                           <BiGridHorizontal className="text-lg" />
                         </button>
@@ -325,11 +323,10 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
 
                   {/* LIST / GRID CONTAINER */}
                   <div
-                    className={`w-full mt-4 ${
-                      viewMode === "grid"
+                    className={`w-full mt-4 ${viewMode === "grid"
                         ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
                         : "flex flex-col"
-                    }`}
+                      }`}
                   >
                     {viewMode === "list" && (
                       <div className="grid grid-cols-12 text-xs font-semibold text-white uppercase tracking-wider mb-3 px-6">
@@ -339,7 +336,7 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
                         <div className="col-span-2 text-center">
                           Last Modified
                         </div>
-                      
+
                       </div>
                     )}
 
@@ -356,11 +353,10 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
                         className={`
                       group bg-white backdrop-blur-sm border border-black/30 hover:border-[var(--purple)] 
                       rounded-xl shadow-sm transition-all cursor-pointer relative
-                      ${
-                        viewMode === "list"
-                          ? "p-4 grid grid-cols-12 items-center mt-3"
-                          : "p-6 flex flex-col justify-between h-56"
-                      }
+                      ${viewMode === "list"
+                            ? "p-4 grid grid-cols-12 items-center mt-3"
+                            : "p-6 flex flex-col justify-between h-56"
+                          }
                     `}
                       >
                         {viewMode === "list" ? (
@@ -382,18 +378,16 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
                             <div className="col-span-2 flex justify-center">
                               <div
                                 onClick={(e) => handleToggleClick(e, item)}
-                                className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${
-                                  item.isPublished
+                                className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${item.isPublished
                                     ? "bg-green-500"
                                     : "bg-gray-300"
-                                }`}
+                                  }`}
                               >
                                 <div
-                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
-                                    item.isPublished
+                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${item.isPublished
                                       ? "translate-x-5"
                                       : "translate-x-0"
-                                  }`}
+                                    }`}
                                 />
                               </div>
                             </div>
@@ -448,18 +442,16 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
                               {/* Switch (Inline JSX) */}
                               <div
                                 onClick={(e) => handleToggleClick(e, item)}
-                                className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${
-                                  item.isPublished
+                                className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${item.isPublished
                                     ? "bg-green-500"
                                     : "bg-gray-300"
-                                }`}
+                                  }`}
                               >
                                 <div
-                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
-                                    item.isPublished
+                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${item.isPublished
                                       ? "translate-x-5"
                                       : "translate-x-0"
-                                  }`}
+                                    }`}
                                 />
                               </div>
                             </div>
@@ -472,8 +464,8 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
               </div>
             </div>
 
-          
-          
+
+
           </div>
 
           {/* DELETE CONFIRMATION MODAL */}
@@ -523,189 +515,189 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
             )}
           </AnimatePresence>
 
-         <AnimatePresence>
-                    {showModal && (
-                      <motion.div
-                        key="modal"
-                        initial={{ opacity: 0, scale: 0.9, y: 30 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 30 }}
-                        transition={{ duration: 0.25, ease: "easeOut" }}
-                        className="fixed inset-0 !z-[9999] flex items-center justify-center backdrop-blur-xs"
-                      >
-                        <div className="w-full max-w-5xl relative py-10 px-8 bg-black outline-1 outline-white rounded-lg fixed z-50">
-        
-                          {/* Header */}
-                          <div className="flex w-full items-center justify-between mb-4">
-                            <h1 className="font-vagrounded text-white text-lg ">
-                              Start a new Form
-                            </h1>
-        
+          <AnimatePresence>
+            {showModal && (
+              <motion.div
+                key="modal"
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 30 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="fixed inset-0 !z-[9999] flex items-center justify-center backdrop-blur-xs"
+              >
+                <div className="w-full max-w-5xl relative py-10 px-8 bg-black outline-1 outline-white rounded-lg fixed z-50">
+
+                  {/* Header */}
+                  <div className="flex w-full items-center justify-between mb-4">
+                    <h1 className="font-vagrounded text-white text-lg ">
+                      Start a new Form
+                    </h1>
+
+                    <button
+                      onClick={() => setShowModal(false)}
+                      className=" text-white text-md cursor-pointer"
+                    >
+                      X
+                    </button>
+
+                  </div>
+
+
+
+
+                  <div className=" flex items-stretch justify-between gap-5 w-full min-h-[280px]">
+                    {/* create own forms */}
+                    <div className="flex-1 font-vagrounded ">
+                      {isLoading ? (
+                        <span className="w-full h-full bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
+                          <FaSpinner className="text-5xl text-(--green) animate-spin" />
+                        </span>
+                      ) : (
+                        <button onClick={MakeForm} className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
+                          <IoDocumentText size={124} fill="white" />
+                          <div className="h-10 flex items-start justify-center">
+                            <span className="text-white text-lg font-vagrounded font-bold">
+                              Blank form
+                            </span></div>
+                        </button>
+                      )}
+                    </div>
+
+
+
+
+                    {/* generate with ai */}
+                    <div className="flex-1 font-vagrounded relative">
+                      {!showAIInput ? (
+                        <div
+                          className="flex flex-col gap-3 items-center w-full h-full cursor-pointer"
+                          onClick={() => setShowAIInput(true)}
+                        >
+                          <button className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
+                            <IoSparkles size={120} fill="white" />
+                            <div className="h-10 flex items-start justify-center">
+                              <span className="text-lg text-white font-vagrounded font-bold">
+                                Generate with AI
+                              </span>
+                            </div>
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col gap-2 items-center justify-center w-full h-11/12 animate-in fade-in zoom-in duration-200">
+                          <textarea
+                            autoFocus
+                            value={aiPrompt}
+                            onChange={(e) => setAiPrompt(e.target.value)}
+                            placeholder="Describe what you want to make ...."
+                            className="w-11/12 h-full p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm resize-none shadow-inner"
+                          />
+
+                          <div className="flex gap-2 w-11/12">
                             <button
-                              onClick={() => setShowModal(false)}
-                              className=" text-white text-md cursor-pointer"
+                              onClick={() => setShowAIInput(false)}
+                              className="flex-1 py-1 rounded bg-gray-200 hover:bg-gray-300 text-md text-gray-600 transition-colors"
                             >
-                              X
+                              Back
                             </button>
-        
-                          </div>
-        
-        
-        
-        
-                          <div className=" flex items-stretch justify-between gap-5 w-full min-h-[280px]">
-                            {/* create own forms */}
-                            <div className="flex-1 font-vagrounded ">
-                              {isLoading ? (
-                                <span className="w-full h-full bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
-                                  <FaSpinner className="text-5xl text-(--green) animate-spin" />
-                                </span>
-                              ) : (
-                                <button onClick={MakeForm} className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
-                                  <IoDocumentText size={124} fill="white" />
-                                  <div className="h-10 flex items-start justify-center">
-                                    <span className="text-white text-lg font-vagrounded font-bold">
-                                      Blank form
-                                    </span></div>
-                                </button>
-                              )}
-                            </div>
-        
-        
-        
-        
-                            {/* generate with ai */}
-                            <div className="flex-1 font-vagrounded relative">
-                              {!showAIInput ? (
-                                <div
-                                  className="flex flex-col gap-3 items-center w-full h-full cursor-pointer"
-                                  onClick={() => setShowAIInput(true)}
-                                >
-                                  <button className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
-                                    <IoSparkles size={120} fill="white" />
-                                    <div className="h-10 flex items-start justify-center">
-                                      <span className="text-lg text-white font-vagrounded font-bold">
-                                        Generate with AI
-                                      </span>
-                                    </div>
-                                  </button>
-                                </div>
-                              ) : (
-                                <div className="flex flex-col gap-2 items-center justify-center w-full h-11/12 animate-in fade-in zoom-in duration-200">
-                                  <textarea
-                                    autoFocus
-                                    value={aiPrompt}
-                                    onChange={(e) => setAiPrompt(e.target.value)}
-                                    placeholder="Describe what you want to make ...."
-                                    className="w-11/12 h-full p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm resize-none shadow-inner"
-                                  />
-        
-                                  <div className="flex gap-2 w-11/12">
-                                    <button
-                                      onClick={() => setShowAIInput(false)}
-                                      className="flex-1 py-1 rounded bg-gray-200 hover:bg-gray-300 text-md text-gray-600 transition-colors"
-                                    >
-                                      Back
-                                    </button>
-                                    <button
-                                      onClick={MakeAIForm}
-                                      disabled={isLoading || !aiPrompt.trim()}
-                                      className="flex-1 py-1 rounded bg-(--purple) text-white text-md disabled:opacity-50"
-                                    >
-                                      {isLoading ? "..." : "Generate"}
-                                    </button>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                            <div className="flex-1 relative">
-                              <button className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
-                                <IoGrid size={120} fill="white" />
-        
-                                <div className="h-10 flex items-start justify-center">
-                                  <span className="text-white text-lg font-vagrounded font-bold">
-                                    Use a template
-                                  </span></div>
-                              </button>
-        
-                            </div>
+                            <button
+                              onClick={MakeAIForm}
+                              disabled={isLoading || !aiPrompt.trim()}
+                              className="flex-1 py-1 rounded bg-(--purple) text-white text-md disabled:opacity-50"
+                            >
+                              {isLoading ? "..." : "Generate"}
+                            </button>
                           </div>
                         </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-        </>
-      )}
-        {isTablet && (
-    <>
+                      )}
+                    </div>
+                    <div className="flex-1 relative">
+                      <button className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
+                        <IoGrid size={120} fill="white" />
 
-      <div className="flex w-full h-screen overflow-hidden bg-black">
-        
-   
-        <div className="w-[260px] xl:w-[20%] shrink-0 h-full z-20 bg-black border-r border-gray-300 flex flex-col">
-          <div
-          
-            className="flex border-b-2 border-gray-300 justify-between py-10 px-5 xl:px-10 cursor-pointer"
-            onClick={() => navigate(`/`)}
-          >
-            <h1 className="font-zendots text-white text-[24px]">Ispecmn</h1>
-          </div>
+                        <div className="h-10 flex items-start justify-center">
+                          <span className="text-white text-lg font-vagrounded font-bold">
+                            Use a template
+                          </span></div>
+                      </button>
 
-          <div className="px-5 xl:px-10 mt-8 flex-1">
-            <div className="relative w-full mb-10">
-              <FaMagnifyingGlass size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
-              <input
-                type="text"
-                placeholder="Search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                className={`w-full text-white placeholder-gray-400 text-[12px] py-4 pr-4 pl-10 bg-black outline rounded-xl hover:bg-[#1E1E1E] transition-all ${isFocused ? 'outline-[2px] outline-green-700 bg-[#1E1E1E]' : 'outline-[#707070]'}`}
-              />
-            </div>
-
-            <div className="mb-8">
-              {/* 4. Responsive text: Starts smaller (text-2xl) and scales up to 4xl on large screens */}
-              <p className="text-2xl lg:text-3xl xl:text-4xl text-white leading-tight">
-                <span className="font-bold font-vagrounded">Manage</span>{" "}
-                Your 
-                Forms 
-                <span className="font-bold font-vagrounded"> Here!</span>{" "}
-              </p>
-              <p className="font-vagrounded text-white mt-4 text-[12px] xl:text-[14px]">
-                This is where you can view, edit, and organize all your created forms.
-              </p>
-            </div>
-
-            {/* Create Forms Button... */}
-            <button
-              className="text-left w-full"
-              onClick={() => setShowModal(true)}
-            >
-              {/* Note: I added w-full to the button so it stretches nicely */}
-              <div className="justify-center w-full bg-black hover:bg-[#1E1E1E] group px-5 py-4 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-700">
-                <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[#C8C9DA]">
-                  <div className="relative w-full h-full font-bold flex items-center justify-center overflow-hidden">
-                    <FaArrowUp className="fill-black rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
-                    <FaArrowUp className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 transition-all duration-400 ease-out fill-green-700" />
+                    </div>
                   </div>
                 </div>
-                <IoDocumentText className="text-white mb-2 text-[24px]" />
-                <span className="vagrounded font-semibold text-[15px] text-white mb-[2px]">
-                  Create Forms
-                </span>
-                <span className="vagrounded font-normal text-[10px] text-white">
-                  Start with a blank template and more
-                </span>
-              </div>
-            </button>
-          </div>
-        </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </>
+      )}
+      {isTablet && (
+        <>
 
-        {/* 5. MAIN CONTENT: Uses flex-1 to automatically fill the rest of the screen */}
-        <div className="flex-1 h-full z-10 overflow-y-auto">
-          <div className="px-5 lg:px-10 py-8">
+          <div className="flex w-full h-screen overflow-hidden bg-black">
+
+
+            <div className="w-[260px] xl:w-[20%] shrink-0 h-full z-20 bg-black border-r border-gray-300 flex flex-col">
+              <div
+
+                className="flex border-b-2 border-gray-300 justify-between py-10 px-5 xl:px-10 cursor-pointer"
+                onClick={() => navigate(`/`)}
+              >
+                <h1 className="font-zendots text-white text-[24px]">Ispecmn</h1>
+              </div>
+
+              <div className="px-5 xl:px-10 mt-8 flex-1">
+                <div className="relative w-full mb-10">
+                  <FaMagnifyingGlass size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    className={`w-full text-white placeholder-gray-400 text-[12px] py-4 pr-4 pl-10 bg-black outline rounded-xl hover:bg-[#1E1E1E] transition-all ${isFocused ? 'outline-[2px] outline-green-700 bg-[#1E1E1E]' : 'outline-[#707070]'}`}
+                  />
+                </div>
+
+                <div className="mb-8">
+                  {/* 4. Responsive text: Starts smaller (text-2xl) and scales up to 4xl on large screens */}
+                  <p className="text-2xl lg:text-3xl xl:text-4xl text-white leading-tight">
+                    <span className="font-bold font-vagrounded">Manage</span>{" "}
+                    Your
+                    Forms
+                    <span className="font-bold font-vagrounded"> Here!</span>{" "}
+                  </p>
+                  <p className="font-vagrounded text-white mt-4 text-[12px] xl:text-[14px]">
+                    This is where you can view, edit, and organize all your created forms.
+                  </p>
+                </div>
+
+                {/* Create Forms Button... */}
+                <button
+                  className="text-left w-full"
+                  onClick={() => setShowModal(true)}
+                >
+                  {/* Note: I added w-full to the button so it stretches nicely */}
+                  <div className="justify-center w-full bg-black hover:bg-[#1E1E1E] group px-5 py-4 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-700">
+                    <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[#C8C9DA]">
+                      <div className="relative w-full h-full font-bold flex items-center justify-center overflow-hidden">
+                        <FaArrowUp className="fill-black rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
+                        <FaArrowUp className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 transition-all duration-400 ease-out fill-green-700" />
+                      </div>
+                    </div>
+                    <IoDocumentText className="text-white mb-2 text-[24px]" />
+                    <span className="vagrounded font-semibold text-[15px] text-white mb-[2px]">
+                      Create Forms
+                    </span>
+                    <span className="vagrounded font-normal text-[10px] text-white">
+                      Start with a blank template and more
+                    </span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            {/* 5. MAIN CONTENT: Uses flex-1 to automatically fill the rest of the screen */}
+            <div className="flex-1 h-full z-10 overflow-y-auto">
+              <div className="px-5 lg:px-10 py-8">
                 <div className="flex justify-end mb-16">
                   <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
                     <img
@@ -732,21 +724,19 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
                       <div className="flex border border-gray-300 rounded-lg p-1">
                         <button
                           onClick={() => setViewMode("list")}
-                          className={`p-1.5 rounded transition-colors ${
-                            viewMode === "list"
+                          className={`p-1.5 rounded transition-colors ${viewMode === "list"
                               ? "bg-gray-400 text-white shadow-sm"
                               : "text-gray-500 hover:text-black"
-                          }`}
+                            }`}
                         >
                           <CiBoxList className="text-lg" />
                         </button>
                         <button
                           onClick={() => setViewMode("grid")}
-                          className={`p-1.5 rounded transition-colors ${
-                            viewMode === "grid"
+                          className={`p-1.5 rounded transition-colors ${viewMode === "grid"
                               ? "bg-gray-400 text-white shadow-sm"
                               : "text-gray-500 hover:text-black"
-                          }`}
+                            }`}
                         >
                           <BiGridHorizontal className="text-lg" />
                         </button>
@@ -756,28 +746,27 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
 
                   {/* LIST / GRID CONTAINER */}
                   <div
-                    className={`w-full mt-4 ${
-                      viewMode === "grid"
+                    className={`w-full mt-4 ${viewMode === "grid"
                         ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
                         : "flex flex-col"
-                    }`}
+                      }`}
                   >
                     {viewMode === "list" && (
-  <div className="flex items-center justify-end gap-10 text-[8px]  font-semibold text-white uppercase tracking-wider mb-3 ">
-    <div className="col-span-4"></div>
-    
-    {/* Changed from text-center to text-left */}
-    <div className="col-span-2 text-left whitespace-nowrap">Responses</div>
-    
-    {/* Changed from text-center to text-left */}
-    <div className="col-span-2 text-left whitespace-nowrap">Published</div>
-    
-    {/* Changed from text-center to text-left */}
-    <div className="col-span-3 text-left whitespace-nowrap">Last Modified</div>
-    
-    <div className="col-span-1"></div>
-  </div>
-)}
+                      <div className="flex items-center justify-end gap-10 text-[8px]  font-semibold text-white uppercase tracking-wider mb-3 ">
+                        <div className="col-span-4"></div>
+
+                        {/* Changed from text-center to text-left */}
+                        <div className="col-span-2 text-left whitespace-nowrap">Responses</div>
+
+                        {/* Changed from text-center to text-left */}
+                        <div className="col-span-2 text-left whitespace-nowrap">Published</div>
+
+                        {/* Changed from text-center to text-left */}
+                        <div className="col-span-3 text-left whitespace-nowrap">Last Modified</div>
+
+                        <div className="col-span-1"></div>
+                      </div>
+                    )}
 
                     {isLoading && (
                       <div className="mt-5 w-full justify-center flex items-center col-span-full">
@@ -792,11 +781,10 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
                         className={`
                       group bg-white backdrop-blur-sm border border-black/30 hover:border-[var(--purple)] 
                       rounded-xl shadow-sm transition-all cursor-pointer relative
-                      ${
-                        viewMode === "list"
-                          ? "p-4 grid grid-cols-12 items-center mt-3"
-                          : "p-6 flex flex-col justify-between h-56"
-                      }
+                      ${viewMode === "list"
+                            ? "p-4 grid grid-cols-12 items-center mt-3"
+                            : "p-6 flex flex-col justify-between h-56"
+                          }
                     `}
                       >
                         {viewMode === "list" ? (
@@ -818,18 +806,16 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
                             <div className="col-span-2 flex justify-center">
                               <div
                                 onClick={(e) => handleToggleClick(e, item)}
-                                className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${
-                                  item.isPublished
+                                className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${item.isPublished
                                     ? "bg-green-500"
                                     : "bg-gray-300"
-                                }`}
+                                  }`}
                               >
                                 <div
-                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
-                                    item.isPublished
+                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${item.isPublished
                                       ? "translate-x-5"
                                       : "translate-x-0"
-                                  }`}
+                                    }`}
                                 />
                               </div>
                             </div>
@@ -884,18 +870,16 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
                               {/* Switch (Inline JSX) */}
                               <div
                                 onClick={(e) => handleToggleClick(e, item)}
-                                className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${
-                                  item.isPublished
+                                className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${item.isPublished
                                     ? "bg-green-500"
                                     : "bg-gray-300"
-                                }`}
+                                  }`}
                               >
                                 <div
-                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${
-                                    item.isPublished
+                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${item.isPublished
                                       ? "translate-x-5"
                                       : "translate-x-0"
-                                  }`}
+                                    }`}
                                 />
                               </div>
                             </div>
@@ -908,8 +892,8 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
               </div>
             </div>
 
-          
-          
+
+
           </div>
 
           {/* DELETE CONFIRMATION MODAL */}
@@ -959,125 +943,125 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
             )}
           </AnimatePresence>
 
-         <AnimatePresence>
-                    {showModal && (
-                      <motion.div
-                        key="modal"
-                        initial={{ opacity: 0, scale: 0.9, y: 30 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 30 }}
-                        transition={{ duration: 0.25, ease: "easeOut" }}
-                        className="fixed inset-0 !z-[9999] flex items-center justify-center backdrop-blur-xs"
-                      >
-                        <div className="w-full max-w-5xl relative py-10 px-8 bg-black outline-1 outline-white rounded-lg fixed z-50">
-        
-                          {/* Header */}
-                          <div className="flex w-full items-center justify-between mb-4">
-                            <h1 className="font-vagrounded text-white text-lg ">
-                              Start a new Form
-                            </h1>
-        
+          <AnimatePresence>
+            {showModal && (
+              <motion.div
+                key="modal"
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 30 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="fixed inset-0 !z-[9999] flex items-center justify-center backdrop-blur-xs"
+              >
+                <div className="w-full max-w-5xl relative py-10 px-8 bg-black outline-1 outline-white rounded-lg fixed z-50">
+
+                  {/* Header */}
+                  <div className="flex w-full items-center justify-between mb-4">
+                    <h1 className="font-vagrounded text-white text-lg ">
+                      Start a new Form
+                    </h1>
+
+                    <button
+                      onClick={() => setShowModal(false)}
+                      className=" text-white text-md cursor-pointer"
+                    >
+                      X
+                    </button>
+
+                  </div>
+
+
+
+
+                  <div className=" flex items-stretch justify-between gap-5 w-full min-h-[280px]">
+                    {/* create own forms */}
+                    <div className="flex-1 font-vagrounded ">
+                      {isLoading ? (
+                        <span className="w-full h-full bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
+                          <FaSpinner className="text-5xl text-(--green) animate-spin" />
+                        </span>
+                      ) : (
+                        <button onClick={MakeForm} className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
+                          <IoDocumentText size={124} fill="white" />
+                          <div className="h-10 flex items-start justify-center">
+                            <span className="text-white text-lg font-vagrounded font-bold">
+                              Blank form
+                            </span></div>
+                        </button>
+                      )}
+                    </div>
+
+
+
+
+                    {/* generate with ai */}
+                    <div className="flex-1 font-vagrounded relative">
+                      {!showAIInput ? (
+                        <div
+                          className="flex flex-col gap-3 items-center w-full h-full cursor-pointer"
+                          onClick={() => setShowAIInput(true)}
+                        >
+                          <button className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
+                            <IoSparkles size={120} fill="white" />
+                            <div className="h-10 flex items-start justify-center">
+                              <span className="text-lg text-white font-vagrounded font-bold">
+                                Generate with AI
+                              </span>
+                            </div>
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col gap-2 items-center justify-center w-full h-11/12 animate-in fade-in zoom-in duration-200">
+                          <textarea
+                            autoFocus
+                            value={aiPrompt}
+                            onChange={(e) => setAiPrompt(e.target.value)}
+                            placeholder="Describe what you want to make ...."
+                            className="w-11/12 h-full p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm resize-none shadow-inner"
+                          />
+
+                          <div className="flex gap-2 w-11/12">
                             <button
-                              onClick={() => setShowModal(false)}
-                              className=" text-white text-md cursor-pointer"
+                              onClick={() => setShowAIInput(false)}
+                              className="flex-1 py-1 rounded bg-gray-200 hover:bg-gray-300 text-md text-gray-600 transition-colors"
                             >
-                              X
+                              Back
                             </button>
-        
-                          </div>
-        
-        
-        
-        
-                          <div className=" flex items-stretch justify-between gap-5 w-full min-h-[280px]">
-                            {/* create own forms */}
-                            <div className="flex-1 font-vagrounded ">
-                              {isLoading ? (
-                                <span className="w-full h-full bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
-                                  <FaSpinner className="text-5xl text-(--green) animate-spin" />
-                                </span>
-                              ) : (
-                                <button onClick={MakeForm} className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
-                                  <IoDocumentText size={124} fill="white" />
-                                  <div className="h-10 flex items-start justify-center">
-                                    <span className="text-white text-lg font-vagrounded font-bold">
-                                      Blank form
-                                    </span></div>
-                                </button>
-                              )}
-                            </div>
-        
-        
-        
-        
-                            {/* generate with ai */}
-                            <div className="flex-1 font-vagrounded relative">
-                              {!showAIInput ? (
-                                <div
-                                  className="flex flex-col gap-3 items-center w-full h-full cursor-pointer"
-                                  onClick={() => setShowAIInput(true)}
-                                >
-                                  <button className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
-                                    <IoSparkles size={120} fill="white" />
-                                    <div className="h-10 flex items-start justify-center">
-                                      <span className="text-lg text-white font-vagrounded font-bold">
-                                        Generate with AI
-                                      </span>
-                                    </div>
-                                  </button>
-                                </div>
-                              ) : (
-                                <div className="flex flex-col gap-2 items-center justify-center w-full h-11/12 animate-in fade-in zoom-in duration-200">
-                                  <textarea
-                                    autoFocus
-                                    value={aiPrompt}
-                                    onChange={(e) => setAiPrompt(e.target.value)}
-                                    placeholder="Describe what you want to make ...."
-                                    className="w-11/12 h-full p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm resize-none shadow-inner"
-                                  />
-        
-                                  <div className="flex gap-2 w-11/12">
-                                    <button
-                                      onClick={() => setShowAIInput(false)}
-                                      className="flex-1 py-1 rounded bg-gray-200 hover:bg-gray-300 text-md text-gray-600 transition-colors"
-                                    >
-                                      Back
-                                    </button>
-                                    <button
-                                      onClick={MakeAIForm}
-                                      disabled={isLoading || !aiPrompt.trim()}
-                                      className="flex-1 py-1 rounded bg-(--purple) text-white text-md disabled:opacity-50"
-                                    >
-                                      {isLoading ? "..." : "Generate"}
-                                    </button>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                            <div className="flex-1 relative">
-                              <button className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
-                                <IoGrid size={120} fill="white" />
-        
-                                <div className="h-10 flex items-start justify-center">
-                                  <span className="text-white text-lg font-vagrounded font-bold">
-                                    Use a template
-                                  </span></div>
-                              </button>
-        
-                            </div>
+                            <button
+                              onClick={MakeAIForm}
+                              disabled={isLoading || !aiPrompt.trim()}
+                              className="flex-1 py-1 rounded bg-(--purple) text-white text-md disabled:opacity-50"
+                            >
+                              {isLoading ? "..." : "Generate"}
+                            </button>
                           </div>
                         </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                      )}
+                    </div>
+                    <div className="flex-1 relative">
+                      <button className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
+                        <IoGrid size={120} fill="white" />
+
+                        <div className="h-10 flex items-start justify-center">
+                          <span className="text-white text-lg font-vagrounded font-bold">
+                            Use a template
+                          </span></div>
+                      </button>
+
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </>
       )}
 
       {isTabletOrMobile && (
         <>
-        <NavBar/>
+          <NavBar />
           <div className=" w-full min-h-screen overflow-y-auto z-10 ">
-      
+
 
             {/* NYAW */}
             <div className="px-10 pt-2 mt-30">
@@ -1090,19 +1074,19 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
                 all your created forms.
               </p>
 
-         <div className="relative w-full mt-8">
-                  <FaMagnifyingGlass size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
-                  <input
-                    type="text"
-                    placeholder="Search"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
-                className={` w-full text-white placeholder-gray-400 text-[12px]  py-4 pr-4 pl-10 bg-black outline rounded-xl 
+              <div className="relative w-full mt-8">
+                <FaMagnifyingGlass size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+                <input
+                  type="text"
+                  placeholder="Search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  className={` w-full text-white placeholder-gray-400 text-[12px]  py-4 pr-4 pl-10 bg-black outline rounded-xl 
           hover:bg-[#1E1E1E] transition-all ${isFocused ? 'outline-[2px] outline-green-700 bg-[#1E1E1E]' : 'outline-[#707070] '}`}
                 />
-                </div>
+              </div>
             </div>
 
             {/* MAIN CONTENT AREA */}
@@ -1117,118 +1101,116 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
                       <button className="text-left " onClick={() => setShowModal(true)}>
 
 
-                  <span className="text-white vagrounded font-semibold text-[12px] hover:text-gray-300">
-                    Create Forms
-                  </span>
+                        <span className="text-white vagrounded font-semibold text-[12px] hover:text-gray-300">
+                          Create Forms
+                        </span>
 
 
-                </button>
+                      </button>
                     </div>
 
-                   
+
                   </div>
 
-               {!isLoading && filteredForms.length === 0 && (
-      <div className="col-span-full flex flex-col items-center justify-center py-20 rounded-xl">
-        <FaRegFileAlt className="text-gray-300 text-4xl mb-3" />
-        <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-          No forms yet
-        </span>
-      </div>
-    )}
-               <div className="flex flex-col gap-2 mt-2">
-{filteredForms.map((item) => (
+                  {!isLoading && filteredForms.length === 0 && (
+                    <div className="col-span-full flex flex-col items-center justify-center py-20 rounded-xl">
+                      <FaRegFileAlt className="text-gray-300 text-4xl mb-3" />
+                      <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
+                        No forms yet
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex flex-col gap-2 mt-2">
+                    {filteredForms.map((item) => (
 
 
-  <div
-    key={item.id}
-    onClick={() => navigate(`/newform/${item.id}`)}
-    className=" group bg-white border border-black/30 hover:border-[var(--purple)] rounded-xl shadow-sm transition-all cursor-pointer relative p-4 grid grid-cols-12 items-center "
-  >
-    {/* Title & Icon (Expanded to col-span-6) */}
-    <div className="col-span-6 flex items-center gap-4">
-      <div className="w-4 h-4 rounded-md flex items-center justify-center text-white">
-        <FaRegFileAlt className="text-black text-xl" />
-      </div>
-      <span className="text-[12px] font-medium text-gray-800 truncate">
-        {item.title || "Untitled"}
-      </span>
-    </div>
+                      <div
+                        key={item.id}
+                        onClick={() => navigate(`/newform/${item.id}`)}
+                        className=" group bg-white border border-black/30 hover:border-[var(--purple)] rounded-xl shadow-sm transition-all cursor-pointer relative p-4 grid grid-cols-12 items-center "
+                      >
+                        {/* Title & Icon (Expanded to col-span-6) */}
+                        <div className="col-span-6 flex items-center gap-4">
+                          <div className="w-4 h-4 rounded-md flex items-center justify-center text-white">
+                            <FaRegFileAlt className="text-black text-xl" />
+                          </div>
+                          <span className="text-[12px] font-medium text-gray-800 truncate">
+                            {item.title || "Untitled"}
+                          </span>
+                        </div>
 
-    {/* Responses */}
-    <div className="col-span-2 text-center text-sm font-medium">
-      {item.responseCount || 0}
-    </div>
+                        {/* Responses */}
+                        <div className="col-span-2 text-center text-sm font-medium">
+                          {item.responseCount || 0}
+                        </div>
 
-    {/* Date (Expanded to col-span-3) */}
-    <div className="col-span-3 text-center text-[10px] text-gray-500">
-      {moment.utc(item.createdAt).local().fromNow()}
-    </div>
+                        {/* Date (Expanded to col-span-3) */}
+                        <div className="col-span-3 text-center text-[10px] text-gray-500">
+                          {moment.utc(item.createdAt).local().fromNow()}
+                        </div>
 
-    {/* Options Menu */}
-    <div className=" flex flex-1 items-center relative">
-      <button
-        onClick={(e) => {
-          e.stopPropagation(); // Prevents navigating to the form
-          setOpenDropdownId(openDropdownId === item.id ? null : item.id);
-        }}
-        className="relative z-20 p-2 rounded-full hover:bg-gray-100 transition-colors"
-      >
-        <FaEllipsisV className="text-md text-gray-500" />
-      </button>
+                        {/* Options Menu */}
+                        <div className=" flex flex-1 items-center relative">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevents navigating to the form
+                              setOpenDropdownId(openDropdownId === item.id ? null : item.id);
+                            }}
+                            className="relative z-20 p-2 rounded-full hover:bg-gray-100 transition-colors"
+                          >
+                            <FaEllipsisV className="text-md text-gray-500" />
+                          </button>
 
-      {/* Dropdown Content */}
-      {openDropdownId === item.id && (
-        <div className="absolute right-0 top-10 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-30 py-2 flex flex-col">
-          
-          {/* Publish Toggle Inside Menu */}
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-              handleToggleClick(e, item);
-            }}
-            className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center justify-between transition-colors"
-          >
-            <span className="text-sm text-gray-700 font-medium">Published</span>
-            <div
-              className={`w-9 h-4 flex items-center rounded-full p-1 transition-colors duration-300 ${
-                item.isPublished ? "bg-green-500" : "bg-gray-300"
-              }`}
-            >
-              <div
-                className={`bg-white w-2 h-2 rounded-full shadow-md transform transition-transform duration-300 ${
-                  item.isPublished ? "translate-x-5" : "translate-x-0"
-                }`}
-              />
-            </div>
-          </div>
+                          {/* Dropdown Content */}
+                          {openDropdownId === item.id && (
+                            <div className="absolute right-0 top-10 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-30 py-2 flex flex-col">
 
-          <hr className="border-gray-100 my-1" />
+                              {/* Publish Toggle Inside Menu */}
+                              <div
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleToggleClick(e, item);
+                                }}
+                                className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center justify-between transition-colors"
+                              >
+                                <span className="text-sm text-gray-700 font-medium">Published</span>
+                                <div
+                                  className={`w-9 h-4 flex items-center rounded-full p-1 transition-colors duration-300 ${item.isPublished ? "bg-green-500" : "bg-gray-300"
+                                    }`}
+                                >
+                                  <div
+                                    className={`bg-white w-2 h-2 rounded-full shadow-md transform transition-transform duration-300 ${item.isPublished ? "translate-x-5" : "translate-x-0"
+                                      }`}
+                                  />
+                                </div>
+                              </div>
 
-          {/* Delete Button Inside Menu */}
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-              handleDeleteClick(e, item.id);
-              setOpenDropdownId(null); // Close menu after deleting
-            }}
-            className="px-4 py-2 hover:bg-red-50 cursor-pointer flex items-center gap-3 text-red-500 transition-colors group/delete"
-          >
-            <FaTrash className="text-sm group-hover/delete:scale-110 transition-transform" />
-            <span className="text-sm font-medium">Delete Form</span>
-          </div>
+                              <hr className="border-gray-100 my-1" />
 
-        </div>
-      )}
-    </div>
-  </div>
-))}      </div>
-               </div>
-                 
+                              {/* Delete Button Inside Menu */}
+                              <div
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteClick(e, item.id);
+                                  setOpenDropdownId(null); // Close menu after deleting
+                                }}
+                                className="px-4 py-2 hover:bg-red-50 cursor-pointer flex items-center gap-3 text-red-500 transition-colors group/delete"
+                              >
+                                <FaTrash className="text-sm group-hover/delete:scale-110 transition-transform" />
+                                <span className="text-sm font-medium">Delete Form</span>
+                              </div>
+
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}      </div>
                 </div>
+
               </div>
             </div>
-       
+          </div>
+
 
           {/* DELETE CONFIRMATION MODAL */}
           <AnimatePresence>
@@ -1278,115 +1260,115 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
           </AnimatePresence>
 
           {/* NEW FORM MODAL */}
-        <AnimatePresence>
-                    {showModal && (
-                      <motion.div
-                        key="modal"
-                        initial={{ opacity: 0, scale: 0.9, y: 30 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 30 }}
-                        transition={{ duration: 0.25, ease: "easeOut" }}
-                        className="flex fixed inset-0 p-4 !z-[9999]  items-center justify-center backdrop-blur-xs"
-                      >
-        
-                        <div className="w-full max-w-5xl relative py-10 px-8 bg-black outline-1 outline-white rounded-lg fixed z-50">
-        
-                          {/* Header */}
-                          <div className="flex w-full items-center justify-between mb-4">
-                            <h1 className="font-vagrounded text-white text-md ">
-                              Start a new Form
-                            </h1>
-        
+          <AnimatePresence>
+            {showModal && (
+              <motion.div
+                key="modal"
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 30 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="flex fixed inset-0 p-4 !z-[9999]  items-center justify-center backdrop-blur-xs"
+              >
+
+                <div className="w-full max-w-5xl relative py-10 px-8 bg-black outline-1 outline-white rounded-lg fixed z-50">
+
+                  {/* Header */}
+                  <div className="flex w-full items-center justify-between mb-4">
+                    <h1 className="font-vagrounded text-white text-md ">
+                      Start a new Form
+                    </h1>
+
+                    <button
+                      onClick={() => setShowModal(false)}
+                      className=" text-white cursor-pointer"
+                    >
+                      X
+                    </button>
+
+                  </div>
+
+
+                  <div className=" flex items-stretch justify-center gap-2 w-full min-h-[100px]">
+
+                    {/* create own forms */}
+
+                    <div className="relative flex-1 font-vagrounded ">
+                      {isLoading ? (
+                        <span className="w-full h-full bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
+                          <FaSpinner className="text-5xl text-(--green) animate-spin" />
+                        </span>
+                      ) : (
+                        <button onClick={MakeForm} className="relative flex items-center gap-5 justify-center w-full h-full p-6 border-2 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
+                          <IoDocumentText size={24} fill="white" />
+                          <div className="h-10 flex items-start justify-center">
+                            <span className="text-white text-[12px] font-vagrounded font-bold">
+                              Blank form
+                            </span></div>
+                        </button>
+                      )}
+                    </div>
+
+                    {/* generate with ai */}
+                    <div className=" relative flex-1 font-vagrounded">
+                      {!showAIInput ? (
+                        <div
+                          className="flex flex-col gap-3 items-center w-full h-full cursor-pointer"
+                          onClick={() => setShowAIInput(true)}
+                        >
+                          <button className="relative flex p-6 items-center gap-5 justify-center w-full h-full border-2 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
+                            <IoSparkles size={24} fill="white" />
+                            <div className="h-10 flex items-start justify-center">
+                              <span className="text-xs text-white font-vagrounded font-bold">
+                                Generate with AI
+                              </span>
+                            </div>
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col gap-2 items-center justify-center w-full h-11/12 animate-in fade-in zoom-in duration-200">
+                          <textarea
+                            autoFocus
+                            value={aiPrompt}
+                            onChange={(e) => setAiPrompt(e.target.value)}
+                            placeholder="Describe what you want to make ...."
+                            className="w-11/12 h-full p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-[9px] resize-none shadow-inner"
+                          />
+
+                          <div className="flex gap-2 w-11/12">
                             <button
-                              onClick={() => setShowModal(false)}
-                              className=" text-white cursor-pointer"
+                              onClick={() => setShowAIInput(false)}
+                              className="flex-1 py-1 rounded bg-gray-200 hover:bg-gray-300 text-[9px] text-gray-600 transition-colors"
                             >
-                              X
+                              Back
                             </button>
-        
-                          </div>
-        
-        
-                          <div className=" flex items-stretch justify-center gap-2 w-full min-h-[100px]">
-        
-                            {/* create own forms */}
-        
-                            <div className="relative flex-1 font-vagrounded ">
-                              {isLoading ? (
-                                <span className="w-full h-full bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
-                                  <FaSpinner className="text-5xl text-(--green) animate-spin" />
-                                </span>
-                              ) : (
-                                <button onClick={MakeForm} className="relative flex items-center gap-5 justify-center w-full h-full p-6 border-2 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
-                                  <IoDocumentText size={24} fill="white" />
-                                  <div className="h-10 flex items-start justify-center">
-                                    <span className="text-white text-[12px] font-vagrounded font-bold">
-                                      Blank form
-                                    </span></div>
-                                </button>
-                              )}
-                            </div>
-        
-                            {/* generate with ai */}
-                            <div className=" relative flex-1 font-vagrounded">
-                              {!showAIInput ? (
-                                <div
-                                  className="flex flex-col gap-3 items-center w-full h-full cursor-pointer"
-                                  onClick={() => setShowAIInput(true)}
-                                >
-                                  <button className="relative flex p-6 items-center gap-5 justify-center w-full h-full border-2 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
-                                    <IoSparkles size={24} fill="white" />
-                                    <div className="h-10 flex items-start justify-center">
-                                      <span className="text-xs text-white font-vagrounded font-bold">
-                                        Generate with AI
-                                      </span>
-                                    </div>
-                                  </button>
-                                </div>
-                              ) : (
-                                <div className="flex flex-col gap-2 items-center justify-center w-full h-11/12 animate-in fade-in zoom-in duration-200">
-                                  <textarea
-                                    autoFocus
-                                    value={aiPrompt}
-                                    onChange={(e) => setAiPrompt(e.target.value)}
-                                    placeholder="Describe what you want to make ...."
-                                    className="w-11/12 h-full p-3 rounded-lg bg-white/50 border border-white/60 focus:outline-none focus:ring-2 focus:ring-purple-300 text-[9px] resize-none shadow-inner"
-                                  />
-        
-                                  <div className="flex gap-2 w-11/12">
-                                    <button
-                                      onClick={() => setShowAIInput(false)}
-                                      className="flex-1 py-1 rounded bg-gray-200 hover:bg-gray-300 text-[9px] text-gray-600 transition-colors"
-                                    >
-                                      Back
-                                    </button>
-                                    <button
-                                      onClick={MakeAIForm}
-                                      disabled={isLoading || !aiPrompt.trim()}
-                                      className="flex-1 py-1 rounded bg-(--purple) text-black text-[9px] disabled:opacity-50"
-                                    >
-                                      {isLoading ? "..." : "Generate"}
-                                    </button>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-        
-                            <div className=" relative flex-1 font-vagrounded">
-                              <button className="relative p-4 flex  items-center gap-5 justify-center w-full h-full border-2 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
-                                <IoGrid size={24} fill="white" />
-        
-                                <div className="h-10 flex items-start justify-center">
-                                  <span className="text-white text-xs font-vagrounded font-bold">
-                                    Use a template
-                                  </span></div>
-                              </button>
-                            </div>
+                            <button
+                              onClick={MakeAIForm}
+                              disabled={isLoading || !aiPrompt.trim()}
+                              className="flex-1 py-1 rounded bg-(--purple) text-black text-[9px] disabled:opacity-50"
+                            >
+                              {isLoading ? "..." : "Generate"}
+                            </button>
                           </div>
                         </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                      )}
+                    </div>
+
+                    <div className=" relative flex-1 font-vagrounded">
+                      <button className="relative p-4 flex  items-center gap-5 justify-center w-full h-full border-2 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
+                        <IoGrid size={24} fill="white" />
+
+                        <div className="h-10 flex items-start justify-center">
+                          <span className="text-white text-xs font-vagrounded font-bold">
+                            Use a template
+                          </span></div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </>
       )}
     </>

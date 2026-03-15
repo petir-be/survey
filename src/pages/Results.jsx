@@ -287,7 +287,7 @@ function Results({
                       onClick={clearAllFilters}
                       className="px-7 py-1.5 flex items-center gap-2 text-(--white) fill-(--white) rounded-xl bg-(--purple) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-purple-700 transition-color duration-200 ease-out"
                     >
-                      <FaX size={14} style={{fill: "var(--white)"}} />
+                      <FaX size={14} style={{ fill: "var(--white)" }} />
                       Clear All
                     </button>
                   )}

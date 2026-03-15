@@ -199,11 +199,10 @@ function Preview() {
             <button
               onClick={goPrev}
               disabled={currentPageIndex === 0}
-              className={`px-4 py-2 rounded-lg font-medium ${
-                currentPageIndex === 0
+              className={`px-4 py-2 rounded-lg font-medium ${currentPageIndex === 0
                   ? "opacity-0 cursor-default"
                   : "opacity-100 bg-red-100 hover:bg-red-200"
-              }`}
+                }`}
             >
               Previous
             </button>
@@ -211,19 +210,18 @@ function Preview() {
             <button
               onClick={goNext}
               className={`flex items-center gap-1 pl-7 pr-6 py-1.5 rounded-xl font-vagrounded drop-shadow-sm/30 transition-color duration-200 ease-out
-         ${
-           isReviewPage
-             ? "bg-(--white) ring ring-green-500 hover:bg-green-200"
-             : "bg-(--white) ring ring-(--purple) inset-shadow-md/10 hover:bg-violet-200"
-         }`}
+         ${isReviewPage
+                  ? "bg-(--white) ring ring-green-500 hover:bg-green-200"
+                  : "bg-(--white) ring ring-(--purple) inset-shadow-md/10 hover:bg-violet-200"
+                }`}
             >
               {isReviewPage
                 ? "Simulate Submission"
                 : currentPageIndex === pages.length - 1 && hasReviewPage
-                ? "Review Answers"
-                : currentPageIndex === pages.length - 1
-                ? "Simulate Submission"
-                : "Next"}
+                  ? "Review Answers"
+                  : currentPageIndex === pages.length - 1
+                    ? "Simulate Submission"
+                    : "Next"}
               <IoMdArrowRoundForward />
             </button>
           </div>

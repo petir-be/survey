@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import "../global.css";
-import { FaArrowUp, FaSpinner, } from "react-icons/fa6";
+import {  FaSpinner } from "react-icons/fa6";
 
 import Navbar from "../components/Navbar.jsx";
 import toast, { Toaster } from "react-hot-toast";
@@ -12,15 +12,34 @@ import { useMediaQuery } from "react-responsive";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../Context/authContext";
-import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Import a loader icon
-import { IoDocumentText, IoSparkles, IoGrid, IoFolderOpen } from "react-icons/io5";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { IoDocumentText, IoSparkles, IoGrid, IoAlertCircle, } from "react-icons/io5";
 import Footer from "../components/Footer";
 
 
 function Home() {
 
 
+  const [showWarning, setShowWarning] = useState(false);
+  const [dontShowAgain, setDontShowAgain] = useState(false); 
 
+  useEffect(() => {
+   
+    const isDismissed = localStorage.getItem("warningDismissed");
+
+    if (!isDismissed) {
+      const timer = setTimeout(() => setShowWarning(true), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const handleCloseModal = () => {
+  
+    if (dontShowAgain) {
+      localStorage.setItem("warningDismissed", "true");
+    }
+    setShowWarning(false);
+  };
 
   const [fadeState, setFadeState] = useState("fade-in");
   const [fadeText, setFadeText] = useState('');
@@ -192,6 +211,8 @@ function Home() {
   return (
     <>
       <Toaster position="top-right" />
+     
+
       <Navbar />
       {isDesktopOrLaptop && (
 
@@ -199,7 +220,66 @@ function Home() {
         <>
           {/* para matanggal lang error */}
           {motion}
+          <AnimatePresence>
+            {showWarning && (
+              <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={handleCloseModal} 
+                  className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+                />
 
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                  animate={{ scale: 1, opacity: 1, y: 0 }}
+                  exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                  className="relative w-full max-w-md bg-[#121212] border border-red-900/50 p-8 rounded-2xl shadow-2xl"
+                >
+                  <div className="flex flex-col items-center text-center">
+                    <div className="bg-red-500/10 p-3 rounded-full mb-4">
+                      <IoAlertCircle size={40} className="text-red-500" />
+                    </div>
+
+                    <h2 className="text-2xl font-bold text-white mb-2 font-vagrounded">
+                      Service Limitation
+                    </h2>
+
+                    <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                     Please be advised that the core functions of this website are currently limited.
+                      Due to an expired service subscription, some core features
+                      are unavailable at this time.
+                    </p>
+
+             
+                    <div className="flex items-center space-x-2 mb-6 cursor-pointer group">
+                      <input
+                        type="checkbox"
+                        id="dontShow"
+                        className="w-4 h-4 rounded border-gray-600 bg-black text-green-600 focus:ring-green-500"
+                        checked={dontShowAgain}
+                        onChange={(e) => setDontShowAgain(e.target.checked)}
+                      />
+                      <label
+                        htmlFor="dontShow"
+                        className="text-gray-400 text-xs cursor-pointer group-hover:text-gray-200 transition-colors"
+                      >
+                        Don't show this message again
+                      </label>
+                    </div>
+
+                    <button
+                      onClick={handleCloseModal}
+                      className="w-full py-3 px-6 bg-white hover:bg-gray-200 text-black font-semibold rounded-xl transition-all duration-200"
+                    >
+                      I Understand
+                    </button>
+                  </div>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>
           <div className="flex flex-col items-center justify-center min-h-screen  z-10">
 
             <div className=" justify-center items-center ">
@@ -254,27 +334,27 @@ function Home() {
                 <input
                   type="text"
                   placeholder=""
-                  
-                  value={searchQuery || aiPrompt}
-                  onChange={(e) => setSearchQuery(e.target.value) ||setAiPrompt(e.target.value)} 
 
-          
-                        
+                  value={searchQuery || aiPrompt}
+                  onChange={(e) => setSearchQuery(e.target.value) || setAiPrompt(e.target.value)}
+
+
+
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
                   className={` w-[600px] text-white text-[12px]  py-4 pr-26 pl-10 bg-black outline rounded-xl 
           hover:bg-[#1E1E1E] transition-all ${isFocused ? 'outline-[2px] outline-green-700 bg-[#1E1E1E]' : 'outline-[#707070] '}`}
                 />
                 <div className='absolute right-4 '>
-                  <button        onClick={MakeAIForm}         disabled={isLoading || !aiPrompt.trim()}
-                            className="flex items-center justify-center min-w-[100px] text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[8px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-    >
-      {isLoading ? (
-        <AiOutlineLoading3Quarters className="animate-spin" size={16} />
-      ) : (
-        "Generate"
-      )}
-    </button>
+                  <button onClick={MakeAIForm} disabled={isLoading || !aiPrompt.trim()}
+                    className="flex items-center justify-center min-w-[100px] text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[8px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isLoading ? (
+                      <AiOutlineLoading3Quarters className="animate-spin" size={16} />
+                    ) : (
+                      "Generate"
+                    )}
+                  </button>
                 </div>
 
               </div>
@@ -321,7 +401,66 @@ function Home() {
         <>
           {/* para matanggal lang error */}
           {motion}
+          <AnimatePresence>
+            {showWarning && (
+              <div className="fixed inset-0 z-[100] flex items-center justify-center px-8">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={handleCloseModal} // Dismiss on backdrop click
+                  className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+                />
 
+                <motion.div
+                  initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                  animate={{ scale: 1, opacity: 1, y: 0 }}
+                  exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                  className="relative w-full max-w-md bg-[#121212] border border-red-900/50 p-8 rounded-2xl shadow-2xl"
+                >
+                  <div className="flex flex-col items-center text-center">
+                    <div className="bg-red-500/10 p-3 rounded-full mb-4">
+                      <IoAlertCircle size={40} className="text-red-500" />
+                    </div>
+
+                    <h2 className="text-2xl font-bold text-white mb-2 font-vagrounded">
+                      Service Limitation
+                    </h2>
+
+                    <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                      Please be advised that the core functions of this website are currently limited.
+                      Due to an expired service subscription, some core features
+                      are unavailable at this time.
+                    </p>
+
+                    {/* --- CHECKBOX SECTION --- */}
+                    <div className="flex items-center space-x-2 mb-6 cursor-pointer group">
+                      <input
+                        type="checkbox"
+                        id="dontShow"
+                        className="w-4 h-4 rounded border-gray-600 bg-black text-green-600 focus:ring-green-500"
+                        checked={dontShowAgain}
+                        onChange={(e) => setDontShowAgain(e.target.checked)}
+                      />
+                      <label
+                        htmlFor="dontShow"
+                        className="text-gray-400 text-xs cursor-pointer group-hover:text-gray-200 transition-colors"
+                      >
+                        Don't show this message again
+                      </label>
+                    </div>
+
+                    <button
+                      onClick={handleCloseModal}
+                      className="w-full py-3 px-6 bg-white hover:bg-gray-200 text-black font-semibold rounded-xl transition-all duration-200"
+                    >
+                      I Understand
+                    </button>
+                  </div>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>
           <div className="fixed inset-0 flex flex-col items-center pt-15 px-4 overflow-hidden z-10">
             <div className="m-12 flex  text-center items-center justify-center flex-col">
               <div className=" flex  items-center  gap-15 mb-10 ">
@@ -378,17 +517,17 @@ function Home() {
                   <span className="ml-1 w-[2px] h-[14px] bg-white/50 animate-pulse"></span>
                 </div>
               )}
-            <input
-                  type="text"
-                  placeholder=""
-                  
-                  value={searchQuery || aiPrompt}
-                  onChange={(e) => setSearchQuery(e.target.value) ||setAiPrompt(e.target.value)} 
+              <input
+                type="text"
+                placeholder=""
 
-          
-                        
-                  onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
+                value={searchQuery || aiPrompt}
+                onChange={(e) => setSearchQuery(e.target.value) || setAiPrompt(e.target.value)}
+
+
+
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
 
                 // Changed w-[500px] to w-full max-w-[500px]
                 className={`w-full text-white text-[12px] py-4 pr-24 pl-10 bg-black outline rounded-xl 
@@ -396,15 +535,15 @@ function Home() {
               />
               <div className='absolute right-2 '>
                 <button value={aiPrompt}
-                 onClick={MakeAIForm}         disabled={isLoading || !aiPrompt.trim()} className="text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[12px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-    >
-      {isLoading ? (
-        <AiOutlineLoading3Quarters className="animate-spin" size={14} />
-      ) : (
-        "Generate"
-      )}
-    </button>
-               
+                  onClick={MakeAIForm} disabled={isLoading || !aiPrompt.trim()} className="text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[12px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? (
+                    <AiOutlineLoading3Quarters className="animate-spin" size={14} />
+                  ) : (
+                    "Generate"
+                  )}
+                </button>
+
               </div>
             </div>
 
