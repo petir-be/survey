@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import "../global.css";
-import {  FaSpinner } from "react-icons/fa6";
+import { FaSpinner } from "react-icons/fa6";
 
 import Navbar from "../components/Navbar.jsx";
 import toast, { Toaster } from "react-hot-toast";
@@ -21,10 +21,10 @@ function Home() {
 
 
   const [showWarning, setShowWarning] = useState(false);
-  const [dontShowAgain, setDontShowAgain] = useState(false); 
+  const [dontShowAgain, setDontShowAgain] = useState(false);
 
   useEffect(() => {
-   
+
     const isDismissed = localStorage.getItem("warningDismissed");
 
     if (!isDismissed) {
@@ -34,7 +34,7 @@ function Home() {
   }, []);
 
   const handleCloseModal = () => {
-  
+
     if (dontShowAgain) {
       localStorage.setItem("warningDismissed", "true");
     }
@@ -211,7 +211,7 @@ function Home() {
   return (
     <>
       <Toaster position="top-right" />
-     
+
 
       <Navbar />
       {isDesktopOrLaptop && (
@@ -227,7 +227,7 @@ function Home() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  onClick={handleCloseModal} 
+                  onClick={handleCloseModal}
                   className="absolute inset-0 bg-black/80 backdrop-blur-sm"
                 />
 
@@ -237,6 +237,10 @@ function Home() {
                   exit={{ scale: 0.9, opacity: 0, y: 20 }}
                   className="relative w-full max-w-md bg-[#121212] border border-red-900/50 p-8 rounded-2xl shadow-2xl"
                 >
+                <div className=" flex px-3 rounded-full gap-3 items-center">
+                      <img  src="./CMN.png" className="w-[14px]" />
+                       <span className="text-white text-[14px] font-zendots">Ispecmn</span >
+                    </div>
                   <div className="flex flex-col items-center text-center">
                     <div className="bg-red-500/10 p-3 rounded-full mb-4">
                       <IoAlertCircle size={40} className="text-red-500" />
@@ -247,12 +251,12 @@ function Home() {
                     </h2>
 
                     <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                     Please be advised that the core functions of this website are currently limited.
+                      Please be advised that the core functions of this website are currently limited.
                       Due to an expired service subscription, some core features
                       are unavailable at this time.
                     </p>
 
-             
+
                     <div className="flex items-center space-x-2 mb-6 cursor-pointer group">
                       <input
                         type="checkbox"
@@ -418,16 +422,21 @@ function Home() {
                   exit={{ scale: 0.9, opacity: 0, y: 20 }}
                   className="relative w-full max-w-md bg-[#121212] border border-red-900/50 p-8 rounded-2xl shadow-2xl"
                 >
+ <div className=" flex px-3 rounded-full gap-3 items-center">
+                      <img  src="./CMN.png" className="w-[10px]" />
+                       <span className="text-white text-[10px] font-zendots">Ispecmn</span >
+                    </div>
+                
                   <div className="flex flex-col items-center text-center">
                     <div className="bg-red-500/10 p-3 rounded-full mb-4">
-                      <IoAlertCircle size={40} className="text-red-500" />
+                      <IoAlertCircle size={32} className="text-red-500" />
                     </div>
 
-                    <h2 className="text-2xl font-bold text-white mb-2 font-vagrounded">
+                    <h2 className="text-xl font-bold text-white mb-2 font-vagrounded">
                       Service Limitation
                     </h2>
 
-                    <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                    <p className="text-gray-400 text-[14px] leading-relaxed mb-6">
                       Please be advised that the core functions of this website are currently limited.
                       Due to an expired service subscription, some core features
                       are unavailable at this time.
