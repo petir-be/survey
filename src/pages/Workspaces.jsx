@@ -9,7 +9,7 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../Context/authContext";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { FaSpinner } from "react-icons/fa";
 import AccountModal from "../components/AccountModal";
 import { useMediaQuery } from "react-responsive";
@@ -18,8 +18,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import NavBar from "../components/Navbar";
 
 function Workspaces() {
-  const [createFormLoading, setCreateFormLoadin] = useState(false);
-  const [formReply, setFormReply] = useState({});
   const navigate = useNavigate();
   const [aiPrompt, setAiPrompt] = useState("");
   const [showAIInput, setShowAIInput] = useState(false);
