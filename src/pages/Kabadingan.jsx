@@ -1,24 +1,15 @@
-import React, { useContext, useState } from "react";
-import { IoChevronBack } from "react-icons/io5";
-import { Link, useNavigate } from "react-router";
-import toast, { Toaster } from "react-hot-toast";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 import axios from "axios";
 import { useMediaQuery } from "react-responsive";
 import { AuthContext } from "../Context/authContext";
-import { BiSolidMessageSquareMinus } from "react-icons/bi";
-
-
+import { useMutation } from "@tanstack/react-query";
 
 function Kabadingan() {
   // State to track the currently active item
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1301px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1300px)" });
-
-  const navItems = [
-    "Getting started with CMEN",
-    "Our Survey is Built Different",
-    "Best Practices",
-  ];
 
   const faqItems = [
     {
@@ -53,42 +44,42 @@ function Kabadingan() {
     // If clicking the already open item, close it. Otherwise, open the clicked item.
     setActiveIndex(activeIndex === index ? null : index);
   };
-  const [activeItem, setActiveItem] = useState(navItems[0]);
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const { isAuthenticated, user } = useContext(AuthContext);
-  async function MakeForm() {
-    if (!user?.id) {
-      console.log("nyaw");
-      navigate("/login");
-      toast.error("Please log in to create a form.");
-      return;
-    }
+  const { user } = useContext(AuthContext);
 
-    if (isLoading) return;
-    setIsLoading(true);
+  const createFormMutation = useMutation({
+    mutationFn: async () => {
+      if (!user?.id) {
+        toast.error("Please log in to create a form.");
+        throw new Error("User not logged in");
+      }
 
-    try {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND}/api/Form/createform`,
-        {
-          userId: user.id,
-          title: "Untitled",
-        },
-        {
-          withCredentials: true,
-        },
+        { userId: user.id, title: "Untitled" },
+        { withCredentials: true }
       );
-      if (res.data && res.data.surveyId) {
-        navigate(`/newform/${res.data.surveyId}`);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      if (data?.surveyId) {
+        navigate(`/newform/${data.surveyId}`);
       }
-      setForm(res.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
+    },
+    onError: (error) => {
+      if (error.message === "User not logged in") {
+        navigate("/login");
+      } else {
+        console.error(error);
+        toast.error("Failed to create blank form.");
+      }
     }
-  }
+  });
+
+  const MakeForm = () => {
+    createFormMutation.mutate();
+  };
+
   return (
     <>
       {isDesktopOrLaptop &&

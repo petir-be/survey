@@ -1,17 +1,4 @@
-import React from "react";
 import { useDragLayer } from "react-dnd";
-import MultipleChoice from "./FormElements/MultipleChoice";
-import Contact from "./FormElements/MultipleChoice";
-import Checkbox from "./FormElements/Checkbox";
-import Dropdown from "./FormElements/Dropdown";
-import ChoiceMatrix from "./FormElements/ChoiceMatrix";
-import Paragraph from "./FormElements/Paragraph";
-import Heading from "./FormElements/Heading";
-import LongText from "./FormElements/LongText";
-import Email from "./FormElements/Email";
-import PhoneNumber from "./FormElements/PhoneNumber";
-import FileUploader from "./FormElements/FileUploader";
-import ShortText from "./FormElements/ShortText";
 import { motion } from "motion/react";
 
 

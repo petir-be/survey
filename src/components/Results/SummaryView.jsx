@@ -1,9 +1,5 @@
-import { useEffect, useState, useMemo, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { toPng } from "html-to-image";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import SummaryPDF from "../PDF/SummaryPDF";
-import MultipleChoiceBarChart from "../Charts/MultipleChoiceBarChart";
-import ChoiceMatrixBarChart from "../Charts/ChoiceMatrixBarChart";
 
 // Helper function to aggregate responses by question and option
 const aggregateResponseData = (parentResponses, formData) => {
@@ -121,7 +117,7 @@ const aggregateResponseData = (parentResponses, formData) => {
           aggregated[questionId].total++;
 
           if (questionType == "multiple_choice") {
-            if (aggregated[questionId].options.hasOwnProperty(answer.answer)) {
+            if (Object.prototype.hasOwnProperty.call(aggregated[questionId].options, answer.answer)) {
               aggregated[questionId].options[answer.answer]++;
             } else {
               // Handle edge case where answer doesn't match predefined options
@@ -140,7 +136,7 @@ const aggregateResponseData = (parentResponses, formData) => {
               }
             });
           } else if (questionType === "checkbox") {
-            if (aggregated[questionId].options.hasOwnProperty(answer.answer)) {
+            if (Object.prototype.hasOwnProperty.call(aggregated[questionId].options, answer.answer)) {
               answer.answer.forEach((checkboxAnswer) => {
                 aggregated[questionId].options[checkboxAnswer]++;
               });
@@ -151,7 +147,7 @@ const aggregateResponseData = (parentResponses, formData) => {
               });
             }
           } else if (questionType === "dropdown") {
-            if (aggregated[questionId].options.hasOwnProperty(answer.answer)) {
+            if (Object.prototype.hasOwnProperty.call(aggregated[questionId].options, answer.answer)) {
               aggregated[questionId].options[answer.answer]++;
             } else {
               // Handle edge case where answer doesn't match predefined options

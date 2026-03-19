@@ -1,4 +1,3 @@
-import { FaMagnifyingGlass } from "react-icons/fa6";
 
 function SearchBar({ value, onChange }) {
   return (

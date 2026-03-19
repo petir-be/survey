@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 // 1. Store the shader as a string using backticks
 const fragmentShader = `#version 300 es

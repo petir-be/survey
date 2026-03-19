@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { IoAlertCircle } from "react-icons/io5";
 
 function LongText({ question, onChange, value = "", hasError }) {
   const answerRef = useRef(null);

@@ -1,14 +1,7 @@
 import {
-  Document,
-  Page,
-  Text,
-  Image,
   StyleSheet,
-  View,
-  Font,
 } from "@react-pdf/renderer";
 import moment from "moment";
-import { AnswerRendererPDF } from "../Results/AnswerRenderer";
 
 const styles = StyleSheet.create({
   page: {

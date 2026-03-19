@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { PH } from "country-flag-icons/react/3x2";
-import { IoAlertCircle } from "react-icons/io5";
+import { useEffect, useState } from "react";
 
 function PhoneNumber({ question, onChange, value = "", hasError }) {
   const [phone, setPhone] = useState("");

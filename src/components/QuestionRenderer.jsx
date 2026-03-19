@@ -1,7 +1,5 @@
-import React, { Component } from "react";
 
 import MultipleChoice from "./ResponseQuestions/MultipleChoice";
-import Contact from "./ResponseQuestions/MultipleChoice";
 import Checkbox from "./ResponseQuestions/Checkbox";
 import Dropdown from "./ResponseQuestions/Dropdown";
 import ChoiceMatrix from "./ResponseQuestions/ChoiceMatrix";

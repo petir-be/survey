@@ -1,11 +1,5 @@
 import {
-  Document,
-  Page,
-  Text,
-  Image,
   StyleSheet,
-  View,
-  Font,
 } from "@react-pdf/renderer";
 import moment from "moment";
 

@@ -1,5 +1,3 @@
-import React from "react";
-import { FaFile, FaDownload, FaEye } from "react-icons/fa6";
 import toast from "react-hot-toast"; // Optional, for error feedback
 
 const FileAnswerDisplay = ({ files }) => {

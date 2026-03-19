@@ -1,21 +1,7 @@
-import { useEffect, useState, useMemo, useRef } from "react";
-import { useParams } from "react-router";
-import axios from "axios";
-import {
-  FaArrowDown,
-  FaCross,
-  FaDownload,
-  FaFile,
-  FaX,
-  FaFilter,
-} from "react-icons/fa6";
-import ResponsesNavbar from "../components/ResponsesNavbar";
-import SearchBar from "../components/SearchBar";
-import IndividualView from "../components/Results/IndividualView";
-import SummaryView from "../components/Results/SummaryView";
+import { useState, useMemo } from "react";
+
+
 import moment from "moment";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import { MultipleDetailedResponsesPDF } from "../components/PDF/DetailedResponsePDF";
 
 function Results({
   defaultFormName = "Form",

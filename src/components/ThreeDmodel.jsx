@@ -1,6 +1,5 @@
 "use client";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, useGLTF, useAnimations } from "@react-three/drei";
+import { useGLTF, useAnimations } from "@react-three/drei";
 import React from "react";
 
 function Model({ url, scale }) {

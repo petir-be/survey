@@ -1,53 +1,31 @@
-import { Link, useNavigate, useParams } from "react-router";
-import { FaHome, FaUserCircle, FaSpinner } from "react-icons/fa"; // Added FaSpinner
-import React, { useContext, useState, useEffect, useRef } from "react";
-import FormElement from "../components/FormElement";
-import Layers from "../components/Layers";
-import { BiSolidUserRectangle } from "react-icons/bi";
-import Canvas from "../components/Canvas";
-import { DndProvider } from "react-dnd";
+import { useNavigate, useParams } from "react-router";
+// Added FaSpinner
+import { useContext, useState, useEffect, useRef } from "react";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from "uuid";
 import { AuthContext } from "../Context/authContext";
 import axios from "axios";
 
-import * as motion from "motion/react-client";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { AnimatePresence } from "framer-motion";
-import { BiSelectMultiple } from "react-icons/bi";
-import toast, { Toaster } from "react-hot-toast";
-import { MdPreview } from "react-icons/md";
-import { QRCodeCanvas } from "qrcode.react";
-import { FaCopy } from "react-icons/fa";
-import { debounce } from "lodash"; // or use lodash.debounce
+import toast from "react-hot-toast";
+// or use lodash.debounce
 import {
-  IoMenu,
   IoMail,
   IoDocumentText,
   IoToggleSharp,
-  IoCheckbox,
-  IoShareSocialSharp, IoSettingsSharp, IoChevronForward,
-  IoChevronBack
+  IoCheckbox
 } from "react-icons/io5";
-import { IoEllipsisHorizontalCircleSharp, IoDownload } from "react-icons/io5";
+import { IoEllipsisHorizontalCircleSharp } from "react-icons/io5";
 import { MdLinearScale } from "react-icons/md";
-import { IoIosCheckmarkCircle } from "react-icons/io";
-import { FaArrowUp } from "react-icons/fa6";
-import AccountModal from "../components/AccountModal";
 import { HiMiniH1, HiMiniArrowsUpDown } from "react-icons/hi2";
 import { HiMenuAlt4, HiUpload, HiMenu } from "react-icons/hi";
 import { BsGrid3X3GapFill } from "react-icons/bs";
 import { RiPhoneFill } from "react-icons/ri";
-import { BsFillSendXFill } from "react-icons/bs";
-import Modal from "../components/Modal";
-import Results from "./Results";
-import Loading from "../components/Loading";
 import { useMediaQuery } from "react-responsive";
 
 function Form() {
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 822px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 821px)" });
-  const [showRightSidebar, setShowRightSidebar] = useState(true);
   const { user, isAuthenticated } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState('questions');
 

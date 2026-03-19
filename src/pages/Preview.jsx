@@ -1,15 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
-import { FaHome } from "react-icons/fa";
-import { IoMdArrowRoundForward } from "react-icons/io";
-import { IoArrowBack } from "react-icons/io5";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import axios from "axios";
-import DotShader2 from "../components/DotShader2";
 // Import the ReviewPage component if it exists in your components folder
 // NOTE: Assuming ReviewPage exists for completeness, though its content might be different for a Preview
-import ReviewPage from "../components/ReviewPage";
-import QuestionRenderer from "../components/QuestionRenderer";
-import Loading from "../components/Loading";
 
 function Preview() {
   const { guid } = useParams();

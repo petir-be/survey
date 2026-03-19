@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react";
-import { FaCircleXmark } from "react-icons/fa6";
-import { IoDuplicate } from "react-icons/io5";
-import { motion } from "framer-motion";
 
 function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
   const defaultRow = ["Row 1", "Row 2"];

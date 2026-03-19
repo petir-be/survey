@@ -1,12 +1,8 @@
-import React, { useContext, useState, } from "react";
+import { useContext, useState, } from "react";
 import { useMediaQuery } from "react-responsive";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { AuthContext } from "../Context/authContext";
-import AccountModal from "./AccountModal";
-import { motion, AnimatePresence } from "framer-motion";
-import { IoDocumentText, IoSparkles, IoGrid } from "react-icons/io5";
-import { FaSpinner, } from "react-icons/fa6";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 import "../global.css";
 

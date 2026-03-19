@@ -1,5 +1,4 @@
-import { Text, View, StyleSheet } from "@react-pdf/renderer";
-import FileAnswerDisplay from "./FileAnswerDisplay";
+import { StyleSheet } from "@react-pdf/renderer";
 const styles = StyleSheet.create({
   empty: {
     fontStyle: "italic",

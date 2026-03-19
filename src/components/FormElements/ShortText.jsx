@@ -1,6 +1,4 @@
-import { IoDuplicate } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 
 function ShortText({ question, onUpdate, onDuplicate }) {
   const questionRef = useRef(null);

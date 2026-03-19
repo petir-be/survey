@@ -1,16 +1,8 @@
 /* global google */
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Context/authContext";
-import LoginShader from "../components/LoginShader";
-import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router";
-import { VscLoading } from "react-icons/vsc";
-import toast, { Toaster } from "react-hot-toast";
-import { IoMdClose } from "react-icons/io";
-import ShaderBackground from "../components/ShaderBackground";
+import toast from "react-hot-toast";
 import { useMediaQuery } from "react-responsive";
 function Login() {
   const [email, setEmail] = useState("");

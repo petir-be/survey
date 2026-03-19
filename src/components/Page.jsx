@@ -1,22 +1,5 @@
 import { useDrop } from "react-dnd";
-import Contact from "./FormElements/Contact";
-import MultipleChoice from "./FormElements/MultipleChoice";
-import Checkbox from "./FormElements/Checkbox";
-import Dropdown from "./FormElements/Dropdown";
-import ChoiceMatrix from "./FormElements/ChoiceMatrix";
-import Paragraph from "./FormElements/Paragraph";
-import Heading from "./FormElements/Heading";
-import LongText from "./FormElements/LongText";
-import Email from "./FormElements/Email";
-import PhoneNumber from "./FormElements/PhoneNumber";
-import FileUpload from "./FormElements/FileUploader";
-import Switch from "./FormElements/Switch";
-import { FaPlus } from "react-icons/fa6";
-import { FaChevronLeft } from "react-icons/fa6";
-import { FaChevronRight, FaRegTrashAlt } from "react-icons/fa";
 import { useRef, useState } from "react";
-import Modal from "./Modal";
-import ShortText from "./FormElements/ShortText";
 import { useMediaQuery } from "react-responsive";
 
 
@@ -62,23 +45,6 @@ function Page({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
 
-  const captureScreenshot = async () => {
-    if (!canvasRef.current) return;
-
-    try {
-      const dataUrl = await toPng(canvasRef.current, {
-        cacheBust: true,
-      });
-
-      const link = document.createElement("a");
-      link.download = `ds.png`;
-      link.href = dataUrl;
-      link.click();
-    } catch (err) {
-      console.error("Screenshot failed:", err);
-      alert("Could not save image. See console for details.");
-    }
-  };
   return (
     <>
     {isDesktopOrLaptop &&

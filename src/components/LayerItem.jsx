@@ -1,7 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { FaGripVertical, FaTrashAlt } from "react-icons/fa";
-import { motion } from "motion/react";
 import { getEmptyImage } from "react-dnd-html5-backend";
 
 const ItemTypes = {

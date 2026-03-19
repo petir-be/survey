@@ -1,5 +1,3 @@
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import { AnimatePresence, motion } from "motion/react";
 
 export default function Modal({ isOpen, close, title, children, dialogbox }) {
   return (

@@ -1,7 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
-import { PH } from "country-flag-icons/react/3x2";
-import { IoDuplicate } from "react-icons/io5";
-import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 
 function PhoneNumber({ question, onUpdate, onDuplicate }) {
   const textareaRef = useRef(null);

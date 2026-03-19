@@ -1,4 +1,3 @@
-import { FaArrowUp } from "react-icons/fa6";
 export default function HomeBox({ icon, title }) {
   return (
     <div className="group p-5 h-30 relative flex flex-col border-2 border-[var(--dirty-white)] ">

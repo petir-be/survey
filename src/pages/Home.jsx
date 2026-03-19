@@ -1,20 +1,14 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import "../global.css";
-import { FaSpinner } from "react-icons/fa6";
 import { useMutation } from "@tanstack/react-query";
-import Navbar from "../components/Navbar.jsx";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
-import FAQ from "../components/FAQ";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 import { useMediaQuery } from "react-responsive";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../Context/authContext";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { IoDocumentText, IoSparkles, IoGrid, IoAlertCircle, } from "react-icons/io5";
-import Footer from "../components/Footer";
 
 
 function Home() {
@@ -39,37 +33,6 @@ function Home() {
       localStorage.setItem("warningDismissed", "true");
     }
     setShowWarning(false);
-  };
-
-  const [fadeState, setFadeState] = useState("fade-in");
-  const [fadeText, setFadeText] = useState('');
-
-
-  const options = [
-    { value: "Owned by Anyone", label: "Owned by Anyone" },
-    { value: "Owned by Me", label: "Owned by Me" },
-    { value: "Owned by Others", label: "Owned by Others" },
-  ];
-  const [selectedOption, setSelectedOption] = useState(options[0]);
-  const handleChange = (selectedOptionValue) => {
-    setSelectedOption(selectedOptionValue);
-    setInputValue("");
-  };
-  const [inputValue, setInputValue] = useState("");
-  const MAX_LENGTH = 16;
-
-  const handleInputChange = (newValue, actionMeta) => {
-    // Only apply the limit when the user is typing/entering text
-    if (actionMeta.action === "input-change") {
-      // Limit the value to 6 characters
-      if (newValue.length <= MAX_LENGTH) {
-        setInputValue(newValue);
-      }
-      // If over the limit, the state remains the previous valid value
-    } else {
-      // Handle cases like 'menu-close' or 'input-blur' where you might reset the input value state if needed
-      setInputValue('');
-    }
   };
 
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 700px)" });
@@ -116,7 +79,7 @@ function Home() {
 
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND}/api/Form/Ai`,
-        { userId: user.id, title: "", promt: promptText },
+        { userId: user.id, title: "", promt: aiPrompt },
         { withCredentials: true }
       );
       return res.data
@@ -139,6 +102,9 @@ function Home() {
     }
   })
 
+  const MakeAIForm = () => {
+    createAiFormMutation.mutate();
+  };
 
   const [text, setText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -350,10 +316,10 @@ function Home() {
           hover:bg-[#1E1E1E] transition-all ${isFocused ? 'outline-[2px] outline-green-700 bg-[#1E1E1E]' : 'outline-[#707070] '}`}
                 />
                 <div className='absolute right-4 '>
-                  <button onClick={() => createAiFormMutation.mutate(aiPrompt)} disabled={createAiFormMutation.isLoading || !aiPrompt.trim()}
+                  <button onClick={() => createAiFormMutation.mutate(aiPrompt)} disabled={createAiFormMutation.isPending || !aiPrompt.trim()}
                     className="flex items-center justify-center min-w-[100px] text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[8px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {createAiFormMutation.isLoading ? (
+                    {createAiFormMutation.isPending ? (
                       <AiOutlineLoading3Quarters className="animate-spin" size={16} />
                     ) : (
                       "Generate"
@@ -544,9 +510,9 @@ function Home() {
               />
               <div className='absolute right-2 '>
                 <button value={aiPrompt}
-                  onClick={createAiFormMutation.mutate} disabled={createAiFormMutation.isLoading || !aiPrompt.trim()} className="text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[12px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={createAiFormMutation.mutate} disabled={createAiFormMutation.isPending || !aiPrompt.trim()} className="text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[12px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {createAiFormMutation.isLoading ? (
+                  {createAiFormMutation.isPending ? (
                     <AiOutlineLoading3Quarters className="animate-spin" size={14} />
                   ) : (
                     "Generate"
@@ -660,10 +626,10 @@ function Home() {
                             </button>
                             <button
                               onClick={MakeAIForm}
-                              disabled={isLoading || !aiPrompt.trim()}
+                              disabled={createAiFormMutation.isPending || !aiPrompt.trim()}
                               className="flex-1 py-1 rounded bg-(--purple) text-black text-[9px] disabled:opacity-50"
                             >
-                              {isLoading ? "..." : "Generate"}
+                              {createAiFormMutation.isPending ? "..." : "Generate"}
                             </button>
                           </div>
                         </div>

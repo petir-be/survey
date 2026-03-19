@@ -1,7 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaCircleXmark } from "react-icons/fa6";
-import { IoDuplicate } from "react-icons/io5";
-import { motion } from "framer-motion";
 
 function Checkbox({ question, onUpdate, onDuplicate }) {
   const options = ["Option 1", "Option 2"];

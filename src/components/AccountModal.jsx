@@ -1,12 +1,8 @@
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect, useContext, useRef } from "react"; // Added useRef
 import toast from "react-hot-toast";
 import axios from "axios";
-import { FaCamera, FaEye, FaEyeSlash, FaSignOutAlt } from "react-icons/fa";
 import { AuthContext } from "../Context/authContext";
 import { useNavigate } from "react-router";
-import Modal from "./Modal";
 export default function AccountModal({ isOpen, close, title, dialogbox }) {
   const [activeTab, setActiveTab] = useState("General");
   const [loading, setLoading] = useState(false);

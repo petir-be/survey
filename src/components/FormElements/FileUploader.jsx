@@ -1,6 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
-import { IoDuplicate, IoClose } from "react-icons/io5";
-import { FaFile } from "react-icons/fa6";
+import { useRef, useEffect, useState } from "react";
 
 //lagyan ng limit ng file size upload
 

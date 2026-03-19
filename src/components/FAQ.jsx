@@ -1,4 +1,3 @@
-import React from "react";
 import "../global.css";
 import { motion } from "motion/react";
 

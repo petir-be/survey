@@ -1,5 +1,3 @@
-import React from "react";
-import { IoAlertCircle } from "react-icons/io5";
 
 function MultipleChoice({ question, value = "", onChange, hasError }) {
   const options = question.options || [];

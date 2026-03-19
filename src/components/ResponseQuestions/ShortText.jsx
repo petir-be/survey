@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { IoAlertCircle } from "react-icons/io5";
 
 function ShortText({ question, onChange, value = "", hasError }) {
   const [answer, setAnswer] = useState("");

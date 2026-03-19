@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { IoDuplicate, IoMail } from "react-icons/io5";
-import { IoAlertCircle } from "react-icons/io5";
+import { useEffect, useState } from "react";
 
 function Email({ question, onChange, value = "", hasError }) {
   const [error, setError] = useState(null);
@@ -14,7 +12,7 @@ function Email({ question, onChange, value = "", hasError }) {
     const val = e.target.value;
     setEmail(val);
 
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/;
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/;
 
     if (val === "" || emailRegex.test(val)) {
       setError("");

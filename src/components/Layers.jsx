@@ -1,6 +1,3 @@
-import React from "react";
-import LayerItem from "./LayerItem";
-import { AnimatePresence } from "motion/react";
 
 export default function Layers({ questions = [], onReorder, onDelete }) {
   if (!Array.isArray(questions)) return null;

@@ -1,15 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
-import { FaHome } from "react-icons/fa";
-import { IoMdArrowRoundForward } from "react-icons/io";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import axios from "axios";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import DotShader2 from "../components/DotShader2";
-import ReviewPage from "../components/ReviewPage";
-import QuestionRenderer from "../components/QuestionRenderer";
-import { IoIosCheckmarkCircle } from "react-icons/io";
-import { motion } from "framer-motion";
-import Loading from "../components/Loading";
 
 const localStorageKey = (guid) => `formAnswersCache_${guid}`;
 

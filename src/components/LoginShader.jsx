@@ -1,7 +1,6 @@
 // import Motion
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
-  motion,
   useMotionValue,
   useTransform,
   useAnimationFrame,

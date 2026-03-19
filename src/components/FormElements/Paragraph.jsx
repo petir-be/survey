@@ -1,4 +1,3 @@
-import { IoDuplicate } from "react-icons/io5";
 import { useEffect, useRef } from "react";
 
 function Paragraph({ question, onUpdate, onDuplicate }) {

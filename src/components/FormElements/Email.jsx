@@ -1,6 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
-import { IoDuplicate, IoMail } from "react-icons/io5";
-import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 
 function Email({ question, onUpdate, onDuplicate }) {
   const textareaRef = useRef(null);

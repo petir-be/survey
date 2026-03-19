@@ -1,6 +1,4 @@
-import React from "react";
 import axios from "axios";
-import { AuthContext } from "./authContext";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 axios.defaults.withCredentials = true;

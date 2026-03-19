@@ -1,7 +1,4 @@
 import { useDrop } from "react-dnd";
-import DotShader2 from "./DotShader2";
-import Page from "./Page";
-import CustomDragLayer from "./CustomDragLayer";
 import { useMediaQuery } from "react-responsive";
 function Canvas({
   questions,

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { IoAlertCircle } from "react-icons/io5";
+import { useEffect, useState } from "react";
 
 function Dropdown({ question, onChange, value = "", hasError }) {
   const options = question.options || [];

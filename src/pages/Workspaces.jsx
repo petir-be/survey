@@ -1,21 +1,11 @@
-import { FaMagnifyingGlass } from "react-icons/fa6";
-import { CiBoxList } from "react-icons/ci";
-import { BiGridHorizontal } from "react-icons/bi";
-import { FaArrowUp, FaRegFileAlt, FaTrash, FaEllipsisV } from "react-icons/fa";
-import { VscLoading } from "react-icons/vsc";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../Context/authContext";
-import { AnimatePresence } from "framer-motion";
-import { FaSpinner } from "react-icons/fa";
-import AccountModal from "../components/AccountModal";
 import { useMediaQuery } from "react-responsive";
-import { IoDocumentText, IoGrid, IoSparkles } from "react-icons/io5";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import NavBar from "../components/Navbar";
 
 function Workspaces() {
   const navigate = useNavigate();
@@ -145,6 +135,25 @@ function Workspaces() {
     e.stopPropagation();
     setItemToDelete(id);
     setShowDeleteModal(true);
+  };
+
+  const confirmDelete = () => {
+    if (itemToDelete) {
+      deleteFormMutation.mutate(itemToDelete);
+    }
+  };
+
+  const handleToggleClick = (e, id, currentIsPublished) => {
+    e.stopPropagation();
+    togglePublishMutation.mutate({ id, isPublished: !currentIsPublished });
+  };
+
+  const MakeForm = () => {
+    createFormMutation.mutate();
+  };
+
+  const MakeAIForm = () => {
+    createAiFormMutation.mutate();
   };
 
   const filteredForms = formData.filter((form) => {

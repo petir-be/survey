@@ -1,7 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { IoDuplicate } from "react-icons/io5";
-import { FaCircleXmark } from "react-icons/fa6";
-import { motion } from "framer-motion";
 
 function Dropdown({ question, onUpdate, onDuplicate }) {
   const defaultOption = ["Option 1", "Option 2"];
