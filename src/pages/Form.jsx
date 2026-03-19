@@ -1,12 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router";
 import { FaHome, FaUserCircle, FaSpinner } from "react-icons/fa"; // Added FaSpinner
-import React, {
-  useRef,
-  useState,
-  useEffect,
-  useContext,
-  useCallback,
-} from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import FormElement from "../components/FormElement";
 import Layers from "../components/Layers";
 import { BiSolidUserRectangle } from "react-icons/bi";
@@ -18,6 +12,7 @@ import { AuthContext } from "../Context/authContext";
 import axios from "axios";
 
 import * as motion from "motion/react-client";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { AnimatePresence } from "framer-motion";
 import { BiSelectMultiple } from "react-icons/bi";
 import toast, { Toaster } from "react-hot-toast";
@@ -54,7 +49,6 @@ function Form() {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 821px)" });
   const [showRightSidebar, setShowRightSidebar] = useState(true);
   const { user, isAuthenticated } = useContext(AuthContext);
-  const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('questions');
 
   // Helper function for conditional classes
@@ -69,7 +63,6 @@ function Form() {
     `;
   };
   const { id } = useParams();
-  const [loading, setLoading] = useState(false);
   const [publicid, setPublicid] = useState("");
   const saveRef = useRef();
   // saveRef.current = Save;
@@ -104,8 +97,7 @@ function Form() {
   const settingsBtnRef = useRef(null);
   const qrCodeRef = useRef(null);
   const isFirstRender = useRef(true);
-  const [responses, setResponses] = useState([]);
-  const [responsesLoading, setResponsesLoading] = useState(true);
+
   const [showAccountModal, setShowAccountModal] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -113,31 +105,18 @@ function Form() {
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
-  useEffect(() => {
-    if (responses.length > 0) {
-      setResponsesLoading(false);
-      return;
-    }
-
-    async function fetchResponses() {
-      if (!id) return;
-
-      setResponsesLoading(true);
-      try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND}/api/Response/responses/${id}`,
-          { withCredentials: true }
-        );
-        setResponses(res.data);
-      } catch (err) {
-        console.error("Failed to fetch responses", err);
-      } finally {
-        setResponsesLoading(false);
-      }
-    }
-
-    fetchResponses();
-  }, [id, responses.length]);
+  const { data: responses = [], isLoading: responsesLoading } = useQuery({
+    queryKey: ["formResponses", id],
+    queryFn: async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_BACKEND}/api/Response/responses/${id}`,
+        { withCredentials: true }
+      );
+      return res.data;
+    },
+    enabled: !!id,
+    staleTime: 5 * 60 * 1000,
+  })
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -231,6 +210,7 @@ function Form() {
 
       return updated;
     });
+    setHasUnsavedChanges(true);
   };
 
   const getDefaultQuestion = (title) => {
@@ -433,152 +413,118 @@ function Form() {
     }
   }, [titleValue]);
 
-  // 3. UPDATED FETCH DATA TO HANDLE LOADING
+
+  const { data: formData, isLoading: formLoading, error: formError } = useQuery({
+    queryKey: ["formData", id],
+    queryFn: async () => {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND}/api/Form/${id}`);
+      return res.data;
+    },
+    enabled: !!id,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  // 2. SEED LOCAL STATE (Sync Server State -> Local UI State)
   useEffect(() => {
-    async function fetchFormData() {
-      setLoading(true); // Start Loading
-      try {
-        setLoading(true);
-        const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND}/api/Form/${id}`
-        );
-        setPages(
-          Array.isArray(res.data.formData)
-            ? res.data.formData
-            : [{ id: 1, questions: [] }]
-        );
+    if (formData && isFirstRender.current) {
+      setPages(Array.isArray(formData.formData) ? formData.formData : [{ id: 1, questions: [] }]);
+      setTitleValue(formData.title || "Untitled Form");
+      setPublicid(formData.publicId);
+      setAllowMultipleSubmissionValue(formData.allowMultipleSubmissions);
+      setIsPublished(formData.isPublished);
+      setHasReviewPage(formData.hasReviewPage);
 
-        setTitleValue(res.data.title);
-        setPublicid(res.data.publicId);
-        setAllowMultipleSubmissionValue(res.data.allowMultipleSubmissions);
-        setIsPublished(res.data.isPublished);
-        setHasReviewPage(res.data.hasReviewPage);
-        // console.log(res.data.formData);
-      } catch (err) {
-        console.log(err);
-
-        if (err.response) {
-          if (err.response.status === 404) {
-            setError("Form not found");
-          } else if (err.response.status === 403) {
-            setError("Access forbidden. You do not have permission.");
-          } else {
-            setError("An unexpected error occurred.");
-          }
-        } else {
-          setError("Network error or server is unreachable.");
-        }
-      } finally {
-        setLoading(false);
-      }
+      isFirstRender.current = false; // Prevent re-seeding on subsequent renders
     }
-    if (id) {
-      fetchFormData();
+  }, [formData]);
+
+  const loading = formLoading || responsesLoading;
+  const error = formError?.message || null;
+
+
+  useEffect(() => {
+    if (loading || !hasUnsavedChanges || isFirstRender.current) return;
+
+    const timeoutId = setTimeout(() => {
+      saveMutation.mutate({
+        userId: user.id,
+        title: titleValue,
+        formData: pages,
+        allowMultipleSubmissions: allowMultipleSubmissionsValue,
+        hasReviewPage: hasReviewPage,
+        isPublished: isPublished,
+      });
+    }, 1500);
+
+    return () => clearTimeout(timeoutId);
+  }, [pages, titleValue, allowMultipleSubmissionsValue, hasReviewPage, isPublished, hasUnsavedChanges]);
+
+
+  const saveMutation = useMutation({
+    mutationFn: async (savePayload) => {
+      const res = await axios.put(`${import.meta.env.VITE_BACKEND}/api/Form/save/${id}`, savePayload);
+      return res.data;
+    },
+    onMutate: () => {
+      console.log("Auto-saving...");
+    },
+    onSuccess: () => {
+      console.log("Saved successfully");
+      setHasUnsavedChanges(false);
+    },
+    onError: (error) => {
+      console.error("Save failed", error);
+      toast.error("Failed to auto-save changes.");
     }
-  }, [id]);
+  });
 
-  // saving ng updating questions shits para after mag type, dun lang sya mag save
-  const debouncedSave = useCallback(
-    debounce(async (data) => {
-      if (!data.hasUnsavedChanges || data.loading) return;
+  useEffect(() => {
+    // Don't save if it's currently fetching, or if there's nothing to save
+    if (loading || !hasUnsavedChanges || isFirstRender.current) return;
 
-      const { pages, titleValue } = data;
+    // Wait 1.5 seconds after the user stops typing/dragging before hitting the API
+    const timeoutId = setTimeout(() => {
+      saveMutation.mutate({
+        userId: user.id,
+        title: titleValue,
+        formData: pages,
+        allowMultipleSubmissions: allowMultipleSubmissionsValue,
+        hasReviewPage: hasReviewPage,
+        isPublished: isPublished,
+      });
+    }, 1500);
 
-      try {
-        console.log("Auto-saving...");
-        await axios.put(`${import.meta.env.VITE_BACKEND}/api/Form/save/${id}`, {
-          userId: user.id,
-          title: titleValue,
-          formData: pages,
-        });
-
-        // Update last saved state only on success
-        lastSavedState.current = {
-          pages: JSON.parse(JSON.stringify(pages)), // deep clone if needed
-          titleValue,
-        };
-
-        console.log("Saved successfully");
-      } catch (error) {
-        console.error("Save failed", error);
-        // Optionally notify user
-      }
-    }, 1500), // 1.5s delay after last change
-    [id, user.id]
-  );
-  const formStateRef = useRef({
+    // If the user types again before 1.5s is up, this clears the old timer and starts over!
+    return () => clearTimeout(timeoutId);
+  }, [
     pages,
     titleValue,
-  });
+    allowMultipleSubmissionsValue,
+    hasReviewPage,
+    isPublished,
+    hasUnsavedChanges, // <--- This must be true for the timer to start
+    loading
+  ]);
 
-  useEffect(() => {
-    formStateRef.current = {
-      pages,
-      titleValue,
-    };
-  }, [pages, titleValue]);
-
-  const lastSavedState = useRef({
-    pages: pages,
-    titleValue: titleValue,
-  });
-
-  useEffect(() => {
-    if (loading) return;
-
-    const current = formStateRef.current;
-    const last = lastSavedState.current;
-
-    // Deep comparison (or use lodash.isEqual for complex objects)
-    const hasChanged =
-      JSON.stringify(current.pages) !== JSON.stringify(last.pages) ||
-      current.titleValue !== last.titleValue;
-
-    if (hasChanged) {
-      debouncedSave({
-        ...current,
-        hasUnsavedChanges: true,
-        loading,
-      });
-    }
-  }, [pages, titleValue, loading]);
 
   function PublishForm(e) {
     e.stopPropagation();
-    timeout = 100;
+
 
     if (isPublished && showPublishModal) {
-      setShowPublishModal((prev) => !prev);
-      setShareLoading(false);
+      setShowPublishModal(false);
       setShowSettings(false);
-
       return;
     }
 
-    //delay ng loading sa publishing
-    if (!isPublished) {
-      timeout = 2000;
-    }
-    setShareLoading(true);
+    // Toggle the publish state
+    setIsPublished(true);
+    setHasUnsavedChanges(true);
+
+    // UI Updates immediately
+    toast.success("Form successfully published!");
+    setShowPublishModal(true);
     setShowSettings(false);
-
-    setTimeout(() => {
-      //publish na para may loading parin pag open ng share
-      if (isPublished) {
-        setShowPublishModal((prev) => !prev);
-        setShareLoading(false);
-        setShowSettings(false);
-
-        return;
-      }
-
-      //publish palang
-      setIsPublished(true);
-      toast.success("Form successfully published!");
-      setHasUnsavedChanges(true);
-      setShowPublishModal(true);
-      setShareLoading(false);
-    }, timeout);
   }
 
   function handleTitleUpdate(newTitle) {
@@ -916,92 +862,93 @@ function Form() {
                         ) : (
                           "Publish"
                         )}
-                      </button></div>
-                    <AnimatePresence>
-                      {showPublishModal && (
-                        <motion.div
-                          ref={dropdownRef}
-                          initial={{ opacity: 0, scale: 0.6 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.7 }}
-                          transition={{ duration: 0.18, ease: "easeOut" }}
-                          style={{ transformOrigin: "top right" }}
-                          className="absolute top-12 right-0 z-50"
-                        >
-                          {/* Pointer triangle */}
-                          <span className="bg-(--white) border -z-10 border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-5 rounded"></span>
+                      </button>
+                      <AnimatePresence>
+                        {showPublishModal && (
+                          <motion.div
+                            ref={dropdownRef}
+                            initial={{ opacity: 0, scale: 0.6 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.7 }}
+                            transition={{ duration: 0.18, ease: "easeOut" }}
+                            style={{ transformOrigin: "top right" }}
+                            className="absolute top-12 right-0 z-50"
+                          >
+                            {/* Pointer triangle */}
+                            <span className="bg-(--white) border -z-10 border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-5 rounded"></span>
 
-                          {/* Modal Box */}
-                          <div className="font-vagrounded min-w-100 w-80 py-4 px-2 bg-(--white) border border-(--purple) rounded shadow-lg">
-                            <div className="gap-1 px-3 flex-col flex">
-                              <p className="text-xl">Share Link</p>
+                            {/* Modal Box */}
+                            <div className="font-vagrounded min-w-100 w-80 py-4 px-2 bg-(--white) border border-(--purple) rounded shadow-lg">
+                              <div className="gap-1 px-3 flex-col flex">
+                                <p className="text-xl">Share Link</p>
 
-                              <div className="flex w-full gap-2 items-center">
-                                <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-lg p-2 truncate">
-                                  {`localhost:5173/form/${publicid}`}
+                                <div className="flex w-full gap-2 items-center">
+                                  <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-lg p-2 truncate">
+                                    {`localhost:5173/form/${publicid}`}
+                                  </p>
+
+                                  <button
+                                    onClick={handleCopyButton}
+                                    className="flex items-center justify-center gap-2 text-sm p-2 border-(--purple) bg-(--purple-lighter) hover:bg-[#b099f5] transition-all duration-200 ease-out border-2 rounded-lg px-4"
+                                  >
+                                    {copy ? (
+                                      <IoIosCheckmarkCircle className="text-xl" />
+                                    ) : (
+                                      <FaCopy className="text-xl" />
+                                    )}
+                                    {copy ? "Copied" : "Copy"}
+                                  </button>
+                                </div>
+                              </div>
+
+                              <div className="flex items-center justify-center gap-4 px-3 my-2">
+                                <hr className="flex-1 border-gray-400" />
+                                <p className="text-sm text-gray-500 font-vagrounded">
+                                  or
                                 </p>
-
-                                <button
-                                  onClick={handleCopyButton}
-                                  className="flex items-center justify-center gap-2 text-sm p-2 border-(--purple) bg-(--purple-lighter) hover:bg-[#b099f5] transition-all duration-200 ease-out border-2 rounded-lg px-4"
-                                >
-                                  {copy ? (
-                                    <IoIosCheckmarkCircle className="text-xl" />
-                                  ) : (
-                                    <FaCopy className="text-xl" />
-                                  )}
-                                  {copy ? "Copied" : "Copy"}
-                                </button>
+                                <hr className="flex-1 border-gray-400" />
                               </div>
-                            </div>
-
-                            <div className="flex items-center justify-center gap-4 px-3 my-2">
-                              <hr className="flex-1 border-gray-400" />
-                              <p className="text-sm text-gray-500 font-vagrounded">
-                                or
+                              <p className="px-3 text-xl font-vagrounded">
+                                Get the QR Code
                               </p>
-                              <hr className="flex-1 border-gray-400" />
-                            </div>
-                            <p className="px-3 text-xl font-vagrounded">
-                              Get the QR Code
-                            </p>
-                            <p className="px-3 text-gray-500 text-sm font-vagrounded">
-                              Scan the code to launch your form
-                            </p>
+                              <p className="px-3 text-gray-500 text-sm font-vagrounded">
+                                Scan the code to launch your form
+                              </p>
 
-                            {/* // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------  */}
-                            <div className="flex px-3 mt-3 gap-2 ">
-                              <QRCodeCanvas
-                                bgColor="#dfe0f0"
-                                value={`localhost:5173/form/${publicid}`}
-                                size={220}
-                                ref={qrCodeRef}
-                              />
-                              <div className="flex flex-col font-vagrounded flex-1 justify-center gap-3">
-                                <button
-                                  onClick={handleCopyQRImage}
-                                  className="flex hover:bg-(--white) transition-all duration-200 ease-out bg-(--dirty-white) justify-center items-center gap-2 text-lg p-2 border-2 border-(--black-lighter) rounded-lg "
-                                >
-                                  {copyQR ? (
-                                    <IoIosCheckmarkCircle className="text-xl" />
-                                  ) : (
-                                    <FaCopy className="text-xl" />
-                                  )}
-                                  {copyQR ? "Copied" : "Copy Code"}
-                                </button>
-                                <button
-                                  onClick={handleDownloadQR}
-                                  className="flex bg-(--white) justify-center items-center gap-1 text-lg p-2 border-2 border-(--black-lighter) rounded-lg "
-                                >
-                                  <IoDownload className="text-2xl" />
-                                  Download
-                                </button>
+                              {/* // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------  */}
+                              <div className="flex px-3 mt-3 gap-2 ">
+                                <QRCodeCanvas
+                                  bgColor="#dfe0f0"
+                                  value={`localhost:5173/form/${publicid}`}
+                                  size={220}
+                                  ref={qrCodeRef}
+                                />
+                                <div className="flex flex-col font-vagrounded flex-1 justify-center gap-3">
+                                  <button
+                                    onClick={handleCopyQRImage}
+                                    className="flex hover:bg-(--white) transition-all duration-200 ease-out bg-(--dirty-white) justify-center items-center gap-2 text-lg p-2 border-2 border-(--black-lighter) rounded-lg "
+                                  >
+                                    {copyQR ? (
+                                      <IoIosCheckmarkCircle className="text-xl" />
+                                    ) : (
+                                      <FaCopy className="text-xl" />
+                                    )}
+                                    {copyQR ? "Copied" : "Copy Code"}
+                                  </button>
+                                  <button
+                                    onClick={handleDownloadQR}
+                                    className="flex bg-(--white) justify-center items-center gap-1 text-lg p-2 border-2 border-(--black-lighter) rounded-lg "
+                                  >
+                                    <IoDownload className="text-2xl" />
+                                    Download
+                                  </button>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                          </motion.div>
+                        )}
+                      </AnimatePresence></div>
+
                   </div>
 
                   <div className="relative">
@@ -2191,7 +2138,7 @@ function Form() {
                   </motion.div>
                 )}
               </AnimatePresence>
-              
+
               {/* right side */}
               {/*
 <div className="flex flex-col relative h-auto lg:h-full w-full lg:w-[20%] bg-black p-7.5 pr-0 min-h-0 border-t-2 lg:border-t-0 lg:border-l-2 border-(--dirty-white) font-vagrounded overflow-auto pb-10">                  <div className="w-full">
@@ -2293,7 +2240,7 @@ function Form() {
                   </button>
                 </div>
               </Modal>
-              
+
             </div>
           </DndProvider>
         </>}

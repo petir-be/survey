@@ -382,23 +382,27 @@ function Response() {
 
     currentPageQuestions.forEach((q) => {
       if (q.required) {
-        const answerObj = answers.find((a) => a.questionID === q.id);
+        // Force both to strings to ensure "15" matches 15
+        const answerObj = answers.find((a) => String(a.questionID) === String(q.id));
         const answerValue = answerObj?.answer;
 
         let isAnswered = false;
 
-        // ... (Your existing logic to determine isAnswered) ...
         if (Array.isArray(answerValue)) {
           isAnswered = answerValue.length > 0;
         } else if (typeof answerValue === "string") {
           isAnswered = answerValue.trim().length > 0;
         } else if (answerValue !== undefined && answerValue !== null) {
+          // Additional check: if it's an object (like a file object), make sure it's not empty
           isAnswered = true;
         }
 
         if (!isAnswered) {
-          failedQuestionIds.push(q.id); // Collect the ID of the failed question
+          failedQuestionIds.push(q.id);
         }
+
+        // This log will now tell you if the types were the issue
+        console.log(`ID: ${q.id} (${typeof q.id}) | Match: ${!!answerObj} | Answer:`, answerValue);
       }
     });
 
@@ -535,8 +539,8 @@ function Response() {
                   onClick={goPrev}
                   disabled={currentPageIndex === 0}
                   className={`px-4 py-2 rounded-lg font-medium ${currentPageIndex === 0
-                      ? "opacity-0 cursor-default"
-                      : "opacity-100 bg-(--white) ring-white ring hover:bg-gray-300 inset-shadow-md/10 font-vagrounded drop-shadow-sm/25 transition-color duration-200 ease-out"
+                    ? "opacity-0 cursor-default"
+                    : "opacity-100 bg-(--white) ring-white ring hover:bg-gray-300 inset-shadow-md/10 font-vagrounded drop-shadow-sm/25 transition-color duration-200 ease-out"
                     }`}
                 >
                   Previous
