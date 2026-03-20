@@ -1,43 +1,30 @@
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { CiBoxList } from "react-icons/ci";
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { BsPerson } from "react-icons/bs";
 import { BiGridHorizontal } from "react-icons/bi";
 import { FaArrowUp, FaRegFileAlt, FaTrash, FaEllipsisV } from "react-icons/fa";
-import HomeBox from "../components/HomeBox";
 import { VscLoading } from "react-icons/vsc";
 import moment from "moment";
-import aboutus from "../assets/hugeicons_ai-dna.svg";
-import DotShader from "../components/DotShader2";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { IoMdClose } from "react-icons/io";
 import toast, { Toaster } from "react-hot-toast";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { AuthContext } from "../Context/authContext";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { FaSpinner } from "react-icons/fa";
 import AccountModal from "../components/AccountModal";
 import { useMediaQuery } from "react-responsive";
-import { IoDocumentText } from "react-icons/io5";
-import { IoSparkles } from "react-icons/io5";
-import { IoGrid } from "react-icons/io5";
-import LoginShader from "../components/LoginShader";
+import { IoDocumentText, IoGrid, IoSparkles } from "react-icons/io5";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import NavBar from "../components/Navbar";
 
 function Workspaces() {
-  const [formData, setFormData] = useState([]);
-  const [isLoading, setIsloading] = useState(false);
-  const [createFormLoading, setCreateFormLoadin] = useState(false);
-  const [formReply, setFormReply] = useState({});
   const navigate = useNavigate();
   const [aiPrompt, setAiPrompt] = useState("");
   const [showAIInput, setShowAIInput] = useState(false);
-  const [form, setForm] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [showAccountModal, setShowAccountModal] = useState(false);
-
+  const queryClient = useQueryClient();
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 821px)" });
   const isTablet = useMediaQuery({ query: "(min-width: 820px)" })
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 699px)" });
@@ -57,140 +44,109 @@ function Workspaces() {
     localStorage.setItem("viewMode", viewMode);
   }, [viewMode]);
 
-  // 1. Fetch Forms
-  useEffect(() => {
-    async function GetForms() {
-      setIsloading(true);
-      try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND}/api/Form`,
-          {
-            withCredentials: true,
-          }
-        );
 
-        const forms = res.data?.data || [];
-        setFormData(forms);
-      } catch (error) {
-        const msg =
-          error.response?.data || error.message || "An error occurred";
-        toast.error(msg);
-      } finally {
-        setIsloading(false);
-      }
-    }
+  const { data: formData = [], isLoading } = useQuery({
+    queryKey: ["forms"],
+    queryFn: async () => {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND}/api/Form`, {
+        withCredentials: true,
+      });
+      return res.data?.data || [];
+    },
+  })
 
-    GetForms();
-  }, []);
-
-  // 2. Create Form Logic
-  async function MakeForm() {
-    // Prevent creating if already loading
-    if (isLoading || createFormLoading) return;
-
-    setCreateFormLoadin(true);
-    try {
+  const createFormMutation = useMutation({
+    mutationFn: async () => {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND}/api/Form/createform`,
-        {
-          userId: user.id,
-          title: "Untitled",
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      if (res.data && res.data.surveyId) {
-        navigate(`/newform/${res.data.surveyId}`);
-      }
-      setFormReply(res.data);
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to create form");
-    } finally {
-      setCreateFormLoadin(false);
-    }
-  }
-
-  async function MakeAIForm() {
-    if (isLoading) return;
-    setIsloading(true);
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND}/api/Form/Ai`,
-        {
-          userId: user.id,
-          title: "",
-          promt: aiPrompt,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      if (res.data && res.data.surveyId) {
-        navigate(`/newform/${res.data.surveyId}`);
-      }
-      setForm(res.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsloading(false);
-      setShowAIInput(false);
-      setAiPrompt("");
-    }
-  }
-
-  const handleToggleClick = async (e, item) => {
-    e.stopPropagation(); // Stop navigation
-    const newStatus = !item.isPublished;
-    const originalList = [...formData];
-
-    // Optimistic Update
-    setFormData((prev) =>
-      prev.map((f) => (f.id === item.id ? { ...f, isPublished: newStatus } : f))
-    );
-
-    try {
-      await axios.put(
-        `${import.meta.env.VITE_BACKEND}/api/Form/save/${item.id}`,
-        { isPublished: newStatus },
+        { userId: user.id, title: "Untitled" },
         { withCredentials: true }
       );
-    } catch (error) {
-      console.error("Failed to update status", error);
-      toast.error("Failed to save status");
-      setFormData(originalList); // Revert
+      return res.data;
+    },
+    onSuccess: (data) => {
+      if (data?.surveyId) navigate(`/newform/${data.surveyId}`);
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error("Failed to create form");
     }
-  };
+  });
 
-  // 4. Logic: Handle Delete Click (Opens Modal)
+
+  const createAiFormMutation = useMutation({
+    mutationFn: async () => {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND}/api/Form/Ai`,
+        { userId: user.id, title: "", promt: aiPrompt },
+        { withCredentials: true }
+      );
+      return res.data;
+    },
+    onSuccess: (data) => {
+      if (data?.surveyId) navigate(`/newform/${data.surveyId}`);
+      setShowAIInput(false);
+      setAiPrompt("");
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error("Failed to generate AI form");
+    }
+  });
+
+
+  const togglePublishMutation = useMutation({
+    mutationFn: async ({ id, isPublished }) => {
+      await axios.put(
+        `${import.meta.env.VITE_BACKEND}/api/Form/save/${id}`,
+        { isPublished },
+        { withCredentials: true }
+      );
+    },
+    // Optimistic Update: Instantly flip the switch in the UI before the server responds
+    onMutate: async ({ id, isPublished }) => {
+      await queryClient.cancelQueries({ queryKey: ["forms"] });
+      const previousForms = queryClient.getQueryData(["forms"]);
+      queryClient.setQueryData(["forms"], (old) =>
+        old.map((f) => (f.id === id ? { ...f, isPublished } : f))
+      );
+      return { previousForms };
+    },
+    // If the API fails, roll back to the previous state
+    onError: (err, newTodo, context) => {
+      queryClient.setQueryData(["forms"], context.previousForms);
+      toast.error("Failed to save status");
+    },
+    // Sync with the server once finished
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["forms"] });
+    },
+  });
+
+  const deleteFormMutation = useMutation({
+    mutationFn: async (id) => {
+      await axios.delete(`${import.meta.env.VITE_BACKEND}/api/Form/delete/${id}`, {
+        withCredentials: true,
+      });
+    },
+    onSuccess: () => {
+      toast.success("Form deleted successfully");
+      setShowDeleteModal(false);
+      setItemToDelete(null);
+      queryClient.invalidateQueries({ queryKey: ["forms"] }); // Refresh the list!
+    },
+    onError: (error) => {
+      console.error("Delete failed", error);
+      toast.error("Failed to delete form");
+    },
+  });
+
   const handleDeleteClick = (e, id) => {
-    e.stopPropagation(); // Stop navigation
+    e.stopPropagation();
     setItemToDelete(id);
     setShowDeleteModal(true);
   };
 
-  async function confirmDelete() {
-    if (!itemToDelete) return;
-
-    const originalList = [...formData];
-    setFormData((prev) => prev.filter((f) => f.id !== itemToDelete));
-    setShowDeleteModal(false);
-
-    try {
-      await axios.delete(
-        `${import.meta.env.VITE_BACKEND}/api/Form/delete/${itemToDelete}`,
-        { withCredentials: true }
-      );
-      toast.success("Form deleted successfully");
-    } catch (error) {
-      console.error("Delete failed", error);
-      toast.error("Failed to delete form");
-      setFormData(originalList); // Revert
-    } finally {
-      setItemToDelete(null);
-    }
-  }
   const filteredForms = formData.filter((form) => {
     const title = form.title || "Untitled";
     return title.toLowerCase().includes(searchQuery.toLowerCase());
@@ -376,20 +332,23 @@ function Workspaces() {
 
                             {/* Switch (Inline JSX) */}
                             <div className="col-span-2 flex justify-center">
-                              <div
-                                onClick={(e) => handleToggleClick(e, item)}
-                                className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${item.isPublished
-                                  ? "bg-green-500"
-                                  : "bg-gray-300"
+                              {/* We wrap the switch in a button to ensure it receives standard click events */}
+                              <button
+                                type="button" // Prevents default form submissions if it ever gets wrapped in a form
+                                onClick={(e) => {
+                                  e.preventDefault(); // Stop default button behavior
+                                  e.stopPropagation(); // Stop the click from triggering the card's navigate()
+                                  togglePublishMutation.mutate({ id: item.id, isPublished: !item.isPublished });
+                                }}
+                                // Add relative and z-50 to ensure it sits ABOVE the clickable card background
+                                className={`relative z-50 w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 ${item.isPublished ? "bg-green-500" : "bg-gray-300"
                                   }`}
                               >
                                 <div
-                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${item.isPublished
-                                    ? "translate-x-5"
-                                    : "translate-x-0"
+                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${item.isPublished ? "translate-x-5" : "translate-x-0"
                                     }`}
                                 />
-                              </div>
+                              </button>
                             </div>
 
                             <div className="col-span-2 text-center text-sm text-gray-500">
@@ -504,7 +463,7 @@ function Workspaces() {
                       Cancel
                     </button>
                     <button
-                      onClick={confirmDelete}
+                      onClick={() => deleteFormMutation.mutate(itemToDelete)}
                       className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors shadow-md shadow-red-200 font-semibold"
                     >
                       Delete
@@ -553,7 +512,7 @@ function Workspaces() {
                           <FaSpinner className="text-5xl text-(--green) animate-spin" />
                         </span>
                       ) : (
-                        <button onClick={MakeForm} className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
+                        <button onClick={() => createFormMutation.mutate()} className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
                           <IoDocumentText size={124} fill="white" />
                           <div className="h-10 flex items-start justify-center">
                             <span className="text-white text-lg font-vagrounded font-bold">
@@ -600,8 +559,8 @@ function Workspaces() {
                               Back
                             </button>
                             <button
-                              onClick={MakeAIForm}
-                              disabled={isLoading || !aiPrompt.trim()}
+                              onClick={() => createAiFormMutation.mutate()}
+                              disabled={createAiFormMutation.isPending || !aiPrompt.trim()}
                               className="flex-1 py-1 rounded bg-(--purple) text-white text-md disabled:opacity-50"
                             >
                               {isLoading ? "..." : "Generate"}
@@ -805,7 +764,10 @@ function Workspaces() {
                             {/* Switch (Inline JSX) */}
                             <div className="col-span-2 flex justify-center">
                               <div
-                                onClick={(e) => handleToggleClick(e, item)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  togglePublishMutation.mutate({ id: item.id, isPublished: !item.isPublished });
+                                }}
                                 className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${item.isPublished
                                   ? "bg-green-500"
                                   : "bg-gray-300"

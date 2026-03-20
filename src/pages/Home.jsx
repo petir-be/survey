@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import "../global.css";
 import { FaSpinner } from "react-icons/fa6";
-
+import { useMutation } from "@tanstack/react-query";
 import Navbar from "../components/Navbar.jsx";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -57,6 +57,7 @@ function Home() {
   };
   const [inputValue, setInputValue] = useState("");
   const MAX_LENGTH = 16;
+
   const handleInputChange = (newValue, actionMeta) => {
     // Only apply the limit when the user is typing/entering text
     if (actionMeta.action === "input-change") {
@@ -74,72 +75,71 @@ function Home() {
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 700px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 699px)" });
   const { user } = useContext(AuthContext);
-  const [form, setForm] = useState({});
   const [showAIInput, setShowAIInput] = useState(false);
   const [aiPrompt, setAiPrompt] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  async function MakeForm() {
-    if (!user?.id) {
-      console.log("nyaw");
-      navigate("/login");
-      toast.error("Please log in to create a form.");
-      return;
-    }
 
-    if (isLoading) return;
-    setIsLoading(true);
+  const createFormMutation = useMutation({
+    mutationFn: async () => {
+      if (!user?.id) {
+        toast.error("Please log in to create a form.");
+        throw new Error("User not logged in");
+      }
 
-    try {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND}/api/Form/createform`,
-        {
-          userId: user.id,
-          title: "Untitled",
-        },
-        {
-          withCredentials: true,
-        },
+        { userId: user.id, title: "Untitled" },
+        { withCredentials: true }
       );
-      if (res.data && res.data.surveyId) {
-        navigate(`/newform/${res.data.surveyId}`);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      if (data?.surveyId) {
+        navigate(`/newform/${data.surveyId}`);
       }
-      setForm(res.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
+    },
+    onError: (error) => {
+      if (error.message === "AUTH_REQUIRED") {
+        navigate("/login");
+        toast.error("Please log in to create a form.");
+      } else {
+        console.error(error);
+        toast.error("Failed to create blank form.");
+      }
     }
-  }
+  });
 
-  async function MakeAIForm() {
-    if (isLoading) return;
-    setIsLoading(true);
-    try {
+  const createAiFormMutation = useMutation({
+    mutationFn: async () => {
+      if (!user?.id) throw new Error("AUTH_REQUIRED");
+
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND}/api/Form/Ai`,
-        {
-          userId: user.id,
-          title: "",
-          promt: aiPrompt,
-        },
-        {
-          withCredentials: true,
-        },
+        { userId: user.id, title: "", promt: promptText },
+        { withCredentials: true }
       );
-      if (res.data && res.data.surveyId) {
-        navigate(`/newform/${res.data.surveyId}`);
+      return res.data
+    },
+    onSuccess: (data) => {
+      if (data?.surveyId) {
+        navigate(`/newform/${data.surveyId}`);
       }
-      setForm(res.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
       setShowAIInput(false);
       setAiPrompt("");
+    },
+    onError: (error) => {
+      if (error.message === "AUTH_REQUIRED") {
+        navigate("/login");
+        toast.error("Please log in to generate a form.");
+      } else {
+        console.error(error);
+        toast.error("AI generation failed. Please try a different prompt.");
+      }
     }
-  }
+  })
+
+
   const [text, setText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [loopNum, setLoopNum] = useState(0);
@@ -237,7 +237,7 @@ function Home() {
                   exit={{ scale: 0.9, opacity: 0, y: 20 }}
                   className="relative w-full max-w-md bg-[#121212] border border-red-900/50 p-8 rounded-2xl shadow-2xl"
                 >
-                  <div className=" flex rounded-full gap-3 items-center">
+                  <div className=" flex px-3 rounded-full gap-3 items-center">
                     <img src="./CMN.png" className="w-[14px]" />
                     <span className="text-white text-[14px] font-zendots">Ispecmn</span >
                   </div>
@@ -350,10 +350,10 @@ function Home() {
           hover:bg-[#1E1E1E] transition-all ${isFocused ? 'outline-[2px] outline-green-700 bg-[#1E1E1E]' : 'outline-[#707070] '}`}
                 />
                 <div className='absolute right-4 '>
-                  <button onClick={MakeAIForm} disabled={isLoading || !aiPrompt.trim()}
+                  <button onClick={() => createAiFormMutation.mutate(aiPrompt)} disabled={createAiFormMutation.isLoading || !aiPrompt.trim()}
                     className="flex items-center justify-center min-w-[100px] text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[8px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isLoading ? (
+                    {createAiFormMutation.isLoading ? (
                       <AiOutlineLoading3Quarters className="animate-spin" size={16} />
                     ) : (
                       "Generate"
@@ -422,9 +422,9 @@ function Home() {
                   exit={{ scale: 0.9, opacity: 0, y: 20 }}
                   className="relative w-full max-w-md bg-[#121212] border border-red-900/50 p-8 rounded-2xl shadow-2xl"
                 >
-                  <div className=" flex  rounded-full gap-3 items-center">
+                  <div className=" flex px-3 rounded-full gap-3 items-center">
                     <img src="./CMN.png" className="w-[10px]" />
-                    <span className="text-white text-[12px] font-zendots">Ispecmn</span >
+                    <span className="text-white text-[10px] font-zendots">Ispecmn</span >
                   </div>
 
                   <div className="flex flex-col items-center text-center">
@@ -544,9 +544,9 @@ function Home() {
               />
               <div className='absolute right-2 '>
                 <button value={aiPrompt}
-                  onClick={MakeAIForm} disabled={isLoading || !aiPrompt.trim()} className="text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[12px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={createAiFormMutation.mutate} disabled={createAiFormMutation.isLoading || !aiPrompt.trim()} className="text-white text-[14px] outline-1 hover:bg-[#1E1E1E] py-2 px-4 rounded-[12px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isLoading ? (
+                  {createAiFormMutation.isLoading ? (
                     <AiOutlineLoading3Quarters className="animate-spin" size={14} />
                   ) : (
                     "Generate"
@@ -606,17 +606,21 @@ function Home() {
                     {/* create own forms */}
 
                     <div className="relative flex-1 font-vagrounded ">
-                      {isLoading ? (
-                        <span className="w-full h-full bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
+                      {createFormMutation.isPending ? (
+                        <span className="w-full h-full bg-white/20 shadow-md/20 flex justify-center items-center rounded-[6px]">
                           <FaSpinner className="text-5xl text-(--green) animate-spin" />
                         </span>
                       ) : (
-                        <button onClick={MakeForm} className="relative flex items-center gap-5 justify-center w-full h-full p-6 border-2 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
+                        <button
+                          onClick={() => createFormMutation.mutate()}
+                          className="relative flex items-center gap-5 justify-center w-full h-full p-6 border-2 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease"
+                        >
                           <IoDocumentText size={24} fill="white" />
                           <div className="h-10 flex items-start justify-center">
                             <span className="text-white text-[12px] font-vagrounded font-bold">
                               Blank form
-                            </span></div>
+                            </span>
+                          </div>
                         </button>
                       )}
                     </div>
