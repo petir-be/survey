@@ -39,7 +39,7 @@ function Workspaces() {
   const [showAccountModal, setShowAccountModal] = useState(false);
 
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 821px)" });
-  const isTablet = useMediaQuery({ query: "(max-width: 820px)" })
+  const isTablet = useMediaQuery({ query: "(min-width: 820px)" })
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 699px)" });
   const [isFocused, setIsFocused] = useState(false);
   const [viewMode, setViewMode] = useState(() => {
@@ -302,8 +302,8 @@ function Workspaces() {
                         <button
                           onClick={() => setViewMode("list")}
                           className={`p-1.5 rounded transition-colors ${viewMode === "list"
-                              ? "bg-gray-400 text-white shadow-sm"
-                              : "text-gray-500 hover:text-black"
+                            ? "bg-gray-400 text-white shadow-sm"
+                            : "text-gray-500 hover:text-black"
                             }`}
                         >
                           <CiBoxList className="text-lg" />
@@ -311,8 +311,8 @@ function Workspaces() {
                         <button
                           onClick={() => setViewMode("grid")}
                           className={`p-1.5 rounded transition-colors ${viewMode === "grid"
-                              ? "bg-gray-400 text-white shadow-sm"
-                              : "text-gray-500 hover:text-black"
+                            ? "bg-gray-400 text-white shadow-sm"
+                            : "text-gray-500 hover:text-black"
                             }`}
                         >
                           <BiGridHorizontal className="text-lg" />
@@ -324,8 +324,8 @@ function Workspaces() {
                   {/* LIST / GRID CONTAINER */}
                   <div
                     className={`w-full mt-4 ${viewMode === "grid"
-                        ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-                        : "flex flex-col"
+                      ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+                      : "flex flex-col"
                       }`}
                   >
                     {viewMode === "list" && (
@@ -379,14 +379,14 @@ function Workspaces() {
                               <div
                                 onClick={(e) => handleToggleClick(e, item)}
                                 className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${item.isPublished
-                                    ? "bg-green-500"
-                                    : "bg-gray-300"
+                                  ? "bg-green-500"
+                                  : "bg-gray-300"
                                   }`}
                               >
                                 <div
                                   className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${item.isPublished
-                                      ? "translate-x-5"
-                                      : "translate-x-0"
+                                    ? "translate-x-5"
+                                    : "translate-x-0"
                                     }`}
                                 />
                               </div>
@@ -443,14 +443,14 @@ function Workspaces() {
                               <div
                                 onClick={(e) => handleToggleClick(e, item)}
                                 className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${item.isPublished
-                                    ? "bg-green-500"
-                                    : "bg-gray-300"
+                                  ? "bg-green-500"
+                                  : "bg-gray-300"
                                   }`}
                               >
                                 <div
                                   className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${item.isPublished
-                                      ? "translate-x-5"
-                                      : "translate-x-0"
+                                    ? "translate-x-5"
+                                    : "translate-x-0"
                                     }`}
                                 />
                               </div>
@@ -725,8 +725,8 @@ function Workspaces() {
                         <button
                           onClick={() => setViewMode("list")}
                           className={`p-1.5 rounded transition-colors ${viewMode === "list"
-                              ? "bg-gray-400 text-white shadow-sm"
-                              : "text-gray-500 hover:text-black"
+                            ? "bg-gray-400 text-white shadow-sm"
+                            : "text-gray-500 hover:text-black"
                             }`}
                         >
                           <CiBoxList className="text-lg" />
@@ -734,8 +734,8 @@ function Workspaces() {
                         <button
                           onClick={() => setViewMode("grid")}
                           className={`p-1.5 rounded transition-colors ${viewMode === "grid"
-                              ? "bg-gray-400 text-white shadow-sm"
-                              : "text-gray-500 hover:text-black"
+                            ? "bg-gray-400 text-white shadow-sm"
+                            : "text-gray-500 hover:text-black"
                             }`}
                         >
                           <BiGridHorizontal className="text-lg" />
@@ -747,8 +747,8 @@ function Workspaces() {
                   {/* LIST / GRID CONTAINER */}
                   <div
                     className={`w-full mt-4 ${viewMode === "grid"
-                        ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-                        : "flex flex-col"
+                      ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+                      : "flex flex-col"
                       }`}
                   >
                     {viewMode === "list" && (
@@ -807,14 +807,14 @@ function Workspaces() {
                               <div
                                 onClick={(e) => handleToggleClick(e, item)}
                                 className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${item.isPublished
-                                    ? "bg-green-500"
-                                    : "bg-gray-300"
+                                  ? "bg-green-500"
+                                  : "bg-gray-300"
                                   }`}
                               >
                                 <div
                                   className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${item.isPublished
-                                      ? "translate-x-5"
-                                      : "translate-x-0"
+                                    ? "translate-x-5"
+                                    : "translate-x-0"
                                     }`}
                                 />
                               </div>
@@ -871,14 +871,14 @@ function Workspaces() {
                               <div
                                 onClick={(e) => handleToggleClick(e, item)}
                                 className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${item.isPublished
-                                    ? "bg-green-500"
-                                    : "bg-gray-300"
+                                  ? "bg-green-500"
+                                  : "bg-gray-300"
                                   }`}
                               >
                                 <div
                                   className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${item.isPublished
-                                      ? "translate-x-5"
-                                      : "translate-x-0"
+                                    ? "translate-x-5"
+                                    : "translate-x-0"
                                     }`}
                                 />
                               </div>

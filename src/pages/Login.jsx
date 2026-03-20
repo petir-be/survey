@@ -202,7 +202,7 @@ function Login() {
                   </h1>
                   <button
                     onClick={handleGoogleLogin}
-                    className="text-black flex flex-row justify-center items-center gap-2.5 font-vagrounded text-l bg-white hover:bg-white/80  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full"
+                    className="text-black flex flex-row justify-center items-center gap-2.5 font-vagrounded text-[16px] bg-white hover:bg-white/80  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full"
                   >
                     <FcGoogle className="text-xl " />
                     Continue with Google

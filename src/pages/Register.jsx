@@ -295,7 +295,7 @@ function Register() {
                       placeholder="Enter your email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="login-input !text-[12px]"
+                      className="login-input !text-[16px]"
                     />
                     <input
                       type="text"
@@ -312,7 +312,7 @@ function Register() {
                           setUsernameError("");
                         }
                       }}
-                      className="login-input !text-[12px]"
+                      className="login-input !text-[16px]"
                     />
                     {userNameError && (
                       <>
@@ -327,7 +327,7 @@ function Register() {
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="login-input !text-[12px]"
+                        className="login-input !text-[16px]"
                       />
                       <button
                         type="button"
@@ -350,7 +350,7 @@ function Register() {
                             setError("");
                           }
                         }}
-                        className="login-input !text-[12px]"
+                        className="login-input !text-[16px]"
                       />
                       <button
                         type="button"

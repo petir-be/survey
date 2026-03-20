@@ -237,10 +237,10 @@ function Home() {
                   exit={{ scale: 0.9, opacity: 0, y: 20 }}
                   className="relative w-full max-w-md bg-[#121212] border border-red-900/50 p-8 rounded-2xl shadow-2xl"
                 >
-                <div className=" flex px-3 rounded-full gap-3 items-center">
-                      <img  src="./CMN.png" className="w-[14px]" />
-                       <span className="text-white text-[14px] font-zendots">Ispecmn</span >
-                    </div>
+                  <div className=" flex rounded-full gap-3 items-center">
+                    <img src="./CMN.png" className="w-[14px]" />
+                    <span className="text-white text-[14px] font-zendots">Ispecmn</span >
+                  </div>
                   <div className="flex flex-col items-center text-center">
                     <div className="bg-red-500/10 p-3 rounded-full mb-4">
                       <IoAlertCircle size={40} className="text-red-500" />
@@ -251,9 +251,9 @@ function Home() {
                     </h2>
 
                     <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                      Please be advised that the core functions of this website are currently limited.
-                      Due to an expired service subscription, some core features
-                      are unavailable at this time.
+                      Please be advised that Google Sign-Up/Sign-In is currently unavailable.
+                      Mobile survey creation is under development
+                      and may have limited functionality at this time.
                     </p>
 
 
@@ -422,11 +422,11 @@ function Home() {
                   exit={{ scale: 0.9, opacity: 0, y: 20 }}
                   className="relative w-full max-w-md bg-[#121212] border border-red-900/50 p-8 rounded-2xl shadow-2xl"
                 >
- <div className=" flex px-3 rounded-full gap-3 items-center">
-                      <img  src="./CMN.png" className="w-[10px]" />
-                       <span className="text-white text-[10px] font-zendots">Ispecmn</span >
-                    </div>
-                
+                  <div className=" flex  rounded-full gap-3 items-center">
+                    <img src="./CMN.png" className="w-[10px]" />
+                    <span className="text-white text-[12px] font-zendots">Ispecmn</span >
+                  </div>
+
                   <div className="flex flex-col items-center text-center">
                     <div className="bg-red-500/10 p-3 rounded-full mb-4">
                       <IoAlertCircle size={32} className="text-red-500" />
@@ -436,10 +436,10 @@ function Home() {
                       Service Limitation
                     </h2>
 
-                    <p className="text-gray-400 text-[14px] leading-relaxed mb-6">
-                      Please be advised that the core functions of this website are currently limited.
-                      Due to an expired service subscription, some core features
-                      are unavailable at this time.
+                    <p className="text-gray-400 text-[12px] leading-relaxed mb-6">
+                      Please be advised that Google Sign-Up/Sign-In is currently unavailable.
+                      Mobile survey creation is under development
+                      and may have limited functionality at this time.
                     </p>
 
                     {/* --- CHECKBOX SECTION --- */}
