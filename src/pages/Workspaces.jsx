@@ -9,7 +9,7 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../Context/authContext";
-import { AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaSpinner } from "react-icons/fa";
 import AccountModal from "../components/AccountModal";
 import { useMediaQuery } from "react-responsive";
@@ -18,6 +18,14 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import NavBar from "../components/Navbar";
 
 function Workspaces() {
+
+
+  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 821px)" });
+  const isTablet = useMediaQuery({ query: "(min-width: 700px) and (max-width: 820px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 699px)" });
+
+
+
   const navigate = useNavigate();
   const [aiPrompt, setAiPrompt] = useState("");
   const [showAIInput, setShowAIInput] = useState(false);
@@ -25,9 +33,7 @@ function Workspaces() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showAccountModal, setShowAccountModal] = useState(false);
   const queryClient = useQueryClient();
-  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 821px)" });
-  const isTablet = useMediaQuery({ query: "(min-width: 820px)" })
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 699px)" });
+
   const [isFocused, setIsFocused] = useState(false);
   const [viewMode, setViewMode] = useState(() => {
     return localStorage.getItem("viewMode") || "list";
@@ -1019,7 +1025,7 @@ function Workspaces() {
         </>
       )}
 
-      {isTabletOrMobile && (
+      {isMobile && (
         <>
           <NavBar />
           <div className=" w-full min-h-screen overflow-y-auto z-10 ">

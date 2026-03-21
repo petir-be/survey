@@ -10,6 +10,7 @@ import DotShader2 from "../components/DotShader2";
 import ReviewPage from "../components/ReviewPage";
 import QuestionRenderer from "../components/QuestionRenderer";
 import Loading from "../components/Loading";
+import ShaderBackground from "../components/ShaderBackground"
 
 function Preview() {
   const { guid } = useParams();
@@ -140,13 +141,15 @@ function Preview() {
   }));
 
   return (
-    <div className="h-dvh w-full bg-(--white) flex flex-col overflow-hidden">
-      <header className="flex w-full items-center justify-between bg-(--white) pt-8 pb-8 px-10 pr-12 relative z-50 border-b-2 border-(--dirty-white)">
+    <>
+    <ShaderBackground/>
+    <div className="h-dvh w-full bg-black   flex flex-col overflow-hidden">
+      <header className="flex w-full items-center justify-between bg-black  pt-8 pb-8 px-10 pr-12 relative z-50 border-b-2 border-(--dirty-white)">
         <div className="flex w-full items-center justify-between">
-          <div className="inline-flex items-center bg-(--white) flex-1 min-w-0">
+          <div className="inline-flex items-center  flex-1 min-w-0">
             <Link to={`/newform/${id}`} reloadDocument>
-              <button className="flex gap-2 items-center px-6 py-1.5 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out">
-                <IoArrowBack className="fill-black text-xl" /> Exit Preview
+              <button className="flex gap-2 items-center text-white px-6 py-1.5 rounded-xl bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30    hover:bg-[#1E1E1E] transition-color duration-200 ease-out">
+                <IoArrowBack className="fill-white text-xl" /> Exit Preview
               </button>
             </Link>
           </div>
@@ -156,15 +159,14 @@ function Preview() {
       {/* progress bar */}
 
       <div className="px-10 py-2 ">
-        <div className="w-full max-w-5xl justify-self-center h-3 bg-gray-300 rounded-full overflow-hidden">
+        <div className="w-full max-w-5xl justify-self-center h-3 bg-black border-2  border-gray-200  rounded-full overflow-hidden">
           <div
-            className="h-full bg-(--purple) transition-all duration-500"
+            className="h-full bg-green-500 transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
         </div>
       </div>
 
-      <DotShader2 className="z-50" />
       {/* questions d2 */}
 
       <div className="flex-1 overflow-y-auto px-10 pb-10 flex flex-col">
@@ -228,7 +230,7 @@ function Preview() {
         </div>
       </div>
     </div>
-  );
+  </>);
 }
 
 export default Preview;
