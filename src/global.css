@@ -111,7 +111,7 @@
     @apply border-2 border-gray-500 text-white placeholder:text-gray-400  focus:border-green-800  w-full font-vagrounded text-lg bg-[#2A2A2A] px-8 py-3 rounded-2xl drop-shadow-md/30 focus:outline-none focus:ring-gray-400;
   }
   .form-element-container {
-    @apply p-4 justify-self-center w-11/12 transition-all duration-200 ease-out bg-(--white) hover:ring-2 hover:ring-(--purple);
+    @apply p-4 justify-self-center w-11/12 transition-all duration-200 ease-out bg-gray-200 rounded-[12px]  hover:ring-2 hover:ring-green-500;
   }
   .form-element-container:focus-within {
     @apply -translate-y-0.5 ring-(--purple) ring-2;

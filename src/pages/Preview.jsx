@@ -143,9 +143,9 @@ function Preview() {
   return (
     <>
     <ShaderBackground/>
-    <div className="h-dvh w-full bg-black   flex flex-col overflow-hidden">
-      <header className="flex w-full items-center justify-between bg-black  pt-8 pb-8 px-10 pr-12 relative z-50 border-b-2 border-(--dirty-white)">
-        <div className="flex w-full items-center justify-between">
+    <div className="h-dvh w-full  flex flex-col overflow-hidden">
+      <header className="flex w-full items-center justify-between  pt-8 pb-8 px-10 pr-12 relative z-50 ">
+        <div className="flex w-full items-center  justify-between">
           <div className="inline-flex items-center  flex-1 min-w-0">
             <Link to={`/newform/${id}`} reloadDocument>
               <button className="flex gap-2 items-center text-white px-6 py-1.5 rounded-xl bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30    hover:bg-[#1E1E1E] transition-color duration-200 ease-out">
@@ -170,7 +170,7 @@ function Preview() {
       {/* questions d2 */}
 
       <div className="flex-1 overflow-y-auto px-10 pb-10 flex flex-col">
-        <div className="relative max-w-4xl w-full mx-auto px-10 py-7 border-gradient bg-(--white) pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between">
+        <div className="relative mt-2 max-w-4xl w-full mx-auto px-10 py-7  bg-black outline outline-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between">
           <div className="flex-1">
             {isReviewPage ? (
               <ReviewPage pages={pages} answers={answersForReview} />
@@ -179,7 +179,7 @@ function Preview() {
                 Current page has no questions available.
               </div>
             ) : (
-              <div className="space-y-10">
+              <div className="space-y-10 text-white">
                 {currentPage.questions
                   .sort((a, b) => a.order - b.order)
                   .map((q) => {
@@ -203,7 +203,7 @@ function Preview() {
               disabled={currentPageIndex === 0}
               className={`px-4 py-2 rounded-lg font-medium ${currentPageIndex === 0
                   ? "opacity-0 cursor-default"
-                  : "opacity-100 bg-red-100 hover:bg-red-200"
+                  : "opacity-100  text-white ring ring-white hover:bg-[#1e1e1e]"
                 }`}
             >
               Previous
@@ -213,8 +213,8 @@ function Preview() {
               onClick={goNext}
               className={`flex items-center gap-1 pl-7 pr-6 py-1.5 rounded-xl font-vagrounded drop-shadow-sm/30 transition-color duration-200 ease-out
          ${isReviewPage
-                  ? "bg-(--white) ring ring-green-500 hover:bg-green-200"
-                  : "bg-(--white) ring ring-(--purple) inset-shadow-md/10 hover:bg-violet-200"
+                  ? " ring ring-green-500 hover:bg-green-200"
+                  : "bg-green-500 ring ring-white text-white hover:bg-green-700"
                 }`}
             >
               {isReviewPage
@@ -222,7 +222,7 @@ function Preview() {
                 : currentPageIndex === pages.length - 1 && hasReviewPage
                   ? "Review Answers"
                   : currentPageIndex === pages.length - 1
-                    ? "Simulate Submission"
+                    ? "Finish"
                     : "Next"}
               <IoMdArrowRoundForward />
             </button>
