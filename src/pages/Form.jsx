@@ -974,7 +974,7 @@ function Form() {
                           className="absolute top-11 right-0 z-50"
                         >
                           <span className="bg-(--white) -z-10 border border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
-                          <div className="min-w-50 w-83 py-3 z-10 bg-(--white) border border-(--purple) rounded shadow-lg">
+                          <div className="min-w-50 w-83 py-3 z-10 bg-black border border-green-500 text-white rounded shadow-lg">
                             <div className="flex flex-col w-full gap-2">
                               <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
                                 <span className="text-lg flex gap-2 items-center font-vagrounded">
@@ -1213,7 +1213,7 @@ function Form() {
                             icon={type.Icon}
                             title={type.title}
                           />
-                        ))}
+                        ))}c
                       </div>
                     </div>
 
@@ -1768,7 +1768,7 @@ function Form() {
                           style={{ transformOrigin: "top right" }}
                           className="absolute top-11 right-0 z-50"
                         >
-                          <span className="bg-(--white) -z-10 border border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
+                          <span className="bg-black -z-10 border border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
                           <div className="min-w-50 w-83 py-3 z-10 bg-(--white) border border-(--purple) rounded shadow-lg">
                             <div className="flex flex-col w-full gap-2">
                               <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">

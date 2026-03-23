@@ -142,95 +142,95 @@ function Preview() {
 
   return (
     <>
-    <ShaderBackground/>
-    <div className="h-dvh w-full  flex flex-col overflow-hidden">
-      <header className="flex w-full items-center justify-between  pt-8 pb-8 px-10 pr-12 relative z-50 ">
-        <div className="flex w-full items-center  justify-between">
-          <div className="inline-flex items-center  flex-1 min-w-0">
-            <Link to={`/newform/${id}`} reloadDocument>
-              <button className="flex gap-2 items-center text-white px-6 py-1.5 rounded-xl bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30    hover:bg-[#1E1E1E] transition-color duration-200 ease-out">
-                <IoArrowBack className="fill-white text-xl" /> Exit Preview
-              </button>
-            </Link>
+      <ShaderBackground />
+      <div className="h-dvh w-full  flex flex-col overflow-hidden">
+        <header className="flex w-full items-center justify-between  pt-8 pb-8 px-10 pr-12 relative z-50 ">
+          <div className="flex w-full items-center  justify-between">
+            <div className="inline-flex items-center  flex-1 min-w-0">
+              <Link to={`/newform/${id}`} reloadDocument>
+                <button className="flex gap-2 items-center text-white px-6 py-1.5 rounded-xl bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30    hover:bg-[#1E1E1E] transition-color duration-200 ease-out">
+                  <IoArrowBack className="fill-white text-xl" /> Exit Preview
+                </button>
+              </Link>
+            </div>
+          </div>
+        </header>
+
+        {/* progress bar */}
+
+        <div className="px-10 py-2 ">
+          <div className="w-full max-w-5xl justify-self-center h-3 bg-black border-2  border-gray-200  rounded-full overflow-hidden">
+            <div
+              className="h-full bg-green-500 transition-all duration-500"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         </div>
-      </header>
 
-      {/* progress bar */}
+        {/* questions d2 */}
 
-      <div className="px-10 py-2 ">
-        <div className="w-full max-w-5xl justify-self-center h-3 bg-black border-2  border-gray-200  rounded-full overflow-hidden">
-          <div
-            className="h-full bg-green-500 transition-all duration-500"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-      </div>
+        <div className="flex-1 overflow-y-auto px-10 pb-10 flex flex-col">
+          <div className="relative mt-2 max-w-4xl w-full mx-auto px-10 py-7  bg-black outline outline-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between">
+            <div className="flex-1">
+              {isReviewPage ? (
+                <ReviewPage pages={pages} answers={answersForReview} />
+              ) : currentPage?.questions.length === 0 ? (
+                <div className="flex justify-center items-center text-xl text-gray-400 w-full h-full text-center">
+                  Current page has no questions available.
+                </div>
+              ) : (
+                <div className="space-y-10  text-white">
+                  {currentPage.questions
+                    .sort((a, b) => a.order - b.order)
+                    .map((q) => {
+                      return (
+                        <QuestionRenderer
+                          key={q.id}
+                          question={q}
+                          value={answers[q.id]}
+                          onAnswer={(val) => updateAnswer(q.id, val)}
+                        />
+                      );
+                    })}
+                </div>
+              )}
+            </div>
 
-      {/* questions d2 */}
-
-      <div className="flex-1 overflow-y-auto px-10 pb-10 flex flex-col">
-        <div className="relative mt-2 max-w-4xl w-full mx-auto px-10 py-7  bg-black outline outline-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between">
-          <div className="flex-1">
-            {isReviewPage ? (
-              <ReviewPage pages={pages} answers={answersForReview} />
-            ) : currentPage?.questions.length === 0 ? (
-              <div className="flex justify-center items-center text-xl text-gray-400 w-full h-full text-center">
-                Current page has no questions available.
-              </div>
-            ) : (
-              <div className="space-y-10 text-white">
-                {currentPage.questions
-                  .sort((a, b) => a.order - b.order)
-                  .map((q) => {
-                    return (
-                      <QuestionRenderer
-                        key={q.id}
-                        question={q}
-                        value={answers[q.id]}
-                        onAnswer={(val) => updateAnswer(q.id, val)}
-                      />
-                    );
-                  })}
-              </div>
-            )}
-          </div>
-
-          {/* buttons */}
-          <div className="flex justify-between mt-5 pt-8">
-            <button
-              onClick={goPrev}
-              disabled={currentPageIndex === 0}
-              className={`px-4 py-2 rounded-lg font-medium ${currentPageIndex === 0
+            {/* buttons */}
+            <div className="flex justify-between mt-5 pt-8">
+              <button
+                onClick={goPrev}
+                disabled={currentPageIndex === 0}
+                className={`px-4 py-2 rounded-lg font-medium ${currentPageIndex === 0
                   ? "opacity-0 cursor-default"
                   : "opacity-100  text-white ring ring-white hover:bg-[#1e1e1e]"
-                }`}
-            >
-              Previous
-            </button>
+                  }`}
+              >
+                Previous
+              </button>
 
-            <button
-              onClick={goNext}
-              className={`flex items-center gap-1 pl-7 pr-6 py-1.5 rounded-xl font-vagrounded drop-shadow-sm/30 transition-color duration-200 ease-out
+              <button
+                onClick={goNext}
+                className={`flex items-center gap-1 pl-7 pr-6 py-1.5 rounded-xl font-vagrounded drop-shadow-sm/30 transition-color duration-200 ease-out
          ${isReviewPage
-                  ? " ring ring-green-500 hover:bg-green-200"
-                  : "bg-green-500 ring ring-white text-white hover:bg-green-700"
-                }`}
-            >
-              {isReviewPage
-                ? "Simulate Submission"
-                : currentPageIndex === pages.length - 1 && hasReviewPage
-                  ? "Review Answers"
-                  : currentPageIndex === pages.length - 1
-                    ? "Finish"
-                    : "Next"}
-              <IoMdArrowRoundForward />
-            </button>
+                    ? " ring ring-green-500 hover:bg-green-600"
+                    : "bg-green-600 ring ring-white text-white hover:bg-green-700"
+                  }`}
+              >
+                {isReviewPage
+                  ? "Simulate Submission"
+                  : currentPageIndex === pages.length - 1 && hasReviewPage
+                    ? "Review Answers"
+                    : currentPageIndex === pages.length - 1
+                      ? "Finish"
+                      : "Next"}
+                <IoMdArrowRoundForward />
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </>);
+    </>);
 }
 
 export default Preview;

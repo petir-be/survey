@@ -61,6 +61,7 @@ function Workspaces() {
     },
   })
 
+
   const createFormMutation = useMutation({
     mutationFn: async () => {
       const res = await axios.post(
@@ -170,7 +171,7 @@ function Workspaces() {
       {isDesktopOrLaptop && (
         <>
 
-          <div className="flex w-full h-screen overflow-hidden bg-black">
+          <div className="flex w-full h-screen overflow-hidden ">
 
 
             <div className="w-[260px] xl:w-[20%] shrink-0 h-full z-20 bg-black border-r border-gray-300 flex flex-col">
@@ -949,7 +950,7 @@ function Workspaces() {
                           <FaSpinner className="text-5xl text-(--green) animate-spin" />
                         </span>
                       ) : (
-                        <button onClick={MakeForm} className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
+                        <button onClick={createFormMutation} className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
                           <IoDocumentText size={124} fill="white" />
                           <div className="h-10 flex items-start justify-center">
                             <span className="text-white text-lg font-vagrounded font-bold">
@@ -996,7 +997,7 @@ function Workspaces() {
                               Back
                             </button>
                             <button
-                              onClick={MakeAIForm}
+                              onClick={createAiFormMutation}
                               disabled={isLoading || !aiPrompt.trim()}
                               className="flex-1 py-1 rounded bg-(--purple) text-white text-md disabled:opacity-50"
                             >
@@ -1262,21 +1263,24 @@ function Workspaces() {
                     {/* create own forms */}
 
                     <div className="relative flex-1 font-vagrounded ">
-                      {isLoading ? (
-                        <span className="w-full h-full bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
+                      {createFormMutation.isPending ? (
+                        <span className="w-full h-full bg-white/20 shadow-md/20 flex justify-center items-center rounded-[6px]">
                           <FaSpinner className="text-5xl text-(--green) animate-spin" />
                         </span>
                       ) : (
-                        <button onClick={MakeForm} className="relative flex items-center gap-5 justify-center w-full h-full p-6 border-2 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
+                        <button
+                          onClick={() => createFormMutation.mutate()}
+                          className="relative flex items-center gap-5 justify-center w-full h-full p-6 border-2 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease"
+                        >
                           <IoDocumentText size={24} fill="white" />
                           <div className="h-10 flex items-start justify-center">
                             <span className="text-white text-[12px] font-vagrounded font-bold">
                               Blank form
-                            </span></div>
+                            </span>
+                          </div>
                         </button>
                       )}
                     </div>
-
                     {/* generate with ai */}
                     <div className=" relative flex-1 font-vagrounded">
                       {!showAIInput ? (
@@ -1311,7 +1315,7 @@ function Workspaces() {
                               Back
                             </button>
                             <button
-                              onClick={MakeAIForm}
+                              onClick={createAiFormMutation}
                               disabled={isLoading || !aiPrompt.trim()}
                               className="flex-1 py-1 rounded bg-(--purple) text-black text-[9px] disabled:opacity-50"
                             >

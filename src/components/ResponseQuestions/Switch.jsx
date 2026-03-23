@@ -34,7 +34,7 @@ function Switch({ question, onChange, value = false }) {
             style={{
               width: 70,
               height: 34,
-              backgroundColor: toggle ? "#9911ff" : "#ccc",
+              backgroundColor: toggle ? "green" : "#ccc",
               borderRadius: 30,
               cursor: "pointer",
               display: "flex",

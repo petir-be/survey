@@ -22,6 +22,7 @@
   font-weight: 400;
   font-style: italic;
 }
+
 @font-face {
   font-family: "VagRounded";
   src: url("/assets/fonts/VAG Rounded Next Medium Italic.ttf");
@@ -32,9 +33,12 @@
 @font-face {
   font-family: "VagRounded";
   src: url("/assets/fonts/VAG Rounded Next Medium.ttf");
-  font-weight: 500; /* medium weight */
-  font-style: normal; /* not italic */
+  font-weight: 500;
+  /* medium weight */
+  font-style: normal;
+  /* not italic */
 }
+
 /* Semibold */
 @font-face {
   font-family: "VagRounded";
@@ -42,24 +46,28 @@
   font-weight: 600;
   font-style: normal;
 }
+
 @font-face {
   font-family: "VagRounded";
   src: url("/assets/fonts/VAG Rounded Next Semibold.ttf");
   font-weight: 600;
   font-style: normal;
 }
+
 @font-face {
   font-family: "VagRounded";
   src: url("/assets/fonts/VAG Rounded Next Heavy.ttf");
   font-weight: 900;
   font-style: normal;
 }
+
 @font-face {
   font-family: ZenDots;
   src: url("assets/fonts/zen-dots-latin-400-normal.ttf");
   font-weight: 400;
   font-style: normal;
 }
+
 @import "tailwindcss";
 
 @theme {
@@ -78,20 +86,24 @@
 }
 
 @keyframes moveCircleLtR {
+
   0%,
   100% {
     transform: translateX(0px);
   }
+
   50% {
     transform: translateX(400px);
   }
 }
 
 @keyframes moveCircleRtL {
+
   0%,
   100% {
     transform: translateX(0px);
   }
+
   50% {
     transform: translateX(-400px);
   }
@@ -101,30 +113,29 @@
   .animate-moveCircleLtR {
     animation: moveCircleLtR 20s ease-in-out infinite;
   }
+
   .animate-moveCircleRtL {
     animation: moveCircleRtL 20s ease-in-out infinite;
   }
+
   .home-circle {
     @apply absolute rounded-full blur-3xl;
   }
+
   .login-input {
-    @apply border-2 border-gray-500 text-white placeholder:text-gray-400  focus:border-green-800  w-full font-vagrounded text-lg bg-[#2A2A2A] px-8 py-3 rounded-2xl drop-shadow-md/30 focus:outline-none focus:ring-gray-400;
+    @apply border-2 border-gray-500 text-white placeholder:text-gray-400 focus:border-green-800 w-full font-vagrounded text-lg bg-[#2A2A2A] px-8 py-3 rounded-2xl drop-shadow-md/30 focus:outline-none focus:ring-gray-400;
   }
+
   .form-element-container {
-    @apply p-4 justify-self-center w-11/12 transition-all duration-200 ease-out bg-gray-200 rounded-[12px]  hover:ring-2 hover:ring-green-500;
+    @apply p-4 justify-self-center w-11/12 transition-all duration-200 ease-out bg-gray-200 rounded-[12px] hover:ring-2 hover:ring-green-500;
   }
+
   .form-element-container:focus-within {
     @apply -translate-y-0.5 ring-(--purple) ring-2;
   }
+
   .form-option-input {
-    @apply relative px-3 flex items-center gap-2
-  ring-(--black-lighter) ring-2 
-  focus-within:ring-(--purple) focus-within:ring-2
-  bg-(--dirty-white) rounded py-2
-  transition-all duration-200 ease-out
-  focus-within:bg-(--purple-lighter)
-  [&:not(:focus-within)]:hover:bg-(--white)
-  w-auto max-w-full;
+    @apply relative px-3 flex items-center gap-2 ring-(--black-lighter) ring-2 focus-within:ring-(--purple) focus-within:ring-2 bg-(--dirty-white) rounded py-2 transition-all duration-200 ease-out focus-within:bg-(--purple-lighter) [&:not(:focus-within)]:hover:bg-(--white) w-auto max-w-full;
   }
 }
 
@@ -135,29 +146,37 @@
 
 /* Styles the dropdown menu */
 .react-select__menu {
-  background-color: rgba(0, 0, 0, 1)!important;
-  border: 1px solid  rgba(255, 255,255, 1) !important;
+  
+  background-color: rgba(0, 0, 0, 1) !important;
+  border: 1px solid rgba(255, 255, 255, 1) !important;
 }
-.react-select__option{
+
+.react-select__option {
   cursor: pointer !important;
 }
+
 /* Styles individual options on hover/focus */
 .react-select__option--is-focused {
   background-color: transparent !important;
-  color: rgba(244, 244, 244, 0.60)!important;
+  color: rgba(244, 244, 244, 0.60) !important;
   cursor: pointer;
-} 
-.react-select__option--is-selected {
-  background-color: transparent !important; /* Changes blue to white */
- color: rgba(244, 244, 244, 0.30)!important;
+  
 }
 
-  button {
+.react-select__option--is-selected {
+  background-color: transparent !important;
+  /* Changes blue to white */
+  color: rgba(244, 244, 244, 0.30) !important;
+}
+
+button {
   cursor: pointer;
 }
+
 .sticky-row {
   position: sticky;
 }
+
 .pretty-checkbox {
   appearance: none;
   -webkit-appearance: none;
@@ -172,16 +191,19 @@
   cursor: pointer;
   transition: 0.2s ease;
   margin: 0 auto;
-  position: relative; /* Add this */
+  position: relative;
+  /* Add this */
 }
 
 /* Remove the first ::after rule that says display: none */
 .pretty-checkbox::after {
   content: "✔";
   color: white;
-  opacity: 0; /* Hide it with opacity instead */
+  opacity: 0;
+  /* Hide it with opacity instead */
   transition: opacity 0.2s ease;
-  position: absolute; /* Add this */
+  position: absolute;
+  /* Add this */
 }
 
 /* checked state */
@@ -191,7 +213,8 @@
 
 /* Show checkmark when checked */
 .pretty-checkbox:checked::after {
-  opacity: 1; /* Show it by changing opacity */
+  opacity: 1;
+  /* Show it by changing opacity */
 }
 
 .row-checkbox {
@@ -211,19 +234,24 @@
 /* SCROLLBAR CUSTOMIZATION */
 * {
   ::-webkit-scrollbar {
-    width: 5px; /* vertical scrollbar width */
-    height: 8px; /* horizontal scrollbar height */
+    width: 5px;
+    /* vertical scrollbar width */
+    height: 8px;
+    /* horizontal scrollbar height */
   }
 
   /* Track */
   ::-webkit-scrollbar-track {
-    background: #dfe0f0; /* track background */
+    background: #dfe0f0;
+    /* track background */
   }
 
   /* Thumb (the moving part) */
   ::-webkit-scrollbar-thumb {
-    background: #c8c9da; /* your brand color */
-    border-radius: 10px; /* rounded edges */
+    background: #c8c9da;
+    /* your brand color */
+    border-radius: 10px;
+    /* rounded edges */
   }
 
   /* Thumb on hover */
@@ -272,28 +300,32 @@
 .content {
   padding: 5px 10px;
 }
+
 .border-gradient {
   border: 10px solid;
   border-image-slice: 1;
   border-width: 1px;
 }
+
 .pageBorder {
-  border-image-source: linear-gradient(
-    53deg,
-    rgba(255, 255, 255, 0.05) 0%,
-    rgba(255, 255, 255, 1) 50%,
-    rgba(255, 255, 255, 0.05) 75%
-  );
+  border-image-source: linear-gradient(53deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 1) 50%,
+      rgba(255, 255, 255, 0.05) 75%);
 }
+
 canvas {
   pointer-events: none;
 }
+
 .drag-item {
   cursor: grab;
 }
+
 .drag-item:active {
   cursor: grabbing;
 }
+
 .hide-bar::-webkit-scrollbar {
   display: none;
 }

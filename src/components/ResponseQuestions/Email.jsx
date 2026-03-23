@@ -32,8 +32,8 @@ function Email({ question, onChange, value = "", hasError }) {
       </p>
 
       <div className="space-y-2 group relative">
-        <div className="flex items-center px-3 py-1 bg-(--dirty-white) border-b-2 border-b-(--black) text-lg focus-within:border-(--purple) focus:outline-none">
-          <IoMail className="text-3xl" fill="#212529" />
+        <div className="flex items-center px-3 py-1 bg-black border-b-2 border-b-(--black) text-lg focus-within:border-green-600 focus:outline-none">
+          <IoMail className="text-3xl" fill="white" />
 
           <input
             type="email"
