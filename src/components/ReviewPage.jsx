@@ -1,9 +1,9 @@
 function ReviewPage({ pages, answers }) {
   return (
     <div className="flex flex-col font-vagrounded w-full h-full">
-      <div className="py-7 mb-4">
-        <p className="text-3xl font-bold text-gray-800">Review Submission</p>
-        <p className="text-lg text-gray-500">
+      <div className="mt-4  mb-10 text-white">
+        <p className="text-3xl font-bold mb-2">Review Submission</p>
+        <p className="text-lg ">
           Please verify your answers before submitting.
         </p>
       </div>
@@ -11,7 +11,7 @@ function ReviewPage({ pages, answers }) {
       <div className="flex-1 overflow-y-auto pr-2">
         {pages.map((page, pageIndex) => (
           <div key={pageIndex} className="mb-8">
-            <h3 className="text-xl font-bold  mb-3 border-b-(--dirty-white) border-b pb-3">
+            <h3 className="text-xl text-white font-bold  mb-3 border-b-(--dirty-white) border-b pb-3">
               {page.title || `Page ${pageIndex + 1}`}
             </h3>
             <div className=" p-4 space-y-4">
@@ -63,11 +63,10 @@ function ReviewPage({ pages, answers }) {
                             </div>
 
                             <div
-                              className={`md:col-span-1 font-semibold ${
-                                rowValue.toString() === "Unanswered"
-                                  ? "italic text-gray-500"
-                                  : "text-gray-700"
-                              } break-words`}
+                              className={`md:col-span-1 font-semibold ${rowValue.toString() === "Unanswered"
+                                ? "italic text-gray-500"
+                                : "text-gray-700"
+                                } break-words`}
                             >
                               {rowValue.toString()}
                             </div>
@@ -84,15 +83,14 @@ function ReviewPage({ pages, answers }) {
                       key={q.id}
                       className="grid grid-cols-1 md:grid-cols-3 pb-3 "
                     >
-                      <div className="md:col-span-2 font-medium text-gray-700 w-3/4  truncate">
+                      <div className="md:col-span-2 font-medium text-white w-3/4  truncate">
                         {q.question}
                       </div>
                       <div
-                        className={`md:col-span-1 font-bold break-words ${
-                          displayAnswer === "Unanswered"
-                            ? "text-gray-500 italic"
-                            : "text-gray-900 normal"
-                        }`}
+                        className={`md:col-span-1 font-bold break-words text-white ${displayAnswer === "Unanswered"
+                          ? " italic"
+                          : " normal"
+                          }`}
                       >
                         {q.type === "switch"
                           ? displayAnswer === "Unanswered"

@@ -146,7 +146,7 @@
 
 /* Styles the dropdown menu */
 .react-select__menu {
-  
+
   background-color: rgba(0, 0, 0, 1) !important;
   border: 1px solid rgba(255, 255, 255, 1) !important;
 }
@@ -160,7 +160,7 @@
   background-color: transparent !important;
   color: rgba(244, 244, 244, 0.60) !important;
   cursor: pointer;
-  
+
 }
 
 .react-select__option--is-selected {

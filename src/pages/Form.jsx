@@ -835,7 +835,7 @@ function Form() {
                     onClick={() => setMobileMenuOpen((v) => !v)}
                     className="lg:hidden flex items-center justify-center"
                   >
-                    <HiMenu className="text-3xl "/>
+                    <HiMenu className="text-3xl " />
                   </button>
 
                   <div className="hidden lg:inline-flex items-center gap-4 shrink-0">
@@ -974,15 +974,15 @@ function Form() {
                           className="absolute top-11 right-0 z-50"
                         >
                           <span className="bg-(--white) -z-10 border border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
-                          <div className="min-w-50 w-83 py-3 z-10 bg-black border border-green-500 text-white rounded shadow-lg">
+                          <div className="min-w-50 w-83 py-3 z-10 bg-black border border-green-500 text-white rounded shadow-lg rounded-[6px]">
                             <div className="flex flex-col w-full gap-2">
-                              <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
+                              <div className="w-full px-3 py-2 hover:bg-[#1e1e1e] flex items-center justify-between">
                                 <span className="text-lg flex gap-2 items-center font-vagrounded">
-                                  <MdPreview className="text-3xl" />
-                                  <span className="flex flex-col">
-                                    Review Page
+                                  <MdPreview className="text-2xl" />
+                                  <span className="flex flex-col text-[16px] ">
+                                    Allow Users to Review
                                     <span className="text-xs">
-                                      Let users review their submission
+                                      Let users review their answers before submission
                                     </span>
                                   </span>
                                 </span>
@@ -993,8 +993,8 @@ function Form() {
                                     width: 45,
                                     height: 21,
                                     backgroundColor: hasReviewPage
-                                      ? "#9911ff"
-                                      : "#ccc",
+                                      ? "green"
+                                      : "gray",
                                     borderRadius: 30,
                                     cursor: "pointer",
                                     display: "flex",
@@ -1025,10 +1025,10 @@ function Form() {
                               </div>
 
                               {/* Multiple Submission */}
-                              <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
+                              <div className="w-full px-3 py-2 hover:bg-[#1e1e1e]  flex items-center justify-between">
                                 <span className="text-lg flex gap-2 items-center font-vagrounded">
-                                  <BiSelectMultiple className="text-3xl" />
-                                  <span className="flex flex-col">
+                                  <BiSelectMultiple className="text-2xl" />
+                                  <span className="flex flex-col text-[16px] ">
                                     Multiple Submission
                                     <span className="text-xs">
                                       Allows user to answer multiple times
@@ -1042,8 +1042,8 @@ function Form() {
                                     width: 45,
                                     height: 21,
                                     backgroundColor: allowMultipleSubmissionsValue
-                                      ? "#9911ff"
-                                      : "#ccc",
+                                      ? "green"
+                                      : "gray",
                                     borderRadius: 30,
                                     cursor: "pointer",
                                     display: "flex",
@@ -1082,13 +1082,13 @@ function Form() {
                                   isPublished ? setShowUnpublishModal(true) : null;
                                 }}
                                 className={`w-full px-3 py-2 flex items-center justify-between ${isPublished
-                                  ? "hover:bg-(--dirty-white) "
+                                  ? "hover:bg-[#1E1E1E] "
                                   : "opacity-50 hover:none disable"
                                   }`}
                               >
                                 <span className="text-lg flex gap-2 items-center font-vagrounded">
                                   <BsFillSendXFill className="text-2xl font-bold" />
-                                  <span className="flex flex-col">
+                                  <span className="flex flex-col text-[16px]">
                                     Unpublish Form
                                     <span className="text-xs">
                                       The form will no longer be visible to
@@ -1518,7 +1518,7 @@ function Form() {
                             setShowSettings(true);
                             setMobileMenuOpen(false);
                           }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                          className="px-6 py-4 text-left hover:bg-[#1e1e1e]"
                         >
                           Settings
                         </button>
@@ -1771,7 +1771,7 @@ function Form() {
                           <span className="bg-black -z-10 border border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
                           <div className="min-w-50 w-83 py-3 z-10 bg-(--white) border border-(--purple) rounded shadow-lg">
                             <div className="flex flex-col w-full gap-2">
-                              <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
+                              <div className="w-full px-3 py-2 hover:bg-[#1e1e1e] flex items-center justify-between">
                                 <span className="text-lg flex gap-2 items-center font-vagrounded">
                                   <MdPreview className="text-3xl" />
                                   <span className="flex flex-col">
@@ -1945,7 +1945,7 @@ function Form() {
 
                     </div>
 
-                    </div>
+                  </div>
 
                 </>
               )}

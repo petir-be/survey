@@ -118,7 +118,7 @@ function Preview() {
 
   if (pages.length === 0) {
     return (
-      <div className="h-dvh w-full bg-(--white) flex items-center justify-center text-xl text-gray-500">
+      <div className="h-dvh w-full bg-(--white) flex items-center justify-center text-xl text-white">
         This form has no questions.
       </div>
     );
@@ -213,7 +213,7 @@ function Preview() {
                 onClick={goNext}
                 className={`flex items-center gap-1 pl-7 pr-6 py-1.5 rounded-xl font-vagrounded drop-shadow-sm/30 transition-color duration-200 ease-out
          ${isReviewPage
-                    ? " ring ring-green-500 hover:bg-green-600"
+                    ? "bg-green-600 ring ring-white text-white hover:bg-green-700"
                     : "bg-green-600 ring ring-white text-white hover:bg-green-700"
                   }`}
               >

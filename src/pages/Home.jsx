@@ -312,7 +312,7 @@ function Home() {
                 />
               </div> */}
 
-              <div className="m-12 flex items-center justify-center flex-col">
+              <div className="m-12 flex items-center justify-center flex-col whitespace-nowrap">
                 <span className="text-[42px] text-white font-vagrounded font-semibold">
                   Build Your Form Instantly!
                 </span>
@@ -507,7 +507,7 @@ function Home() {
                 Build Your Form Instantly!
               </span>
 
-              <span className="text-white font-regular italic">
+              <span className="text-white font-regular italic ">
                 Drag, Drop and Build Forms in Seconds.
               </span>
 
