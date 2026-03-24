@@ -1041,7 +1041,7 @@ function Workspaces() {
 
 
             {/* NYAW */}
-            <div className="px-6 pt-2 mt-15">
+            <div className="px-6 pt-2 mt-20">
               <p className="text-5xl text-white ">
                 <strong>Manage</strong> Your <br />
                 Forms<strong> Here!</strong>
@@ -1067,8 +1067,8 @@ function Workspaces() {
             </div>
 
             {/* MAIN CONTENT AREA */}
-            <div className="flex flex-col items-center justify-center flex-1 min-h-full">
-              <div className="px-10 py-5 w-full max-w-7xl">
+            <div className="px-6 flex flex-col items-center justify-center flex-1 min-h-full">
+              <div className=" py-5 w-full max-w-7xl">
                 <div className="flex flex-col gap-4">
                   <div className="flex justify-between items-end">
                     <div className="flex flex-1 items-center justify-between gap-3">

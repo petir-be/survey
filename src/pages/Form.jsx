@@ -661,98 +661,11 @@ function Form() {
           <DndProvider backend={HTML5Backend}>
             <div className="h-dvh w-full bg-black flex flex-col overflow-x-hidden">
 
-              <header className="flex items-center justify-between bg-black pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-12 relative z-50 border border-transparent border-b-(--dirty-white) lg:pd-4">            {/* {Mobile Hamburger} */}
-                <AnimatePresence>
-                  {mobileMenuOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2 }}
-                      className="lg:hidden absolute top-full left-0 w-full z-40
-                 bg-(--white) border-t border-(--dirty-white) shadow-lg"
-                    >
-                      <div className="flex flex-col divide-y">
-                        {/* Questions */}
-                        <button
-                          onClick={() => {
-                            setResultPage(false);
-                            window.location.hash = "questions";
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
-                        >
-                          Questions
-                        </button>
-
-                        {/* Responses */}
-                        <button
-                          onClick={() => {
-                            setResultPage(true);
-                            window.location.hash = "responses";
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
-                        >
-                          Responses
-                        </button>
-
-                        {/* Preview */}
-                        <Link
-                          to={`../preview/${publicid}`}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="px-6 py-4 hover:bg-(--dirty-white)"
-                        >
-                          Preview
-                        </Link>
-
-                        {/* Publish / Share */}
-                        <button
-                          onClick={(e) => {
-                            PublishForm(e);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-[#1E1E1E]"
-                        >
-                          {isPublished ? "Share" : "Publish"}
-                        </button>
-
-                        {/* Settings */}
-                        <button
-                          onClick={() => {
-                            setShowSettings(true);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
-                        >
-                          Settings
-                        </button>
-                        <button
-                          onClick={() => {
-                            setShowMobileLayers(true);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
-                        >
-                          Layers
-                        </button>
-                        <button
-                          onClick={() => {
-                            setShowMobileElements(true);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
-                        >
-                          Form Elements
-                        </button>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                <div className="inline-flex items-center gap-7 flex-1 min-w-0">              <Link to={"/"}>
-                  <FaHome fill='white' className="text-3xl cursor-pointer" />
-                </Link>
+              <header className="flex items-center justify-between bg-black pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-12 relative z-50 border border-transparent border-b-(--dirty-white) lg:pd-4">
+                <div className="inline-flex items-center gap-7 flex-1 min-w-0">
+                  <Link to={"/"}>
+                    <FaHome fill='white' className="text-3xl cursor-pointer" />
+                  </Link>
                   <div
                     ref={containerRef}
                     className="relative inline-flex items-center z-50  max-w-2/3 flex-1 min-w-0"
@@ -1465,7 +1378,7 @@ function Form() {
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.2 }}
                       className="lg:hidden absolute top-full left-0 w-full z-40
-                 bg-(--white) border-t border-(--dirty-white) shadow-lg"
+                 bg-black text-white border-t border-(--dirty-white) shadow-lg"
                     >
                       <div className="flex flex-col divide-y">
                         {/* Questions */}
@@ -1475,7 +1388,7 @@ function Form() {
                             window.location.hash = "questions";
                             setMobileMenuOpen(false);
                           }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                          className="px-6 py-4 text-left hover:bg-[#1e1e1e]"
                         >
                           Questions
                         </button>
@@ -1487,7 +1400,7 @@ function Form() {
                             window.location.hash = "responses";
                             setMobileMenuOpen(false);
                           }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                          className="px-6 py-4 text-left hover:bg-[#1e1e1e]"
                         >
                           Responses
                         </button>
@@ -1496,7 +1409,7 @@ function Form() {
                         <Link
                           to={`../preview/${publicid}`}
                           onClick={() => setMobileMenuOpen(false)}
-                          className="px-6 py-4 hover:bg-(--dirty-white)"
+                          className="px-6 py-4 hover:bg-[#1e1e1e]"
                         >
                           Preview
                         </Link>
@@ -1527,7 +1440,7 @@ function Form() {
                             setShowMobileLayers(true);
                             setMobileMenuOpen(false);
                           }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                          className="px-6 py-4 text-left hover:bg-[#1e1e1e]"
                         >
                           Layers
                         </button>
@@ -1536,7 +1449,7 @@ function Form() {
                             setShowMobileElements(true);
                             setMobileMenuOpen(false);
                           }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                          className="px-6 py-4 text-left hover:bg-[#1e1e1e]"
                         >
                           Form Elements
                         </button>
@@ -1961,7 +1874,7 @@ function Form() {
         fixed top-0 left-0
         h-full
         w-[60%] max-w-[360px]
-        bg-(--white)
+        bg-black
         z-50
         p-4
         border-r-2 border-(--dirty-white)
