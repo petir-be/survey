@@ -7,9 +7,9 @@ function Switch({ question, onChange, value = false }) {
   const [error, setError] = useState("");
   const [toggle, setToggle] = useState(false);
 
-  useEffect(() =>{
+  useEffect(() => {
     setToggle(value);
-  },[value])
+  }, [value])
 
   const toggleQuestion = () => {
     setToggle((prev) => !prev);
@@ -28,13 +28,13 @@ function Switch({ question, onChange, value = false }) {
           {question.caption && (
             <div className="mb-3"><p className="text-gray-600">{question.caption}</p></div>
           )}
-          
+
           <button
             onClick={toggleQuestion}
             style={{
               width: 70,
               height: 34,
-              backgroundColor: toggle ? "#9911ff" : "#ccc",
+              backgroundColor: toggle ? "green" : "#ccc",
               borderRadius: 30,
               cursor: "pointer",
               display: "flex",

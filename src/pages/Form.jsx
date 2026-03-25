@@ -661,98 +661,11 @@ function Form() {
           <DndProvider backend={HTML5Backend}>
             <div className="h-dvh w-full bg-black flex flex-col overflow-x-hidden">
 
-              <header className="flex items-center justify-between bg-black pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-12 relative z-50 border border-transparent border-b-(--dirty-white) lg:pd-4">            {/* {Mobile Hamburger} */}
-                <AnimatePresence>
-                  {mobileMenuOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2 }}
-                      className="lg:hidden absolute top-full left-0 w-full z-40
-                 bg-(--white) border-t border-(--dirty-white) shadow-lg"
-                    >
-                      <div className="flex flex-col divide-y">
-                        {/* Questions */}
-                        <button
-                          onClick={() => {
-                            setResultPage(false);
-                            window.location.hash = "questions";
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
-                        >
-                          Questions
-                        </button>
-
-                        {/* Responses */}
-                        <button
-                          onClick={() => {
-                            setResultPage(true);
-                            window.location.hash = "responses";
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
-                        >
-                          Responses
-                        </button>
-
-                        {/* Preview */}
-                        <Link
-                          to={`../preview/${publicid}`}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="px-6 py-4 hover:bg-(--dirty-white)"
-                        >
-                          Preview
-                        </Link>
-
-                        {/* Publish / Share */}
-                        <button
-                          onClick={(e) => {
-                            PublishForm(e);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-[#1E1E1E]"
-                        >
-                          {isPublished ? "Share" : "Publish"}
-                        </button>
-
-                        {/* Settings */}
-                        <button
-                          onClick={() => {
-                            setShowSettings(true);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
-                        >
-                          Settings
-                        </button>
-                        <button
-                          onClick={() => {
-                            setShowMobileLayers(true);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
-                        >
-                          Layers
-                        </button>
-                        <button
-                          onClick={() => {
-                            setShowMobileElements(true);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
-                        >
-                          Form Elements
-                        </button>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                <div className="inline-flex items-center gap-7 flex-1 min-w-0">              <Link to={"/"}>
-                  <FaHome fill='white' className="text-3xl cursor-pointer" />
-                </Link>
+              <header className="flex items-center justify-between bg-black pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-12 relative z-50 border border-transparent border-b-(--dirty-white) lg:pd-4">
+                <div className="inline-flex items-center gap-7 flex-1 min-w-0">
+                  <Link to={"/"}>
+                    <FaHome fill='white' className="text-3xl cursor-pointer" />
+                  </Link>
                   <div
                     ref={containerRef}
                     className="relative inline-flex items-center z-50  max-w-2/3 flex-1 min-w-0"
@@ -786,7 +699,7 @@ function Form() {
                     }}
 
                   >
-                    <div tabIndex='1' className="  justify-center bg-black hover:bg-gray-[#1E1E1E] focus:bg-[#1e1e1e] group px-8  py-4  relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-000 ">
+                    <div tabIndex='1' className="  justify-center hover:bg-gray-[#1E1E1E] focus:bg-[#1e1e1e] group px-8  py-4  relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-000 ">
                       <div className="absolute flex items-center justify-center top-0 right-0 w-5 h-5  bg-[#C8C9DA]">
                         <button onClick={() => setActiveTab('questions')} className="relative w-full h-full font-bold cursor-pointer  flex items-center justify-center overflow-hidden">
                           <FaArrowUp size={12} className="fill-black rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
@@ -835,7 +748,7 @@ function Form() {
                     onClick={() => setMobileMenuOpen((v) => !v)}
                     className="lg:hidden flex items-center justify-center"
                   >
-                    <HiMenu className="text-3xl" />
+                    <HiMenu className="text-3xl " />
                   </button>
 
                   <div className="hidden lg:inline-flex items-center gap-4 shrink-0">
@@ -974,15 +887,15 @@ function Form() {
                           className="absolute top-11 right-0 z-50"
                         >
                           <span className="bg-(--white) -z-10 border border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
-                          <div className="min-w-50 w-83 py-3 z-10 bg-(--white) border border-(--purple) rounded shadow-lg">
+                          <div className="min-w-50 w-83 py-3 z-10 bg-black border border-green-500 text-white rounded shadow-lg rounded-[6px]">
                             <div className="flex flex-col w-full gap-2">
-                              <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
+                              <div className="w-full px-3 py-2 hover:bg-[#1e1e1e] flex items-center justify-between">
                                 <span className="text-lg flex gap-2 items-center font-vagrounded">
-                                  <MdPreview className="text-3xl" />
-                                  <span className="flex flex-col">
-                                    Review Page
+                                  <MdPreview className="text-2xl" />
+                                  <span className="flex flex-col text-[16px] ">
+                                    Allow Users to Review
                                     <span className="text-xs">
-                                      Let users review their submission
+                                      Let users review their answers before submission
                                     </span>
                                   </span>
                                 </span>
@@ -993,8 +906,8 @@ function Form() {
                                     width: 45,
                                     height: 21,
                                     backgroundColor: hasReviewPage
-                                      ? "#9911ff"
-                                      : "#ccc",
+                                      ? "green"
+                                      : "gray",
                                     borderRadius: 30,
                                     cursor: "pointer",
                                     display: "flex",
@@ -1025,10 +938,10 @@ function Form() {
                               </div>
 
                               {/* Multiple Submission */}
-                              <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
+                              <div className="w-full px-3 py-2 hover:bg-[#1e1e1e]  flex items-center justify-between">
                                 <span className="text-lg flex gap-2 items-center font-vagrounded">
-                                  <BiSelectMultiple className="text-3xl" />
-                                  <span className="flex flex-col">
+                                  <BiSelectMultiple className="text-2xl" />
+                                  <span className="flex flex-col text-[16px] ">
                                     Multiple Submission
                                     <span className="text-xs">
                                       Allows user to answer multiple times
@@ -1042,8 +955,8 @@ function Form() {
                                     width: 45,
                                     height: 21,
                                     backgroundColor: allowMultipleSubmissionsValue
-                                      ? "#9911ff"
-                                      : "#ccc",
+                                      ? "green"
+                                      : "gray",
                                     borderRadius: 30,
                                     cursor: "pointer",
                                     display: "flex",
@@ -1082,13 +995,13 @@ function Form() {
                                   isPublished ? setShowUnpublishModal(true) : null;
                                 }}
                                 className={`w-full px-3 py-2 flex items-center justify-between ${isPublished
-                                  ? "hover:bg-(--dirty-white) "
+                                  ? "hover:bg-[#1E1E1E] "
                                   : "opacity-50 hover:none disable"
                                   }`}
                               >
                                 <span className="text-lg flex gap-2 items-center font-vagrounded">
                                   <BsFillSendXFill className="text-2xl font-bold" />
-                                  <span className="flex flex-col">
+                                  <span className="flex flex-col text-[16px]">
                                     Unpublish Form
                                     <span className="text-xs">
                                       The form will no longer be visible to
@@ -1213,7 +1126,7 @@ function Form() {
                             icon={type.Icon}
                             title={type.title}
                           />
-                        ))}
+                        ))}c
                       </div>
                     </div>
 
@@ -1456,7 +1369,7 @@ function Form() {
           <DndProvider backend={HTML5Backend}>
             <div className="h-dvh w-full bg-black flex flex-col overflow-x-hidden">
 
-              <header className="flex items-center justify-between bg-black pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-6 lg:pr-10 relative z-50 border border-transparent border-b-(--dirty-white)">          {/* {Mobile Hamburger} */}
+              <header className="flex items-center justify-between  pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-6 lg:pr-10 relative z-50 border border-transparent border-b-(--dirty-white)">          {/* {Mobile Hamburger} */}
                 <AnimatePresence>
                   {mobileMenuOpen && (
                     <motion.div
@@ -1465,7 +1378,7 @@ function Form() {
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.2 }}
                       className="lg:hidden absolute top-full left-0 w-full z-40
-                 bg-(--white) border-t border-(--dirty-white) shadow-lg"
+                 bg-black text-white border-t border-(--dirty-white) shadow-lg"
                     >
                       <div className="flex flex-col divide-y">
                         {/* Questions */}
@@ -1475,7 +1388,7 @@ function Form() {
                             window.location.hash = "questions";
                             setMobileMenuOpen(false);
                           }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                          className="px-6 py-4 text-left hover:bg-[#1e1e1e]"
                         >
                           Questions
                         </button>
@@ -1487,7 +1400,7 @@ function Form() {
                             window.location.hash = "responses";
                             setMobileMenuOpen(false);
                           }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                          className="px-6 py-4 text-left hover:bg-[#1e1e1e]"
                         >
                           Responses
                         </button>
@@ -1496,7 +1409,7 @@ function Form() {
                         <Link
                           to={`../preview/${publicid}`}
                           onClick={() => setMobileMenuOpen(false)}
-                          className="px-6 py-4 hover:bg-(--dirty-white)"
+                          className="px-6 py-4 hover:bg-[#1e1e1e]"
                         >
                           Preview
                         </Link>
@@ -1518,7 +1431,7 @@ function Form() {
                             setShowSettings(true);
                             setMobileMenuOpen(false);
                           }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                          className="px-6 py-4 text-left hover:bg-[#1e1e1e]"
                         >
                           Settings
                         </button>
@@ -1527,7 +1440,7 @@ function Form() {
                             setShowMobileLayers(true);
                             setMobileMenuOpen(false);
                           }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                          className="px-6 py-4 text-left hover:bg-[#1e1e1e]"
                         >
                           Layers
                         </button>
@@ -1536,7 +1449,7 @@ function Form() {
                             setShowMobileElements(true);
                             setMobileMenuOpen(false);
                           }}
-                          className="px-6 py-4 text-left hover:bg-(--dirty-white)"
+                          className="px-6 py-4 text-left hover:bg-[#1e1e1e]"
                         >
                           Form Elements
                         </button>
@@ -1631,7 +1544,7 @@ function Form() {
                     onClick={() => setMobileMenuOpen((v) => !v)}
                     className="lg:hidden flex items-center justify-center"
                   >
-                    <HiMenu className="text-3xl" />
+                    <HiMenu className="text-3xl text-white" />
                   </button>
 
                   <div className="hidden lg:inline-flex items-center gap-4 shrink-0">
@@ -1768,10 +1681,10 @@ function Form() {
                           style={{ transformOrigin: "top right" }}
                           className="absolute top-11 right-0 z-50"
                         >
-                          <span className="bg-(--white) -z-10 border border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
+                          <span className="bg-black -z-10 border border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
                           <div className="min-w-50 w-83 py-3 z-10 bg-(--white) border border-(--purple) rounded shadow-lg">
                             <div className="flex flex-col w-full gap-2">
-                              <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
+                              <div className="w-full px-3 py-2 hover:bg-[#1e1e1e] flex items-center justify-between">
                                 <span className="text-lg flex gap-2 items-center font-vagrounded">
                                   <MdPreview className="text-3xl" />
                                   <span className="flex flex-col">
@@ -1945,92 +1858,7 @@ function Form() {
 
                     </div>
 
-                    {/* dragable */}
-                    <div className="w-full lg:w-[20%] min-w-[300px] p-2 z-10 bg-black  h-[20%] border-t-2  overflow-y-auto border-(--dirty-white) static ">                  {/* elements*/}
-                      {/* Frequently Used */}
-                      <span className="text-gray-500 font-vagrounded m-3">
-                        Frequently used
-                      </span>
-                      <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white ">
-                        {types.slice(0, 3).map((type, index) => (
-                          <FormElement
-                            key={index}
-                            bgKulay={"#20B15530"}
-                            foreKulay={"#20B155"}
-                            icon={type.Icon}
-                            title={type.title}
-
-
-                          />
-                        ))}
-                      </div>
-
-                      {/* Display Text */}
-                      <span className="text-gray-500 font-vagrounded m-3 mt-5">
-                        Display Text
-                      </span>
-                      <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white">
-                        {types.slice(3, 5).map((type, index) => (
-                          <FormElement
-                            key={index}
-                            bgKulay={"#52525230"}
-                            foreKulay={"#525252"}
-                            icon={type.Icon}
-                            title={type.title}
-                          />
-                        ))}
-                      </div>
-
-                      {/* Choices */}
-                      <span className="text-gray-500 font-vagrounded m-3 mt-5 ">
-                        Choices
-                      </span>
-                      <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white">
-                        {types.slice(5, 11).map((type, index) => (
-                          <FormElement
-                            key={index}
-                            bgKulay={"#CC580530"}
-                            foreKulay={"#CC5805"}
-                            // bgKulay={"#B438FF30"}
-                            // foreKulay={"#B438FF"}
-                            icon={type.Icon}
-                            title={type.title}
-                          />
-                        ))}
-                      </div>
-
-                      {/* Text */}
-                      <span className="text-gray-500 font-vagrounded m-3 mt-5">
-                        Text
-                      </span>
-                      <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white ">
-                        {types.slice(11, 13).map((type, index) => (
-                          <FormElement
-                            key={index}
-                            bgKulay={"#CC06F930"}
-                            foreKulay={"#CC06F9"}
-                            icon={type.Icon}
-                            title={type.title}
-                          />
-                        ))}
-                      </div>
-
-                      {/* Others */}
-                      <span className="text-gray-500 font-vagrounded m-3 mt-5">
-                        Others
-                      </span>
-                      <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white">
-                        {types.slice(13, 17).map((type, index) => (
-                          <FormElement
-                            key={index}
-                            bgKulay={"#F9161630"}
-                            foreKulay={"#F91616"}
-                            icon={type.Icon}
-                            title={type.title}
-                          />
-                        ))}
-                      </div>
-                    </div>  </div>
+                  </div>
 
                 </>
               )}
@@ -2046,7 +1874,7 @@ function Form() {
         fixed top-0 left-0
         h-full
         w-[60%] max-w-[360px]
-        bg-(--white)
+        bg-black
         z-50
         p-4
         border-r-2 border-(--dirty-white)

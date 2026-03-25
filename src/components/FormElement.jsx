@@ -30,7 +30,7 @@ function FormElement({ title, icon: Icon, foreKulay, bgKulay }) {
         <Icon className={`text-xl`} style={{ fill: foreKulay || "black" }} />
       </div>
 
-      <div className="w-full px-1 text-xs mt-3 leading-3 flex-justify-center text-center font-vagrounded font-semibold">
+      <div className="w-full text-white  px-1 text-xs mt-3 leading-3 flex-justify-center text-center font-vagrounded font-semibold">
         {title}
       </div>
     </div>

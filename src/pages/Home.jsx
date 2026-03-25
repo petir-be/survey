@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import "../global.css";
 import { FaSpinner } from "react-icons/fa6";
-import { useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Navbar from "../components/Navbar.jsx";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -18,7 +18,15 @@ import Footer from "../components/Footer";
 
 
 function Home() {
-
+  const { data: formData = [], isLoading } = useQuery({
+    queryKey: ["forms"],
+    queryFn: async () => {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND}/api/Form`, {
+        withCredentials: true,
+      });
+      return res.data?.data || [];
+    },
+  })
 
   const [showWarning, setShowWarning] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(false);
@@ -304,7 +312,7 @@ function Home() {
                 />
               </div> */}
 
-              <div className="m-12 flex items-center justify-center flex-col">
+              <div className="m-12 flex items-center justify-center flex-col whitespace-nowrap">
                 <span className="text-[42px] text-white font-vagrounded font-semibold">
                   Build Your Form Instantly!
                 </span>
@@ -499,7 +507,7 @@ function Home() {
                 Build Your Form Instantly!
               </span>
 
-              <span className="text-white font-regular italic">
+              <span className="text-white font-regular italic ">
                 Drag, Drop and Build Forms in Seconds.
               </span>
 

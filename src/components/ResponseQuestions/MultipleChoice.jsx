@@ -28,11 +28,10 @@ function MultipleChoice({ question, value = "", onChange, hasError }) {
               <button
                 key={index}
                 className={`
-                  flex items-center gap-4 px-3 py-2 rounded  ring-2 transition-all hover:bg-(--white) duration-200 ease-out
-                  ${
-                    isSelected
-                      ? "bg-(--purple-lighter) ring-(--purple) "
-                      : "bg-(--dirty-white) ring-(--black-lighter) "
+                  flex items-center gap-4 px-3 py-2 rounded  ring-2 transition-all hover:bg-[#1e1e1e] duration-200 ease-out
+                  ${isSelected
+                    ? "bg-[#1e1e1e] ring-green-600 "
+                    : "bg-black ring-(--black-lighter) "
                   }
                 `}
                 onClick={() => handleChange(option)}
@@ -45,7 +44,7 @@ function MultipleChoice({ question, value = "", onChange, hasError }) {
                   onChange={() => handleChange(option)}
                   className="w-5 h-5 min-w-5 min-h-5 text-(--purple) "
                 />
-                <span className="font-vagrounded text-gray-800 select-none text-left">
+                <span className="font-vagrounded text-white select-none text-left">
                   {option}
                 </span>
               </button>

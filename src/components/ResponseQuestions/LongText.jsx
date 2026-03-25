@@ -41,19 +41,19 @@ function LongText({ question, onChange, value = "", hasError }) {
             handleChange(e);
             resize(answerRef);
           }}
-          className="w-full min-h-17 placeholder:italic placeholder:text-gray-400 bg-(--dirty-white) border-b-2 border-b-(--black) text-lg focus:border-(--purple) focus:outline-none px-2 py-1 resize-none overflow-hidden"
+          className="w-full min-h-17 placeholder:italic placeholder:text-gray-400 bg-black  border-b-2 border-b-(--black) text-lg focus:border-green-600 focus:outline-none px-2 py-1 resize-none overflow-hidden"
           placeholder="Type your answer here..."
           rows={1}
         />
       </div>
-        {hasError && (
-          <div className="flex items-center font-vagrounded gap-1 my-2">
-            <IoAlertCircle className="fill-red-500 text-xl" />
-            <span className="text-md text-red-500">
-              This field is required.
-            </span>
-          </div>
-        )}
+      {hasError && (
+        <div className="flex items-center font-vagrounded gap-1 my-2">
+          <IoAlertCircle className="fill-red-500 text-xl" />
+          <span className="text-md text-red-500">
+            This field is required.
+          </span>
+        </div>
+      )}
     </div>
   );
 }

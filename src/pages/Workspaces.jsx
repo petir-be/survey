@@ -9,7 +9,7 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../Context/authContext";
-import { AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaSpinner } from "react-icons/fa";
 import AccountModal from "../components/AccountModal";
 import { useMediaQuery } from "react-responsive";
@@ -18,6 +18,14 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import NavBar from "../components/Navbar";
 
 function Workspaces() {
+
+
+  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 821px)" });
+  const isTablet = useMediaQuery({ query: "(min-width: 700px) and (max-width: 820px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 699px)" });
+
+
+
   const navigate = useNavigate();
   const [aiPrompt, setAiPrompt] = useState("");
   const [showAIInput, setShowAIInput] = useState(false);
@@ -25,9 +33,7 @@ function Workspaces() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showAccountModal, setShowAccountModal] = useState(false);
   const queryClient = useQueryClient();
-  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 821px)" });
-  const isTablet = useMediaQuery({ query: "(min-width: 820px)" })
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 699px)" });
+
   const [isFocused, setIsFocused] = useState(false);
   const [viewMode, setViewMode] = useState(() => {
     return localStorage.getItem("viewMode") || "list";
@@ -54,6 +60,7 @@ function Workspaces() {
       return res.data?.data || [];
     },  
   })
+
 
   const createFormMutation = useMutation({
     mutationFn: async () => {
@@ -164,7 +171,7 @@ function Workspaces() {
       {isDesktopOrLaptop && (
         <>
 
-          <div className="flex w-full h-screen overflow-hidden bg-black">
+          <div className="flex w-full h-screen overflow-hidden ">
 
 
             <div className="w-[260px] xl:w-[20%] shrink-0 h-full z-20 bg-black border-r border-gray-300 flex flex-col">
@@ -296,9 +303,13 @@ function Workspaces() {
                       </div>
                     )}
 
-                    {isLoading && (
-                      <div className="mt-5 w-full justify-center flex items-center col-span-full">
-                        <VscLoading className="animate-spin text-3xl" />
+
+                    {!isLoading && filteredForms.length === 0 && (
+                      <div className="col-span-full flex flex-col items-center justify-center py-20 rounded-xl">
+                        <FaRegFileAlt className="text-gray-300 text-4xl mb-3" />
+                        <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
+                          No forms yet
+                        </span>
                       </div>
                     )}
 
@@ -307,7 +318,7 @@ function Workspaces() {
                         key={item.id}
                         onClick={() => navigate(`/newform/${item.id}`)}
                         className={`
-                      group bg-white backdrop-blur-sm border border-black/30 hover:border-[var(--purple)] 
+                      group bg-black hover:bg-[#1e1e1e]  backdrop-blur-sm border border-gray-400 hover:border-green-600 
                       rounded-xl shadow-sm transition-all cursor-pointer relative
                       ${viewMode === "list"
                             ? "p-4 grid grid-cols-12 items-center mt-3"
@@ -319,14 +330,14 @@ function Workspaces() {
                           <>
                             <div className="col-span-5 flex items-center gap-4">
                               <div className="w-8 h-8 rounded-md flex items-center justify-center text-white">
-                                <FaRegFileAlt className="text-black text-xl" />
+                                <FaRegFileAlt className="text-white text-xl" />
                               </div>
-                              <span className="font-medium text-gray-800 truncate">
+                              <span className="font-medium text-white truncate">
                                 {item.title || "Untitled"}
                               </span>
                             </div>
 
-                            <div className="col-span-2 text-center text-sm font-medium">
+                            <div className="col-span-2 text-gray-500 text-center text-sm font-medium">
                               {item.responseCount || 0}
                             </div>
 
@@ -367,12 +378,12 @@ function Workspaces() {
                         ) : (
                           // === GRID VIEW UI ===
                           <>
-                            <div className="flex justify-between items-start">
-                              <div className="w-10 h-10  rounded-lg flex items-center justify-center">
-                                <FaRegFileAlt className="text-black text-xl" />
-                              </div>
+                            <div className="flex justify-between items-center">
+
+                              <FaRegFileAlt className="text-white text-xl" />
+
                               {/* Trash Icon */}
-                              <div className="absolute top-4 right-4 z-30">
+                              <div className=" z-30">
                                 <button
                                   onClick={(e) => handleDeleteClick(e, item.id)}
                                   className="p-2 rounded-full hover:bg-red-100 transition-colors group/delete"
@@ -383,10 +394,10 @@ function Workspaces() {
                             </div>
 
                             <div className="mt-4">
-                              <h3 className="font-bold text-lg text-gray-800 line-clamp-1 mb-1">
+                              <h3 className="font-bold text-lg text-white line-clamp-1 mb-1">
                                 {item.title || "Untitled"}
                               </h3>
-                              <p className="text-xs text-gray-500">
+                              <p className="text-xs text-white">
                                 {item.responseCount || 0} responses
                               </p>
                             </div>
@@ -727,9 +738,13 @@ function Workspaces() {
                       </div>
                     )}
 
-                    {isLoading && (
-                      <div className="mt-5 w-full justify-center flex items-center col-span-full">
-                        <VscLoading className="animate-spin text-3xl" />
+
+                    {!isLoading && filteredForms.length === 0 && (
+                      <div className="col-span-full flex flex-col items-center justify-center py-20 rounded-xl">
+                        <FaRegFileAlt className="text-gray-300 text-4xl mb-3" />
+                        <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
+                          No forms yet
+                        </span>
                       </div>
                     )}
 
@@ -943,7 +958,7 @@ function Workspaces() {
                           <FaSpinner className="text-5xl text-(--green) animate-spin" />
                         </span>
                       ) : (
-                        <button onClick={MakeForm} className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
+                        <button onClick={createFormMutation} className="relative flex flex-col items-center gap-5 justify-center w-full h-full p-6 outline-2 outline-white/50 rounded-[6px]  transition-all duration-600 ease shadow-[inset_0_0_0px_rgba(255,255,255,0)] hover:shadow-[inset_0_0_30px_rgba(245,245,245,1)] hover:scale-101">
                           <IoDocumentText size={124} fill="white" />
                           <div className="h-10 flex items-start justify-center">
                             <span className="text-white text-lg font-vagrounded font-bold">
@@ -990,7 +1005,7 @@ function Workspaces() {
                               Back
                             </button>
                             <button
-                              onClick={MakeAIForm}
+                              onClick={createAiFormMutation}
                               disabled={isLoading || !aiPrompt.trim()}
                               className="flex-1 py-1 rounded bg-(--purple) text-white text-md disabled:opacity-50"
                             >
@@ -1019,19 +1034,19 @@ function Workspaces() {
         </>
       )}
 
-      {isTabletOrMobile && (
+      {isMobile && (
         <>
           <NavBar />
           <div className=" w-full min-h-screen overflow-y-auto z-10 ">
 
 
             {/* NYAW */}
-            <div className="px-10 pt-2 mt-30">
+            <div className="px-6 pt-2 mt-20">
               <p className="text-5xl text-white ">
                 <strong>Manage</strong> Your <br />
                 Forms<strong> Here!</strong>
               </p>
-              <p className="text-l mt-2 text-white">
+              <p className="text-l mt-5 text-white">
                 This is where you can view, edit, organize <br />
                 all your created forms.
               </p>
@@ -1052,8 +1067,8 @@ function Workspaces() {
             </div>
 
             {/* MAIN CONTENT AREA */}
-            <div className="flex flex-col items-center justify-center flex-1 min-h-full">
-              <div className="px-10 py-5 w-full max-w-7xl">
+            <div className="px-6 flex flex-col items-center justify-center flex-1 min-h-full">
+              <div className=" py-5 w-full max-w-7xl">
                 <div className="flex flex-col gap-4">
                   <div className="flex justify-between items-end">
                     <div className="flex flex-1 items-center justify-between gap-3">
@@ -1089,20 +1104,20 @@ function Workspaces() {
                       <div
                         key={item.id}
                         onClick={() => navigate(`/newform/${item.id}`)}
-                        className=" group bg-white border border-black/30 hover:border-[var(--purple)] rounded-xl shadow-sm transition-all cursor-pointer relative p-4 grid grid-cols-12 items-center "
+                        className=" group bg-black border border-white hover:bg-[#1e1e1e] rounded-xl shadow-sm transition-all cursor-pointer relative p-4 grid grid-cols-12 items-center "
                       >
                         {/* Title & Icon (Expanded to col-span-6) */}
                         <div className="col-span-6 flex items-center gap-4">
-                          <div className="w-4 h-4 rounded-md flex items-center justify-center text-white">
-                            <FaRegFileAlt className="text-black text-xl" />
-                          </div>
-                          <span className="text-[12px] font-medium text-gray-800 truncate">
+
+                          <FaRegFileAlt className="text-white text-xl" />
+
+                          <span className="text-[12px] font-medium text-white truncate">
                             {item.title || "Untitled"}
                           </span>
                         </div>
 
                         {/* Responses */}
-                        <div className="col-span-2 text-center text-sm font-medium">
+                        <div className="col-span-2 text-gray-500 text-center text-sm font-medium">
                           {item.responseCount || 0}
                         </div>
 
@@ -1125,15 +1140,16 @@ function Workspaces() {
 
                           {/* Dropdown Content */}
                           {openDropdownId === item.id && (
-                            <div className="absolute right-0 top-10 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-30 py-2 flex flex-col">
+                            <div className="absolute right-0 top-10 w-48 bg-black border border-white rounded-lg shadow-lg z-30 py-2 flex flex-col">
 
                               {/* Publish Toggle Inside Menu */}
                               <div
                                 onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleToggleClick(e, item);
+                                  e.preventDefault(); // Stop default button behavior
+                                  e.stopPropagation(); // Stop the click from triggering the card's navigate()
+                                  togglePublishMutation.mutate({ id: item.id, isPublished: !item.isPublished });
                                 }}
-                                className="px-4 py-2 hover:bg-gray-50 cursor-pointer flex items-center justify-between transition-colors"
+                                className="px-4 py-2 hover:bg-[#1e1e1e] cursor-pointer flex items-center justify-between transition-colors"
                               >
                                 <span className="text-sm text-gray-700 font-medium">Published</span>
                                 <div
@@ -1151,12 +1167,13 @@ function Workspaces() {
 
                               {/* Delete Button Inside Menu */}
                               <div
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleDeleteClick(e, item.id);
-                                  setOpenDropdownId(null); // Close menu after deleting
-                                }}
-                                className="px-4 py-2 hover:bg-red-50 cursor-pointer flex items-center gap-3 text-red-500 transition-colors group/delete"
+                                onClick={(e) => handleDeleteClick(e, item.id)}
+                                //  onClick={(e) => {
+                                // e.stopPropagation();
+                                //handleDeleteClick(e, item.id);
+                                //setOpenDropdownId(null); // Close menu after deleting
+                                //  }}
+                                className="px-4 py-2 hover:bg-[#1e1e1e] cursor-pointer flex items-center gap-3 text-red-500 transition-colors group/delete"
                               >
                                 <FaTrash className="text-sm group-hover/delete:scale-110 transition-transform" />
                                 <span className="text-sm font-medium">Delete Form</span>
@@ -1210,7 +1227,7 @@ function Workspaces() {
                       Cancel
                     </button>
                     <button
-                      onClick={confirmDelete}
+                      onClick={() => deleteFormMutation.mutate(itemToDelete)}
                       className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors shadow-md shadow-red-200 font-semibold"
                     >
                       Delete
@@ -1256,21 +1273,24 @@ function Workspaces() {
                     {/* create own forms */}
 
                     <div className="relative flex-1 font-vagrounded ">
-                      {isLoading ? (
-                        <span className="w-full h-full bg-white/20 shadow-md/20 hover:scale-101 duration-400 ease flex justify-center items-center ">
+                      {createFormMutation.isPending ? (
+                        <span className="w-full h-full bg-white/20 shadow-md/20 flex justify-center items-center rounded-[6px]">
                           <FaSpinner className="text-5xl text-(--green) animate-spin" />
                         </span>
                       ) : (
-                        <button onClick={MakeForm} className="relative flex items-center gap-5 justify-center w-full h-full p-6 border-2 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease">
+                        <button
+                          onClick={() => createFormMutation.mutate()}
+                          className="relative flex items-center gap-5 justify-center w-full h-full p-6 border-2 border-white rounded-[6px] shadow-md/20 hover:scale-101 flex-col duration-400 ease"
+                        >
                           <IoDocumentText size={24} fill="white" />
                           <div className="h-10 flex items-start justify-center">
                             <span className="text-white text-[12px] font-vagrounded font-bold">
                               Blank form
-                            </span></div>
+                            </span>
+                          </div>
                         </button>
                       )}
                     </div>
-
                     {/* generate with ai */}
                     <div className=" relative flex-1 font-vagrounded">
                       {!showAIInput ? (
@@ -1305,7 +1325,7 @@ function Workspaces() {
                               Back
                             </button>
                             <button
-                              onClick={MakeAIForm}
+                              onClick={createAiFormMutation}
                               disabled={isLoading || !aiPrompt.trim()}
                               className="flex-1 py-1 rounded bg-(--purple) text-black text-[9px] disabled:opacity-50"
                             >
