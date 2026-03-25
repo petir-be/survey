@@ -29,22 +29,22 @@ function getItemComponent(item) {
       title === "Contact"
         ? "What is your contact information?"
         : title === "Multiple Choice"
-        ? "Select one option:"
-        : "Enter your question here",
+          ? "Select one option:"
+          : "Enter your question here",
 
     type:
       title === "Contact"
         ? "contact"
         : title === "Multiple Choice"
-        ? "multiple_choice"
-        : "text",
+          ? "multiple_choice"
+          : "text",
 
     order: 0,
 
     options: title === "Multiple Choice" ? ["Option 1", "Option 2"] : undefined,
   };
-  const mockUpdate = () => {};
-  const mockDelete = () => {};
+  const mockUpdate = () => { };
+  const mockDelete = () => { };
 
   if (title === "Multiple Choice") {
     return (
@@ -180,6 +180,9 @@ export default function CustomDragLayer() {
 
   if (!isDragging || !currentOffset) return null;
 
+  const component = getItemComponent(item);
+  if (!component) return null;
+
   const style = {
     position: "fixed",
     pointerEvents: "none",
@@ -204,7 +207,7 @@ export default function CustomDragLayer() {
             opacity: 1,
           }}
         >
-          {getItemComponent(item)}
+          {component}
         </div>
       </motion.div>
     </div>

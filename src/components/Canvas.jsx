@@ -18,61 +18,62 @@ function Canvas({
 }) {
   const [, dropRef] = useDrop({
     accept: "PALETTE_ITEM",
-    drop: (item) => {
+    drop: (item, monitor) => {
+      if (monitor.didDrop()) return;
       onDropElement(item);
     },
     collect: () => ({}),
   });
- const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 822px)" });
+  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 822px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 821px)" });
   return (
     <>
-    {isDesktopOrLaptop &&
-      <>
-    <div
-      ref={dropRef}
-      className="h-full w-full flex justify-center items-center flex-col overflow-auto mb-20"
-    >
-      <CustomDragLayer />
-     
-      <Page
-        questions={questions}
-        onInsert={onDropElement}
-        onUpdateQuestion={onUpdateQuestion}
-        onDeleteQuestion={onDeleteQuestion}
-        onDuplicateQuestion={onDuplicateQuestion}
-        onAddPage={onAddPage}
-        onRemovePage={onRemovePage}
-        currentPageIndex={currentPageIndex}
-        pageNumber={pageNumber}
-        totalPages={totalPages}
-        onPageChange={onPageChange}
-      />
-    </div>
-   </> }
-    {isTabletOrMobile &&
-      <>
-    <div
-      ref={dropRef}
-      className="h-full w-full flex justify-center items-center flex-col overflow-auto "
-    >
-      <CustomDragLayer />
-     
-      <Page
-        questions={questions}
-        onInsert={onDropElement}
-        onUpdateQuestion={onUpdateQuestion}
-        onDeleteQuestion={onDeleteQuestion}
-        onDuplicateQuestion={onDuplicateQuestion}
-        onAddPage={onAddPage}
-        onRemovePage={onRemovePage}
-        currentPageIndex={currentPageIndex}
-        pageNumber={pageNumber}
-        totalPages={totalPages}
-        onPageChange={onPageChange}
-      />
-    </div>
-   </> }
+      {isDesktopOrLaptop &&
+        <>
+          <div
+            ref={dropRef}
+            className="h-full w-full flex justify-center items-center flex-col overflow-auto mb-20"
+          >
+            <CustomDragLayer />
+
+            <Page
+              questions={questions}
+              onInsert={onDropElement}
+              onUpdateQuestion={onUpdateQuestion}
+              onDeleteQuestion={onDeleteQuestion}
+              onDuplicateQuestion={onDuplicateQuestion}
+              onAddPage={onAddPage}
+              onRemovePage={onRemovePage}
+              currentPageIndex={currentPageIndex}
+              pageNumber={pageNumber}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+            />
+          </div>
+        </>}
+      {isTabletOrMobile &&
+        <>
+          <div
+            ref={dropRef}
+            className="h-full w-full flex justify-center items-center flex-col overflow-auto "
+          >
+            <CustomDragLayer />
+
+            <Page
+              questions={questions}
+              onInsert={onDropElement}
+              onUpdateQuestion={onUpdateQuestion}
+              onDeleteQuestion={onDeleteQuestion}
+              onDuplicateQuestion={onDuplicateQuestion}
+              onAddPage={onAddPage}
+              onRemovePage={onRemovePage}
+              currentPageIndex={currentPageIndex}
+              pageNumber={pageNumber}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+            />
+          </div>
+        </>}
 
     </>
   );
