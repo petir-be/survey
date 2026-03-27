@@ -136,7 +136,7 @@ function Page({
     <>
       {isDesktopOrLaptop &&
         <>
-          <div className="flex flex-col h-full w-full items-center justify-center gap-2">
+          <div className="mb-5 flex flex-col h-full w-full items-center justify-center gap-2 scrollbar-vscode">
             {/* --- UNCOMMENTED AND FIXED HEADER FOR PAGE DELETION --- */}
             <div className="w-[92%] px-7 mt-4 flex justify-between items-center text-white">
               <h1 className="text-xl text-left font-vagrounded mb-2">
@@ -205,22 +205,26 @@ function Page({
               </div>
             </div>
 
-            <div className="flex flex-row justify-self-center mt-2 pb-2 w-[92%] h-15 items-center  z-10 gap-5">
-              <div className="flex">
+            <div className="flex flex-row mt-2 w-[92%]  items-start z-10 gap-5 ">
+
+
+
+              <div className="flex shrink-0 pt-1">
                 <button
                   onClick={onAddPage}
-                  className="text-white flex items-center w-35 flex-row px-5 gap-2 py-2 mb-1 rounded-md bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 transition-color duration-200 ease-out"
+                  className="text-white flex items-center whitespace-nowrap flex-row px-5 gap-2 py-2 rounded-md bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 transition-color duration-200 ease-out"
                 >
                   <FaPlus fill="" className="fill-white" /> Add page
                 </button>
               </div>
-              <div className="border-l mb-5 border-l-neutral-400" />
-              <div className="flex gap-2 overflow-x-auto items-center px-2 py-2 ">
+              <div className="border-l border-l-neutral-400 h-10" />
+
+              <div className="flex gap-2 items-start px-2 pt-1 pb-3 overflow-x-auto scrollbar-vscode w-full">
                 {Array.from({ length: totalPages }, (_, index) => (
                   <button
                     key={index}
                     onClick={() => onPageChange(index)}
-                    className={`text-white px-4 rounded-md  py-2 min-w-21 justify-center items-center flex font-vagrounded drop-shadow-sm/30 hover:bg-green-700 transition-color duration-200 ease-out ${index === currentPageIndex
+                    className={`text-white flex items-center whitespace-nowrap flex-row px-5 gap-2 py-2 mb-1 rounded-md bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 transition-color duration-200 ease-out ${index === currentPageIndex
                       ? "bg-green-800 ring ring-white"
                       : " ring ring-white inset-shadow-md/10"
                       }`}
@@ -343,22 +347,22 @@ function Page({
               </div>
             </div>
 
-            <div className="flex flex-row justify-self-center mt-2 pb-2 w-[92%] h-15 items-center  z-10 gap-2">
+            <div className="flex flex-row mt-2 w-[92%] h-15 items-center z-10 gap-2">
               <div className="flex">
                 <button
                   onClick={onAddPage}
-                  className="text-white text-[12px] flex items-center  flex-row px-5 gap-2 py-2 mb-1 rounded-md bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 transition-color duration-200 ease-out"
+                  className="text-white whitespace-nowrap text-[16px] flex items-center  flex-row px-5 gap-2 py-2 mb-1 rounded-md bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 transition-color duration-200 ease-out"
                 >
                   <FaPlus fill="" className="fill-white" /> Add page
                 </button>
               </div>
-              <div className="border-l mb-5 border-l-neutral-400" />
-              <div className="flex gap-2 overflow-x-auto items-center px-2 py-2 ">
+              <div className="border-l border-l-neutral-400 h-10" />
+              <div className="flex gap-2 items-start px-2 pt-1 pb-3 overflow-x-auto scrollbar-vscode w-full ">
                 {Array.from({ length: totalPages }, (_, index) => (
                   <button
                     key={index}
                     onClick={() => onPageChange(index)}
-                    className={`text-white text-[12px] px-4 rounded-md  py-2  justify-center items-center flex font-vagrounded drop-shadow-sm/30 hover:bg-green-700 transition-color duration-200 ease-out ${index === currentPageIndex
+                    className={`text-white text-[14px] px-4 rounded-md whitespace-nowrap py-2  justify-center items-center flex font-vagrounded drop-shadow-sm/30 hover:bg-green-700 transition-color duration-200 ease-out ${index === currentPageIndex
                       ? "bg-green-800 ring ring-white"
                       : " ring ring-white inset-shadow-md/10"
                       }`}

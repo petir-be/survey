@@ -791,7 +791,7 @@ function Form() {
                             <span className="bg-(--white) border -z-10 border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-5 rounded"></span>
 
                             {/* Modal Box */}
-                            <div className="font-vagrounded min-w-100 w-80 py-4 px-2 bg-(--white) border border-(--purple) rounded shadow-lg">
+                            <div className="font-vagrounded min-w-100 w-80 py-4 px-2 bg-black text-white border border-green-700 rounded shadow-lg">
                               <div className="gap-1 px-3 flex-col flex">
                                 <p className="text-xl">Share Link</p>
 
@@ -802,12 +802,12 @@ function Form() {
 
                                   <button
                                     onClick={handleCopyButton}
-                                    className="flex items-center justify-center gap-2 text-sm p-2 border-(--purple) bg-(--purple-lighter) hover:bg-[#b099f5] transition-all duration-200 ease-out border-2 rounded-lg px-4"
+                                    className="flex items-center justify-center gap-2 text-sm p-2  bg-green-700 hover:bg-green-800 transition-all duration-200 ease-out border-2 rounded-lg px-4"
                                   >
                                     {copy ? (
                                       <IoIosCheckmarkCircle className="text-xl" />
                                     ) : (
-                                      <FaCopy className="text-xl" />
+                                      <FaCopy className="text-md" />
                                     )}
                                     {copy ? "Copied" : "Copy"}
                                   </button>
@@ -839,20 +839,20 @@ function Form() {
                                 <div className="flex flex-col font-vagrounded flex-1 justify-center gap-3">
                                   <button
                                     onClick={handleCopyQRImage}
-                                    className="flex hover:bg-(--white) transition-all duration-200 ease-out bg-(--dirty-white) justify-center items-center gap-2 text-lg p-2 border-2 border-(--black-lighter) rounded-lg "
+                                    className="flex bg-black hover:bg-[#1e1e1e] transition-all duration-200 ease-out  justify-center items-center gap-2 text-sm p-2 border-2 border-(--black-lighter) rounded-lg "
                                   >
                                     {copyQR ? (
-                                      <IoIosCheckmarkCircle className="text-xl" />
+                                      <IoIosCheckmarkCircle className="text-md" />
                                     ) : (
-                                      <FaCopy className="text-xl" />
+                                      <FaCopy className="text-md" />
                                     )}
                                     {copyQR ? "Copied" : "Copy Code"}
                                   </button>
                                   <button
                                     onClick={handleDownloadQR}
-                                    className="flex bg-(--white) justify-center items-center gap-1 text-lg p-2 border-2 border-(--black-lighter) rounded-lg "
+                                    className="flex bg-black hover:bg-[#1e1e1e] justify-center items-center gap-1 text-sm p-2 border-2 border-(--black-lighter) rounded-lg "
                                   >
-                                    <IoDownload className="text-2xl" />
+                                    <IoDownload className="text-lg" />
                                     Download
                                   </button>
                                 </div>
@@ -1162,167 +1162,10 @@ function Form() {
                     </div>
                   </div>
 
-                  <AnimatePresence>
-                    {showMobileLayers && (
-                      <>
-                        {/* Backdrop */}
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 0.4 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="fixed inset-0 bg-black z-40 lg:hidden"
-                          onClick={() => setShowMobileLayers(false)}
-                        />
 
-                        {/* Drawer */}
-                        <motion.div
-                          ref={layersRef}
-                          initial={{ y: "100%" }}
-                          animate={{ y: 0 }}
-                          exit={{ y: "100%" }}
-                          transition={{ duration: 0.25, ease: "easeOut" }}
-                          className="
-          fixed bottom-0 left-0 right-0
-          h-[80vh]
-          bg-(--white)
-          z-50
-          p-6
-          border-t-2 border-(--dirty-white)
-          font-vagrounded
-          lg:hidden
-          flex flex-col
-        "
-                        >
-                          {/* Header */}
-                          <div className="flex items-center justify-between">
-                            <h1 className="text-2xl">Layers</h1>
-                            <button
-                              onClick={() => setShowMobileLayers(false)}
-                              className="text-xl px-3 py-1"
-                            >
-                              ✕
-                            </button>
-                          </div>
-
-                          {/* Content */}
-                          <div className="mt-4 flex-1 overflow-auto">
-                            <Layers
-                              questions={pages[currentPageIndex]?.questions || []}
-                              onReorder={handleReorderQuestions}
-                              onDelete={handleDeleteQuestion}
-                            />
-                          </div>
-                        </motion.div>
-                      </>
-                    )}
-                  </AnimatePresence>
                 </>
               )}
 
-              <AnimatePresence>
-                {showMobileElements && (
-                  <motion.div
-                    initial={{ x: "-100%" }}
-                    animate={{ x: 0 }}
-                    exit={{ x: "-100%" }}
-                    transition={{ duration: 0.25, ease: "easeOut" }}
-                    className="
-        fixed top-0 left-0
-        h-full
-        w-[60%] max-w-[360px]
-        bg-(--white)
-        z-50
-        p-4
-        border-r-2 border-(--dirty-white)
-        font-vagrounded
-        lg:hidden
-        overflow-y-auto
-        pointer-events-auto
-      "
-                  >
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-3">
-                      <h1 className="text-xl">Elements</h1>
-                      <button
-                        onClick={() => setShowMobileElements(false)}
-                        className="text-xl px-3 py-1"
-                      >
-                        ✕
-                      </button>
-                    </div>
-
-                    {/* === CONTENT UNCHANGED === */}
-
-                    <span className="text-gray-500 m-3">Frequently used</span>
-                    <div className="grid grid-cols-3 gap-3 p-2 ">
-                      {types.slice(0, 3).map((type, index) => (
-                        <FormElement
-                          key={index}
-                          bgKulay={"#20B15530"}
-                          foreKulay={"#20B155"}
-                          icon={type.Icon}
-                          title={type.title}
-                        />
-
-                      ))}
-                    </div>
-
-                    <span className="text-gray-500 m-3 mt-5">Display Text</span>
-                    <div className="grid grid-cols-3 gap-3 p-2">
-                      {types.slice(3, 5).map((type, index) => (
-                        <FormElement
-
-                          key={index}
-                          bgKulay={"#52525230"}
-                          foreKulay={"#525252"}
-                          icon={type.Icon}
-                          title={type.title}
-                        />
-                      ))}
-                    </div>
-
-                    <span className="text-gray-500 m-3 mt-5">Choices</span>
-                    <div className="grid grid-cols-3 gap-3 p-2">
-                      {types.slice(5, 11).map((type, index) => (
-                        <FormElement
-                          key={index}
-                          bgKulay={"#CC580530"}
-                          foreKulay={"#CC5805"}
-                          icon={type.Icon}
-                          title={type.title}
-                        />
-                      ))}
-                    </div>
-
-                    <span className="text-gray-500 m-3 mt-5">Text</span>
-                    <div className="grid grid-cols-3 gap-3 p-2">
-                      {types.slice(11, 13).map((type, index) => (
-                        <FormElement
-                          key={index}
-                          bgKulay={"#CC06F930"}
-                          foreKulay={"#CC06F9"}
-                          icon={type.Icon}
-                          title={type.title}
-                        />
-                      ))}
-                    </div>
-
-                    <span className="text-gray-500 m-3 mt-5">Others</span>
-                    <div className="grid grid-cols-3 gap-3 p-2">
-                      {types.slice(13, 17).map((type, index) => (
-                        <FormElement
-                          key={index}
-                          bgKulay={"#F9161630"}
-                          foreKulay={"#F91616"}
-                          icon={type.Icon}
-                          title={type.title}
-                        />
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
 
               <Modal
                 isOpen={showUnpublishModal}
@@ -1885,7 +1728,7 @@ function Form() {
       "
                   >
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-3">
+                    <div className="text-white flex items-center justify-between mb-3">
                       <h1 className="text-xl">Elements</h1>
                       <button
                         onClick={() => setShowMobileElements(false)}
