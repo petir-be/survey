@@ -1044,7 +1044,7 @@ function Form() {
                     id="questions"
                     className="flex-1 w-full flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden min-h-0"              >
                     {/* leftside */}
-                    <div className="w-full lg:w-[20%]  p-2 z-10 bg-black h-auto h-full min-h-0 border-t-1 border-r-1 overflow-y-auto border-(--dirty-white) static max-h-full">                  {/* elements*/}
+                    <div className="w-full lg:w-[20%]  p-6 z-10 bg-black h-auto h-full min-h-0 border-t-1 border-r-1 overflow-y-auto border-(--dirty-white) static max-h-full">                  {/* elements*/}
                       {/* Frequently Used */}
                       <span className="text-gray-500 font-vagrounded m-3">
                         Frequently used
@@ -1131,7 +1131,7 @@ function Form() {
                     </div>
 
                     {/* mid */}
-                    <div className="h-screen  min-h-0 border-2 border-(--dirty-white) py-7 flex flex-col w-full lg:w-[60%]">
+                    <div className="h-screen  border-(--dirty-white) py-4 flex flex-col w-[60%]">
                       <Canvas
                         questions={pages[currentPageIndex].questions}
                         onDropElement={handleDrop}
@@ -1148,17 +1148,17 @@ function Form() {
                     </div>
 
                     {/* right side */}
-                    <div className="flex flex-col relative h-auto lg:h-full w-full lg:w-[20%] bg-black p-7.5 pr-0 min-h-0 border-t-2 lg:border-t-0 lg:border-l-2 border-(--dirty-white) font-vagrounded overflow-auto pb-10">                  <div className="w-full">
+                    <div className="flex flex-col relative h-auto lg:h-full w-full lg:w-[20%] bg-black  p-6 min-h-0 border-t-2 lg:border-t-0 lg:border-l-2 border-(--dirty-white) font-vagrounded overflow-auto pb-10">                  <div className="w-full">
                       <h1 className="text-white text-3xl text-left">Layers</h1>
                     </div>
-                      <div className="w-full mt-4 max-h-10/12 overflow-auto">
+                      <div className="w-full mt-4  overflow-auto">
                         <Layers
                           questions={pages[currentPageIndex]?.questions || []}
                           onReorder={handleReorderQuestions}
                           onDelete={handleDeleteQuestion}
                         />
                       </div>
-                      <div className="flex w-14/15 mt-3 border border-t-(--dirty-white) border-transparent "></div>
+                      <div className="flex w-full mt-3 border border-t-(--dirty-white) border-transparent "></div>
                     </div>
                   </div>
 
@@ -1212,7 +1212,8 @@ function Form() {
           <DndProvider backend={HTML5Backend}>
             <div className="h-dvh w-full bg-black flex flex-col overflow-x-hidden">
 
-              <header className="flex items-center justify-between  pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-6 lg:pr-10 relative z-50 border border-transparent border-b-(--dirty-white)">          {/* {Mobile Hamburger} */}
+              <header className="flex items-center justify-between  pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-6 lg:pr-10 relative z-50 border border-transparent border-b-(--dirty-white)">
+                {/* {Mobile Hamburger} */}
                 <AnimatePresence>
                   {mobileMenuOpen && (
                     <motion.div
@@ -1825,63 +1826,65 @@ function Form() {
                   <div className="flex w-14/15 mt-3 border border-t-(--dirty-white) border-transparent "></div>
                 </div>
             
-
+  */}
               <AnimatePresence>
+                {/* Backdrop */}
                 {showMobileLayers && (
-                  <>
-                
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 0.4 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="fixed inset-0 bg-black z-40 lg:hidden"
-                      onClick={() => setShowMobileLayers(false)}
-                    />
+                  <motion.div
+                    key="layers-backdrop"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.4 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="fixed inset-0 bg-black z-40 lg:hidden"
+                    onClick={() => setShowMobileLayers(false)}
+                  />
+                )}
 
-                   
-                    <motion.div
-                      ref={layersRef}
-                      initial={{ y: "100%" }}
-                      animate={{ y: 0 }}
-                      exit={{ y: "100%" }}
-                      transition={{ duration: 0.25, ease: "easeOut" }}
-                      className="
-          fixed bottom-0 left-0 right-0
-          h-[80vh]
-          bg-(--white)
-          z-50
-          p-6
-          border-t-2 border-(--dirty-white)
-          font-vagrounded
-          lg:hidden
-          flex flex-col
-        "
-                    >
-                     
-                      <div className="flex items-center justify-between">
-                        <h1 className="text-2xl">Layers</h1>
-                        <button
-                          onClick={() => setShowMobileLayers(false)}
-                          className="text-xl px-3 py-1"
-                        >
-                          ✕
-                        </button>
-                      </div>
+                {/* Layers Panel */}
+                {showMobileLayers && (
+                  <motion.div
+                    key="layers-panel"
+                    ref={layersRef}
+                    initial={{ y: "100%" }}
+                    animate={{ y: 0 }}
+                    exit={{ y: "100%" }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
+                    className="
+                      fixed bottom-0 left-0 right-0
+                      h-[80vh]
+                      bg-black
+                      z-50
+                      p-6
+                      border border-white
+                      font-vagrounded
+                      lg:hidden
+                      flex flex-col
+                    "
+                  >
+                    <div className="flex items-center text-white justify-between">
 
-                    
-                      <div className="mt-4 flex-1 overflow-auto">
-                        <Layers
-                          questions={pages[currentPageIndex]?.questions || []}
-                          onReorder={handleReorderQuestions}
-                          onDelete={handleDeleteQuestion}
-                        />
-                      </div>
-                    </motion.div>
-                  </>
+                      <h1 className="text-2xl ">Layers</h1>
+                      <button
+                        onClick={() => setShowMobileLayers(false)}
+                        className="text-xl px-3 py-1"
+                      >
+                        ✕
+                      </button>
+                    </div>
+
+                    <div className="mt-4 flex-1 overflow-auto">
+                      <Layers
+                        questions={pages[currentPageIndex]?.questions || []}
+                        onReorder={handleReorderQuestions}
+                        onDelete={handleDeleteQuestion}
+                      />
+                    </div>
+                  </motion.div>
                 )}
               </AnimatePresence>
-      */}
+
+
               <Modal
                 isOpen={showUnpublishModal}
                 close={() => setShowUnpublishModal(false)}

@@ -64,7 +64,7 @@ export default function LayerItem({ question, index, moveLayer, onDelete }) {
       }}
       exit={{ opacity: 0, scale: 0.5 }}
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
-      className={`relative flex items-center justify-between gap-2 p-3 rounded mb-2 bg-(--white) ring ring-white shadow-[0px_1px_4px_2px_rgba(0,0,0,0.15)] m-2 will-change-transform`}
+      className={`relative flex items-center justify-between gap-2 p-3 rounded mb-2 bg-(--white) ring ring-white shadow-[0px_1px_4px_2px_rgba(0,0,0,0.15)] my-2 will-change-transform`}
     >
       <div className="flex items-center gap-3 flex-1 min-w-0">
         <span

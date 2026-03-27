@@ -18,7 +18,7 @@ function FAQ() {
         <>
           <div
             style={{
-            
+
               width: 100,
               height: 100,
               position: "relative",
@@ -129,7 +129,7 @@ function FAQ() {
 
                 fontFamily: "Arial",
                 color: "white",
-  fontSize: '12px',
+                fontSize: '12px',
               }}
               className="hover:bg-[#1E1E1E] "
             >

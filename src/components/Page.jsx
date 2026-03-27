@@ -138,7 +138,7 @@ function Page({
         <>
           <div className="mb-5 flex flex-col h-full w-full items-center justify-center gap-2 scrollbar-vscode">
             {/* --- UNCOMMENTED AND FIXED HEADER FOR PAGE DELETION --- */}
-            <div className="w-[92%] px-7 mt-4 flex justify-between items-center text-white">
+            <div className="w-[92%] px-7 mt-4   flex justify-between items-center text-white">
               <h1 className="text-xl text-left font-vagrounded mb-2">
                 Page {pageNumber} of {totalPages}
               </h1>
@@ -177,7 +177,7 @@ function Page({
 
             <div
               ref={canvasRef}
-              className="w-[92%] flex flex-col overflow-hidden h-[80%] bg-[#1e1e1e] mt-2 items-center ring ring-white  rounded-[12px] drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] pl-4 "
+              className="w-[92%] flex flex-col overflow-hidden h-[80%] bg-[#1e1e1e] mt-2 items-center ring ring-white  rounded-[12px] drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] "
             >
               <div className="relative flex flex-col overflow-y-auto h-full w-full">
                 {questions.length === 0 && (
@@ -319,7 +319,7 @@ function Page({
 
             <div
               ref={canvasRef}
-              className="w-[92%] flex flex-col overflow-hidden h-full bg-[#1e1e1e] mt-2 items-center ring ring-white  rounded-[12px] drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] pl-4 "
+              className="w-[92%] flex flex-col overflow-hidden h-full bg-[#1e1e1e] mt-2 items-center ring ring-white  rounded-[12px] drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]  "
             >
               <div className="relative flex flex-col overflow-y-auto h-full w-full">
                 {questions.length === 0 && (

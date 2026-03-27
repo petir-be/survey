@@ -22,16 +22,16 @@ function Footer() {
   const cycleStarted = useRef(false);  // whether cycle actually began
   const nameIndexRef = useRef(0);      // current name index
 
-  // Mouse enter: start a 3s timer to begin cycling. Do NOT touch UI immediately.
+  //  start a 3s timer to begin cycling. Do NOT touch UI immediately.
   const handleMouseEnter = () => {
-    // guard: if already started, don't start another timer
+    //  if already started, don't start another timer
     if (cycleStarted.current || timeoutRef.current) return;
 
     timeoutRef.current = setTimeout(() => {
       cycleStarted.current = true;
       nameIndexRef.current = 0;
 
-      // start immediate first change so user sees the first name after 3s
+      // immediate first change so user sees the first name after 3s
       setFadeClass("opacity-0");
       setTimeout(() => {
         setDisplayText(names[nameIndexRef.current]);
@@ -39,7 +39,7 @@ function Footer() {
         nameIndexRef.current = (nameIndexRef.current + 1) % names.length;
       }, 300); // allow fade-out to complete before switching
 
-      // then continue cycling every 2s (including fade time)
+      //  continue cycling every 2s (including fade time)
       intervalRef.current = setInterval(() => {
         setFadeClass("opacity-0");
         setTimeout(() => {
@@ -51,7 +51,7 @@ function Footer() {
     }, 3000);
   };
 
-  // Mouse leave: if cycle never started, cancel the 3s timer and do nothing.
+  // if cycle never started, cancel the 3s timer and do nothing.
   // If cycle started, stop it and fade back to default text.
   const handleMouseLeave = () => {
     // Cancel the pending 3s timer if it exists (no UI change in that case)
@@ -94,9 +94,10 @@ function Footer() {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <p className={`transition-opacity duration-300 ${fadeClass}`}>
+            <button onClick={() => window.open('https://www.facebook.com/profile.php?id=61577425593666', '_blank', 'noopener,noreferrer')}
+              className={`transition-opacity duration-300 ${fadeClass}`}>
               {displayText}
-            </p>
+            </button>
           </footer>
         </>
       }
@@ -108,9 +109,10 @@ function Footer() {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <p className={`transition-opacity duration-300 ${fadeClass}`}>
-              {displayText}
-            </p>
+            <button onClick={() => window.open('https://www.facebook.com/profile.php?id=61577425593666', '_blank', 'noopener,noreferrer')}
+              className={`transition-opacity duration-300 ${fadeClass}`}>          
+                  {displayText}
+            </button>
           </footer>
         </>
       }
