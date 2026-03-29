@@ -45,8 +45,8 @@ import Loading from "../components/Loading";
 import { useMediaQuery } from "react-responsive";
 
 function Form() {
-  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 822px)" });
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 821px)" });
+  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1024px)" });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1023px)" });
   const [showRightSidebar, setShowRightSidebar] = useState(true);
   const { user, isAuthenticated } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState('questions');
@@ -575,8 +575,7 @@ function Form() {
   // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------
   function handleCopyButton() {
     // navigator.clipboard.writeText(`https://[websitename]/form/${publicid}`);
-    navigator.clipboard.writeText(`localhost:5173/form/${publicid}`);
-    toast.success("Link copied successfully!");
+    navigator.clipboard.writeText(`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`); toast.success("Link copied successfully!");
     setCopy(true);
   }
 
@@ -776,6 +775,91 @@ function Form() {
                           "Publish"
                         )}
                       </button>
+
+                      <AnimatePresence>
+                        {showPublishModal && (
+                          <motion.div
+                            ref={dropdownRef}
+                            initial={{ opacity: 0, scale: 0.6 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.7 }}
+                            transition={{ duration: 0.18, ease: "easeOut" }}
+                            style={{ transformOrigin: "top right" }}
+                            className="absolute top-12 right-0 z-50"
+                          >
+                            {/* Pointer triangle */}
+                            <span className="bg-(--white) border -z-10 border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-5 rounded"></span>
+
+                            {/* Modal Box */}
+                            <div className="font-vagrounded min-w-100 w-80 py-4 px-2 bg-black text-white border border-green-700 rounded shadow-lg">
+                              <div className="gap-1 px-3 flex-col flex">
+                                <p className="text-xl">Share Link</p>
+
+                                <div className="flex w-full gap-2 items-center">
+                                  <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-lg p-2 truncate">
+                                    {`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`}
+                                  </p>
+
+                                  <button
+                                    onClick={handleCopyButton}
+                                    className="flex items-center justify-center gap-2 text-sm p-2  bg-green-700 hover:bg-green-800 transition-all duration-200 ease-out border-2 rounded-lg px-4"
+                                  >
+                                    {copy ? (
+                                      <IoIosCheckmarkCircle className="text-xl" />
+                                    ) : (
+                                      <FaCopy className="text-md" />
+                                    )}
+                                    {copy ? "Copied" : "Copy"}
+                                  </button>
+                                </div>
+                              </div>
+
+                              <div className="flex items-center justify-center gap-4 px-3 my-2">
+                                <hr className="flex-1 border-gray-400" />
+                                <p className="text-sm text-gray-500 font-vagrounded">
+                                  or
+                                </p>
+                                <hr className="flex-1 border-gray-400" />
+                              </div>
+                              <p className="px-3 text-xl font-vagrounded">
+                                Get the QR Code
+                              </p>
+                              <p className="px-3 text-gray-500 text-sm font-vagrounded">
+                                Scan the code to launch your form
+                              </p>
+
+                              {/* // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------  */}
+                              <div className="flex px-3 mt-3 gap-2 ">
+                                <QRCodeCanvas
+                                  bgColor="#dfe0f0"
+                                  value={`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`} size={220}
+                                  ref={qrCodeRef}
+                                />
+                                <div className="flex flex-col font-vagrounded flex-1 justify-center gap-3">
+                                  <button
+                                    onClick={handleCopyQRImage}
+                                    className="flex bg-black hover:bg-[#1e1e1e] transition-all duration-200 ease-out  justify-center items-center gap-2 text-sm p-2 border-2 border-(--black-lighter) rounded-lg "
+                                  >
+                                    {copyQR ? (
+                                      <IoIosCheckmarkCircle className="text-md" />
+                                    ) : (
+                                      <FaCopy className="text-md" />
+                                    )}
+                                    {copyQR ? "Copied" : "Copy Code"}
+                                  </button>
+                                  <button
+                                    onClick={handleDownloadQR}
+                                    className="flex bg-black hover:bg-[#1e1e1e] justify-center items-center gap-1 text-sm p-2 border-2 border-(--black-lighter) rounded-lg "
+                                  >
+                                    <IoDownload className="text-lg" />
+                                    Download
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
                   </div>
@@ -810,7 +894,7 @@ function Form() {
                                   <MdPreview className="text-2xl" />
                                   <span className="flex flex-col text-[16px] ">
                                     Allow Users to Review
-                                    <span className="text-xs">
+                                    <span className="text-[12px]">
                                       Let users review their answers before submission
                                     </span>
                                   </span>
@@ -859,7 +943,7 @@ function Form() {
                                   <BiSelectMultiple className="text-2xl" />
                                   <span className="flex flex-col text-[16px] ">
                                     Multiple Submission
-                                    <span className="text-xs">
+                                    <span className="text-[12px]">
                                       Allows user to answer multiple times
                                     </span>
                                   </span>
@@ -916,10 +1000,10 @@ function Form() {
                                   }`}
                               >
                                 <span className="text-lg flex gap-2 items-center font-vagrounded">
-                                  <BsFillSendXFill className="text-2xl font-bold" />
+                                  <BsFillSendXFill className="text-xl font-bold" />
                                   <span className="flex flex-col text-[16px]">
                                     Unpublish Form
-                                    <span className="text-xs">
+                                    <span className="text-[12px]">
                                       The form will no longer be visible to
                                       responders.
                                     </span>
@@ -960,7 +1044,7 @@ function Form() {
                     id="questions"
                     className="flex-1 w-full flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden min-h-0 scrollbar-vscode"              >
                     {/* leftside */}
-                    <div className="w-full lg:w-[20%]  p-6 z-10 bg-black h-auto h-full min-h-0 border-t-1 border-r-1 overflow-y-auto border-(--dirty-white) static max-h-full">                  {/* elements*/}
+                    <div className="w-[20%]  p-6 z-10 bg-black h-auto h-full min-h-0 border-t-1 border-r-1 overflow-y-auto border-(--dirty-white) static max-h-full">                  {/* elements*/}
                       {/* Frequently Used */}
                       <span className="text-gray-500 font-vagrounded m-3">
                         Frequently used
@@ -1332,91 +1416,7 @@ function Form() {
                           "Publish"
                         )}
                       </button></div>
-                    <AnimatePresence>
-                      {showPublishModal && (
-                        <motion.div
-                          ref={dropdownRef}
-                          initial={{ opacity: 0, scale: 0.6 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.7 }}
-                          transition={{ duration: 0.18, ease: "easeOut" }}
-                          style={{ transformOrigin: "top right" }}
-                          className="absolute top-12 right-0 z-50"
-                        >
-                          {/* Pointer triangle */}
-                          <span className="bg-(--white) border -z-10 border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-5 rounded"></span>
 
-                          {/* Modal Box */}
-                          <div className="font-vagrounded min-w-100 w-80 py-4 px-2 bg-(--white) border border-(--purple) rounded shadow-lg">
-                            <div className="gap-1 px-3 flex-col flex">
-                              <p className="text-xl">Share Link</p>
-
-                              <div className="flex w-full gap-2 items-center">
-                                <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-lg p-2 truncate">
-                                  {`localhost:5173/form/${publicid}`}
-                                </p>
-
-                                <button
-                                  onClick={handleCopyButton}
-                                  className="flex items-center justify-center gap-2 text-sm p-2 border-(--purple) bg-(--purple-lighter) hover:bg-[#b099f5] transition-all duration-200 ease-out border-2 rounded-lg px-4"
-                                >
-                                  {copy ? (
-                                    <IoIosCheckmarkCircle className="text-xl" />
-                                  ) : (
-                                    <FaCopy className="text-xl" />
-                                  )}
-                                  {copy ? "Copied" : "Copy"}
-                                </button>
-                              </div>
-                            </div>
-
-                            <div className="flex items-center justify-center gap-4 px-3 my-2">
-                              <hr className="flex-1 border-gray-400" />
-                              <p className="text-sm text-gray-500 font-vagrounded">
-                                or
-                              </p>
-                              <hr className="flex-1 border-gray-400" />
-                            </div>
-                            <p className="px-3 text-xl font-vagrounded">
-                              Get the QR Code
-                            </p>
-                            <p className="px-3 text-gray-500 text-sm font-vagrounded">
-                              Scan the code to launch your form
-                            </p>
-
-                            {/* // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------  */}
-                            <div className="flex px-3 mt-3 gap-2 ">
-                              <QRCodeCanvas
-                                bgColor="#dfe0f0"
-                                value={`localhost:5173/form/${publicid}`}
-                                size={220}
-                                ref={qrCodeRef}
-                              />
-                              <div className="flex flex-col font-vagrounded flex-1 justify-center gap-3">
-                                <button
-                                  onClick={handleCopyQRImage}
-                                  className="flex hover:bg-(--white) transition-all duration-200 ease-out bg-(--dirty-white) justify-center items-center gap-2 text-lg p-2 border-2 border-(--black-lighter) rounded-lg "
-                                >
-                                  {copyQR ? (
-                                    <IoIosCheckmarkCircle className="text-xl" />
-                                  ) : (
-                                    <FaCopy className="text-xl" />
-                                  )}
-                                  {copyQR ? "Copied" : "Copy Code"}
-                                </button>
-                                <button
-                                  onClick={handleDownloadQR}
-                                  className="flex bg-(--white) justify-center items-center gap-1 text-lg p-2 border-2 border-(--black-lighter) rounded-lg "
-                                >
-                                  <IoDownload className="text-2xl" />
-                                  Download
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
                   </div>
 
                   <div className="relative">
@@ -1446,10 +1446,10 @@ function Form() {
                             <div className="flex flex-col w-full gap-2">
                               <div className="w-full px-3 py-2 hover:bg-[#1e1e1e] flex items-center justify-between">
                                 <span className="text-lg flex gap-2 items-center font-vagrounded">
-                                  <MdPreview className="text-3xl" />
-                                  <span className="flex flex-col">
+                                  <MdPreview className="text-2xl" />
+                                  <span className="text-[16px] flex flex-col">
                                     Allow users to Review
-                                    <span className="text-xs">
+                                    <span className="text-[10px] ">
                                       Let users review their answers before submission
                                     </span>
                                   </span>
@@ -1495,10 +1495,10 @@ function Form() {
                               {/* Multiple Submission */}
                               <div className="w-full px-3 py-2 hover:bg-[#1e1e1e] flex items-center justify-between">
                                 <span className="text-lg flex gap-2 items-center font-vagrounded">
-                                  <BiSelectMultiple className="text-3xl" />
-                                  <span className="flex flex-col">
+                                  <BiSelectMultiple className="text-2xl" />
+                                  <span className="text-[16px] flex flex-col">
                                     Multiple Submission
-                                    <span className="text-xs">
+                                    <span className="text-[10px]">
                                       Allows user to answer multiple times
                                     </span>
                                   </span>
@@ -1555,10 +1555,10 @@ function Form() {
                                   }`}
                               >
                                 <span className="text-lg flex gap-2 items-center font-vagrounded">
-                                  <BsFillSendXFill className="text-2xl font-bold" />
-                                  <span className="flex flex-col">
+                                  <BsFillSendXFill className="text-xl font-bold" />
+                                  <span className="text-[16px] flex flex-col">
                                     Unpublish Form
-                                    <span className="text-xs">
+                                    <span className="text-[10px]">
                                       The form will no longer be visible to
                                       responders.
                                     </span>
@@ -1838,93 +1838,116 @@ function Form() {
           </DndProvider>
           <AnimatePresence>
             {showPublishModal && (
-              <motion.div
-                ref={dropdownRef}
-                initial={{ opacity: 0, scale: 0.6 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.7 }}
-                transition={{ duration: 0.18, ease: "easeOut" }}
-                style={{ transformOrigin: "top right" }}
-                className="absolute top-12 right-0 z-50"
-              >
-                {/* Pointer triangle */}
-                <span className="bg-(--white) border -z-10 border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-5 rounded"></span>
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                {/* 1. Backdrop Overlay */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setShowPublishModal(false)} // Close when clicking outside
+                  className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                />
 
-                {/* Modal Box */}
-                <div className="font-vagrounded min-w-100 w-80 py-4 px-2 bg-black text-white border border-green-700 rounded shadow-lg">
-                  <div className="gap-1 px-3 flex-col flex">
-                    <p className="text-xl">Share Link</p>
+                {/* 2. Modal Content */}
+                <motion.div
+                  ref={dropdownRef}
+                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="relative z-10 w-full max-w-md"
+                >
+                  {/* Modal Box */}
+                  <div className="font-vagrounded py-6 px-2 bg-black text-white border border-green-700 rounded-2xl shadow-2xl">
 
-                    <div className="flex w-full gap-2 items-center">
-                      <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-lg p-2 truncate">
-                        {`localhost:5173/form/${publicid}`}
+                    {/* Close Button (X) */}
+                    <button
+                      onClick={() => setShowPublishModal(false)}
+                      className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+
+                    <div className="gap-1 px-3 flex-col flex">
+                      <p className="text-2xl mb-2">Share Link</p>
+
+                      <div className="flex w-full gap-2 items-center">
+                        <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-zinc-800 rounded-lg p-2 truncate bg-zinc-900">
+                          {`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`}
+                        </p>
+
+                        <button
+                          onClick={handleCopyButton}
+                          className="flex items-center justify-center gap-2 text-sm p-2  bg-green-700 hover:bg-green-800 transition-all duration-200 ease-out border-2 rounded-lg px-4"
+                        >
+                          {copy ? (
+                            <IoIosCheckmarkCircle className="text-xl" />
+                          ) : (
+                            <FaCopy className="text-md" />
+                          )}
+                          {copy ? "Copied" : "Copy"}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-4 px-3 my-6">
+                      <hr className="flex-1 border-zinc-700" />
+                      <p className="text-sm text-gray-500 font-vagrounded uppercase tracking-widest">
+                        or
                       </p>
-
-                      <button
-                        onClick={handleCopyButton}
-                        className="flex items-center justify-center gap-2 text-sm p-2  bg-green-700 hover:bg-green-800 transition-all duration-200 ease-out border-2 rounded-lg px-4"
-                      >
-                        {copy ? (
-                          <IoIosCheckmarkCircle className="text-xl" />
-                        ) : (
-                          <FaCopy className="text-md" />
-                        )}
-                        {copy ? "Copied" : "Copy"}
-                      </button>
+                      <hr className="flex-1 border-zinc-700" />
                     </div>
-                  </div>
 
-                  <div className="flex items-center justify-center gap-4 px-3 my-2">
-                    <hr className="flex-1 border-gray-400" />
-                    <p className="text-sm text-gray-500 font-vagrounded">
-                      or
+                    <p className="px-3 text-2xl font-vagrounded">
+                      Get the QR Code
                     </p>
-                    <hr className="flex-1 border-gray-400" />
-                  </div>
-                  <p className="px-3 text-xl font-vagrounded">
-                    Get the QR Code
-                  </p>
-                  <p className="px-3 text-gray-500 text-sm font-vagrounded">
-                    Scan the code to launch your form
-                  </p>
+                    <p className="px-3 text-gray-400 text-sm font-vagrounded mb-4">
+                      Scan the code to launch your form
+                    </p>
 
-                  {/* // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------  */}
-                  <div className="flex px-3 mt-3 gap-2 ">
-                    <QRCodeCanvas
-                      bgColor="#dfe0f0"
-                      value={`localhost:5173/form/${publicid}`}
-                      size={220}
-                      ref={qrCodeRef}
-                    />
-                    <div className="flex flex-col font-vagrounded flex-1 justify-center gap-3">
-                      <button
-                        onClick={handleCopyQRImage}
-                        className="flex bg-black hover:bg-[#1e1e1e] transition-all duration-200 ease-out  justify-center items-center gap-2 text-sm p-2 border-2 border-(--black-lighter) rounded-lg "
-                      >
-                        {copyQR ? (
-                          <IoIosCheckmarkCircle className="text-md" />
-                        ) : (
-                          <FaCopy className="text-md" />
-                        )}
-                        {copyQR ? "Copied" : "Copy Code"}
-                      </button>
-                      <button
-                        onClick={handleDownloadQR}
-                        className="flex bg-black hover:bg-[#1e1e1e] justify-center items-center gap-1 text-sm p-2 border-2 border-(--black-lighter) rounded-lg "
-                      >
-                        <IoDownload className="text-lg" />
-                        Download
-                      </button>
+                    <div className="flex flex-col sm:flex-row px-3 gap-4 items-center">
+                      <div className="p-2 bg-white rounded-xl">
+                        <QRCodeCanvas
+                          bgColor="#ffffff"
+                          value={`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`} size={180}
+                          ref={qrCodeRef}
+                        />
+                      </div>
+
+                      <div className="flex flex-col font-vagrounded w-full flex-1 justify-center gap-3">
+                        <button
+                          onClick={handleCopyQRImage}
+                          className={`flex transition-all duration-200 ease-out justify-center items-center gap-2 text-sm p-2 border-2 border-(--black-lighter) rounded-lg 
+    ${copyQR ? "bg-[#1e1e1e]" : "bg-black hover:bg-[#1e1e1e]"}`}
+                        >
+                          {copyQR ? (
+                            <IoIosCheckmarkCircle className="text-md " />
+                          ) : (
+                            <FaCopy className="text-md" />
+                          )}
+                          {copyQR ? " Copied" : "Copy Code"}
+                        </button>
+                        <button
+                          onClick={handleDownloadQR}
+                          className="flex bg-black hover:bg-[#1e1e1e] justify-center items-center gap-1 text-sm p-2 border-2 border-(--black-lighter) rounded-lg "
+                        >
+                          <IoDownload className="text-lg" />
+                          Download
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </div>
             )}
           </AnimatePresence>
         </>
 
 
       }
+
     </>
   );
 }
