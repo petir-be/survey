@@ -1,15 +1,12 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { AnimatePresence, motion } from "motion/react";
-
 export default function Modal({ isOpen, close, title, children, dialogbox }) {
   return (
     <Dialog open={isOpen} onClose={close} className="relative z-50">
       <div className="fixed inset-0 backdrop-blur-sm" aria-hidden="true" />
-      <div
-        className={`fixed z-50 flex items-center justify-center p-4 ${
-          dialogbox ? "inset-0" : "w-1/3 top-50 right-1/2 translate-x-1/2"
-        }`}
-      >
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 text-center">
+
+
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -17,7 +14,7 @@ export default function Modal({ isOpen, close, title, children, dialogbox }) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0 }}
               key="box"
-              className="w-full max-w-md"
+              className="w-full text-left max-w-md px-6 sm:px-0"
             >
               <DialogPanel className="rounded-xl bg-[#DFE0F0] border border-white p-6 backdrop-blur-2xl min-h-[150px] shadow-lg">
                 <DialogTitle className="text-lg font-medium text-gray-900">
@@ -31,4 +28,5 @@ export default function Modal({ isOpen, close, title, children, dialogbox }) {
       </div>
     </Dialog>
   );
+
 }

@@ -762,8 +762,8 @@ function Form() {
                         onClick={PublishForm}
                         disabled={shareLoading}
                         ref={triggerRef}
-                        className="flex text-white items-center gap-2 px-7 py-1.5 rounded-xl bg-green-700 ring ring-green-700
-              inset-shadow-lg/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 ease duration-200 hover:ring-green-800
+                        className="flex text-white items-center gap-2 px-7 py-1.5 rounded-xl bg-green-700 ring ring-white
+              inset-shadow-lg/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 ease duration-200 hover:ring-white
               disabled:opacity-60"
                       >
                         {shareLoading ? (
@@ -776,91 +776,7 @@ function Form() {
                           "Publish"
                         )}
                       </button>
-                      <AnimatePresence>
-                        {showPublishModal && (
-                          <motion.div
-                            ref={dropdownRef}
-                            initial={{ opacity: 0, scale: 0.6 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.7 }}
-                            transition={{ duration: 0.18, ease: "easeOut" }}
-                            style={{ transformOrigin: "top right" }}
-                            className="absolute top-12 right-0 z-50"
-                          >
-                            {/* Pointer triangle */}
-                            <span className="bg-(--white) border -z-10 border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-5 rounded"></span>
-
-                            {/* Modal Box */}
-                            <div className="font-vagrounded min-w-100 w-80 py-4 px-2 bg-black text-white border border-green-700 rounded shadow-lg">
-                              <div className="gap-1 px-3 flex-col flex">
-                                <p className="text-xl">Share Link</p>
-
-                                <div className="flex w-full gap-2 items-center">
-                                  <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-lg p-2 truncate">
-                                    {`localhost:5173/form/${publicid}`}
-                                  </p>
-
-                                  <button
-                                    onClick={handleCopyButton}
-                                    className="flex items-center justify-center gap-2 text-sm p-2  bg-green-700 hover:bg-green-800 transition-all duration-200 ease-out border-2 rounded-lg px-4"
-                                  >
-                                    {copy ? (
-                                      <IoIosCheckmarkCircle className="text-xl" />
-                                    ) : (
-                                      <FaCopy className="text-md" />
-                                    )}
-                                    {copy ? "Copied" : "Copy"}
-                                  </button>
-                                </div>
-                              </div>
-
-                              <div className="flex items-center justify-center gap-4 px-3 my-2">
-                                <hr className="flex-1 border-gray-400" />
-                                <p className="text-sm text-gray-500 font-vagrounded">
-                                  or
-                                </p>
-                                <hr className="flex-1 border-gray-400" />
-                              </div>
-                              <p className="px-3 text-xl font-vagrounded">
-                                Get the QR Code
-                              </p>
-                              <p className="px-3 text-gray-500 text-sm font-vagrounded">
-                                Scan the code to launch your form
-                              </p>
-
-                              {/* // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------  */}
-                              <div className="flex px-3 mt-3 gap-2 ">
-                                <QRCodeCanvas
-                                  bgColor="#dfe0f0"
-                                  value={`localhost:5173/form/${publicid}`}
-                                  size={220}
-                                  ref={qrCodeRef}
-                                />
-                                <div className="flex flex-col font-vagrounded flex-1 justify-center gap-3">
-                                  <button
-                                    onClick={handleCopyQRImage}
-                                    className="flex bg-black hover:bg-[#1e1e1e] transition-all duration-200 ease-out  justify-center items-center gap-2 text-sm p-2 border-2 border-(--black-lighter) rounded-lg "
-                                  >
-                                    {copyQR ? (
-                                      <IoIosCheckmarkCircle className="text-md" />
-                                    ) : (
-                                      <FaCopy className="text-md" />
-                                    )}
-                                    {copyQR ? "Copied" : "Copy Code"}
-                                  </button>
-                                  <button
-                                    onClick={handleDownloadQR}
-                                    className="flex bg-black hover:bg-[#1e1e1e] justify-center items-center gap-1 text-sm p-2 border-2 border-(--black-lighter) rounded-lg "
-                                  >
-                                    <IoDownload className="text-lg" />
-                                    Download
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence></div>
+                    </div>
 
                   </div>
 
@@ -1042,7 +958,7 @@ function Form() {
                 <>
                   <div
                     id="questions"
-                    className="flex-1 w-full flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden min-h-0"              >
+                    className="flex-1 w-full flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden min-h-0 scrollbar-vscode"              >
                     {/* leftside */}
                     <div className="w-full lg:w-[20%]  p-6 z-10 bg-black h-auto h-full min-h-0 border-t-1 border-r-1 overflow-y-auto border-(--dirty-white) static max-h-full">                  {/* elements*/}
                       {/* Frequently Used */}
@@ -1126,7 +1042,7 @@ function Form() {
                             icon={type.Icon}
                             title={type.title}
                           />
-                        ))}c
+                        ))}
                       </div>
                     </div>
 
@@ -1151,7 +1067,7 @@ function Form() {
                     <div className="flex flex-col relative h-auto lg:h-full w-full lg:w-[20%] bg-black  p-6 min-h-0 border-t-2 lg:border-t-0 lg:border-l-2 border-(--dirty-white) font-vagrounded overflow-auto pb-10">                  <div className="w-full">
                       <h1 className="text-white text-3xl text-left">Layers</h1>
                     </div>
-                      <div className="w-full mt-4  overflow-auto">
+                      <div className="w-full mt-4 ">
                         <Layers
                           questions={pages[currentPageIndex]?.questions || []}
                           onReorder={handleReorderQuestions}
@@ -1526,15 +1442,15 @@ function Form() {
                           className="absolute top-11 right-0 z-50"
                         >
                           <span className="bg-black -z-10 border border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
-                          <div className="min-w-50 w-83 py-3 z-10 bg-(--white) border border-(--purple) rounded shadow-lg">
+                          <div className="min-w-50 w-83 py-3 z-10 bg-black border border-green-700 text-white rounded shadow-lg">
                             <div className="flex flex-col w-full gap-2">
                               <div className="w-full px-3 py-2 hover:bg-[#1e1e1e] flex items-center justify-between">
                                 <span className="text-lg flex gap-2 items-center font-vagrounded">
                                   <MdPreview className="text-3xl" />
                                   <span className="flex flex-col">
-                                    Review Page
+                                    Allow users to Review
                                     <span className="text-xs">
-                                      Let users review their submission
+                                      Let users review their answers before submission
                                     </span>
                                   </span>
                                 </span>
@@ -1545,8 +1461,8 @@ function Form() {
                                     width: 45,
                                     height: 21,
                                     backgroundColor: hasReviewPage
-                                      ? "#9911ff"
-                                      : "#ccc",
+                                      ? "green"
+                                      : "gray",
                                     borderRadius: 30,
                                     cursor: "pointer",
                                     display: "flex",
@@ -1577,7 +1493,7 @@ function Form() {
                               </div>
 
                               {/* Multiple Submission */}
-                              <div className="w-full px-3 py-2 hover:bg-(--dirty-white) flex items-center justify-between">
+                              <div className="w-full px-3 py-2 hover:bg-[#1e1e1e] flex items-center justify-between">
                                 <span className="text-lg flex gap-2 items-center font-vagrounded">
                                   <BiSelectMultiple className="text-3xl" />
                                   <span className="flex flex-col">
@@ -1594,8 +1510,8 @@ function Form() {
                                     width: 45,
                                     height: 21,
                                     backgroundColor: allowMultipleSubmissionsValue
-                                      ? "#9911ff"
-                                      : "#ccc",
+                                      ? "green"
+                                      : "gray",
                                     borderRadius: 30,
                                     cursor: "pointer",
                                     display: "flex",
@@ -1726,6 +1642,7 @@ function Form() {
         lg:hidden
         overflow-y-auto
         pointer-events-auto
+        scrollbar-vscode
       "
                   >
                     {/* Header */}
@@ -1860,6 +1777,7 @@ function Form() {
                       font-vagrounded
                       lg:hidden
                       flex flex-col
+                      scrollbar-vscode
                     "
                   >
                     <div className="flex items-center text-white justify-between">
@@ -1889,6 +1807,7 @@ function Form() {
                 isOpen={showUnpublishModal}
                 close={() => setShowUnpublishModal(false)}
                 title="Unpublish form"
+
               >
                 <p>
                   The form will no longer be visible to responders. Responders will
@@ -1917,7 +1836,95 @@ function Form() {
 
             </div>
           </DndProvider>
-        </>}
+          <AnimatePresence>
+            {showPublishModal && (
+              <motion.div
+                ref={dropdownRef}
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.7 }}
+                transition={{ duration: 0.18, ease: "easeOut" }}
+                style={{ transformOrigin: "top right" }}
+                className="absolute top-12 right-0 z-50"
+              >
+                {/* Pointer triangle */}
+                <span className="bg-(--white) border -z-10 border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-5 rounded"></span>
+
+                {/* Modal Box */}
+                <div className="font-vagrounded min-w-100 w-80 py-4 px-2 bg-black text-white border border-green-700 rounded shadow-lg">
+                  <div className="gap-1 px-3 flex-col flex">
+                    <p className="text-xl">Share Link</p>
+
+                    <div className="flex w-full gap-2 items-center">
+                      <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-lg p-2 truncate">
+                        {`localhost:5173/form/${publicid}`}
+                      </p>
+
+                      <button
+                        onClick={handleCopyButton}
+                        className="flex items-center justify-center gap-2 text-sm p-2  bg-green-700 hover:bg-green-800 transition-all duration-200 ease-out border-2 rounded-lg px-4"
+                      >
+                        {copy ? (
+                          <IoIosCheckmarkCircle className="text-xl" />
+                        ) : (
+                          <FaCopy className="text-md" />
+                        )}
+                        {copy ? "Copied" : "Copy"}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-center gap-4 px-3 my-2">
+                    <hr className="flex-1 border-gray-400" />
+                    <p className="text-sm text-gray-500 font-vagrounded">
+                      or
+                    </p>
+                    <hr className="flex-1 border-gray-400" />
+                  </div>
+                  <p className="px-3 text-xl font-vagrounded">
+                    Get the QR Code
+                  </p>
+                  <p className="px-3 text-gray-500 text-sm font-vagrounded">
+                    Scan the code to launch your form
+                  </p>
+
+                  {/* // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------  */}
+                  <div className="flex px-3 mt-3 gap-2 ">
+                    <QRCodeCanvas
+                      bgColor="#dfe0f0"
+                      value={`localhost:5173/form/${publicid}`}
+                      size={220}
+                      ref={qrCodeRef}
+                    />
+                    <div className="flex flex-col font-vagrounded flex-1 justify-center gap-3">
+                      <button
+                        onClick={handleCopyQRImage}
+                        className="flex bg-black hover:bg-[#1e1e1e] transition-all duration-200 ease-out  justify-center items-center gap-2 text-sm p-2 border-2 border-(--black-lighter) rounded-lg "
+                      >
+                        {copyQR ? (
+                          <IoIosCheckmarkCircle className="text-md" />
+                        ) : (
+                          <FaCopy className="text-md" />
+                        )}
+                        {copyQR ? "Copied" : "Copy Code"}
+                      </button>
+                      <button
+                        onClick={handleDownloadQR}
+                        className="flex bg-black hover:bg-[#1e1e1e] justify-center items-center gap-1 text-sm p-2 border-2 border-(--black-lighter) rounded-lg "
+                      >
+                        <IoDownload className="text-lg" />
+                        Download
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </>
+
+
+      }
     </>
   );
 }
