@@ -575,7 +575,9 @@ function Form() {
   // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------
   function handleCopyButton() {
     // navigator.clipboard.writeText(`https://[websitename]/form/${publicid}`);
-    navigator.clipboard.writeText(`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`); toast.success("Link copied successfully!");
+    //navigator.clipboard.writeText(`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`); 
+    navigator.clipboard.writeText(`localhost:5173/form/${publicid}`);
+    toast.success("Link copied successfully!");
     setCopy(true);
   }
 
@@ -766,7 +768,7 @@ function Form() {
               disabled:opacity-60"
                       >
                         {shareLoading ? (
-                          <span className="w-6 h-6 border-2 border-(--purple) border-t-transparent rounded-full animate-spin"></span>
+                          <span className="w-6 h-6 border-2 border-green-700 border-t-transparent rounded-full animate-spin"></span>
                         ) : isPublished ? (
                           <>
                             <IoShareSocialSharp className="text-lg" /> Share
@@ -797,7 +799,8 @@ function Form() {
 
                                 <div className="flex w-full gap-2 items-center">
                                   <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-lg p-2 truncate">
-                                    {`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`}
+                                  {/*   {`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`}*/}
+                                    {`localhost:5173/form/${publicid}`}
                                   </p>
 
                                   <button
@@ -886,7 +889,7 @@ function Form() {
                           style={{ transformOrigin: "top right" }}
                           className="absolute top-11 right-0 z-50"
                         >
-                          <span className="bg-(--white) -z-10 border border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
+                          <span className="bg-(--white) -z-10 border border-green-700 rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
                           <div className="min-w-50 w-83 py-3 z-10 bg-black border border-green-500 text-white rounded shadow-lg rounded-[6px]">
                             <div className="flex flex-col w-full gap-2">
                               <div className="w-full px-3 py-2 hover:bg-[#1e1e1e] flex items-center justify-between">
@@ -1407,7 +1410,7 @@ function Form() {
               disabled:opacity-60"
                       >
                         {shareLoading ? (
-                          <span className="w-6 h-6 border-2 border-(--purple) border-t-transparent rounded-full animate-spin"></span>
+                          <span className="w-6 h-6 border-2 border-green-700 border-t-transparent rounded-full animate-spin"></span>
                         ) : isPublished ? (
                           <>
                             <IoShareSocialSharp className="text-lg" /> Share
@@ -1441,7 +1444,7 @@ function Form() {
                           style={{ transformOrigin: "top right" }}
                           className="absolute top-11 right-0 z-50"
                         >
-                          <span className="bg-black -z-10 border border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
+                          <span className="bg-black -z-10 border border-green-700 rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
                           <div className="min-w-50 w-83 py-3 z-10 bg-black border border-green-700 text-white rounded shadow-lg">
                             <div className="flex flex-col w-full gap-2">
                               <div className="w-full px-3 py-2 hover:bg-[#1e1e1e] flex items-center justify-between">

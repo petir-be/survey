@@ -11,7 +11,7 @@ function MultipleChoice({ question, value = "", onChange, hasError }) {
   return (
     <div className="">
       {/* Question Text */}
-      <p className="text-lg font-medium">
+      <p className="text-lg font-medium text-white">
         {question.question || "Select"}
         {question.required ? <span className="text-red-600"> *</span> : null}
       </p>
@@ -42,9 +42,9 @@ function MultipleChoice({ question, value = "", onChange, hasError }) {
                   value={option}
                   checked={isSelected}
                   onChange={() => handleChange(option)}
-                  className="w-5 h-5 min-w-5 min-h-5 text-(--purple) "
+                  className=" w-5 h-5 accent-green-700 "
                 />
-                <span className="font-vagrounded text-white select-none text-left">
+                <span className="font-vagrounded text-white select-none text-left ">
                   {option}
                 </span>
               </button>

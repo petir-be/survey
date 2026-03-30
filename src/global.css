@@ -160,7 +160,7 @@
   }
 
   .form-element-container:focus-within {
-    @apply -translate-y-0.5 ring-(--purple) ring-2;
+    @apply -translate-y-0.5 ring-green-700 ring-2;
   }
 
   .form-option-input {

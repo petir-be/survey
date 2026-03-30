@@ -45,8 +45,8 @@ function Contact({ question, onUpdate, onDuplicate }) {
         </div>
       </div>
       <div className="space-y-2 mt-3 group relative">
-       
-         
+
+
       </div>
     </div>
   );

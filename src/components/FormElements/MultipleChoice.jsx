@@ -125,7 +125,7 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
               onUpdate(question.id, { question: e.target.value });
               adjustHeight();
             }}
-            className="w-full font-medium placeholder:italic placeholder:text-gray-400 text-lg border-b border-transparent hover:border-gray-300 focus:border-(--purple) focus:outline-none px-2 py-1 resize-none overflow-hidden"
+            className="w-full font-medium placeholder:italic placeholder:text-gray-400 text-lg border-b border-transparent hover:border-gray-300 focus:border-green-700 focus:outline-none px-2 py-1 resize-none overflow-hidden"
             placeholder="Type your question here"
             rows={1}
           />
@@ -198,7 +198,7 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
           <div className="flex justify-between pr-5 items-center">
             <button
               onClick={addOptionField}
-              className="mt-2 px-2 font-medium font-vagrounded py-1 text-(--purple) border-b-(--purple) border-transparent hover:border-b"
+              className="mt-2 px-2 font-medium font-vagrounded py-1 text-black border-b-(--purple) border-transparent hover:border-b"
             >
               + Add Option
             </button>
@@ -209,7 +209,7 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
                 style={{
                   width: 39,
                   height: 18,
-                  backgroundColor: required ? "#9911ff" : "#ccc",
+                  backgroundColor: required ? "green" : "gray",
                   borderRadius: 30,
                   cursor: "pointer",
                   display: "flex",

@@ -4,13 +4,13 @@ import { FaHome } from "react-icons/fa";
 import { IoMdArrowRoundForward } from "react-icons/io";
 import axios from "axios";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import DotShader2 from "../components/DotShader2";
+
 import ReviewPage from "../components/ReviewPage";
 import QuestionRenderer from "../components/QuestionRenderer";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { motion } from "framer-motion";
 import Loading from "../components/Loading";
-
+import ShaderBackground from "../components/ShaderBackground"
 const localStorageKey = (guid) => `formAnswersCache_${guid}`;
 
 const loadAnswersFromCache = (key) => {
@@ -469,104 +469,105 @@ function Response() {
   const progress = ((currentPageIndex + 1) / validPages.length) * 100;
 
   return (
-    <div className="h-dvh w-full bg-(--white) flex flex-col overflow-hidden">
-      {hasSubmitted ? (
-        <SubmitDone allowMultipleSubmission={allowMultipleSubmission} />
-      ) : (
-        <>
-          {/* progress bar */}
-          <div className="z-50 bg-(--white) px-10 py-4 w-full mb-5 border-b-(--dirty-white) border border-transparent">
-            <div className="w-full max-w-5xl justify-self-center h-3 bg-gray-300 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-(--purple) transition-all duration-500"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-          </div>
-
-          <DotShader2 className="z-50" />
-
-          {/* questions d2*/}
-          <div className="flex-1 overflow-y-auto px-10 pb-10 flex flex-col">
-            <div className="relative max-w-4xl w-full mx-auto px-10 py-7 border-gradient bg-(--white) pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between">
-              <div className="flex-1 overflow-y-auto no-scrollbar">
-                {isReviewPage ? (
-                  <ReviewPage pages={validPages} answers={answers} />
-                ) : (
-                  <>
-                    {currentPage?.questions.length === 0 ? (
-                      <div className="flex justify-center items-center text-xl text-gray-400 w-full h-full text-center">
-                        Current page has no questions available.
-                      </div>
-                    ) : (
-                      <div className="space-y-10 p-1">
-                        {currentPage.questions
-                          .sort((a, b) => a.order - b.order)
-                          .map((q) => {
-                            const currentAnswerObj = answers.find(
-                              (a) => a.questionID === q.id
-                            );
-                            const isFileQuestion =
-                              q.type === "File" || q.questionType === "File";
-
-                            let currentValue;
-                            if (currentAnswerObj) {
-                              currentValue = currentAnswerObj.answer;
-                            } else {
-
-                              currentValue = isFileQuestion ? [] : "";
-                            }
-                            return (
-                              <QuestionRenderer
-                                key={q.id}
-                                question={q}
-                                value={currentValue}
-                                onAnswer={(val) => updateAnswer(q.id, val)}
-                                hasError={validationErrors.includes(q.id)}
-                              />
-                            );
-                          })}
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-
-              {/* buttons */}
-              <div className="flex justify-between mt-5 pt-8 border-t border-gray-100">
-                <button
-                  onClick={goPrev}
-                  disabled={currentPageIndex === 0}
-                  className={`px-4 py-2 rounded-lg font-medium ${currentPageIndex === 0
-                    ? "opacity-0 cursor-default"
-                    : "opacity-100 bg-(--white) ring-white ring hover:bg-gray-300 inset-shadow-md/10 font-vagrounded drop-shadow-sm/25 transition-color duration-200 ease-out"
-                    }`}
-                >
-                  Previous
-                </button>
-
-                <button
-                  onClick={goNext}
-                  className={`flex items-center gap-1 pl-7 pr-6 py-1.5 rounded-xl font-vagrounded drop-shadow-sm/30 transition-color duration-200 ease-out
-                    ${isReviewPage
-                      ? "bg-(--white) ring ring-green-500 hover:bg-green-200"
-                      : "bg-(--white) ring ring-(--purple) inset-shadow-md/10 hover:bg-violet-200"
-                    }`}
-                >
-                  {isReviewPage ||
-                    (!hasReviewPage && currentPageIndex === validPages.length - 1)
-                    ? "Submit Response"
-                    : currentPageIndex === validPages.length - 1 && hasReviewPage
-                      ? "Review Answers"
-                      : "Next"}
-                  <IoMdArrowRoundForward />
-                </button>
+    //nigga
+    <>
+      <ShaderBackground />
+      <div className="h-dvh w-full flex flex-col overflow-hidden">
+        {hasSubmitted ? (
+          <SubmitDone allowMultipleSubmission={allowMultipleSubmission} />
+        ) : (
+          <>
+            {/* progress bar */}
+            <div className="z-50 px-10 py-4 w-full mb-5  border border-transparent">
+              <div className="w-full max-w-5xl justify-self-center h-3 bg-black border-2  border-gray-200  rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-green-500 transition-all duration-500"
+                  style={{ width: `${progress}%` }}
+                />
               </div>
             </div>
-          </div>
-        </>
-      )}
-    </div>
+
+
+
+            {/* questions d2*/}
+            <div className="flex-1 overflow-y-auto px-10 pb-10 flex flex-col">
+              <div className="relative max-w-4xl w-full mx-auto px-10 py-7 border-gradient bg-black pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between">
+                <div className="flex-1 overflow-y-auto no-scrollbar">
+                  {isReviewPage ? (
+                    <ReviewPage pages={validPages} answers={answers} />
+                  ) : (
+                    <>
+                      {currentPage?.questions.length === 0 ? (
+                        <div className="flex justify-center items-center text-xl text-gray-400 w-full h-full text-center">
+                          Current page has no questions available.
+                        </div>
+                      ) : (
+                        <div className="space-y-10 p-1">
+                          {currentPage.questions
+                            .sort((a, b) => a.order - b.order)
+                            .map((q) => {
+                              const currentAnswerObj = answers.find(
+                                (a) => a.questionID === q.id
+                              );
+                              const isFileQuestion =
+                                q.type === "File" || q.questionType === "File";
+
+                              let currentValue;
+                              if (currentAnswerObj) {
+                                currentValue = currentAnswerObj.answer;
+                              } else {
+
+                                currentValue = isFileQuestion ? [] : "";
+                              }
+                              return (
+                                <QuestionRenderer
+                                  key={q.id}
+                                  question={q}
+                                  value={currentValue}
+                                  onAnswer={(val) => updateAnswer(q.id, val)}
+                                  hasError={validationErrors.includes(q.id)}
+                                />
+                              );
+                            })}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+
+                {/* buttons */}
+                <div className="flex justify-between mt-5 pt-8 border-t border-gray-100">
+                  <button
+                    onClick={goPrev}
+                    disabled={currentPageIndex === 0}
+                    className={`px-4 py-2 rounded-lg font-medium ${currentPageIndex === 0
+                      ? "opacity-0 cursor-default"
+                      : "opacity-100 bg-black text-white  ring-white ring hover:bg-[#1E1E1E] inset-shadow-md/10 font-vagrounded drop-shadow-sm/25 transition-color duration-200 ease-out"
+                      }`}
+                  >
+                    Previous
+                  </button>
+
+                  <button
+                    onClick={goNext}
+                    className="flex bg-green-600  hover:bg-green-700 ring ring-white items-center text-white gap-1 pl-7 pr-6 py-1.5 rounded-xl font-vagrounded drop-shadow-sm/30 transition-color duration-200 ease-out
+                    "
+                  >
+                    {isReviewPage ||
+                      (!hasReviewPage && currentPageIndex === validPages.length - 1)
+                      ? "Submit Response"
+                      : currentPageIndex === validPages.length - 1 && hasReviewPage
+                        ? "Review Answers"
+                        : "Next"}
+                    <IoMdArrowRoundForward />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 }
 
