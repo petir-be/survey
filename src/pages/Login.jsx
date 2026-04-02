@@ -126,13 +126,25 @@ function Login() {
                   <p className="text-xl text-gray-500 font-vagrounded">or</p>
                   <hr className="flex-1 border-gray-400" />
                 </div>
-                <div className="flex items-center justify-center flex-col gap-7  w-[80%]">
-                  <div className="flex bg- justify-center text-white items-center flex-col gap-4 w-full">
+
+
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  Auth();
+                }
+                }
+                  className="flex items-center justify-center flex-col gap-7  w-[80%]"
+                >
+
+                  <div className="flex justify-center text-white items-center flex-col gap-4 w-full">
+
+
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
+                      autoFocus
                       placeholder="Enter your email"
                       className="login-input  "
                     />
@@ -142,6 +154,7 @@ function Login() {
                         placeholder="Password"
                         value={password}
                         required
+
                         onChange={(e) => setPassword(e.target.value)}
                         className="login-input"
                       />
@@ -154,8 +167,9 @@ function Login() {
                       </button>
                     </div>
                   </div>
+
                   <button
-                    onClick={Auth}
+                    type="submit"
                     disabled={loading}
                     className={`flex justify-center hover:bg-[#00A300] items-center transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-xl ring ring-white drop-shadow-md/30 rounded-2xl
                 ${loading ? `bg-[#00A300]/80 ` : `bg-black`}`}
@@ -166,7 +180,9 @@ function Login() {
                       "Log in"
                     )}
                   </button>
-                </div>
+
+
+                </form>
                 <div className="text-white font-vagrounded flex justify-center items-center gap-1 mt-3">
                   <p>
                     Dont have account yet?{" "}

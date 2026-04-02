@@ -152,7 +152,7 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
                 name={`question-${question.id}`}
                 checked={selected === option.label}
                 onChange={() => setSelected(option.label)}
-                className="w-5 h-5 min-w-5 min-h-5 text-(--purple)"
+                className="w-5 h-5 min-w-5 min-h-5 text-black accent-green-600"
               />
 
               <div className="relative h-full max-w-full overflow-hidden">
@@ -185,8 +185,8 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
               <div className="absolute -top-2 -right-2 opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100 transition-opacity duration-200 ease-out">
                 <button onClick={() => removeOptionField(index)}>
                   <FaCircleXmark
-                    className="bg-white text-xl rounded-full hover:ring-2 hover:ring-(--purple)"
-                    fill="purple"
+                    className="bg-white text-xl fill-red-600 rounded-full hover:ring-2 hover:ring-red-700"
+                  
                   />
                 </button>
               </div>
@@ -198,7 +198,7 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
           <div className="flex justify-between pr-5 items-center">
             <button
               onClick={addOptionField}
-              className="mt-2 px-2 font-medium font-vagrounded py-1 text-black border-b-(--purple) border-transparent hover:border-b"
+              className="mt-2 px-2 font-medium font-vagrounded py-1 text-black border-b-green-600 border-transparent hover:border-b"
             >
               + Add Option
             </button>

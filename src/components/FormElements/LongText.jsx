@@ -80,7 +80,7 @@ function LongText({ question, onUpdate, onDuplicate }) {
             onUpdate(question.id, { answer: e.target.value });
             resize(answerRef);
           }}
-          className="w-full min-h-17 placeholder:italic placeholder:text-gray-400 bg-(--dirty-white) border-b-2 border-b-(--black) text-lg focus:border-(--purple) focus:outline-none px-2 py-1 resize-none overflow-hidden"
+          className="w-full min-h-17 placeholder:italic placeholder:text-gray-400 bg-(--dirty-white) border-b-2 border-b-(--black) text-lg focus:border-green-600 focus:outline-none px-2 py-1 resize-none overflow-hidden"
           placeholder="User answer will appear here..."
           rows={1}
         />
@@ -93,7 +93,7 @@ function LongText({ question, onUpdate, onDuplicate }) {
                 style={{
                   width: 39,
                   height: 18,
-                  backgroundColor: required ? "#9911ff" : "#ccc",
+                  backgroundColor: required ? "green" : "gray",
                   borderRadius: 30,
                   cursor: "pointer",
                   display: "flex",

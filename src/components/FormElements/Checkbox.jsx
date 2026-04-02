@@ -119,7 +119,7 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
         ) : (
           addOption.map((option, index) => (
             <div className="group/item form-option-input" key={index}>
-              <input type="checkbox" className="w-5 h-5" />
+              <input type="checkbox" className="w-5 h-5 accent-green-600" />
 
               <div className="relative h-full max-w-full">
                 <input
@@ -147,8 +147,8 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
               <div className="absolute -top-2 -right-2 opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100 transition-opacity duration-200 ease-out">
                 <button onClick={() => removeOptionField(index)}>
                   <FaCircleXmark
-                    className="bg-white text-xl rounded-full hover:ring-2 hover:ring-(--purple)"
-                    fill="purple"
+                    className="bg-white text-xl rounded-full hover:ring-2 hover:ring-red-600"
+                    fill="red"
                   />
                 </button>
               </div>
@@ -171,7 +171,7 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
                 style={{
                   width: 39,
                   height: 18,
-                  backgroundColor: required ? "#9911ff" : "#ccc",
+                  backgroundColor: required ? "green" : "gray",
                   borderRadius: 30,
                   cursor: "pointer",
                   display: "flex",

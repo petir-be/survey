@@ -79,7 +79,7 @@ function Switch({ question, onUpdate, onDuplicate }) {
           style={{
             width: 70,
             height: 34,
-            backgroundColor: toggle ? "#9911ff" : "#ccc",
+            backgroundColor: toggle ? "green" : "gray",
             borderRadius: 30,
             cursor: "pointer",
             display: "flex",

@@ -94,7 +94,7 @@ function Dropdown({ question, onUpdate, onDuplicate }) {
               onUpdate(question.id, { question: e.target.value });
               adjustHeight();
             }}
-            className="w-full font-medium placeholder:italic placeholder:text-gray-400 text-lg border-b border-transparent hover:border-gray-300 focus:border-(--purple) focus:outline-none px-2 py-1 resize-none overflow-hidden"
+            className="w-full font-medium placeholder:italic placeholder:text-gray-400 text-lg border-b border-transparent hover:border-gray-300 focus:border-green-600 focus:outline-none px-2 py-1 resize-none overflow-hidden"
             placeholder="Type your question here"
             rows={1}
           />
@@ -107,7 +107,7 @@ function Dropdown({ question, onUpdate, onDuplicate }) {
         </div>
       </div>
       <div className="space-y-2 mt-3 group relative">
-        <select className="w-full block border focus:border-(--purple) py-2 mb-5 px-3 rounded bg-(--dirty-white)">
+        <select className="w-full block border focus:border-green-600 py-2 mb-5 px-3 rounded bg-(--dirty-white)">
           {addOption.length > 0 ? (
             addOption.map((option, index) => (
               <option key={index} value={option} className="mt-5">
@@ -126,7 +126,7 @@ function Dropdown({ question, onUpdate, onDuplicate }) {
         ) : (
           addOption.map((option, index) => (
             <div
-              className="group/item relative px-3 flex items-center gap-2 border-b-2 border-(--purple) py-2 transition-all focus-within:bg-(--purple-lighter) [&:not(:focus-within)]:hover:bg-(--dirty-white) duration-200 ease-out w-auto max-w-full"
+              className="group/item relative px-3 flex items-center gap-2 border-b-2 border-green-600 py-2 transition-all focus-within:bg-gray-100 [&:not(:focus-within)]:hover:bg-white duration-200 ease-out w-auto max-w-full"
               key={index}
             >
               <div className="relative h-full max-w-full">
@@ -155,8 +155,8 @@ function Dropdown({ question, onUpdate, onDuplicate }) {
               <div className="absolute bottom-1/2 translate-y-1/2 right-2 opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100 transition-opacity duration-200 ease-out">
                 <button onClick={() => removeOptionField(index)}>
                   <FaCircleXmark
-                    className="bg-white text-xl rounded-full hover:ring-2 hover:ring-(--purple)"
-                    fill="purple"
+                    className="bg-white text-xl rounded-full hover:ring-2 hover:ring-red-600"
+                    fill="red"
                   />
                 </button>
               </div>
@@ -168,7 +168,7 @@ function Dropdown({ question, onUpdate, onDuplicate }) {
           <div className="flex items-center pr-5 justify-between">
             <button
               onClick={addOptionField}
-              className="mt-2 px-2 font-medium font-vagrounded py-1 text-(--purple) border-b-(--purple) border-transparent hover:border-b"
+              className="mt-2 px-2 font-medium font-vagrounded py-1 text-black border-b-green-600 border-transparent hover:border-b"
             >
               + Add Option
             </button>
@@ -179,7 +179,7 @@ function Dropdown({ question, onUpdate, onDuplicate }) {
                 style={{
                   width: 39,
                   height: 18,
-                  backgroundColor: required ? "#9911ff" : "#ccc",
+                  backgroundColor: required ? "green" : "gray",
                   borderRadius: 30,
                   cursor: "pointer",
                   display: "flex",

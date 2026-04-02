@@ -18,16 +18,58 @@ function Register() {
   const [showPass, setShowPass] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
+
   const [error, setError] = useState("");
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const [userNameError, setUsernameError] = useState("");
   const { loginWithGoogle, isAuthenticated, login } = useContext(AuthContext);
-  const [email, setEmail] = useState();
+
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 700px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 699px)" });
   let navigate = useNavigate();
+
+  const [emailError, setEmailError] = useState("");
+
+  useEffect(() => {
+
+    if (confirmPass.length > 0) {
+      if (password !== confirmPass) {
+        setError("Password and Confirm Password don't match");
+      } else {
+        setError("");
+      }
+    } else {
+
+      setError("");
+    }
+  }, [password, confirmPass]);
+
+  useEffect(() => {
+
+    if (email.length === 0) {
+      setEmailError("");
+      return;
+    }
+
+    // Start a 2-second timer (2000 milliseconds)
+    const delayDebounceFn = setTimeout(() => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      // Check the email after 2 seconds
+      if (!emailRegex.test(email)) {
+        setEmailError("Please enter a valid email address");
+      } else {
+        setEmailError("");
+      }
+    }, 1000);
+
+    // CRITICAL: This cleanup function cancels the timer if the user types another letter!
+    return () => clearTimeout(delayDebounceFn);
+
+  }, [email]); // <-- This tells React to run this effect every time 'email' changes
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -111,6 +153,8 @@ function Register() {
       setLoading(false);
     }
   }
+
+
   return (
     <>
       <ShaderBackground />
@@ -147,15 +191,43 @@ function Register() {
                   <p className="text-l text-gray-500 font-vagrounded">or</p>
                   <hr className="flex-1 border-gray-400" />
                 </div>
-                <div className="flex items-center justify-center flex-col gap-7 text-gray-400 w-[80%]">
+
+
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  Register();
+                }
+                }
+
+                  className="flex items-center justify-center flex-col gap-7 text-gray-400 w-[80%]"
+                >
+
+
                   <div className="flex justify-center items-center flex-col gap-4 w-full ">
-                    <input
-                      type="email"
-                      placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="login-input "
-                    />
+
+                    {/* EMAIL INPUT */}
+                    <div className="w-full flex flex-col gap-1">
+                      <input
+                        type="email"
+                        placeholder="Enter your email"
+                        value={email}
+                        autoFocus
+                        required
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                          if (emailError) {
+                            setEmailError("");
+                          }
+                        }}
+                        className="login-input w-full"
+                      />
+                      {/* EMAIL ERROR DISPLAY */}
+                      {emailError && (
+                        <div className="font-vagrounded text-red-500 items-center text-center mt-3">
+                          {emailError}
+                        </div>
+                      )}
+                    </div>
                     <input
                       type="text"
                       placeholder="Enter your username"
@@ -180,6 +252,8 @@ function Register() {
                         </div>
                       </>
                     )}
+
+
                     <div className="relative w-full">
                       <input
                         type={showPass ? "text" : "password"}
@@ -201,15 +275,9 @@ function Register() {
                         type={showConfirm ? "text" : "password"}
                         placeholder="Confirm Password"
                         value={confirmPass}
-                        onChange={(e) => {
-                          setConfirmPass(e.target.value);
-                          if (password !== e.target.value) {
-                            setError("Password and Confirm Password don't match");
-                          } else {
-                            setError("");
-                          }
-                        }}
-                        className="login-input "
+                        required // 
+                        onChange={(e) => setConfirmPass(e.target.value)}
+                        className="login-input"
                       />
                       <button
                         type="button"
@@ -228,7 +296,7 @@ function Register() {
                     )}
                   </div>
                   <button
-                    onClick={Register}
+                    type="submit"
                     disabled={loading}
                     className={`flex justify-center items-center hover:bg-[#00A300] transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-xl ring ring-white drop-shadow-md/30 rounded-2xl   
                 ${loading ? 'bg-[#00A300]/80' : 'bg-black'}`}
@@ -239,7 +307,10 @@ function Register() {
                       "Sign in"
                     )}
                   </button>
-                </div>
+                </form>
+
+
+
                 <div className=" font-vagrounded flex justify-center items-center gap-1 mt-3">
                   <p>
                     Already a member?{" "}
@@ -273,6 +344,7 @@ function Register() {
                   <h1 className="font-vagrounded text-2xl text-center">
                     Let's Get Started!
                   </h1>
+
                   <button
                     onClick={handleGoogleLogin}
                     disabled={loading}
@@ -282,21 +354,48 @@ function Register() {
                   >
                     <FcGoogle className="text-xl" /> Continue with Google
                   </button>
+
                 </div>
                 <div className="flex items-center justify-center gap-4 w-[85%] my-2">
                   <hr className="flex-1 border-gray-400" />
                   <p className="text-l text-gray-500 font-vagrounded">or</p>
                   <hr className="flex-1 border-gray-400" />
                 </div>
-                <div className="flex items-center justify-center flex-col gap-7 text-gray-400 w-[80%]">
+
+
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  Register();
+                }
+                }
+
+                  className="flex items-center justify-center flex-col gap-7 text-gray-400 w-[80%]"
+                >
+
                   <div className="flex justify-center items-center flex-col gap-4 w-full">
-                    <input
-                      type="email"
-                      placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="login-input !text-[16px]"
-                    />
+                    <div className="w-full flex flex-col gap-1">
+                      <input
+                        type="email"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                          if (emailError) {
+                            setEmailError("");
+                          }
+                        }}
+                        className="login-input !text-[16px]"
+                      />
+                      {/* EMAIL ERROR DISPLAY */}
+                      {emailError && (
+                        <div className="font-vagrounded text-red-500 text-sm items-center text-center mt-3">
+                          {emailError}
+                        </div>
+                      )}
+                    </div>
+
+
+
                     <input
                       type="text"
                       placeholder="Enter your username"
@@ -316,7 +415,7 @@ function Register() {
                     />
                     {userNameError && (
                       <>
-                        <div className="font-vagrounded text-red-500">
+                        <div className="font-vagrounded text-red-500 text-sm">
                           {userNameError}
                         </div>
                       </>
@@ -337,21 +436,17 @@ function Register() {
                         {showPass ? <FaEyeSlash /> : <FaEye />}
                       </button>
                     </div>
+
+
                     <div className="relative w-full">
                       <input
                         type={showConfirm ? "text" : "password"}
                         placeholder="Confirm Password"
                         value={confirmPass}
-                        onChange={(e) => {
-                          setConfirmPass(e.target.value);
-                          if (password !== e.target.value) {
-                            setError("Password and Confirm Password don't match");
-                          } else {
-                            setError("");
-                          }
-                        }}
+                        onChange={(e) => setConfirmPass(e.target.value)}
                         className="login-input !text-[16px]"
                       />
+
                       <button
                         type="button"
                         onClick={() => setShowConfirm(!showConfirm)}
@@ -363,13 +458,13 @@ function Register() {
                     {error && (
                       <>
                         <div>
-                          <p className="font-vagrounded text-red-500">{error}</p>
+                          <p className="font-vagrounded text-red-500 text-sm">{error}</p>
                         </div>
                       </>
                     )}
                   </div>
                   <button
-                    onClick={Register}
+                    type="submit"
                     disabled={loading}
                     className={`flex justify-center items-center hover:bg-[#00A300] transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-l ring ring-white drop-shadow-md/30 rounded-2xl   
                 ${loading ? 'bg-[#00A300]/80' : 'bg-black'}`}
@@ -380,7 +475,8 @@ function Register() {
                       "Sign in"
                     )}
                   </button>
-                </div>
+
+                </form>
                 <div className="text-[12px] font-vagrounded flex justify-center items-center gap-1 mt-3">
                   <p>
                     Already a member?{" "}

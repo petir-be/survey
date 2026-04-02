@@ -72,7 +72,7 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
             onChange={(e) =>
               onUpdate(question.id, { question: e.target.value })
             }
-            className="w-full font-medium text-lg border-b border-transparent placeholder:text-gray-400 hover:border-gray-300 focus:border-(--purple) focus:outline-none px-2 py-1"
+            className="w-full font-medium text-lg border-b border-transparent placeholder:text-gray-400 hover:border-gray-300 focus:border-green-600 focus:outline-none px-2 py-1"
             placeholder="Enter your question"
           />
 
@@ -98,7 +98,7 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
                     className="relative  px-3 py-2 min-w-28 text-center group/item italic"
                   >
                     <input
-                      className="w-full bg-transparent text-center focus:outline-none"
+                      className="w-full bg-transparent text-center focus:outline-none "
                       value={col}
                       placeholder={col}
                       onChange={(e) => {
@@ -111,8 +111,8 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
                     <div className="absolute -top-2 right-1/2 translate-x-1/2 opacity-0 group-hover/item:opacity-100 group-focus/item-within:opacity-100 transition-opacity">
                       <button onClick={() => removeColumn(colIndex)}>
                         <FaCircleXmark
-                          className="bg-white text-xl rounded-full hover:ring-2 hover:ring-(--purple)"
-                          fill="purple"
+                          className="bg-white text-xl rounded-full hover:ring-2 hover:ring-red-600"
+                          fill="red"
                         />
                       </button>
                     </div>
@@ -141,8 +141,8 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
                     <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover/item:opacity-100 group-focus/item-within:opacity-100 transition-opacity">
                       <button onClick={() => removeRow(rowIndex)}>
                         <FaCircleXmark
-                          className="bg-white text-xl rounded-full hover:ring-2 hover:ring-(--purple)"
-                          fill="purple"
+                          className="bg-white text-xl rounded-full hover:ring-2 hover:ring-red-600"
+                          fill="red"
                         />
                       </button>
                     </div>
@@ -156,7 +156,7 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
                       <input
                         type="radio"
                         name={`row-${rowIndex}`}
-                        className="h-5 w-5 accent-(--purple)"
+                        className="h-5 w-5 accent-green-600"
                       />
                     </td>
                   ))}
@@ -169,17 +169,17 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
 
       {showAddButtons && (
         <div className="flex justify-between pr-5 items-center">
-          <div className="flex gap-4 mt-3">
+          <div className="flex gap-4 mt-2">
             <button
               onClick={addColumn}
-              className="px-2 font-medium font-vagrounded py-1 text-(--purple) border-b-(--purple) border-transparent hover:border-b"
+              className="bg-black hover:bg-[#1e1e1e] text-white px-4 py-2 rounded-[6px] font-medium font-vagrounded  border-none"
             >
               + Add Column
             </button>
 
             <button
               onClick={addRow}
-              className="px-2 font-medium font-vagrounded py-1 text-(--purple) border-b-(--purple) border-transparent hover:border-b"
+              className="bg-black hover:bg-[#1e1e1e] text-white px-4 py-2 rounded-[6px] font-medium font-vagrounded  border-none"
             >
               + Add Row
             </button>
