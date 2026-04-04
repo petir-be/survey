@@ -40,7 +40,7 @@ function Email({ question, onChange, value = "", hasError }) {
             value={email}
             onChange={handleChange}
             placeholder="Email Address"
-            className="w-full placeholder:italic placeholder:text-gray-400 focus:outline-none px-2 py-1 overflow-hidden"
+            className="w-full text-white placeholder:italic placeholder:text-gray-400 focus:outline-none px-2 py-1 overflow-hidden"
           />
         </div>
         {error && (

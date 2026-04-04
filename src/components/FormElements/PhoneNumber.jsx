@@ -71,7 +71,7 @@ function PhoneNumber({ question, onUpdate, onDuplicate }) {
               onUpdate(question.id, { question: e.target.value });
               adjustHeight();
             }}
-            className="w-full font-medium placeholder:italic placeholder:text-gray-400 text-lg border-b border-transparent hover:border-gray-300 focus:border-[var(--purple)] focus:outline-none px-2 py-1 resize-none overflow-hidden"
+            className="w-full font-medium placeholder:italic placeholder:text-gray-400 text-lg border-b border-transparent hover:border-gray-300 focus:border-green-600 focus:outline-none px-2 py-1 resize-none overflow-hidden"
             placeholder="Phone Number"
             rows={1}
           />
@@ -84,7 +84,7 @@ function PhoneNumber({ question, onUpdate, onDuplicate }) {
         </div>
       </div>
       <div className="space-y-2 mt-3 group relative">
-        <div className="flex items-center px-3 py-1 bg-[var(--dirty-white)] border-b-2 border-b-[var(--black)] text-lg focus-within:border-[var(--purple)] focus:outline-none">
+        <div className="flex items-center px-3 py-1 bg-[var(--dirty-white)] border-b-2 border-b-[var(--black)] text-lg focus-within:border-green-600 focus:outline-none">
           <PH className="w-7 h-7 mr-2" />
           <p className="text-(--black) font-vagrounded">(+63)</p>
           <input
@@ -107,7 +107,7 @@ function PhoneNumber({ question, onUpdate, onDuplicate }) {
                 style={{
                   width: 39,
                   height: 18,
-                  backgroundColor: required ? "#9911ff" : "#ccc",
+                  backgroundColor: required ? "green" : "gray",
                   borderRadius: 30,
                   cursor: "pointer",
                   display: "flex",

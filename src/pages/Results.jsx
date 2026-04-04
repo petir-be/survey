@@ -205,7 +205,7 @@ function Results({
           }}
         >
           Responses{" "}
-          <span className="text-(--purple)">({processedResponses.length})</span>
+          <span className="text-green-600">({processedResponses.length})</span>
         </button>
 
         <button
@@ -270,14 +270,14 @@ function Results({
           {activeTab === "responses" && (
             <div>
               <div className="w-full m-auto bruh p-4">
-                <div className="flex gap-3 items-center mb-4">
+                <div className="flex gap-3 items-center mb-4 text-white">
                   <SearchBar
                     value={SearchBarValue}
                     onChange={(e) => setSearchBarValue(e.target.value)}
                   />
                   <button
                     onClick={() => setShowFilters(!showFilters)}
-                    className="px-7 py-1.5 flex items-center gap-2 rounded-xl bg-(--white) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-gray-300 transition-color duration-200 ease-out"
+                    className="px-7 py-1.5 flex items-center gap-2 rounded-xl inset-shadow-md/10 font-vagrounded drop-shadow-sm/30  transition-color duration-200 ease-out"
                   >
                     <FaFilter size={14} />
                     Filters
@@ -285,7 +285,7 @@ function Results({
                   {hasActiveFilters && (
                     <button
                       onClick={clearAllFilters}
-                      className="px-7 py-1.5 flex items-center gap-2 text-(--white) fill-(--white) rounded-xl bg-(--purple) ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-purple-700 transition-color duration-200 ease-out"
+                      className="px-7 py-1.5 flex items-center gap-2 text-(--white) fill-(--white) rounded-xl bg-red-600 ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-red-700 transition-color duration-200 ease-out"
                     >
                       <FaX size={14} style={{ fill: "var(--white)" }} />
                       Clear All
@@ -299,7 +299,7 @@ function Results({
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       {/* Email Filter */}
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 font-vagrounded">
+                        <label className="block text-sm font-medium text-white mb-2 font-vagrounded">
                           Email
                         </label>
                         <input
@@ -307,33 +307,33 @@ function Results({
                           value={emailFilter}
                           onChange={(e) => setEmailFilter(e.target.value)}
                           placeholder="Filter by email..."
-                          className="w-full px-3 py-2 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 font-vagrounded"
+                          className="w-full px-3 py-2 text-gray-600 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 font-vagrounded"
                         />
                       </div>
 
                       {/* Date From */}
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 font-vagrounded">
+                        <label className="block text-sm font-medium text-white mb-2 font-vagrounded">
                           Date From
                         </label>
                         <input
                           type="date"
                           value={dateFrom}
                           onChange={(e) => setDateFrom(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 font-vagrounded"
+                          className="w-full px-3 py-2 text-gray-600  border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 font-vagrounded"
                         />
                       </div>
 
                       {/* Date To */}
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 font-vagrounded">
+                        <label className="block text-sm font-medium text-white mb-2 font-vagrounded">
                           Date To
                         </label>
                         <input
                           type="date"
                           value={dateTo}
                           onChange={(e) => setDateTo(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 font-vagrounded"
+                          className="w-full px-3 py-2 border text-gray-600  border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 font-vagrounded"
                         />
                       </div>
                     </div>
@@ -348,7 +348,7 @@ function Results({
                       <thead className="shadow-md font-vagrounded">
                         <tr
                           className="outline-1 outline-white border-box "
-                          style={{ background: "var(--dirty-white)" }}
+                          style={{ background: "black" }}
                         >
                           <th className="text-left font-vagrounded align-middle">
                             <div className="py-4 px-4 border-l border-r border-white">
@@ -360,10 +360,10 @@ function Results({
                               />
                             </div>
                           </th>
-                          <th className="text-left text-sm font-medium text-gray-700 font-vagrounded">
+                          <th className="text-left text-sm font-medium text-white font-vagrounded">
                             <div className="py-4 px-4 border-l border-r border-white font-bold">
                               <button
-                                className="hover:bg-white rounded-full p-2 transition-transform"
+                                className="hover:bg-[#1e1e1e] rounded-full p-2 transition-transform"
                                 onClick={handleReverseOrder}
                                 style={{
                                   transform: isReversed
@@ -375,22 +375,22 @@ function Results({
                               </button>
                             </div>
                           </th>
-                          <th className="text-left text-sm font-medium text-gray-700 font-vagrounded">
+                          <th className="text-left text-sm font-medium text-white font-vagrounded">
                             <div className="py-4 px-4 border-l border-r border-white font-bold">
                               Name
                             </div>
                           </th>
-                          <th className="text-left text-sm font-medium text-gray-700 font-vagrounded">
+                          <th className="text-left text-sm font-medium text-white font-vagrounded">
                             <div className="py-4 px-4 border-l border-r border-white font-bold">
                               Email
                             </div>
                           </th>
-                          <th className="text-left text-sm font-medium text-gray-700 font-vagrounded ">
+                          <th className="text-left text-sm font-medium text-white font-vagrounded ">
                             <div className="py-4 px-4 border-l border-r border-white font-bold">
                               Date
                             </div>
                           </th>
-                          <th className="text-left text-sm font-medium text-gray-700 font-vagrounded ">
+                          <th className="text-left text-sm font-medium text-white font-vagrounded ">
                             <div className="py-4 px-4 border-l border-r border-white font-bold">
                               Time
                             </div>
@@ -405,7 +405,7 @@ function Results({
                           return (
                             <tr
                               key={row.id}
-                              className="border-b border-white outline-1 outline-white hover:bg-gray-50 transition-colors shadow-md rounded-sm"
+                              className="border-b border-white outline-1 outline-white hover:bg-[#1e1e1e] transition-colors shadow-md rounded-sm"
                               onClick={() => seeInDetail(row)}
                             >
                               <td className="align-middle font-vagrounded">
@@ -424,23 +424,23 @@ function Results({
                                 </div>
                               </td>
 
-                              <td className="align-middle text-sm text-gray-900 font-vagrounded">
+                              <td className="align-middle text-sm text-white font-vagrounded">
                                 <div className="py-4 px-4">{displayIndex}</div>
                               </td>
 
-                              <td className="align-middle text-sm text-gray-900 font-vagrounded">
+                              <td className="align-middle text-sm text-white font-vagrounded">
                                 <div className="py-4 px-4 border-l border-white">
                                   {row.respondent.name}
                                 </div>
                               </td>
 
-                              <td className="align-middle text-sm text-gray-900 font-vagrounded">
+                              <td className="align-middle text-sm text-white font-vagrounded">
                                 <div className="py-4 px-4 border-l border-white">
                                   {row.respondent.email}
                                 </div>
                               </td>
 
-                              <td className="align-middle text-sm text-gray-600 font-vagrounded">
+                              <td className="align-middle text-sm text-white font-vagrounded">
                                 <div className="py-4 px-4 border-l border-white">
                                   {moment
                                     .utc(row.submittedAt)
@@ -449,7 +449,7 @@ function Results({
                                 </div>
                               </td>
 
-                              <td className="align-middle text-sm text-gray-600 font-vagrounded">
+                              <td className="align-middle text-sm text-white font-vagrounded">
                                 <div className="py-4 px-4  border-l border-white">
                                   {moment
                                     .utc(row.submittedAt)

@@ -491,7 +491,7 @@ function Response() {
 
             {/* questions d2*/}
             <div className="flex-1 overflow-y-auto px-10 pb-10 flex flex-col">
-              <div className="relative max-w-4xl w-full mx-auto px-10 py-7 border-gradient bg-black pageBorder drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between">
+              <div className="relative max-w-4xl w-full mx-auto px-10 py-7 outline outline-gray-400 bg-black mt-1  flex flex-col justify-between">
                 <div className="flex-1 overflow-y-auto no-scrollbar">
                   {isReviewPage ? (
                     <ReviewPage pages={validPages} answers={answers} />

@@ -78,7 +78,7 @@ function Email({ question, onUpdate, onDuplicate }) {
         </div>
       </div>
       <div className="space-y-2 mt-3 group relative">
-        <div className="flex items-center px-3 py-1 bg-(--dirty-white) border-b-2 border-b-(--black) text-lg focus:border-(--purple) focus:outline-none">
+        <div className="flex items-center px-3 py-1 bg-(--dirty-white) border-b-2 border-b-(--black) text-lg focus:border-green-600 focus:outline-none">
           <IoMail className="text-3xl" fill="#212529" />
 
           <input

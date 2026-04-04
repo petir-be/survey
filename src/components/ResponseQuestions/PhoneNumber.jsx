@@ -33,20 +33,20 @@ function PhoneNumber({ question, onChange, value = "", hasError }) {
 
   return (
     <div className="my-6">
-      <p className="text-lg mb-3 font-medium">
+      <p className="text-lg mb-3 font-medium text-white">
         {question.question}{" "}
         {question.required ? <span className="text-red-600"> *</span> : null}
       </p>
 
       <div className="space-y-2">
-        <div className="flex items-center px-3 py-1 bg-[var(--dirty-white)] border-b-2 border-b-[var(--black)] text-lg focus-within:border-[var(--purple)] focus:outline-none">
+        <div className="flex items-center px-3 py-1 bg-black border-b-2 border-b-[var(--black)] text-lg focus-within:border-green-600 focus:outline-none">
           <PH className="w-7 h-7 mr-2" />{" "}
           <p className="text-(--black) font-vagrounded">(+63)</p>
           <input
             type="tel"
             value={phone}
             onChange={handleChange}
-            className="w-full placeholder:italic placeholder:text-gray-400 focus:outline-none px-2 py-1 overflow-hidden"
+            className="w-full text-white placeholder:italic placeholder:text-gray-400 focus:outline-none px-2 py-1 overflow-hidden"
             placeholder="Enter 10-digit number"
           />
         </div>

@@ -387,7 +387,6 @@ function Form() {
     { Icon: IoCheckbox, title: "Checkbox" },
     { Icon: IoToggleSharp, title: "Switch" },
     { Icon: HiMiniArrowsUpDown, title: "Dropdown" },
-    { Icon: MdLinearScale, title: "Linear Scale" },
 
     // text
     { Icon: HiMenu, title: "Long Text" },
@@ -575,8 +574,9 @@ function Form() {
   // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------
   function handleCopyButton() {
     // navigator.clipboard.writeText(`https://[websitename]/form/${publicid}`);
-    //navigator.clipboard.writeText(`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`); 
-    navigator.clipboard.writeText(`localhost:5173/form/${publicid}`);
+    // navigator.clipboard.writeText(`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`); 
+    navigator.clipboard.writeText(`https://ispecmn.site/form/${publicid}`);
+    // navigator.clipboard.writeText(`localhost:5173/form/${publicid}`);
     toast.success("Link copied successfully!");
     setCopy(true);
   }
@@ -790,7 +790,7 @@ function Form() {
                             className="absolute top-12 right-0 z-50"
                           >
                             {/* Pointer triangle */}
-                            <span className="bg-(--white) border -z-10 border-(--purple) rotate-45 w-5 h-5 absolute -top-1 right-5 rounded"></span>
+                            <span className="bg-(--white) border -z-10 border-green-600 rotate-45 w-5 h-5 absolute -top-1 right-5 rounded"></span>
 
                             {/* Modal Box */}
                             <div className="font-vagrounded min-w-100 w-80 py-4 px-2 bg-black text-white border border-green-700 rounded shadow-lg">
@@ -799,8 +799,10 @@ function Form() {
 
                                 <div className="flex w-full gap-2 items-center">
                                   <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-lg p-2 truncate">
-                                  {/*   {`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`}*/}
-                                    {`localhost:5173/form/${publicid}`}
+                                    {/*   {`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`}*/}
+                                    {/*localhost:5173/form/${publicid}`}
+                                    https://ispecmn.site/form/${publicid}*/}
+                                    {`https://ispecmn.site/form/${publicid}`}
                                   </p>
 
                                   <button

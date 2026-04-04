@@ -18,7 +18,7 @@ function Checkbox({ question, value = [], onChange, hasError }) {
 
   return (
     <div>
-      <p className="text-lg font-medium">
+      <p className="text-lg font-medium text-white">
         {question.question || "Select"}
         {question.required ? <span className="text-red-600"> *</span> : null}
       </p>
@@ -50,7 +50,7 @@ function Checkbox({ question, value = [], onChange, hasError }) {
                   className="w-5 h-5 min-w-5 min-h-5 accent-green-600"
                 />
 
-                <span className="font-vagrounded text-whiteselect-none text-left">
+                <span className="font-vagrounded text-white select-none text-left">
                   {option}
                 </span>
               </button>

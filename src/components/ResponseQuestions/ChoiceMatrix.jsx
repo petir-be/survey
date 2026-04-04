@@ -32,7 +32,7 @@ function ChoiceMatrix({ question, value = {}, onChange }) {
 
   return (
     <div className="my-6">
-      <p className="text-lg font-medium mb-3">
+      <p className="text-lg font-medium mb-3 text-white">
         {question.question || "Matrix Question"}
       </p>
 
@@ -47,7 +47,7 @@ function ChoiceMatrix({ question, value = {}, onChange }) {
                 {columns.map((col, colIndex) => (
                   <th
                     key={colIndex}
-                    className="px-3 py-2 min-w-28 text-center italic"
+                    className="px-3 py-2 min-w-28 text-center italic text-white"
                   >
                     {col}
                   </th>
@@ -55,24 +55,24 @@ function ChoiceMatrix({ question, value = {}, onChange }) {
               </tr>
             </thead>
 
-            <tbody>
+            <tbody >
               {rows.map((row, rowIndex) => (
-                <tr key={rowIndex} className="border-b-4 border-(--white)">
-                  <td className="bg-(--dirty-white) px-3 py-2 min-w-32 italic rounded-l-xl">
+                <tr key={rowIndex} className="text-white">
+                  <td className="bg-black px-3 py-2 min-w-32 italic rounded-l-xl">
                     {row}
                   </td>
 
                   {columns.map((col, colIndex) => (
                     <td
                       key={colIndex}
-                      className="bg-(--dirty-white) px-3 py-2 text-center"
+                      className="bg-black px-3 py-2 text-center"
                     >
                       <input
                         type="radio"
                         name={`row-${question.id}-${rowIndex}`}
                         checked={value[row] === col}
                         onChange={() => handleSelect(row, col)}
-                        className="h-5 w-5 text-(--purple)"
+                        className="h-5 w-5 text-(--purple) accent-green-600"
                       />
                     </td>
                   ))}

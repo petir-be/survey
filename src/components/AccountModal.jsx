@@ -194,11 +194,10 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
       />
 
       <div
-        className={`fixed z-50 flex items-center justify-center p-4 ${
-          dialogbox
-            ? "inset-0"
-            : "w-full max-w-md top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        }`}
+        className={`fixed z-50 flex items-center justify-center p-4 ${dialogbox
+          ? "inset-0"
+          : "w-full max-w-md top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+          }`}
       >
         <AnimatePresence>
           {isOpen && (
@@ -208,7 +207,7 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
               exit={{ opacity: 0, scale: 0.95 }}
               className="w-full max-w-md"
             >
-              <DialogPanel className="rounded-lg bg-[#DFE0F0] p-6 shadow-2xl border-2 border-white/50 backdrop-blur-md font-vagrounded">
+              <DialogPanel className="rounded-lg bg-black p-6 shadow-2xl  border-2 border-white/50 backdrop-blur-md font-vagrounded">
                 <div className="flex flex-col items-center gap-4 mb-6">
                   <div className="relative">
                     <div className="rounded-full bg-white w-24 h-24 shadow-sm border-4 border-white/30 flex items-center justify-center text-3xl font-bold text-gray-400 uppercase overflow-hidden">
@@ -233,7 +232,7 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
 
                     <button
                       onClick={() => fileInputRef.current.click()}
-                      className="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow-md text-gray-600 hover:text-[var(--purple)] transition-colors border border-gray-200 cursor-pointer"
+                      className="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow-md text-gray-600 hover:text-green-600 transition-colors border border-gray-200 cursor-pointer"
                     >
                       <FaCamera className="text-sm" />
                     </button>
@@ -251,10 +250,9 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                       onClick={() => setActiveTab(tab)}
                       className={`
                         relative flex-1 py-2 text-sm font-semibold rounded-full z-10 transition-colors duration-200
-                        ${
-                          activeTab === tab
-                            ? "text-black"
-                            : "text-gray-500 hover:text-gray-700"
+                        ${activeTab === tab
+                          ? "text-black"
+                          : "text-gray-500 hover:text-gray-700"
                         }
                       `}
                     >
@@ -295,7 +293,7 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                               value={displayName}
                               onChange={(e) => setDisplayName(e.target.value)}
                               placeholder="Enter your name"
-                              className="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:outline-[var(--purple)] bg-white/80"
+                              className="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:outline-green-600 bg-white/90"
                             />
                           </div>
                           <div>
@@ -306,7 +304,7 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                               type="email"
                               value={user?.email || ""}
                               disabled
-                              className="w-full p-3 mt-1 rounded-lg border border-gray-300 bg-gray-200/60 text-gray-500 cursor-not-allowed select-none"
+                              className="w-full p-3 mt-1 rounded-lg border border-gray-300 bg-white/70 text-gray-500 cursor-not-allowed select-none"
                             />
                             <p className="text-[10px] text-gray-400 mt-1 ml-1">
                               Email cannot be changed
@@ -315,7 +313,7 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                           <button
                             onClick={handleGeneralSave}
                             disabled={loading}
-                            className="w-full mt-2 py-2 bg-[var(--purple)] text-white shadow-md rounded-lg text-sm font-bold hover:opacity-90 transition disabled:opacity-50"
+                            className="w-full mt-2 py-2 bg-green-700 text-white shadow-md rounded-lg text-sm font-bold hover:bg-green-800 transition disabled:opacity-50"
                           >
                             {loading ? "Saving..." : "Save Changes"}
                           </button>
@@ -333,7 +331,7 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                               type="password"
                               value={passwords.currentPassword}
                               onChange={handlePassChange}
-                              className="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:outline-[var(--purple)] bg-white/80"
+                              className="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:outline-green-700 bg-white/90"
                             />
                           </div>
                           <div className="flex gap-2">
@@ -347,7 +345,7 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                                   type={showNewPassword ? "text" : "password"}
                                   value={passwords.newPassword}
                                   onChange={handlePassChange}
-                                  className="w-full p-3 mt-1 pr-10 rounded-lg border border-gray-300 focus:outline-[var(--purple)] bg-white/80"
+                                  className="w-full p-3 mt-1 pr-10 rounded-lg  focus:outline-green-700 bg-white/90"
                                 />
                                 <button
                                   type="button"
@@ -372,13 +370,12 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                                   }
                                   value={passwords.confirmPassword}
                                   onChange={handlePassChange}
-                                  className={`w-full p-3 mt-1 pr-10 rounded-lg border bg-white/80 focus:outline-[var(--purple)] ${
-                                    passwords.confirmPassword &&
+                                  className={`w-full p-3 mt-1 pr-10 rounded-lg border bg-white/90 focus:outline-green-600 ${passwords.confirmPassword &&
                                     passwords.newPassword !==
-                                      passwords.confirmPassword
-                                      ? "border-red-500"
-                                      : "border-gray-300"
-                                  }`}
+                                    passwords.confirmPassword
+                                    ? "border-red-500"
+                                    : "border-gray-300"
+                                    }`}
                                 />
                                 <button
                                   type="button"
@@ -399,7 +396,7 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                           <button
                             onClick={handleSecuritySave}
                             disabled={loading}
-                            className="w-full mt-2 py-2 bg-gray-800 text-white shadow-md rounded-lg text-sm font-bold hover:bg-black transition disabled:opacity-50"
+                            className="w-full mt-2 py-2 bg-green-700 text-white shadow-md rounded-lg text-sm font-bold hover:bg-green-800 transition disabled:opacity-50"
                           >
                             {loading ? "Updating..." : "Update Password"}
                           </button>
@@ -439,7 +436,7 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                   </button>
                   <button
                     onClick={close}
-                    className="text-sm text-gray-500 hover:text-gray-800 font-bold px-4 py-2 rounded-lg hover:bg-black/5 transition-colors"
+                    className="text-sm text-black  font-bold px-4 py-2 rounded-lg bg-white hover:bg-white/80 outline transition-colors"
                   >
                     Close
                   </button>

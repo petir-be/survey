@@ -201,7 +201,7 @@ export default function CustomDragLayer() {
         className="w-120"
       >
         <div
-          className={`border-2 border-(--purple) shadow-xl rounded-lg pointer-events-none`}
+          className={`border-2 border-green-600 shadow-xl rounded-lg pointer-events-none`}
           style={{
             background: "#dfe0f0",
             opacity: 1,

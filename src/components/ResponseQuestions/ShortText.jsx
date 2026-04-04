@@ -16,7 +16,7 @@ function ShortText({ question, onChange, value = "", hasError }) {
 
   return (
     <div className="my-6">
-      <p className="text-lg mb-3 font-medium">
+      <p className="text-lg mb-3 font-medium text-white">
         {question.question}{" "}
         {question.required ? <span className="text-red-600"> *</span> : null}
       </p>
@@ -26,7 +26,7 @@ function ShortText({ question, onChange, value = "", hasError }) {
           onChange={(e) => {
             handleChange(e);
           }}
-          className="w-full placeholder:italic placeholder:text-gray-400 bg-black border-b-2 border-b-(--black) text-lg focus:border-green-600  focus:outline-none px-2 py-1 resize-none overflow-hidden"
+          className="w-full  text-white placeholder:italic placeholder:text-gray-400 bg-black border-b-2 border-b-(--black) text-lg focus:border-green-600  focus:outline-none px-2 py-1 resize-none overflow-hidden"
           placeholder="Type your answer here..."
           rows={1}
         />

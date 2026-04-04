@@ -19,7 +19,7 @@ function Switch({ question, onChange, value = false }) {
 
   return (
     <div className="my-6">
-      <p className="text-lg mb-1 font-medium">
+      <p className="text-lg mb-1 font-medium text-white">
         {question.question || "Enter your email address"}
       </p>
 

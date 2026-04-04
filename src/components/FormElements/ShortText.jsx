@@ -51,7 +51,7 @@ function ShortText({ question, onUpdate, onDuplicate }) {
               onUpdate(question.id, { question: e.target.value });
               resize(questionRef);
             }}
-            className="w-full font-medium placeholder:italic placeholder:text-gray-400 text-lg border-b border-transparent hover:border-gray-300 focus:border-(--purple) focus:outline-none px-2 py-1 resize-none overflow-hidden"
+            className="w-full font-medium placeholder:italic placeholder:text-gray-400 text-lg border-b border-transparent hover:border-gray-300 focus:border-green-600 focus:outline-none px-2 py-1 resize-none overflow-hidden"
             placeholder="Type your question here"
             rows={1}
           />
@@ -72,7 +72,7 @@ function ShortText({ question, onUpdate, onDuplicate }) {
           onChange={(e) => {
             onUpdate(question.id, { answer: e.target.value });
           }}
-          className="w-full placeholder:italic placeholder:text-gray-400 bg-(--dirty-white) border-b-2 border-b-(--black) text-lg focus:border-(--purple) focus:outline-none px-2 py-1 resize-none overflow-hidden"
+          className="w-full placeholder:italic placeholder:text-gray-400 bg-(--dirty-white) border-b-2 border-b-(--black) text-lg focus:border-green-600 focus:outline-none px-2 py-1 resize-none overflow-hidden"
           placeholder="User answer will appear here..."
         />
         {showAddOption && (

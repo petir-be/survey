@@ -37,7 +37,7 @@ function Dropdown({ question, onChange, value = "", hasError }) {
 
   return (
     <div className="my-6">
-      <p className="text-lg mb-3 font-medium">
+      <p className="text-lg mb-3 font-medium text-white">
         {question.question || "Select one option"}
         {question.required ? <span className="text-red-600"> *</span> : null}
       </p>
