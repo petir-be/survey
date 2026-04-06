@@ -693,53 +693,100 @@ function Form() {
                 </div>
                 <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 gap-5 items-center">
                   <button
-                    className="text-left"
+                    className="text-left group outline-none"
                     onClick={() => {
                       setResultPage(false);
                       window.location.hash = "questions";
                     }}
-
                   >
-                    <div tabIndex='1' className="  justify-center hover:bg-gray-[#1E1E1E] focus:bg-[#1e1e1e] group px-8  py-4  relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-000 ">
-                      <div className="absolute flex items-center justify-center top-0 right-0 w-5 h-5  bg-[#C8C9DA]">
-                        <button onClick={() => setActiveTab('questions')} className="relative w-full h-full font-bold cursor-pointer  flex items-center justify-center overflow-hidden">
-                          <FaArrowUp size={12} className="fill-black rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
-                          <FaArrowUp size={12}
-                            className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 
-                                               transition-all duration-400 ease-out fill-green-700"
+                    <div
+                      className={`relative flex flex-col justify-center px-8 py-5 min-w-[200px] bg-black border transition-all duration-300 ease-out 
+      ${!resultPage
+                          ? "border-green-700 shadow-[0_0_20px_rgba(16,185,129,0.1)]"
+                          : "border-zinc-800 group-hover:border-green-800"}`}
+                    >
+                      {/* Animated Corner Icon */}
+                      <div className="absolute top-0 right-0 w-8 h-9 flex items-center justify-center overflow-hidden">
+                        <div
+                          className={`absolute top-0 right-0 w-full h-full transition-colors duration-300
+          ${!resultPage ? "bg-green-900" : "bg-zinc-900 group-hover:bg-green-900"}`}
+                          style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%)' }}
+                        />
+                        <div className="relative z-10 p-1 mb-3 ml-3">
+                          <FaArrowUp
+                            size={12}
+                            className={`rotate-45 transition-all duration-300 ease-in-out 
+            ${!resultPage ? "-translate-y-8 translate-x-8 opacity-0" : "text-zinc-500 group-hover:-translate-y-8 group-hover:translate-x-8"}`}
                           />
-                        </button>
+                          <FaArrowUp
+                            size={12}
+                            className={`absolute inset-0 m-auto text-green-300 rotate-45 transition-all duration-300 ease-in-out 
+            ${!resultPage ? "translate-y-0 translate-x-0" : "translate-y-8 -translate-x-8 group-hover:translate-y-0 group-hover:translate-x-0"}`}
+                          />
+                        </div>
                       </div>
 
-                      <span className="vagrounded font-semibold text-[15px] text-white mb-[2px]">
+                      <span className={`text-[10px] uppercase tracking-[0.2em] font-bold mb-1 transition-colors duration-300 
+      ${!resultPage ? "text-green-700" : "text-zinc-500 group-hover:text-green-800"}`}>
+                        Edit Questions
+                      </span>
+
+                      <span className={`font-vagrounded font-semibold text-lg tracking-tight transition-colors duration-300 
+      ${!resultPage ? "text-white" : "text-zinc-100 group-hover:text-white"}`}>
                         Questions
                       </span>
 
+                      {/* Bottom Accent Line */}
+                      <div className={`absolute bottom-0 left-0 h-[2px] bg-green-700 transition-all duration-500 
+      ${!resultPage ? "w-full" : "w-0 group-hover:w-full"}`} />
                     </div>
                   </button>
 
                   <button
-                    className="text-left"
+                    className="text-left group outline-none"
                     onClick={() => {
                       setResultPage(true);
                       window.location.hash = "responses";
                     }}
-
                   >
-                    <div tabIndex='0' className="  justify-center  bg-black hover:bg-gray-[#1E1E1E] focus:bg-[#1e1e1e] group px-8 py-4 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-000 ">
-                      <div className="absolute flex items-center justify-center top-0 right-0   w-5 h-5 bg-[#C8C9DA]">
-                        <button className="relative w-full h-full font-bold cursor-pointer  flex items-center justify-center overflow-hidden">
-                          <FaArrowUp size={12} className="fill-black rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
-                          <FaArrowUp size={12}
-                            className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 transition-all duration-400 ease-out fill-green-700"
+                    <div
+                      className={`relative flex flex-col justify-center px-8 py-5 min-w-[200px] bg-black border transition-all duration-300 ease-out 
+      ${resultPage
+                          ? "border-green-600 shadow-[0_0_20px_rgba(16,185,129,0.1)]"
+                          : "border-zinc-800 group-hover:border-green-800"}`}
+                    >
+                      <div className="absolute top-0 right-0 w-8 h-8 flex items-center justify-center overflow-hidden">
+                        <div
+                          className={`absolute top-0 right-0 w-full h-full transition-colors duration-300
+          ${resultPage ? "bg-green-700" : "bg-zinc-900 group-hover:bg-green-800"}`}
+                          style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%)' }}
+                        />
+                        <div className="relative z-10 p-1 mb-3 ml-3">
+                          <FaArrowUp
+                            size={12}
+                            className={`rotate-45 transition-all duration-300 ease-in-out 
+            ${resultPage ? "-translate-y-8 translate-x-8 opacity-0" : "text-zinc-500 group-hover:-translate-y-8 group-hover:translate-x-8"}`}
                           />
-                        </button>
+                          <FaArrowUp
+                            size={12}
+                            className={`absolute inset-0 m-auto text-green-300 rotate-45 transition-all duration-300 ease-in-out 
+            ${resultPage ? "translate-y-0 translate-x-0" : "translate-y-8 -translate-x-8 group-hover:translate-y-0 group-hover:translate-x-0"}`}
+                          />
+                        </div>
                       </div>
 
-                      <span className="vagrounded font-semibold text-[15px] text-white mb-[2px]">
+                      <span className={`text-[10px] uppercase tracking-[0.2em] font-bold mb-1 transition-colors duration-300 
+      ${resultPage ? "text-green-700" : "text-zinc-500 group-hover:text-green-800"}`}>
+                        View Data
+                      </span>
+
+                      <span className={`font-vagrounded font-semibold text-lg tracking-tight transition-colors duration-300 
+      ${resultPage ? "text-white" : "text-zinc-100 group-hover:text-white"}`}>
                         Responses
                       </span>
 
+                      <div className={`absolute bottom-0 left-0 h-[2px] bg-green-600 transition-all duration-500 
+      ${resultPage ? "w-full" : "w-0 group-hover:w-full"}`} />
                     </div>
                   </button>
 
@@ -754,7 +801,9 @@ function Form() {
 
                   <div className="hidden lg:inline-flex items-center gap-4 shrink-0">
                     <Link to={`../preview/${publicid}`}>
-                      <button className="text-white px-7 py-1.5 rounded-xl bg-black ring inset-shadow-lg/10   font-vagrounded drop-shadow-sm/30 hover:bg-[#1E1E1E] transition-color duration-200 ease-out">
+                      <button className="text-zinc-400 px-6 py-2 rounded-lg bg-zinc-900 border border-zinc-800 font-vagrounded text-sm font-bold 
+                      tracking-wider hover:text-white hover:border-zinc-600 transition-all duration-200 ease-out active:scale-95">
+
                         Preview
                       </button>
                     </Link>
@@ -763,17 +812,18 @@ function Form() {
                         onClick={PublishForm}
                         disabled={shareLoading}
                         ref={triggerRef}
-                        className="flex text-white items-center gap-2 px-7 py-1.5 rounded-xl bg-green-700 ring ring-white
-              inset-shadow-lg/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 ease duration-200 hover:ring-white
-              disabled:opacity-60"
+                        className={`flex items-center gap-2 px-7 py-2 rounded-lg font-vagrounded text-sm text-white font-bold  tracking-widest transition-all duration-300 ease-out active:scale-95 disabled:opacity-50
+        ${isPublished
+                            ? "bg-black border border-green-700 text-green-500 hover:bg-green-800 shadow-[0_0_15px_rgba(16,185,129,0.1)]"
+                            : "bg-green-700 text-black hover:bg-green-800 shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)]"
+                          }`}
                       >
                         {shareLoading ? (
-                          <span className="w-6 h-6 border-2 border-green-700 border-t-transparent rounded-full animate-spin"></span>
-                        ) : isPublished ? (
-                          <>
-                            <IoShareSocialSharp className="text-lg" /> Share
-                          </>
-                        ) : (
+                          <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></span>) : isPublished ? (
+                            <>
+                              <IoShareSocialSharp className="text-lg" /> Share
+                            </>
+                          ) : (
                           "Publish"
                         )}
                       </button>
@@ -782,85 +832,96 @@ function Form() {
                         {showPublishModal && (
                           <motion.div
                             ref={dropdownRef}
-                            initial={{ opacity: 0, scale: 0.6 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.7 }}
-                            transition={{ duration: 0.18, ease: "easeOut" }}
+                            initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                            transition={{ duration: 0.15, ease: "easeOut" }}
                             style={{ transformOrigin: "top right" }}
-                            className="absolute top-12 right-0 z-50"
+                            className="absolute top-14 right-0 z-50 w-96"
                           >
-                            {/* Pointer triangle */}
-                            <span className="bg-(--white) border -z-10 border-green-600 rotate-45 w-5 h-5 absolute -top-1 right-5 rounded"></span>
 
-                            {/* Modal Box */}
-                            <div className="font-vagrounded min-w-100 w-80 py-4 px-2 bg-black text-white border border-green-700 rounded shadow-lg">
-                              <div className="gap-1 px-3 flex-col flex">
-                                <p className="text-xl">Share Link</p>
+                            <div className="absolute -top-2 right-6 w-4 h-4 bg-gray-950 border-t border-l border-green-700/50 rotate-45 z-0"></div>
+
+
+                            <div className="relative z-10 flex flex-col gap-5 p-5 bg-black text-white border border-green-700/50 rounded-xl shadow-2xl overflow-hidden font-vagrounded">
+
+                              <div className="flex flex-col gap-2">
+                                <h3 className="text-lg font-semibold text-gray-100">Share Link</h3>
 
                                 <div className="flex w-full gap-2 items-center">
-                                  <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-(--dirty-white) rounded-lg p-2 truncate">
-                                    {/*   {`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`}*/}
-                                    {/*localhost:5173/form/${publicid}`}
-                                    https://ispecmn.site/form/${publicid}*/}
-                                    {`https://ispecmn.site/form/${publicid}`}
-                                  </p>
+
+                                  <div className="flex-1 bg-black border border-gray-700/50 rounded-lg p-2.5 overflow-hidden">
+                                    <p className="text-sm text-gray-300 truncate select-all">
+                                      {`https://ispecmn.site/form/${publicid}`}
+                                    </p>
+                                  </div>
+
 
                                   <button
                                     onClick={handleCopyButton}
-                                    className="flex items-center justify-center gap-2 text-sm p-2  bg-green-700 hover:bg-green-800 transition-all duration-200 ease-out border-2 rounded-lg px-4"
+                                    className="flex items-center justify-center gap-2 text-sm font-medium p-2.5 bg-green-600 hover:bg-green-700 transition-colors duration-200 rounded-lg min-w-[95px]"
                                   >
                                     {copy ? (
-                                      <IoIosCheckmarkCircle className="text-xl" />
+                                      <IoIosCheckmarkCircle className="text-lg" />
                                     ) : (
-                                      <FaCopy className="text-md" />
+                                      <FaCopy className="text-sm" />
                                     )}
                                     {copy ? "Copied" : "Copy"}
                                   </button>
                                 </div>
                               </div>
 
-                              <div className="flex items-center justify-center gap-4 px-3 my-2">
-                                <hr className="flex-1 border-gray-400" />
-                                <p className="text-sm text-gray-500 font-vagrounded">
-                                  or
-                                </p>
-                                <hr className="flex-1 border-gray-400" />
+                              <div className="flex items-center gap-3 opacity-60">
+                                <hr className="flex-1 border-gray-700" />
+                                <span className="text-xs text-gray-400 uppercase tracking-wider font-semibold">
+                                  Or
+                                </span>
+                                <hr className="flex-1 border-gray-700" />
                               </div>
-                              <p className="px-3 text-xl font-vagrounded">
-                                Get the QR Code
-                              </p>
-                              <p className="px-3 text-gray-500 text-sm font-vagrounded">
-                                Scan the code to launch your form
-                              </p>
 
-                              {/* // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------  */}
-                              <div className="flex px-3 mt-3 gap-2 ">
-                                <QRCodeCanvas
-                                  bgColor="#dfe0f0"
-                                  value={`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`} size={220}
-                                  ref={qrCodeRef}
-                                />
-                                <div className="flex flex-col font-vagrounded flex-1 justify-center gap-3">
-                                  <button
-                                    onClick={handleCopyQRImage}
-                                    className="flex bg-black hover:bg-[#1e1e1e] transition-all duration-200 ease-out  justify-center items-center gap-2 text-sm p-2 border-2 border-(--black-lighter) rounded-lg "
-                                  >
-                                    {copyQR ? (
-                                      <IoIosCheckmarkCircle className="text-md" />
-                                    ) : (
-                                      <FaCopy className="text-md" />
-                                    )}
-                                    {copyQR ? "Copied" : "Copy Code"}
-                                  </button>
-                                  <button
-                                    onClick={handleDownloadQR}
-                                    className="flex bg-black hover:bg-[#1e1e1e] justify-center items-center gap-1 text-sm p-2 border-2 border-(--black-lighter) rounded-lg "
-                                  >
-                                    <IoDownload className="text-lg" />
-                                    Download
-                                  </button>
+                              <div className="flex gap-3 items-center black p-2.5 border border-gray-800 rounded-lg">
+
+                                <div className="bg-white p-1.5 rounded-md shadow-inner shrink-0">
+                                  <QRCodeCanvas
+                                    bgColor="#ffffff"
+                                    fgColor="#000000"
+                                    value={`https://ispecmn.site/form/${publicid}`}
+                                    size={88} // Reduced size heavily
+                                    ref={qrCodeRef}
+                                  />
                                 </div>
+
+                                <div className="flex flex-col flex-1 gap-2">
+                                  <div>
+                                    <h3 className="text-sm font-semibold text-gray-100 leading-tight">QR Code</h3>
+                                    <p className="text-[10px] text-gray-400 leading-tight mt-0.5">Scan to launch form</p>
+                                  </div>
+
+                                  <div className="flex gap-1.5 mt-1">
+                                    <button
+                                      onClick={handleCopyQRImage}
+                                      className="flex-1 flex justify-center items-center gap-1 text-xs py-1.5 px-2 bg-black hover:bg-[#1e1e1e] transition-colors duration-200 border border-gray-700 rounded-md text-gray-200 hover:text-white"
+                                    >
+                                      {copyQR ? (
+                                        <IoIosCheckmarkCircle className="text-sm text-green-500" />
+                                      ) : (
+                                        <FaCopy className="text-xs" />
+                                      )}
+                                      {copyQR ? "Copied" : "Copy"}
+                                    </button>
+
+                                    <button
+                                      onClick={handleDownloadQR}
+                                      className="flex-1 flex justify-center items-center gap-1 text-xs py-1.5 px-2 bg-black hover:bg-[#1e1e1e] transition-colors duration-200 border border-gray-700 rounded-md text-gray-200 hover:text-white"
+                                    >
+                                      <IoDownload className="text-sm" />
+                                      Save
+                                    </button>
+                                  </div>
+                                </div>
+
                               </div>
+
                             </div>
                           </motion.div>
                         )}
@@ -884,137 +945,77 @@ function Form() {
                       {showSettings && (
                         <motion.div
                           ref={dropdownRef}
-                          initial={{ opacity: 0, scale: 0.6 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.7 }}
-                          transition={{ duration: 0.18, ease: "easeOut" }}
+                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
                           style={{ transformOrigin: "top right" }}
-                          className="absolute top-11 right-0 z-50"
+                          className="absolute top-12 right-0 z-50"
                         >
-                          <span className="bg-(--white) -z-10 border border-green-700 rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
-                          <div className="min-w-50 w-83 py-3 z-10 bg-black border border-green-500 text-white rounded shadow-lg rounded-[6px]">
-                            <div className="flex flex-col w-full gap-2">
-                              <div className="w-full px-3 py-2 hover:bg-[#1e1e1e] flex items-center justify-between">
-                                <span className="text-lg flex gap-2 items-center font-vagrounded">
-                                  <MdPreview className="text-2xl" />
-                                  <span className="flex flex-col text-[16px] ">
-                                    Allow Users to Review
-                                    <span className="text-[12px]">
-                                      Let users review their answers before submission
-                                    </span>
-                                  </span>
-                                </span>
 
-                                <button
-                                  onClick={toggleReview}
-                                  style={{
-                                    width: 45,
-                                    height: 21,
-                                    backgroundColor: hasReviewPage
-                                      ? "green"
-                                      : "gray",
-                                    borderRadius: 30,
-                                    cursor: "pointer",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: hasReviewPage
-                                      ? "flex-end"
-                                      : "flex-start",
-                                    padding: 3,
-                                    transition: "background-color 0.2s ease",
-                                  }}
-                                >
+                          <div className="absolute -top-1.5 right-4 w-3 h-3 bg-black border-t border-l border-zinc-800 rotate-45 z-0" />
+
+                          <div className="relative w-80 overflow-hidden bg-black  border border-zinc-800 text-white rounded-xl shadow-2xl shadow-black/50">
+                            <div className="flex flex-col p-1">
+
+                              {/* Review Setting */}
+                              <div className="group flex items-start gap-3 p-3 rounded-lg hover:bg-zinc-800/50 transition-colors cursor-pointer" onClick={toggleReview}>
+                                <div className="mt-1 text-green-600 text-xl">
+                                  <MdPreview />
+                                </div>
+                                <div className="flex-1 flex flex-col">
+                                  <span className="text-sm font-medium text-zinc-100">Allow User Review</span>
+                                  <span className="text-xs text-zinc-400 leading-relaxed">Let users check answers before submission</span>
+                                </div>
+                                <div className={`relative w-9 h-5 rounded-full transition-colors duration-200 mt-1 ${hasReviewPage ? 'bg-green-600' : 'bg-zinc-700'}`}>
                                   <motion.div
-                                    layout
-                                    style={{
-                                      width: 15,
-                                      height: 15,
-                                      backgroundColor: "white",
-                                      borderRadius: "50%",
-                                      boxShadow: "0 0 3px rgba(0,0,0,0.2)",
-                                    }}
-                                    transition={{
-                                      type: "spring",
-                                      duration: 0.25,
-                                      bounce: 0.2,
-                                    }}
+                                    animate={{ x: hasReviewPage ? 18 : 2 }}
+                                    className="absolute top-1 w-3 h-3 bg-white rounded-full shadow-sm"
                                   />
-                                </button>
+                                </div>
                               </div>
 
                               {/* Multiple Submission */}
-                              <div className="w-full px-3 py-2 hover:bg-[#1e1e1e]  flex items-center justify-between">
-                                <span className="text-lg flex gap-2 items-center font-vagrounded">
-                                  <BiSelectMultiple className="text-2xl" />
-                                  <span className="flex flex-col text-[16px] ">
-                                    Multiple Submission
-                                    <span className="text-[12px]">
-                                      Allows user to answer multiple times
-                                    </span>
-                                  </span>
-                                </span>
-
-                                <button
-                                  onClick={toggleMulti}
-                                  style={{
-                                    width: 45,
-                                    height: 21,
-                                    backgroundColor: allowMultipleSubmissionsValue
-                                      ? "green"
-                                      : "gray",
-                                    borderRadius: 30,
-                                    cursor: "pointer",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: allowMultipleSubmissionsValue
-                                      ? "flex-end"
-                                      : "flex-start",
-                                    padding: 3,
-                                    transition: "background-color 0.2s ease",
-                                  }}
-                                >
+                              <div className="group flex items-start gap-3 p-3 rounded-lg hover:bg-zinc-800/50 transition-colors cursor-pointer" onClick={toggleMulti}>
+                                <div className="mt-1 text-green-600 text-xl">
+                                  <BiSelectMultiple />
+                                </div>
+                                <div className="flex-1 flex flex-col">
+                                  <span className="text-sm font-medium text-zinc-100">Multiple Submissions</span>
+                                  <span className="text-xs text-zinc-400 leading-relaxed">Allows users to answer multiple times</span>
+                                </div>
+                                <div className={`relative w-9 h-5 rounded-full transition-colors duration-200 mt-1 ${allowMultipleSubmissionsValue ? 'bg-green-600' : 'bg-zinc-700'}`}>
                                   <motion.div
-                                    layout
-                                    style={{
-                                      width: 15,
-                                      height: 15,
-                                      backgroundColor: "white",
-                                      borderRadius: "50%",
-                                      boxShadow: "0 0 3px rgba(0,0,0,0.2)",
-                                    }}
-                                    transition={{
-                                      type: "spring",
-                                      duration: 0.25,
-                                      bounce: 0.2,
-                                    }}
+                                    animate={{ x: allowMultipleSubmissionsValue ? 18 : 2 }}
+                                    className="absolute top-1 w-3 h-3 bg-white rounded-full shadow-sm"
                                   />
-                                </button>
+                                </div>
                               </div>
 
-                              {/* UNPUBLISH BUTTOn  */}
-                              <div className="flex items-center justify-center gap-4 px-3">
-                                <hr className="flex-1 border-gray-400" />
-                              </div>
-                              <div
-                                onClick={() => {
-                                  isPublished ? setShowUnpublishModal(true) : null;
-                                }}
-                                className={`w-full px-3 py-2 flex items-center justify-between ${isPublished
-                                  ? "hover:bg-[#1E1E1E] "
-                                  : "opacity-50 hover:none disable"
+                              {/* Divider */}
+                              <div className="my-1 border-t border-zinc-800 mx-2" />
+
+                              {/* Unpublish Action */}
+                              <button
+                                disabled={!isPublished}
+                                onClick={() => isPublished && setShowUnpublishModal(true)}
+                                className={`flex items-start gap-3 p-3 rounded-lg transition-all w-full text-left
+              ${isPublished
+                                    ? 'hover:bg-red-500/10 group'
+                                    : 'opacity-40 cursor-not-allowed'
                                   }`}
                               >
-                                <span className="text-lg flex gap-2 items-center font-vagrounded">
-                                  <BsFillSendXFill className="text-xl font-bold" />
-                                  <span className="flex flex-col text-[16px]">
+                                <div className={`mt-1 text-xl ${isPublished ? 'text-zinc-400 group-hover:text-red-600' : 'text-zinc-500'}`}>
+                                  <BsFillSendXFill />
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className={`text-sm font-medium ${isPublished ? 'text-zinc-100 group-hover:text-red-600' : 'text-zinc-500'}`}>
                                     Unpublish Form
-                                    <span className="text-[12px]">
-                                      The form will no longer be visible to
-                                      responders.
-                                    </span>
                                   </span>
-                                </span>
-                              </div>
+                                  <span className="text-xs text-zinc-500">Stop accepting new responses</span>
+                                </div>
+                              </button>
+
                             </div>
                           </div>
                         </motion.div>
@@ -1048,94 +1049,46 @@ function Form() {
                   <div
                     id="questions"
                     className="flex-1 w-full flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden min-h-0 scrollbar-vscode"              >
-                    {/* leftside */}
-                    <div className="w-[20%]  p-6 z-10 bg-black h-auto h-full min-h-0 border-t-1 border-r-1 overflow-y-auto border-(--dirty-white) static max-h-full">                  {/* elements*/}
-                      {/* Frequently Used */}
-                      <span className="text-gray-500 font-vagrounded m-3">
-                        Frequently used
-                      </span>
-                      <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white ">
-                        {types.slice(0, 3).map((type, index) => (
-                          <FormElement
-                            key={index}
-                            bgKulay={"#20B15530"}
-                            foreKulay={"#20B155"}
-                            icon={type.Icon}
-                            title={type.title}
-
-
-                          />
-                        ))}
+                    <div className="w-[22%] bg-black h-full border-r border-zinc-800 flex flex-col overflow-hidden">
+                      <div className="p-6 pb-2">
+                        <h2 className="text-green-600 font-vagrounded text-xs uppercase tracking-[0.2em] font-bold">
+                          Form Elements
+                        </h2>
                       </div>
 
-                      {/* Display Text */}
-                      <span className="text-gray-500 font-vagrounded m-3 mt-5">
-                        Display Text
-                      </span>
-                      <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white">
-                        {types.slice(3, 5).map((type, index) => (
-                          <FormElement
-                            key={index}
-                            bgKulay={"#52525230"}
-                            foreKulay={"#525252"}
-                            icon={type.Icon}
-                            title={type.title}
-                          />
-                        ))}
-                      </div>
+                      <div className="flex-1 overflow-y-auto p-4 pt-0 custom-scrollbar">
 
-                      {/* Choices */}
-                      <span className="text-gray-500 font-vagrounded m-3 mt-5 ">
-                        Choices
-                      </span>
-                      <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white">
-                        {types.slice(5, 11).map((type, index) => (
-                          <FormElement
-                            key={index}
-                            bgKulay={"#CC580530"}
-                            foreKulay={"#CC5805"}
-                            // bgKulay={"#B438FF30"}
-                            // foreKulay={"#B438FF"}
-                            icon={type.Icon}
-                            title={type.title}
-                          />
-                        ))}
-                      </div>
+                        {[
+                          { title: "Frequently used", range: [0, 3], color: "#00a651" },
+                          { title: "Display Text", range: [3, 5], color: "#00a651" },
+                          { title: "Choices", range: [5, 11], color: "#00a651" },
+                          { title: "Text", range: [11, 13], color: "#00a651" },
+                          { title: "Others", range: [13, 17], color: "#00a651" },
+                        ].map((section, idx) => (
+                          <div key={idx} className="mb-8">
+                            {/* Label */}
+                            <span className="block text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-4 ml-2">
+                              {section.title}
+                            </span>
 
-                      {/* Text */}
-                      <span className="text-gray-500 font-vagrounded m-3 mt-5">
-                        Text
-                      </span>
-                      <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white ">
-                        {types.slice(11, 13).map((type, index) => (
-                          <FormElement
-                            key={index}
-                            bgKulay={"#CC06F930"}
-                            foreKulay={"#CC06F9"}
-                            icon={type.Icon}
-                            title={type.title}
-                          />
-                        ))}
-                      </div>
+                            {/* Element Grid */}
+                            <div className="grid grid-cols-3 gap-2">
+                              {types.slice(section.range[0], section.range[1]).map((type, index) => (
+                                <FormElement
 
-                      {/* Others */}
-                      <span className="text-gray-500 font-vagrounded m-3 mt-5">
-                        Others
-                      </span>
-                      <div className="grid grid-cols-3 mb-4 w-full gap-3 p-2 m-auto text-white">
-                        {types.slice(13, 17).map((type, index) => (
-                          <FormElement
-                            key={index}
-                            bgKulay={"#F9161630"}
-                            foreKulay={"#F91616"}
-                            icon={type.Icon}
-                            title={type.title}
-                          />
+                                  bgKulay={`${section.color}15`}
+                                  foreKulay={section.color}
+                                  icon={type.Icon}
+                                  title={type.title}
+                                />
+                              ))}
+                            </div>
+                          </div>
                         ))}
                       </div>
                     </div>
 
-                    {/* mid */}
+
                     <div className="h-screen  border-(--dirty-white) py-4 flex flex-col w-[60%]">
                       <Canvas
                         questions={pages[currentPageIndex].questions}
@@ -1152,18 +1105,41 @@ function Form() {
                       />
                     </div>
 
-                    {/* right side */}
-                    <div className="flex flex-col relative h-auto lg:h-full w-full lg:w-[20%] bg-black  p-6 min-h-0 border-t-2 lg:border-t-0 lg:border-l-2 border-(--dirty-white) font-vagrounded overflow-auto pb-10">                  <div className="w-full">
-                      <h1 className="text-white text-3xl text-left">Layers</h1>
-                    </div>
-                      <div className="w-full mt-4 ">
-                        <Layers
-                          questions={pages[currentPageIndex]?.questions || []}
-                          onReorder={handleReorderQuestions}
-                          onDelete={handleDeleteQuestion}
-                        />
+                    <div className="flex flex-col relative h-auto lg:h-full w-full lg:w-[22%] bg-black p-0 min-h-0 border-t lg:border-t-0 lg:border-l border-zinc-800 font-vagrounded overflow-hidden">
+
+                      {/* Header Section */}
+                      <div className="p-6 pb-4 flex items-center justify-between border-b border-zinc-900">
+                        <div className="flex items-center gap-2">
+                          {/* Decorative Green Dot */}
+                          <div className="w-1.5 h-1.5 rounded-full bg-green-600 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
+                          <h1 className="text-zinc-100 text-sm font-bold uppercase tracking-widest">
+                            Layers
+                          </h1>
+                        </div>
+
+
+                        <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-green-600 text-[10px] font-mono">
+                          {pages[currentPageIndex]?.questions?.length || 0} ITEMS
+                        </span>
                       </div>
-                      <div className="flex w-full mt-3 border border-t-(--dirty-white) border-transparent "></div>
+
+
+                      <div className="flex-1 overflow-y-auto px-4 py-2 custom-scrollbar">
+                        <div className="w-full mt-2">
+                          <Layers
+                            questions={pages[currentPageIndex]?.questions || []}
+                            onReorder={handleReorderQuestions}
+                            onDelete={handleDeleteQuestion}
+                          />
+                        </div>
+                      </div>
+
+
+                      <div className="h-12 border-t border-zinc-900 bg-zinc-950/30 flex items-center px-6">
+                        <span className="text-[9px] text-zinc-600 uppercase tracking-tighter">
+                          Page {currentPageIndex + 1} Structure
+                        </span>
+                      </div>
                     </div>
                   </div>
 

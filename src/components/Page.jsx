@@ -136,37 +136,36 @@ function Page({
     <>
       {isDesktopOrLaptop &&
         <>
-          <div className="mb-5 flex flex-col h-full w-full items-center justify-center gap-2 scrollbar-vscode">
-            {/* --- UNCOMMENTED AND FIXED HEADER FOR PAGE DELETION --- */}
-            <div className="w-[92%] px-7 mt-4   flex justify-between items-center text-white">
-              <h1 className="text-xl text-left font-vagrounded mb-2">
-                Page {pageNumber} of {totalPages}
+          <div className="flex flex-col h-screen w-full bg-black overflow-hidden">
+
+
+            <div className="h-[70px] w-full flex items-center justify-between px-8 border-b border-zinc-800">
+              <h1 className="text-xl text-white font-vagrounded">
+                Page {pageNumber} <span className="text-zinc-600 text-sm font-normal">/ {totalPages}</span>
               </h1>
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 items-center bg-zinc-900/50 p-1.5 rounded-lg border border-zinc-800">
                 {totalPages > 1 && (
                   <>
                     <button
                       onClick={() => onPageChange(currentPageIndex - 1)}
                       disabled={currentPageIndex === 0}
-                      className="px-3 py-2 mb-2 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] bg-gray-200 text-black rounded disabled:opacity-50 active:scale-90 duration-100"
+                      className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md disabled:opacity-30 transition-all"
                     >
                       <FaChevronLeft />
                     </button>
                     <button
                       onClick={() => onPageChange(currentPageIndex + 1)}
                       disabled={currentPageIndex === totalPages - 1}
-                      className="px-3 py-2 mb-2  drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] bg-gray-200 text-black rounded disabled:opacity-50 active:scale-90 duration-100"
-                    >
+                      className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md disabled:opacity-30 transition-all"                    >
                       <FaChevronRight />
                     </button>
                     <button
                       onClick={() => {
-                        // Targets the EXACT page index you are viewing
+
                         setDeleteTarget({ type: "page", index: currentPageIndex });
                         setShowDeleteModal(true);
                       }}
-                      className="px-3 py-2 mb-2  drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] bg-red-500 text-white rounded hover:bg-red-600 active:scale-90 duration-100"
-                      title="Delete current page"
+                      className="p-2 text-zinc-500 hover:text-red-400 hover:bg-red-500/10 rounded-md transition-all" title="Delete current page"
                     >
                       <FaRegTrashAlt className="fill-white" />
                     </button>
@@ -175,51 +174,37 @@ function Page({
               </div>
             </div>
 
-            <div
-              ref={canvasRef}
-              className="w-[92%] flex flex-col overflow-hidden h-[80%] bg-[#1e1e1e] mt-2 items-center ring ring-white  rounded-[12px] drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] "
-            >
-              <div className="relative flex flex-col overflow-y-auto h-full w-full">
-                {questions.length === 0 && (
-                  <div className="w-full absolute translate-x-1/2 text-center translate-y-1/2 bottom-1/2 right-1/2 text-gray-600">
-                    Drag and Drop From Left Side
-                  </div>
-                )}
+            <div className="flex-1 w-full overflow-y-auto p-8 bg-[#0a0a0a]">
+              <div
+                ref={canvasRef}
+                className="w-full max-w-[900px] mx-auto min-h-[500px] bg-black border border-zinc-800 rounded-xl shadow-lg relative"
+              >
 
-                <DropZone index={0} onInsert={onInsert} />
-                {questions.map((question, idx) => (
-                  <div key={question?.id || idx} className="w-full ">
-                    <QuestionDropWrapper index={idx} onInsert={onInsert}>
-                      <div>
-                        {renderElement(
-                          question,
-                          onUpdateQuestion,
-                          onDeleteQuestion,
-                          onDuplicateQuestion
-                        )}
-                      </div>
-                    </QuestionDropWrapper>
-                    <DropZone index={idx + 1} onInsert={onInsert} />
-                  </div>
-                ))}
+                <div className="p-8">
+                  {questions.map((question, idx) => (
+                    <div key={question?.id || idx}>
+                      <QuestionDropWrapper index={idx} onInsert={onInsert}>
+                        {renderElement(question, onUpdateQuestion, onDeleteQuestion, onDuplicateQuestion)}
+                      </QuestionDropWrapper>
+                      <DropZone index={idx + 1} onInsert={onInsert} />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
-            <div className="flex flex-row mt-2 w-[92%]  items-start z-10 gap-5 ">
-
-
-
-              <div className="flex shrink-0 pt-1">
+            <div className="flex flex-row   w-full border-t border-zinc-800 items-start z-10 gap-5 p-6 ">
+              <div className="flex shrink-0 pt-1 ">
                 <button
                   onClick={onAddPage}
-                  className="text-white flex items-center whitespace-nowrap flex-row px-5 gap-2 py-2 rounded-md bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 transition-color duration-200 ease-out"
+                  className="text-white flex items-center  whitespace-nowrap flex-row  px-5 gap-2 py-2 rounded-md bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 transition-color duration-200 ease-out"
                 >
                   <FaPlus fill="" className="fill-white" /> Add page
                 </button>
               </div>
               <div className="border-l border-l-neutral-400 h-10" />
 
-              <div className="flex gap-2 items-start px-2 pt-1 pb-3 overflow-x-auto scrollbar-vscode w-full">
+              <div className="flex gap-2 items-start px-2 pt-1 pb-4 overflow-x-auto  scrollbar-vscode w-full">
                 {Array.from({ length: totalPages }, (_, index) => (
                   <button
                     key={index}
@@ -278,8 +263,7 @@ function Page({
       }
       {isTabletOrMobile &&
         <>
-          <div className="flex flex-col h-full w-full items-center justify-center gap-2">
-            {/* --- UNCOMMENTED AND FIXED HEADER FOR PAGE DELETION --- */}
+          <div className="flex flex-col h-full w-full items-center justify-center gap-2 ">
             <div className="w-[92%] px-4  flex justify-between items-center text-white">
               <h1 className="text-md text-left font-vagrounded mb-2">
                 Page {pageNumber} of {totalPages}

@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useMediaQuery } from 'react-responsive';
 function Footer() {
-  const [displayText, setDisplayText] = useState("by CMN");
+  const [displayText, setDisplayText] = useState("by ISPECMN");
   const [fadeClass, setFadeClass] = useState("opacity-100");
 
   const names = [
@@ -90,7 +90,7 @@ function Footer() {
         <>
           <footer
             className="p-10 flex cursor-default fixed bottom-0 left-2 w-fit text-center 
-       bg-header-gradient text-white font-zendots text-lg z-20"
+       bg-header-gradient text-white font-baloo font-black text-lg z-20"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
@@ -105,7 +105,7 @@ function Footer() {
         <>
           <footer
             className="py-10 px-6 flex cursor-default fixed bottom-0 left-0 w-fit text-center 
-       bg-header-gradient text-white font-zendots text-[md] z-20 select-none"
+       bg-header-gradient text-white font-baloo font-black z-20 select-none"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >

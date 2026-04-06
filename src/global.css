@@ -39,13 +39,7 @@
   /* not italic */
 }
 
-/* Semibold */
-@font-face {
-  font-family: "VagRounded";
-  src: url("/assets/fonts/VAG Rounded Next Semibold.ttf");
-  font-weight: 600;
-  font-style: normal;
-}
+
 
 @font-face {
   font-family: "VagRounded";
@@ -83,6 +77,7 @@
   --black-lighter: #929497;
   --font-zendots: ZenDots, sans-serif;
   --font-vagrounded: VagRounded, sans-serif;
+  --font-baloo: "Baloo Chettan 2";
 }
 
 @keyframes moveCircleLtR {
