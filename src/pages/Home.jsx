@@ -15,6 +15,7 @@ import { AuthContext } from "../Context/authContext";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { IoDocumentText, IoSparkles, IoGrid, IoAlertCircle, } from "react-icons/io5";
 import Footer from "../components/Footer";
+import ShaderBackground from "../components/ShaderBackground.jsx";
 
 
 function Home() {
@@ -222,6 +223,7 @@ function Home() {
 
 
       <Navbar />
+       <ShaderBackground />
       {isDesktopOrLaptop && (
 
 
@@ -247,7 +249,7 @@ function Home() {
                 >
                   <div className=" flex px-3 rounded-full gap-3 items-center">
                     <img src="./CMN.png" className="w-[14px]" />
-                    <span className="text-white text-[14px] font-zendots">Ispecmn</span >
+                    <span className="text-white text-[14px] font-baloo font-black">Ispecmn</span >
                   </div>
                   <div className="flex flex-col items-center text-center">
                     <div className="bg-red-500/10 p-3 rounded-full mb-4">
@@ -432,7 +434,7 @@ function Home() {
                 >
                   <div className=" flex px-3 rounded-full gap-3 items-center">
                     <img src="./CMN.png" className="w-[10px]" />
-                    <span className="text-white text-[10px] font-zendots">Ispecmn</span >
+                    <span className="text-white text-[10px]  font-baloo font-black">Ispecmn</span >
                   </div>
 
                   <div className="flex flex-col items-center text-center">

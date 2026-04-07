@@ -15,10 +15,11 @@ import ReviewPage from "./components/ReviewPage.jsx";
 import Workspaces from "./pages/Workspaces.jsx";
 import Kabadingan from "./pages/Kabadingan.jsx";
 import ShaderBackground from './components/ShaderBackground';
+import "../src/global.css"
 function Layout() {
   return (
     <>
-    <ShaderBackground />
+   
       
       <div>
         <Outlet />

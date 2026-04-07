@@ -12,7 +12,7 @@ import { AuthContext } from "../Context/authContext";
 import axios from "axios";
 
 import * as motion from "motion/react-client";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence } from "framer-motion";
 import { BiSelectMultiple } from "react-icons/bi";
 import toast, { Toaster } from "react-hot-toast";
@@ -459,24 +459,24 @@ function Form() {
   }, [pages, titleValue, allowMultipleSubmissionsValue, hasReviewPage, isPublished, hasUnsavedChanges]);
 
 
+  const queryClient = useQueryClient();
+
   const saveMutation = useMutation({
     mutationFn: async (savePayload) => {
       const res = await axios.put(`${import.meta.env.VITE_BACKEND}/api/Form/save/${id}`, savePayload);
       return res.data;
     },
-    onMutate: () => {
-      console.log("Auto-saving...");
-    },
     onSuccess: () => {
       console.log("Saved successfully");
       setHasUnsavedChanges(false);
+      // 2. This forces the Workspace page to refetch the new title
+      queryClient.invalidateQueries({ queryKey: ["forms"] });
     },
     onError: (error) => {
       console.error("Save failed", error);
       toast.error("Failed to auto-save changes.");
     }
   });
-
   useEffect(() => {
     // Don't save if it's currently fetching, or if there's nothing to save
     if (loading || !hasUnsavedChanges || isFirstRender.current) return;
@@ -528,6 +528,7 @@ function Form() {
 
   function handleTitleUpdate(newTitle) {
     setTitleValue(newTitle);
+    setHasUnsavedChanges(true);
   }
 
   // saving para sa mga instant save like toggle buttons and delete shits
@@ -545,32 +546,23 @@ function Form() {
   }, [hasUnsavedChanges, loading]);
 
   async function Save() {
-    const currentPages = pages;
-
     try {
       await axios.put(`${import.meta.env.VITE_BACKEND}/api/Form/save/${id}`, {
         userId: user.id,
-        formData: currentPages,
+        title: titleValue, // ADD THIS LINE
+        formData: pages,
         allowMultipleSubmissions: allowMultipleSubmissionsValue,
         hasReviewPage: hasReviewPage,
         isPublished: isPublished,
       });
 
       setHasUnsavedChanges(false);
-
-      lastSavedState.current = {
-        pages: currentPages,
-        allowMultipleSubmissionsValue: allowMultipleSubmissionsValue,
-        hasReviewPage: hasReviewPage,
-        isPublished: isPublished,
-      };
-
+      queryClient.invalidateQueries({ queryKey: ["forms"] }); // Add this here too
       console.log("Saved successfully");
     } catch (error) {
       console.log("Save failed", error);
     }
   }
-
   // ------------------PAKIPALITAN PAG NAKA UPLOAD NA------------------
   function handleCopyButton() {
     // navigator.clipboard.writeText(`https://[websitename]/form/${publicid}`);
@@ -691,24 +683,24 @@ function Form() {
                     />
                   </div>
                 </div>
-                <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 gap-5 items-center">
+                <div className="hidden  lg:flex absolute left-1/2 -translate-x-1/2 gap-5 items-center">
                   <button
-                    className="text-left group outline-none"
+                    className="text-left group outline-none rounded-[6px] overflow-hidden"
                     onClick={() => {
                       setResultPage(false);
                       window.location.hash = "questions";
                     }}
                   >
                     <div
-                      className={`relative flex flex-col justify-center px-8 py-5 min-w-[200px] bg-black border transition-all duration-300 ease-out 
+                      className={`relative flex flex-col justify-center px-8 py-5 min-w-[200px] rounded-[6px] bg-black border transition-all duration-300 ease-out 
       ${!resultPage
                           ? "border-green-700 shadow-[0_0_20px_rgba(16,185,129,0.1)]"
                           : "border-zinc-800 group-hover:border-green-800"}`}
                     >
                       {/* Animated Corner Icon */}
-                      <div className="absolute top-0 right-0 w-8 h-9 flex items-center justify-center overflow-hidden">
+                      <div className="absolute top-0 right-0 w-8 h-9 flex items-center justify-center overflow-hidden ">
                         <div
-                          className={`absolute top-0 right-0 w-full h-full transition-colors duration-300
+                          className={`absolute top-0 right-0 w-full h-full transition-colors duration-300 
           ${!resultPage ? "bg-green-900" : "bg-zinc-900 group-hover:bg-green-900"}`}
                           style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%)' }}
                         />
@@ -726,7 +718,7 @@ function Form() {
                         </div>
                       </div>
 
-                      <span className={`text-[10px] uppercase tracking-[0.2em] font-bold mb-1 transition-colors duration-300 
+                      <span className={`text-[10px] uppercase tracking-[0.2em] font-bold mb-1 transition-colors duration-300 font-vagrounded
       ${!resultPage ? "text-green-700" : "text-zinc-500 group-hover:text-green-800"}`}>
                         Edit Questions
                       </span>
@@ -743,14 +735,14 @@ function Form() {
                   </button>
 
                   <button
-                    className="text-left group outline-none"
+                    className="text-left group outline-none rounded-[6px] overflow-hidden"
                     onClick={() => {
                       setResultPage(true);
                       window.location.hash = "responses";
                     }}
                   >
                     <div
-                      className={`relative flex flex-col justify-center px-8 py-5 min-w-[200px] bg-black border transition-all duration-300 ease-out 
+                      className={`relative flex flex-col justify-center px-8 py-5 min-w-[200px] bg-black border transition-all duration-300 ease-out  rounded-[6px]
       ${resultPage
                           ? "border-green-600 shadow-[0_0_20px_rgba(16,185,129,0.1)]"
                           : "border-zinc-800 group-hover:border-green-800"}`}
@@ -758,7 +750,7 @@ function Form() {
                       <div className="absolute top-0 right-0 w-8 h-8 flex items-center justify-center overflow-hidden">
                         <div
                           className={`absolute top-0 right-0 w-full h-full transition-colors duration-300
-          ${resultPage ? "bg-green-700" : "bg-zinc-900 group-hover:bg-green-800"}`}
+          ${resultPage ? "bg-green-900" : "bg-zinc-900 group-hover:bg-green-900"}`}
                           style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%)' }}
                         />
                         <div className="relative z-10 p-1 mb-3 ml-3">
@@ -775,7 +767,7 @@ function Form() {
                         </div>
                       </div>
 
-                      <span className={`text-[10px] uppercase tracking-[0.2em] font-bold mb-1 transition-colors duration-300 
+                      <span className={`text-[10px] uppercase tracking-[0.2em] font-bold mb-1 transition-colors duration-300 font-vagrounded
       ${resultPage ? "text-green-700" : "text-zinc-500 group-hover:text-green-800"}`}>
                         View Data
                       </span>

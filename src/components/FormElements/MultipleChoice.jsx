@@ -10,40 +10,23 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
   ];
 
   const [required, setRequired] = useState(question.required || false);
-
-  function toggleRequired() {
-    setRequired((prev) => !prev);
-    onUpdate(question.id, { required: !required });
-  }
-
-  const normalizeOptions = (options) => {
-    if (!Array.isArray(options) || options.length === 0) return defaultOptions;
-
-    return options.map((opt, i) => {
-      if (typeof opt === "string") {
-        return { id: crypto.randomUUID(), label: opt };
-      }
-
-      if (typeof opt === "object" && opt !== null) {
-        return {
-          id: opt.id || crypto.randomUUID(),
-          label: opt.label ?? `Option ${i + 1}`,
-        };
-      }
-
-      return { id: crypto.randomUUID(), label: `Option ${i + 1}` };
-    });
-  };
-
-  const [addOption, setAddOption] = useState(
-    normalizeOptions(question.options)
-  );
-  // -----------------------------------------------------
-
   const [showAddOption, setShowAddOption] = useState(false);
   const [selected, setSelected] = useState("");
   const instanceId = React.useId();
   const textareaRef = useRef(null);
+
+  const normalizeOptions = (options) => {
+    if (!Array.isArray(options) || options.length === 0) return defaultOptions;
+    return options.map((opt, i) => {
+      if (typeof opt === "string") return { id: crypto.randomUUID(), label: opt };
+      return {
+        id: opt.id || crypto.randomUUID(),
+        label: opt.label ?? `Option ${i + 1}`,
+      };
+    });
+  };
+
+  const [addOption, setAddOption] = useState(normalizeOptions(question.options));
 
   const adjustHeight = () => {
     const textarea = textareaRef.current;
@@ -53,71 +36,34 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
     }
   };
 
-  // Sync question text height
-  useEffect(() => {
-    adjustHeight();
-  }, [question.question]);
+  useEffect(() => { adjustHeight(); }, [question.question]);
 
-  // Send normalized labels to parent
   useEffect(() => {
-    onUpdate(question.id, { options: addOption.map((o) => o.label) });
-    onUpdate(question.id, { required: required });
-  }, []);
-
-  // Auto width resize
-  useEffect(() => {
-    addOption.forEach((option, index) => {
-      const span = document.getElementById(
-        `radio-resize-${instanceId}-${index}`
-      );
-      const input = span?.previousElementSibling;
-
-      if (span && input) {
-        const w = Math.max(span.offsetWidth + 10, 72);
-        input.style.width = w + "px";
-        input.parentElement.parentElement.style.width = w + 60 + "px";
-      }
-    });
-  }, [addOption]);
+    onUpdate(question.id, { options: addOption.map((o) => o.label), required: required });
+  }, [addOption, required]);
 
   const addOptionField = () => {
-    const newOption = {
-      id: crypto.randomUUID(),
-      label: `Option ${addOption.length + 1}`,
-    };
-
-    const updated = [...addOption, newOption];
-    setAddOption(updated);
-    onUpdate(question.id, { options: updated.map((o) => o.label) });
+    const newOption = { id: crypto.randomUUID(), label: `Option ${addOption.length + 1}` };
+    setAddOption([...addOption, newOption]);
   };
 
   const removeOptionField = (index) => {
-    const removed = addOption[index];
     const filtered = addOption.filter((_, i) => i !== index);
-
-    const reindexed = filtered.map((o, i) =>
-      /^Option \d+$/.test(o.label) ? { ...o, label: `Option ${i + 1}` } : o
-    );
-
-    if (selected === removed.label) setSelected("");
-
-    setAddOption(reindexed);
-    onUpdate(question.id, { options: reindexed.map((o) => o.label) });
+    setAddOption(filtered);
   };
 
   return (
     <div
-      className="form-element-container group"
+      className="relative p-6 justify-self-center w-11/12 transition-all duration-300 bg-zinc-950/40 backdrop-blur-md border border-zinc-800 rounded-2xl hover:border-emerald-500/30 group mb-6 focus-within:ring-1 focus-within:ring-emerald-500/50 focus-within:bg-zinc-950/60"
       tabIndex={0}
       onFocus={() => setShowAddOption(true)}
       onBlur={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget)) {
-          setShowAddOption(false);
-        }
+        if (!e.currentTarget.contains(e.relatedTarget)) setShowAddOption(false);
       }}
     >
-      <div className="flex justify-between items-start mb-2">
-        <div className="flex-1 inline-flex">
+      {/* HEADER SECTION */}
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex-1 flex items-start gap-3">
           <textarea
             ref={textareaRef}
             value={question.question || ""}
@@ -125,118 +71,80 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
               onUpdate(question.id, { question: e.target.value });
               adjustHeight();
             }}
-            className="w-full font-medium placeholder:italic placeholder:text-gray-400 text-lg border-b border-transparent hover:border-gray-300 focus:border-green-700 focus:outline-none px-2 py-1 resize-none overflow-hidden"
-            placeholder="Type your question here"
+            className="w-full font-vagrounded font-bold text-xl bg-transparent text-white placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden"
+            placeholder="Untitled Question"
             rows={1}
           />
 
           <button
             onClick={() => onDuplicate(question.id)}
-            className="font-vagrounded mx-5 group-focus-within:opacity-100 opacity-0 transition-all duration-200"
+            className="p-2 text-zinc-500 hover:text-emerald-500 transition-all opacity-0 group-focus-within:opacity-100"
           >
-            <IoDuplicate className="text-2xl" />
+            <IoDuplicate size={20} />
           </button>
         </div>
       </div>
 
-      <div className="space-y-2 mt-3 group relative">
-        {addOption.length === 0 ? (
-          <div className="w-full flex justify-center items-center">
-            <p className="text-gray-400">Empty choices...</p>
+      {/* OPTIONS SECTION */}
+      <div className="space-y-3 mt-4">
+        {addOption.map((option, index) => (
+          <div className="group/item flex items-center gap-3 relative" key={option.id}>
+            <input
+              type="radio"
+              disabled
+              className="w-4 h-4 rounded-full border-2 border-zinc-700 appearance-none checked:bg-emerald-500 checked:border-emerald-500 transition-all"
+            />
+
+            <input
+              type="text"
+              value={option.label}
+              onChange={(e) => {
+                const updated = [...addOption];
+                updated[index].label = e.target.value;
+                setAddOption(updated);
+              }}
+              className="flex-1 bg-transparent border-b border-transparent hover:border-zinc-800 focus:border-emerald-500/50 focus:outline-none text-zinc-300 font-medium py-1 transition-all"
+            />
+
+            <button
+              onClick={() => removeOptionField(index)}
+              className="opacity-0 group-hover/item:opacity-100 p-1 text-zinc-600 hover:text-red-500 transition-opacity"
+            >
+              <FaCircleXmark size={16} />
+            </button>
           </div>
-        ) : (
-          addOption.map((option, index) => (
-            <div className="group/item form-option-input" key={option.id}>
-              <input
-                type="radio"
-                name={`question-${question.id}`}
-                checked={selected === option.label}
-                onChange={() => setSelected(option.label)}
-                className="w-5 h-5 min-w-5 min-h-5 text-black accent-green-600"
-              />
+        ))}
 
-              <div className="relative h-full max-w-full overflow-hidden">
-                <input
-                  type="text"
-                  value={option.label}
-                  onChange={(e) => {
-                    const updated = [...addOption];
-                    updated[index] = {
-                      ...updated[index],
-                      label: e.target.value,
-                    };
-                    setAddOption(updated);
-                    onUpdate(question.id, {
-                      options: updated.map((o) => o.label),
-                    });
-                  }}
-                  className="absolute font-vagrounded top-0 left-0 line-clamp-2 text-wrap max-w-full placeholder:text-gray-400 focus:outline-none"
-                  style={{ width: "100%", minWidth: "72px" }}
-                />
-
-                <span
-                  id={`radio-resize-${instanceId}-${index}`}
-                  className="invisible whitespace-pre"
-                >
-                  {option.label || " "}
-                </span>
-              </div>
-
-              <div className="absolute -top-2 -right-2 opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100 transition-opacity duration-200 ease-out">
-                <button onClick={() => removeOptionField(index)}>
-                  <FaCircleXmark
-                    className="bg-white text-xl fill-red-600 rounded-full hover:ring-2 hover:ring-red-700"
-                  
-                  />
-                </button>
-              </div>
-            </div>
-          ))
-        )}
-
+        {/* FOOTER ACTIONS */}
         {showAddOption && (
-          <div className="flex justify-between pr-5 items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex justify-between items-center pt-4 mt-4 border-t border-zinc-800/50"
+          >
             <button
               onClick={addOptionField}
-              className="mt-2 px-2 font-medium font-vagrounded py-1 text-black border-b-green-600 border-transparent hover:border-b"
+              className="text-xs font-bold uppercase tracking-widest text-emerald-500/80 hover:text-emerald-400 flex items-center gap-2 transition-colors"
             >
-              + Add Option
+              <span className="text-lg">+</span> Add Option
             </button>
-            <div className="border-2 border-transparent pl-3 border-l-gray-400 flex gap-3 font-vagrounded items-center">
-              <span className="text-gray-600">Required</span>
+
+            <div className="flex items-center gap-4">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Required</span>
               <button
-                onClick={toggleRequired}
-                style={{
-                  width: 39,
-                  height: 18,
-                  backgroundColor: required ? "green" : "gray",
-                  borderRadius: 30,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: required ? "flex-end" : "flex-start",
-                  padding: 3,
-                  transition: "background-color 0.2s ease",
-                }}
+                onClick={() => setRequired(!required)}
+                className={`w-9 h-5 flex items-center rounded-full px-1 transition-all duration-300 ${required ? "bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]" : "bg-zinc-800"
+                  }`}
               >
                 <motion.div
                   layout
-                  style={{
-                    width: 13,
-                    height: 13,
-                    backgroundColor: "white",
-                    borderRadius: "50%",
-                    boxShadow: "0 0 3px rgba(0,0,0,0.2)",
-                  }}
-                  transition={{
-                    type: "spring",
-                    duration: 0.25,
-                    bounce: 0.2,
-                  }}
+                  className="w-3 h-3 bg-white rounded-full shadow-sm"
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  style={{ marginLeft: required ? "auto" : "0" }}
                 />
               </button>
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
     </div>

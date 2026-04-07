@@ -189,8 +189,7 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
   return (
     <Dialog open={isOpen} onClose={close} className="relative z-50">
       <div
-        className="fixed inset-0 backdrop-blur-sm bg-black/10 "
-        aria-hidden="true"
+        className="fixed inset-0 backdrop-blur-md bg-black/60 transition-opacity" aria-hidden="true"
       />
 
       <div
@@ -207,10 +206,10 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
               exit={{ opacity: 0, scale: 0.95 }}
               className="w-full max-w-md"
             >
-              <DialogPanel className="rounded-lg bg-black p-6 shadow-2xl  border-2 border-white/50 backdrop-blur-md font-vagrounded">
-                <div className="flex flex-col items-center gap-4 mb-6">
-                  <div className="relative">
-                    <div className="rounded-full bg-white w-24 h-24 shadow-sm border-4 border-white/30 flex items-center justify-center text-3xl font-bold text-gray-400 uppercase overflow-hidden">
+              <DialogPanel className="rounded-2xl bg-zinc-950 p-8 shadow-2xl border border-zinc-800 backdrop-blur-xl">
+                <div className="flex flex-col items-center gap-4 mb-8">
+                  <div className="relative group">
+                    <div className="rounded-full bg-zinc-900 w-24 h-24 shadow-inner border-2 border-green-600 flex items-center justify-center text-3xl font-bold text-green-600 uppercase overflow-hidden transition-all group-hover:border-green-800">
                       {avatarPreview ? (
                         <img
                           src={avatarPreview}
@@ -232,34 +231,29 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
 
                     <button
                       onClick={() => fileInputRef.current.click()}
-                      className="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow-md text-gray-600 hover:text-green-600 transition-colors border border-gray-200 cursor-pointer"
-                    >
+                      className="absolute bottom-0 right-0 bg-green-700 p-2.5 rounded-full shadow-lg text-white hover:bg-green-800 transition-all transform hover:scale-110 border-2 border-zinc-950">
                       <FaCamera className="text-sm" />
                     </button>
                   </div>
 
-                  <DialogTitle className="text-xl font-bold text-gray-800 text-center">
+                  <DialogTitle className="text-xl font-semibold text-zinc-100 tracking-tight">
                     {title || "Account Settings"}
                   </DialogTitle>
                 </div>
 
-                <div className="relative flex w-full bg-black/5 p-1 rounded-full mb-6">
+                <div className="relative flex w-full bg-zinc-900 p-1 rounded-xl mb-8 border border-zinc-800">
                   {tabs.map((tab) => (
                     <button
                       key={tab}
                       onClick={() => setActiveTab(tab)}
-                      className={`
-                        relative flex-1 py-2 text-sm font-semibold rounded-full z-10 transition-colors duration-200
-                        ${activeTab === tab
-                          ? "text-black"
-                          : "text-gray-500 hover:text-gray-700"
-                        }
+                      className={` relative flex-1 py-2 text-xs font-bold rounded-lg z-10 transition-all duration-300 uppercase tracking-wider
+                     ${activeTab === tab ? "text-black" : "text-zinc-500 hover:text-zinc-300"}
                       `}
                     >
                       {activeTab === tab && (
                         <motion.div
                           layoutId="active-pill"
-                          className="absolute inset-0 bg-white shadow-md rounded-full -z-10"
+                          className="absolute inset-0 bg-green-700 rounded-lg -z-10 shadow-[0_0_15px_rgba(16,185,129,0.3)]"
                           transition={{
                             type: "spring",
                             stiffness: 300,
@@ -285,7 +279,7 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                       {activeTab === "General" && (
                         <div className="flex flex-col gap-4">
                           <div>
-                            <label className="text-xs font-bold text-gray-500 uppercase ml-1">
+                            <label className="text-[10px] font-black text-green-600 uppercase tracking-widest ml-1">
                               Display Name
                             </label>
                             <input
@@ -293,19 +287,17 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                               value={displayName}
                               onChange={(e) => setDisplayName(e.target.value)}
                               placeholder="Enter your name"
-                              className="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:outline-green-600 bg-white/90"
-                            />
+                              className="w-full p-3 mt-1.5 rounded-xl border border-zinc-800   focus:ring-2 focus:ring-green-800 outline-none bg-zinc-900 text-zinc-100 transition-all placeholder:text-zinc-600" />
                           </div>
                           <div>
-                            <label className="text-xs font-bold text-gray-500 uppercase ml-1">
+                            <label className="text-[10px] font-black text-zinc-600 uppercase tracking-widest ml-1">
                               Email Address
                             </label>
                             <input
                               type="email"
                               value={user?.email || ""}
                               disabled
-                              className="w-full p-3 mt-1 rounded-lg border border-gray-300 bg-white/70 text-gray-500 cursor-not-allowed select-none"
-                            />
+                              className="w-full p-3 mt-1.5 rounded-xl border border-zinc-800 bg-zinc-900/50 text-zinc-500 cursor-not-allowed opacity-60" />
                             <p className="text-[10px] text-gray-400 mt-1 ml-1">
                               Email cannot be changed
                             </p>
@@ -313,17 +305,16 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                           <button
                             onClick={handleGeneralSave}
                             disabled={loading}
-                            className="w-full mt-2 py-2 bg-green-700 text-white shadow-md rounded-lg text-sm font-bold hover:bg-green-800 transition disabled:opacity-50"
-                          >
+                            className="w-full mt-2 py-3 bg-green-700 text-white rounded-xl text-sm font-bold hover:bg-green-800 transition-all shadow-lg shadow-green-900/20 disabled:opacity-50"                          >
                             {loading ? "Saving..." : "Save Changes"}
                           </button>
                         </div>
                       )}
 
                       {activeTab === "Security" && (
-                        <div className="flex flex-col gap-3">
+                        <div className="flex flex-col gap-4">
                           <div>
-                            <label className="text-xs font-bold text-gray-500 uppercase ml-1">
+                            <label className="text-[10px] font-black text-green-600 uppercase tracking-widest ml-1">
                               Current Password
                             </label>
                             <input
@@ -331,37 +322,30 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                               type="password"
                               value={passwords.currentPassword}
                               onChange={handlePassChange}
-                              className="w-full p-3 mt-1 rounded-lg border border-gray-300 focus:outline-green-700 bg-white/90"
-                            />
+                              className="w-full p-3 mt-1.5 rounded-xl border border-zinc-800 focus:border-green-700 outline-none bg-zinc-900 text-zinc-100 transition-all" />
                           </div>
-                          <div className="flex gap-2">
-                            <div className="flex-1 relative">
-                              <label className="text-xs font-bold text-gray-500 uppercase ml-1">
-                                New
-                              </label>
+                          <div className="flex gap-3">
+                            <div className="flex-1">
+                              <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest ml-1">New</label>
                               <div className="relative">
                                 <input
                                   name="newPassword"
                                   type={showNewPassword ? "text" : "password"}
                                   value={passwords.newPassword}
                                   onChange={handlePassChange}
-                                  className="w-full p-3 mt-1 pr-10 rounded-lg  focus:outline-green-700 bg-white/90"
-                                />
+                                  className="w-full p-3 mt-1.5 rounded-xl border border-zinc-800 focus:border-green-700 outline-none bg-zinc-900 text-zinc-100 transition-all" />
                                 <button
                                   type="button"
                                   onClick={() =>
                                     setShowNewPassword(!showNewPassword)
                                   }
-                                  className="absolute right-3 top-4 translate-y-1/6 text-gray-500 hover:text-gray-700 transition-colors"
-                                >
+                                  className="absolute right-3 top-5 text-zinc-500 hover:text-green-600">
                                   {showNewPassword ? <FaEyeSlash /> : <FaEye />}
                                 </button>
                               </div>
                             </div>
-                            <div className="flex-1 relative">
-                              <label className="text-xs font-bold text-gray-500 uppercase ml-1">
-                                Confirm
-                              </label>
+                            <div className="flex-1">
+                              <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest ml-1">Confirm</label>
                               <div className="relative">
                                 <input
                                   name="confirmPassword"
@@ -370,11 +354,9 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                                   }
                                   value={passwords.confirmPassword}
                                   onChange={handlePassChange}
-                                  className={`w-full p-3 mt-1 pr-10 rounded-lg border bg-white/90 focus:outline-green-600 ${passwords.confirmPassword &&
-                                    passwords.newPassword !==
-                                    passwords.confirmPassword
-                                    ? "border-red-500"
-                                    : "border-gray-300"
+                                  className={`w-full p-3 mt-1.5 rounded-xl border outline-none bg-zinc-900 text-zinc-100 transition-all ${passwords.confirmPassword && passwords.newPassword !== passwords.confirmPassword
+                                    ? "border-red-500 focus:border-red-500"
+                                    : "border-zinc-800 focus:border-green-700"
                                     }`}
                                 />
                                 <button
@@ -396,20 +378,17 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                           <button
                             onClick={handleSecuritySave}
                             disabled={loading}
-                            className="w-full mt-2 py-2 bg-green-700 text-white shadow-md rounded-lg text-sm font-bold hover:bg-green-800 transition disabled:opacity-50"
-                          >
+                            className="w-full mt-2 py-3 bg-green-700 text-white rounded-xl text-sm font-bold hover:bg-green-800 transition-all shadow-lg shadow-emerald-900/20 disabled:opacity-50"                          >
                             {loading ? "Updating..." : "Update Password"}
                           </button>
                         </div>
                       )}
 
                       {activeTab === "Danger" && (
-                        <div className="flex flex-col gap-3 pt-2">
-                          <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
-                            <h4 className="text-red-800 font-bold text-sm">
-                              Delete Account
-                            </h4>
-                            <p className="text-xs text-red-600 mt-1 leading-relaxed">
+                        <div className="flex flex-col gap-4 pt-2">
+                          <div className="p-4 bg-red-500/5 border border-red-500/20 rounded-xl">
+                            <h4 className="text-red-500 font-bold text-sm">Delete Account</h4>
+                            <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed">
                               Permanently remove your account and all of its
                               contents. This action is not reversible.
                             </p>
@@ -417,8 +396,7 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                           <button
                             onClick={requestDelete}
                             disabled={loading}
-                            className="w-full py-2.5 bg-red-500 border-2 border-red-500 text-white rounded-lg text-sm font-bold hover:bg-red-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                          >
+                            className="w-full py-3 bg-transparent border border-red-500/50 text-red-500 rounded-xl text-sm font-bold hover:bg-red-500 hover:text-white transition-all disabled:opacity-50"                          >
                             {loading ? "Deleting..." : "Delete Account"}
                           </button>
                         </div>
@@ -427,17 +405,15 @@ export default function AccountModal({ isOpen, close, title, dialogbox }) {
                   </AnimatePresence>
                 </div>
 
-                <div className="mt-6 flex justify-between items-center pt-4 border-t border-gray-200/50">
+                <div className="mt-8 flex justify-between items-center pt-6 border-t border-zinc-800/50">
                   <button
                     onClick={handleLogout}
-                    className="text-sm text-red-500 hover:text-red-700 font-bold flex items-center gap-2 transition-colors"
-                  >
+                    className="text-xs text-zinc-500 hover:text-red-400 font-bold flex items-center gap-2 transition-colors uppercase tracking-widest"                  >
                     <FaSignOutAlt /> Logout
                   </button>
                   <button
                     onClick={close}
-                    className="text-sm text-black  font-bold px-4 py-2 rounded-lg bg-white hover:bg-white/80 outline transition-colors"
-                  >
+                    className="text-xs text-zinc-400 font-bold px-6 py-2 rounded-lg hover:text-white hover:bg-zinc-900 transition-all uppercase tracking-widest"                  >
                     Close
                   </button>
                 </div>

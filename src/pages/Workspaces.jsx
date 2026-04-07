@@ -58,7 +58,7 @@ function Workspaces() {
         withCredentials: true,
       });
       return res.data?.data || [];
-    },  
+    },
   })
 
 
@@ -170,113 +170,126 @@ function Workspaces() {
 
       {isDesktopOrLaptop && (
         <>
-
-          <div className="flex w-full h-screen overflow-hidden ">
-
-
-            <div className="w-[260px] xl:w-[20%] shrink-0 h-full z-20 bg-black border-r border-gray-300 flex flex-col">
+          <div className="flex w-full h-screen overflow-hidden bg-black text-white">
+            {/* --- SIDEBAR --- */}
+            <div className="w-[280px] xl:w-[22%] shrink-0 h-full z-20 bg-black border-r border-zinc-800 flex flex-col">
+              {/* Logo Area */}
               <div
-
-                className="flex border-b-2 border-gray-300 justify-between py-10 px-5 xl:px-10 cursor-pointer"
+                className="flex border-b border-zinc-800 justify-between py-8 px-10 cursor-pointer items-center"
                 onClick={() => navigate(`/`)}
               >
-                <h1 className="font-zendots text-white text-[24px]">Ispecmn</h1>
+                <h1 className="font-baloo font-black text-[24px] ">ISPECMN</h1>
               </div>
 
-              <div className="px-5 xl:px-10 mt-8 flex-1">
-                <div className="relative w-full mb-10">
-                  <FaMagnifyingGlass size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
+              <div className="px-8 mt-10 flex-1 flex flex-col gap-10">
+                {/* Search Input */}
+                <div className="relative w-full">
+                  <FaMagnifyingGlass size={12} className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" />
                   <input
                     type="text"
-                    placeholder="Search"
+                    placeholder="SEARCH..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
-                    className={`w-full text-white placeholder-gray-400 text-[12px] py-4 pr-4 pl-10 bg-black outline rounded-xl hover:bg-[#1E1E1E] transition-all ${isFocused ? 'outline-[2px] outline-green-700 bg-[#1E1E1E]' : 'outline-[#707070]'}`}
+                    className={`w-full text-white placeholder-zinc-600 text-[11px] font-bold uppercase tracking-widest py-3.5 pl-10 pr-4 bg-zinc-950 rounded-lg border transition-all duration-300 
+            ${isFocused ? 'border-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.1)]' : 'border-zinc-800'}`}
                   />
                 </div>
 
-                <div className="mb-8">
-                  {/* 4. Responsive text: Starts smaller (text-2xl) and scales up to 4xl on large screens */}
-                  <p className="text-2xl lg:text-3xl xl:text-4xl text-white leading-tight">
-                    <span className="font-bold font-vagrounded">Manage</span>{" "}
-                    Your
-                    Forms
-                    <span className="font-bold font-vagrounded"> Here!</span>{" "}
+                {/* Hero Text */}
+                <div>
+                  <p className="text-3xl xl:text-4xl text-white leading-[1.1] font-vagrounded">
+                    Manage <span className="text-green-700">Your Forms</span> Here.
                   </p>
-                  <p className="font-vagrounded text-white mt-4 text-[12px] xl:text-[14px]">
-                    This is where you can view, edit, and organize all your created forms.
+                  <p className="font-medium text-zinc-500 mt-4 text-xs leading-relaxed  font-vagrounded uppercase tracking-wide">
+                    Deploy, analyze, and organize your digital data collection instruments.
                   </p>
                 </div>
 
-                {/* Create Forms Button... */}
+                {/* Create Button */}
                 <button
-                  className="text-left w-full"
+                  className="group relative w-full rounded-[12px] bg-black p-6 border border-zinc-800 transition-all duration-500 hover:border-green-700 hover:shadow-[0_0_20px_rgba(16,185,129,0.1)] active:scale-[0.98] overflow-hidden"
                   onClick={() => setShowModal(true)}
                 >
-                  {/* Note: I added w-full to the button so it stretches nicely */}
-                  <div className="justify-center w-full bg-black hover:bg-[#1E1E1E] group px-5 py-4 relative flex flex-col border-2 border-[var(--dirty-white)] duration-200 hover:border-green-700">
-                    <div className="absolute flex items-center justify-center top-0 right-0 w-9 h-9 bg-[#C8C9DA]">
-                      <div className="relative w-full h-full font-bold flex items-center justify-center overflow-hidden">
-                        <FaArrowUp className="fill-black rotate-45 group-hover:translate-x-15 group-hover:-translate-y-15 transition-all duration-400 ease-out" />
-                        <FaArrowUp className="absolute -translate-x-15 translate-y-15 rotate-45 group-hover:translate-x-0 group-hover:-translate-y-0 transition-all duration-400 ease-out fill-green-700" />
-                      </div>
+
+                  <div className="absolute inset-0  bg-gradient-to-br from-emerald-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+
+                  <div className="absolute top-0 right-0 w-10 h-10 flex items-center justify-center overflow-hidden">
+                    <div
+                      className="absolute top-0 right-0 w-full h-full bg-zinc-900 group-hover:bg-green-900 transition-colors duration-300"
+                      style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%)' }}
+                    />
+                    <div className="relative z-10 p-1 mb-3 ml-3">
+
+                      <FaArrowUp
+                        size={12}
+                        className="rotate-45 text-zinc-500 transition-all duration-300 ease-in-out group-hover:-translate-y-8 group-hover:translate-x-8"
+                      />
+
+                      <FaArrowUp
+                        size={12}
+                        className="absolute inset-0 m-auto text-green-300 rotate-45 transition-all duration-300 ease-in-out translate-y-8 -translate-x-8 group-hover:translate-y-0 group-hover:translate-x-0"
+                      />
                     </div>
-                    <IoDocumentText className="text-white mb-2 text-[24px]" />
-                    <span className="vagrounded font-semibold text-[15px] text-white mb-[2px]">
-                      Create Forms
+                  </div>
+
+                  <div className="relative z-10 gap-2 flex flex-col items-start text-white font-vagrounded">
+
+                    <div className="p-2 rounded-lg bg-green-700 border border-green-700 mb-3 group-hover:bg-green-800 group-hover:text-black transition-all duration-500">
+                      <IoDocumentText className="text-xl group-hover:scale-110 transition-transform" />
+                    </div>
+
+                    {/* TEXT HIERARCHY */}
+                    <span className="font-bold text-xl tracking-tight text-zinc-100 group-hover:text-white transition-colors duration-300">
+
+                      Create New
                     </span>
-                    <span className="vagrounded font-normal text-[10px] text-white">
-                      Start with a blank template and more
+                    <span className="text-[10px] text-left font-bold uppercase tracking-[0.2em] text-green-700 group-hover:text-green-800 transition-colors mb-1">
+                      Blank Template or AI-Generated
                     </span>
                   </div>
+
+
+                  <div className="absolute bottom-0 left-0 h-[2px] bg-green-700 transition-all duration-500 w-0 group-hover:w-full" />
                 </button>
               </div>
             </div>
 
-            {/* 5. MAIN CONTENT: Uses flex-1 to automatically fill the rest of the screen */}
-            <div className="flex-1 h-full z-10 overflow-y-auto">
-              <div className="px-5 lg:px-10 py-8">
-                <div className="flex justify-end mb-16">
-                  <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
+            {/* --- MAIN CONTENT AREA --- */}
+            <div className="flex-1 h-full z-10 overflow-y-auto bg-[#050505]">
+              <div className="px-10 py-8">
+                {/* Profile Bar */}
+                <div className="flex justify-end mb-12">
+                  <div className="p-1 rounded-full border border-zinc-800 bg-zinc-900 shadow-xl">
                     <img
                       src={user?.avatar}
                       onClick={() => setShowAccountModal(true)}
-                      className="h-10 w-10 cursor-pointer rounded-full"
+                      className="h-10 w-10 cursor-pointer rounded-full grayscale hover:grayscale-0 transition-all"
                     />
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-6">
-                  <div className="flex justify-between items-end">
-                    <div className="flex items-center gap-3">
-                      <h2 className="text-2xl font-bold text-white tracking-wide">
-                        My workspaces
-                      </h2>
-                    </div>
+                  {/* Toolbar */}
+                  <div className="flex justify-between items-end border-b border-zinc-900 pb-6">
+                    <h2 className="text-2xl font-bold text-white tracking-wide font-vagrounded">My workspaces</h2>
 
                     <div className="flex items-center gap-4">
-                      <button className="px-4 py-1.5 bg-black border border-gray-400 rounded-lg text-sm
-                       font-medium text-white hover:bg-black/5 transition">
+                      <button className="px-4 py-2 bg-zinc-950 border border-zinc-800 rounded-md text-[10px] font-bold text-zinc-400 uppercase tracking-widest hover:text-emerald-500 transition">
                         Date Created
                       </button>
-                      <div className="flex border border-gray-300 rounded-lg p-1">
+                      <div className="flex bg-zinc-950 border border-zinc-800 rounded-md p-1">
                         <button
                           onClick={() => setViewMode("list")}
-                          className={`p-1.5 rounded transition-colors ${viewMode === "list"
-                            ? "bg-gray-400 text-white shadow-sm"
-                            : "text-gray-500 hover:text-black"
-                            }`}
+                          className={`p-1.5 rounded transition-all ${viewMode === "list" ? "bg-green-700 text-black shadow-lg" : "text-zinc-600 hover:text-zinc-300"}`}
                         >
                           <CiBoxList className="text-lg" />
                         </button>
                         <button
                           onClick={() => setViewMode("grid")}
-                          className={`p-1.5 rounded transition-colors ${viewMode === "grid"
-                            ? "bg-gray-400 text-white shadow-sm"
-                            : "text-gray-500 hover:text-black"
-                            }`}
+                          className={`p-1.5 rounded transition-all ${viewMode === "grid" ? "bg-green-700 text-black shadow-lg" : "text-zinc-600 hover:text-zinc-300"}`}
                         >
                           <BiGridHorizontal className="text-lg" />
                         </button>
@@ -284,32 +297,25 @@ function Workspaces() {
                     </div>
                   </div>
 
-                  {/* LIST / GRID CONTAINER */}
-                  <div
-                    className={`w-full mt-4 ${viewMode === "grid"
-                      ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-                      : "flex flex-col"
-                      }`}
-                  >
-                    {viewMode === "list" && (
-                      <div className="grid grid-cols-12 text-xs font-semibold text-white uppercase tracking-wider mb-3 px-6">
-                        <div className="col-span-5"></div>
-                        <div className="col-span-2 text-center">Responses</div>
-                        <div className="col-span-2 text-center">Published</div>
-                        <div className="col-span-2 text-center">
-                          Last Modified
-                        </div>
+                  {/* CONTAINER FOR GRID/LIST */}
+                  <div className={`w-full mt-4 ${viewMode === "grid" ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" : "flex flex-col gap-3"}`}>
 
+                    {/* Header for List Mode */}
+                    {viewMode === "list" && filteredForms.length > 0 && (
+                      <div className="grid grid-cols-12 text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] mb-2 px-6">
+                        <div className="col-span-5">Name</div>
+                        <div className="col-span-2 text-center">Responses</div>
+                        <div className="col-span-2 text-center">Status</div>
+                        <div className="col-span-2 text-center">Modified</div>
+                        <div className="col-span-1"></div>
                       </div>
                     )}
 
-
+                    {/* Empty State */}
                     {!isLoading && filteredForms.length === 0 && (
-                      <div className="col-span-full flex flex-col items-center justify-center py-20 rounded-xl">
-                        <FaRegFileAlt className="text-gray-300 text-4xl mb-3" />
-                        <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-                          No forms yet
-                        </span>
+                      <div className="col-span-full flex flex-col items-center justify-center py-32 bg-zinc-900/20 rounded-3xl border border-dashed border-zinc-800">
+                        <FaRegFileAlt className="text-zinc-700 text-5xl mb-4" />
+                        <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest">No forms detected in this workspace</span>
                       </div>
                     )}
 
@@ -318,112 +324,114 @@ function Workspaces() {
                         key={item.id}
                         onClick={() => navigate(`/newform/${item.id}`)}
                         className={`
-                      group bg-black hover:bg-[#1e1e1e]  backdrop-blur-sm border border-gray-400 hover:border-green-600 
-                      rounded-xl shadow-sm transition-all cursor-pointer relative
-                      ${viewMode === "list"
-                            ? "p-4 grid grid-cols-12 items-center mt-3"
-                            : "p-6 flex flex-col justify-between h-56"
+      group relative overflow-hidden bg-zinc-900/40 backdrop-blur-md 
+      border border-zinc-800 transition-all duration-500 cursor-pointer
+      hover:border-green-700 hover:shadow-[0_0_30px_rgba(16,185,129,0.05)]
+      ${viewMode === "list"
+                            ? "p-4 grid grid-cols-12 items-center mt-3 rounded-xl"
+                            : "p-6 flex flex-col justify-between h-64 rounded-2xl"
                           }
-                    `}
+    `}
                       >
+                        {/* --- VERSION 1 GRADIENT HOVER EFFECT --- */}
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+                          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-transparent" />
+                          <div className="absolute -inset-[100%] group-hover:animate-[pulse_4s_ease-in-out_infinite] bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.08)_0%,transparent_50%)]" />
+                        </div>
+
                         {viewMode === "list" ? (
+                          /* === LIST VIEW CONTENT === */
                           <>
-                            <div className="col-span-5 flex items-center gap-4">
-                              <div className="w-8 h-8 rounded-md flex items-center justify-center text-white">
-                                <FaRegFileAlt className="text-white text-xl" />
+                            <div className="col-span-5 flex items-center gap-4 relative z-10">
+                              <div className="w-10 h-10 rounded-lg bg-zinc-950 border border-zinc-800 flex items-center justify-center text-green-700 group-hover:scale-110 transition-transform">
+                                <FaRegFileAlt size={18} />
                               </div>
-                              <span className="font-medium text-white truncate">
-                                {item.title || "Untitled"}
+                              <span className="font-bold text-sm text-zinc-200 truncate tracking-tight">
+                                {item.title || "Untitled Form"}
                               </span>
                             </div>
 
-                            <div className="col-span-2 text-gray-500 text-center text-sm font-medium">
-                              {item.responseCount || 0}
+                            <div className="col-span-2 text-center relative z-10">
+                              <span className="text-xs font-mono text-zinc-500 bg-zinc-950/50 px-2 py-1 rounded border border-zinc-800">
+                                {item.responseCount || 0}
+                              </span>
                             </div>
 
-                            {/* Switch (Inline JSX) */}
-                            <div className="col-span-2 flex justify-center">
-                              {/* We wrap the switch in a button to ensure it receives standard click events */}
+                            <div className="col-span-2 flex justify-center relative z-10">
                               <button
-                                type="button" // Prevents default form submissions if it ever gets wrapped in a form
                                 onClick={(e) => {
-                                  e.preventDefault(); // Stop default button behavior
-                                  e.stopPropagation(); // Stop the click from triggering the card's navigate()
+                                  e.preventDefault();
+                                  e.stopPropagation();
                                   togglePublishMutation.mutate({ id: item.id, isPublished: !item.isPublished });
                                 }}
-                                // Add relative and z-50 to ensure it sits ABOVE the clickable card background
-                                className={`relative z-50 w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 ${item.isPublished ? "bg-green-500" : "bg-gray-300"
+                                className={`w-10 h-5 flex items-center rounded-full px-1 transition-all duration-300 ${item.isPublished ? "bg-green-700 shadow-[0_0_10px_rgba(16,185,129,0.4)]" : "bg-zinc-700"
                                   }`}
                               >
-                                <div
-                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${item.isPublished ? "translate-x-5" : "translate-x-0"
-                                    }`}
-                                />
+                                <div className={`bg-white w-3 h-3 rounded-full transform transition-transform duration-300 ${item.isPublished ? "translate-x-5 scale-110" : "translate-x-0"}`} />
                               </button>
                             </div>
 
-                            <div className="col-span-2 text-center text-sm text-gray-500">
+                            <div className="col-span-2 text-center text-[10px] font-bold text-zinc-500 uppercase tracking-widest relative z-10">
                               {moment.utc(item.createdAt).local().fromNow()}
                             </div>
 
-                            <div className="col-span-1 flex justify-end">
+                            <div className="col-span-1 flex justify-end relative z-10">
                               <button
                                 onClick={(e) => handleDeleteClick(e, item.id)}
-                                className="relative z-20 p-2 rounded-full hover:bg-red-100 transition-colors group/delete"
+                                className="p-2 text-zinc-600 hover:text-red-500 transition-colors"
                               >
-                                <FaTrash className="text-lg fill-gray-400 group-hover/delete:fill-red-500 transition-colors" />
+                                <FaTrash size={14} />
                               </button>
                             </div>
                           </>
                         ) : (
-                          // === GRID VIEW UI ===
+                          /* === GRID VIEW CONTENT === */
                           <>
-                            <div className="flex justify-between items-center">
-
-                              <FaRegFileAlt className="text-white text-xl" />
-
-                              {/* Trash Icon */}
-                              <div className=" z-30">
-                                <button
-                                  onClick={(e) => handleDeleteClick(e, item.id)}
-                                  className="p-2 rounded-full hover:bg-red-100 transition-colors group/delete"
-                                >
-                                  <FaTrash className="text-lg fill-gray-400 group-hover/delete:fill-red-500 transition-colors" />
-                                </button>
+                            {/* TOP ROW */}
+                            <div className="flex justify-between items-start relative z-10">
+                              <div className="p-3.5 rounded-2xl bg-zinc-950 border border-zinc-800 text-green-700 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(16,185,129,0.2)] transition-all duration-500">
+                                <FaRegFileAlt size={24} />
                               </div>
+                              <button
+                                onClick={(e) => handleDeleteClick(e, item.id)}
+                                className="p-2.5 text-zinc-700 hover:text-red-500 transition-all hover:scale-110 relative z-50"
+                              >
+                                <FaTrash size={18} />
+                              </button>
                             </div>
 
-                            <div className="mt-4">
-                              <h3 className="font-bold text-lg text-white line-clamp-1 mb-1">
-                                {item.title || "Untitled"}
+                            {/* MIDDLE INFO */}
+                            <div className="mt-6 relative z-10">
+                              <h3 className="font-bold text-white text-lg tracking-tight mb-1 line-clamp-2 leading-snug group-hover:text-emerald-400 transition-colors duration-500">
+                                {item.title || "Untitled Form"}
                               </h3>
-                              <p className="text-xs text-white">
-                                {item.responseCount || 0} responses
+                              <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] opacity-80">
+                                {item.responseCount || 0} Responses Total
                               </p>
                             </div>
 
-                            <div className="mt-4 pt-4 border-t border-black/10 flex justify-between items-center">
-                              <span className="text-xs text-gray-500">
-                                {moment
-                                  .utc(item.createdAt)
-                                  .local()
-                                  .fromNow(true)}
-                              </span>
-                              {/* Switch (Inline JSX) */}
-                              <div
-                                onClick={(e) => handleToggleClick(e, item)}
-                                className={`w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300 relative z-20 ${item.isPublished
-                                  ? "bg-green-500"
-                                  : "bg-gray-300"
+                            {/* BOTTOM ROW */}
+                            <div className="mt-auto pt-6 border-t border-zinc-800/30 flex justify-between items-center relative z-10">
+                              <div className="flex flex-col">
+                                <span className="text-[9px] text-zinc-600 font-bold uppercase tracking-widest mb-1">Last Modified</span>
+                                <span className="text-xs text-zinc-400 font-medium tracking-tight">
+                                  {moment.utc(item.createdAt).local().fromNow(true)} ago
+                                </span>
+                              </div>
+
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  togglePublishMutation.mutate({ id: item.id, isPublished: !item.isPublished });
+                                }}
+
+
+                                className={`w-10 h-5 flex items-center rounded-full px-1 cursor-pointer transition-all duration-300 relative z-50 ${item.isPublished ? "bg-green-700 shadow-[0_0_15px_rgba(16,185,129,0.4)]" : "bg-zinc-700"
                                   }`}
                               >
-                                <div
-                                  className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${item.isPublished
-                                    ? "translate-x-5"
-                                    : "translate-x-0"
-                                    }`}
-                                />
-                              </div>
+                                <div className={`bg-white w-3 h-3 rounded-full transform transition-all duration-300 ${item.isPublished ? "translate-x-5 scale-110" : "translate-x-0"}`} />
+                              </button>
                             </div>
                           </>
                         )}
@@ -433,9 +441,6 @@ function Workspaces() {
                 </div>
               </div>
             </div>
-
-
-
           </div>
 
           {/* DELETE CONFIRMATION MODAL */}
@@ -1037,7 +1042,7 @@ function Workspaces() {
       {isMobile && (
         <>
           <NavBar />
-          <div className=" w-full min-h-screen overflow-y-auto z-10 ">
+          <div className=" w-full min-h-screen overflow-y-auto z-10 bg-black">
 
 
             {/* NYAW */}
@@ -1089,101 +1094,101 @@ function Workspaces() {
 
                   </div>
 
-                  {!isLoading && filteredForms.length === 0 && (
-                    <div className="col-span-full flex flex-col items-center justify-center py-20 rounded-xl">
-                      <FaRegFileAlt className="text-gray-300 text-4xl mb-3" />
-                      <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-                        No forms yet
-                      </span>
-                    </div>
-                  )}
-                  <div className="flex flex-col gap-2 mt-2">
+                  <div className="flex flex-col gap-3 mt-2">
+                    {!isLoading && filteredForms.length === 0 && (
+                      <div className="col-span-full flex flex-col items-center justify-center py-20 rounded-xl border border-dashed border-zinc-800">
+                        <FaRegFileAlt className="text-zinc-700 text-4xl mb-3" />
+                        <span className="text-sm font-semibold text-zinc-500 uppercase tracking-widest">
+                          No forms yet
+                        </span>
+                      </div>
+                    )}
+
                     {filteredForms.map((item) => (
-
-
                       <div
                         key={item.id}
                         onClick={() => navigate(`/newform/${item.id}`)}
-                        className=" group bg-black border border-white hover:bg-[#1e1e1e] rounded-xl shadow-sm transition-all cursor-pointer relative p-4 grid grid-cols-12 items-center "
+                        className="group bg-black border border-zinc-800 hover:border-zinc-600 hover:bg-zinc-900/50 rounded-xl shadow-sm transition-all cursor-pointer relative p-4 grid grid-cols-12 items-center"
                       >
-                        {/* Title & Icon (Expanded to col-span-6) */}
-                        <div className="col-span-6 flex items-center gap-4">
-
-                          <FaRegFileAlt className="text-white text-xl" />
-
-                          <span className="text-[12px] font-medium text-white truncate">
-                            {item.title || "Untitled"}
+                        {/* Title & Icon (col-span-6) */}
+                        <div className="col-span-6 flex items-center gap-4 relative z-10">
+                          <div className="w-10 h-10 rounded-lg bg-zinc-950 border border-zinc-800 flex items-center justify-center text-green-700 group-hover:scale-110 transition-transform">
+                            <FaRegFileAlt size={18} />
+                          </div>
+                          <span className="font-bold text-sm text-zinc-200 truncate tracking-tight">
+                            {item.title || "Untitled Form"}
                           </span>
                         </div>
 
-                        {/* Responses */}
-                        <div className="col-span-2 text-gray-500 text-center text-sm font-medium">
-                          {item.responseCount || 0}
+                        {/* Responses (col-span-2) */}
+                        <div className="col-span-2 text-center relative z-10">
+                          <span className="text-xs font-mono text-zinc-500 bg-zinc-950/50 px-2 py-1 rounded border border-zinc-800">
+                            {item.responseCount || 0}
+                          </span>
                         </div>
 
-                        {/* Date (Expanded to col-span-3) */}
-                        <div className="col-span-3 text-center text-[10px] text-gray-500">
+                        {/* Date (col-span-3) */}
+                        <div className="col-span-3 text-center text-[10px] font-bold text-zinc-500 uppercase tracking-widest relative z-10">
                           {moment.utc(item.createdAt).local().fromNow()}
                         </div>
 
-                        {/* Options Menu */}
-                        <div className=" flex flex-1 items-center relative">
+                        {/* Options Menu (col-span-1) */}
+                        <div className="col-span-1 flex justify-end relative">
                           <button
                             onClick={(e) => {
-                              e.stopPropagation(); // Prevents navigating to the form
+                              e.stopPropagation();
                               setOpenDropdownId(openDropdownId === item.id ? null : item.id);
                             }}
-                            className="relative z-20 p-2 rounded-full hover:bg-gray-100 transition-colors"
+                            className="relative z-20 p-2 rounded-lg text-zinc-500 hover:bg-zinc-800 hover:text-white transition-colors"
                           >
-                            <FaEllipsisV className="text-md text-gray-500" />
+                            <FaEllipsisV className="text-md" />
                           </button>
 
                           {/* Dropdown Content */}
                           {openDropdownId === item.id && (
-                            <div className="absolute right-0 top-10 w-48 bg-black border border-white rounded-lg shadow-lg z-30 py-2 flex flex-col">
+                            <div className="absolute right-0 top-12 w-56 bg-zinc-950 border border-zinc-800 rounded-xl shadow-2xl z-30 py-2 flex flex-col overflow-hidden">
 
                               {/* Publish Toggle Inside Menu */}
                               <div
                                 onClick={(e) => {
-                                  e.preventDefault(); // Stop default button behavior
-                                  e.stopPropagation(); // Stop the click from triggering the card's navigate()
+                                  e.preventDefault();
+                                  e.stopPropagation();
                                   togglePublishMutation.mutate({ id: item.id, isPublished: !item.isPublished });
                                 }}
-                                className="px-4 py-2 hover:bg-[#1e1e1e] cursor-pointer flex items-center justify-between transition-colors"
+                                className="px-4 py-3 hover:bg-zinc-900 cursor-pointer flex items-center justify-between transition-colors"
                               >
-                                <span className="text-sm text-gray-700 font-medium">Published</span>
+                                <span className="text-sm text-zinc-300 font-medium">Published</span>
                                 <div
-                                  className={`w-9 h-4 flex items-center rounded-full p-1 transition-colors duration-300 ${item.isPublished ? "bg-green-500" : "bg-gray-300"
+                                  className={`w-9 h-5 flex items-center rounded-full px-1 transition-all duration-300 ${item.isPublished ? "bg-green-700 shadow-[0_0_10px_rgba(16,185,129,0.2)]" : "bg-zinc-700"
                                     }`}
                                 >
                                   <div
-                                    className={`bg-white w-2 h-2 rounded-full shadow-md transform transition-transform duration-300 ${item.isPublished ? "translate-x-5" : "translate-x-0"
+                                    className={`bg-white w-3 h-3 rounded-full transform transition-transform duration-300 ${item.isPublished ? "translate-x-4 scale-110" : "translate-x-0"
                                       }`}
                                   />
                                 </div>
                               </div>
 
-                              <hr className="border-gray-100 my-1" />
+                              <div className="border-t border-zinc-800 my-1" />
 
                               {/* Delete Button Inside Menu */}
                               <div
-                                onClick={(e) => handleDeleteClick(e, item.id)}
-                                //  onClick={(e) => {
-                                // e.stopPropagation();
-                                //handleDeleteClick(e, item.id);
-                                //setOpenDropdownId(null); // Close menu after deleting
-                                //  }}
-                                className="px-4 py-2 hover:bg-[#1e1e1e] cursor-pointer flex items-center gap-3 text-red-500 transition-colors group/delete"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteClick(e, item.id);
+                                  setOpenDropdownId(null);
+                                }}
+                                className="px-4 py-3 hover:bg-red-950/30 cursor-pointer flex items-center gap-3 text-red-500 transition-colors group/delete"
                               >
                                 <FaTrash className="text-sm group-hover/delete:scale-110 transition-transform" />
                                 <span className="text-sm font-medium">Delete Form</span>
                               </div>
-
                             </div>
                           )}
                         </div>
                       </div>
-                    ))}      </div>
+                    ))}
+                  </div>
                 </div>
 
               </div>
