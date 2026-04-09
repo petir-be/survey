@@ -37,7 +37,7 @@ function LongText({ question, onUpdate, onDuplicate }) {
 
   return (
     <div
-      className="relative p-6 justify-self-center w-11/12 transition-all duration-300 bg-zinc-950/40 backdrop-blur-md border border-zinc-800 rounded-2xl hover:border-emerald-500/30 group mb-6 focus-within:ring-1 focus-within:ring-emerald-500/50 focus-within:bg-zinc-950/60"
+      className="form-element-container group"
       tabIndex={0}
       onFocus={() => setShowAddOption(true)}
       onBlur={(e) => {
@@ -78,7 +78,7 @@ function LongText({ question, onUpdate, onDuplicate }) {
             onUpdate(question.id, { answer: e.target.value });
             resize(answerRef);
           }}
-          className="w-full min-h-[60px] bg-transparent border-b border-zinc-800/50 hover:border-zinc-700 focus:border-emerald-500/50 focus:outline-none text-zinc-300 font-medium py-2 transition-all resize-none overflow-hidden placeholder:text-zinc-600"
+          className="w-full  bg-transparent border-b border-zinc-800/50 hover:border-zinc-700 focus:border-emerald-500/50 focus:outline-none text-zinc-300 font-medium py-2 transition-all resize-none overflow-hidden placeholder:text-zinc-600"
           placeholder="Long answer text will appear here..."
           rows={1}
         />
@@ -88,9 +88,9 @@ function LongText({ question, onUpdate, onDuplicate }) {
           <motion.div
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex justify-end items-center pt-4 mt-4 border-t border-zinc-800/50"
+            className="flex justify-end items-center pt-4 mt-4border-zinc-800/50"
           >
-            <div className="flex items-center gap-4">
+            <div className="font-vagrounded flex items-center gap-4">
               <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
                 Required
               </span>

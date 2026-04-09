@@ -945,7 +945,7 @@ function Form() {
                           className="absolute top-12 right-0 z-50"
                         >
 
-                          <div className="absolute -top-1.5 right-4 w-3 h-3 bg-black border-t border-l border-zinc-800 rotate-45 z-0" />
+                          <div className="absolute -top-1.5 right-3 w-3 h-3 bg-black border-t border-l border-zinc-800 rotate-45 z-0" />
 
                           <div className="relative w-80 overflow-hidden bg-black  border border-zinc-800 text-white rounded-xl shadow-2xl shadow-black/50">
                             <div className="flex flex-col p-1">
@@ -1081,7 +1081,7 @@ function Form() {
                     </div>
 
 
-                    <div className="h-screen  border-(--dirty-white) py-4 flex flex-col w-[60%]">
+                    <div className="h-screen py-4 flex flex-col w-[60%]">
                       <Canvas
                         questions={pages[currentPageIndex].questions}
                         onDropElement={handleDrop}
@@ -1407,138 +1407,74 @@ function Form() {
                       {showSettings && (
                         <motion.div
                           ref={dropdownRef}
-                          initial={{ opacity: 0, scale: 0.6 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.7 }}
-                          transition={{ duration: 0.18, ease: "easeOut" }}
+                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
                           style={{ transformOrigin: "top right" }}
-                          className="absolute top-11 right-0 z-50"
-                        >
-                          <span className="bg-black -z-10 border border-green-700 rotate-45 w-5 h-5 absolute -top-1 right-2 rounded"></span>
-                          <div className="min-w-50 w-83 py-3 z-10 bg-black border border-green-700 text-white rounded shadow-lg">
-                            <div className="flex flex-col w-full gap-2">
-                              <div className="w-full px-3 py-2 hover:bg-[#1e1e1e] flex items-center justify-between">
-                                <span className="text-lg flex gap-2 items-center font-vagrounded">
-                                  <MdPreview className="text-2xl" />
-                                  <span className="text-[16px] flex flex-col">
-                                    Allow users to Review
-                                    <span className="text-[10px] ">
-                                      Let users review their answers before submission
-                                    </span>
-                                  </span>
-                                </span>
+                          className="absolute top-12 right-0 sm:right-0 z-50 origin-top-right">
+                          <div className="absolute -top-1.5 right-2 w-3 h-3 bg-black border-t border-l border-zinc-800 rotate-45 z-0" />
+                          <div className="relative w-[280px] sm:w-80 overflow-hidden bg-black border border-zinc-800 text-white rounded-xl shadow-2xl shadow-black/50">                            <div className="flex flex-col p-1">
 
-                                <button
-                                  onClick={toggleReview}
-                                  style={{
-                                    width: 45,
-                                    height: 21,
-                                    backgroundColor: hasReviewPage
-                                      ? "green"
-                                      : "gray",
-                                    borderRadius: 30,
-                                    cursor: "pointer",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: hasReviewPage
-                                      ? "flex-end"
-                                      : "flex-start",
-                                    padding: 3,
-                                    transition: "background-color 0.2s ease",
-                                  }}
-                                >
-                                  <motion.div
-                                    layout
-                                    style={{
-                                      width: 15,
-                                      height: 15,
-                                      backgroundColor: "white",
-                                      borderRadius: "50%",
-                                      boxShadow: "0 0 3px rgba(0,0,0,0.2)",
-                                    }}
-                                    transition={{
-                                      type: "spring",
-                                      duration: 0.25,
-                                      bounce: 0.2,
-                                    }}
-                                  />
-                                </button>
+                            {/* Review Setting */}
+                            <div className="group flex items-start gap-3 p-3 rounded-lg hover:bg-zinc-800/50 transition-colors cursor-pointer" onClick={toggleReview}>
+                              <div className="mt-1 text-green-600 text-xl">
+                                <MdPreview />
                               </div>
-
-                              {/* Multiple Submission */}
-                              <div className="w-full px-3 py-2 hover:bg-[#1e1e1e] flex items-center justify-between">
-                                <span className="text-lg flex gap-2 items-center font-vagrounded">
-                                  <BiSelectMultiple className="text-2xl" />
-                                  <span className="text-[16px] flex flex-col">
-                                    Multiple Submission
-                                    <span className="text-[10px]">
-                                      Allows user to answer multiple times
-                                    </span>
-                                  </span>
-                                </span>
-
-                                <button
-                                  onClick={toggleMulti}
-                                  style={{
-                                    width: 45,
-                                    height: 21,
-                                    backgroundColor: allowMultipleSubmissionsValue
-                                      ? "green"
-                                      : "gray",
-                                    borderRadius: 30,
-                                    cursor: "pointer",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: allowMultipleSubmissionsValue
-                                      ? "flex-end"
-                                      : "flex-start",
-                                    padding: 3,
-                                    transition: "background-color 0.2s ease",
-                                  }}
-                                >
-                                  <motion.div
-                                    layout
-                                    style={{
-                                      width: 15,
-                                      height: 15,
-                                      backgroundColor: "white",
-                                      borderRadius: "50%",
-                                      boxShadow: "0 0 3px rgba(0,0,0,0.2)",
-                                    }}
-                                    transition={{
-                                      type: "spring",
-                                      duration: 0.25,
-                                      bounce: 0.2,
-                                    }}
-                                  />
-                                </button>
+                              <div className="flex-1 flex flex-col min-w-0">
+                                <span className="text-sm font-medium text-zinc-100">Allow User Review</span>
+                                <span className="text-xs text-zinc-400 leading-relaxed">Let users check answers before submission</span>
                               </div>
-
-                              {/* UNPUBLISH BUTTOn  */}
-                              <div className="flex items-center justify-center gap-4 px-3">
-                                <hr className="flex-1 border-gray-400" />
-                              </div>
-                              <div
-                                onClick={() => {
-                                  isPublished ? setShowUnpublishModal(true) : null;
-                                }}
-                                className={`w-full px-3 py-2 flex items-center justify-between ${isPublished
-                                  ? "hover:bg-(--dirty-white) "
-                                  : "opacity-50 hover:none disable"
-                                  }`}
-                              >
-                                <span className="text-lg flex gap-2 items-center font-vagrounded">
-                                  <BsFillSendXFill className="text-xl font-bold" />
-                                  <span className="text-[16px] flex flex-col">
-                                    Unpublish Form
-                                    <span className="text-[10px]">
-                                      The form will no longer be visible to
-                                      responders.
-                                    </span>
-                                  </span>
-                                </span>
+                              <div className={`relative w-9 h-5 rounded-full transition-colors duration-200 mt-1 ${hasReviewPage ? 'bg-green-600' : 'bg-zinc-700'}`}>
+                                <motion.div
+                                  animate={{ x: hasReviewPage ? 18 : 2 }}
+                                  className="absolute top-1 w-3 h-3 bg-white rounded-full shadow-sm"
+                                />
                               </div>
                             </div>
+
+                            {/* Multiple Submission */}
+                            <div className="group flex items-start gap-3 p-3 rounded-lg hover:bg-zinc-800/50 transition-colors cursor-pointer" onClick={toggleMulti}>
+                              <div className="mt-1 text-green-600 text-xl">
+                                <BiSelectMultiple />
+                              </div>
+                              <div className="flex-1 flex flex-col min-w-0">
+                                <span className="text-sm font-medium text-zinc-100">Multiple Submissions</span>
+                                <span className="text-xs text-zinc-400 leading-relaxed">Allows users to answer multiple times</span>
+                              </div>
+                              <div className={`relative w-9 h-5 rounded-full transition-colors duration-200 mt-1 ${allowMultipleSubmissionsValue ? 'bg-green-600' : 'bg-zinc-700'}`}>
+                                <motion.div
+                                  animate={{ x: allowMultipleSubmissionsValue ? 18 : 2 }}
+                                  className="absolute top-1 w-3 h-3 bg-white rounded-full shadow-sm"
+                                />
+                              </div>
+                            </div>
+
+                            {/* Divider */}
+                            <div className="my-1 border-t border-zinc-800 mx-2" />
+
+                            {/* Unpublish Action */}
+                            <button
+                              disabled={!isPublished}
+                              onClick={() => isPublished && setShowUnpublishModal(true)}
+                              className={`flex items-start gap-3 p-3 rounded-lg transition-all w-full text-left
+              ${isPublished
+                                  ? 'hover:bg-red-500/10 group'
+                                  : 'opacity-40 cursor-not-allowed'
+                                }`}
+                            >
+                              <div className={`mt-1 text-xl ${isPublished ? 'text-zinc-400 group-hover:text-red-600' : 'text-zinc-500'}`}>
+                                <BsFillSendXFill />
+                              </div>
+                              <div className="flex-1 flex flex-col min-w-0">
+                                <span className={`text-sm font-medium ${isPublished ? 'text-zinc-100 group-hover:text-red-600' : 'text-zinc-500'}`}>
+                                  Unpublish Form
+                                </span>
+                                <span className="text-xs text-zinc-500">Stop accepting new responses</span>
+                              </div>
+                            </button>
+
+                          </div>
                           </div>
                         </motion.div>
                       )}
@@ -1574,7 +1510,7 @@ function Form() {
 
 
                     {/* form  */}
-                    <div className="h-screen  min-h-0 border-1 border-(--dirty-white) py-4 flex flex-col w-full lg:w-[60%]">
+                    <div className="h-screen  min-h-0  py-4 flex flex-col w-full lg:w-[60%]">
                       <Canvas
                         questions={pages[currentPageIndex].questions}
                         onDropElement={handleDrop}
@@ -1603,98 +1539,49 @@ function Form() {
                     animate={{ x: 0 }}
                     exit={{ x: "-100%" }}
                     transition={{ duration: 0.25, ease: "easeOut" }}
-                    className="
-        fixed top-0 left-0
-        h-full
-        w-[60%] max-w-[360px]
-        bg-black
-        z-50
-        p-4
-        border-r-2 border-(--dirty-white)
-        font-vagrounded
-        lg:hidden
-        overflow-y-auto
-        pointer-events-auto
-        scrollbar-vscode
-      "
+                    className="fixed top-0 left-0 h-full w-[85%] max-w-[320px] bg-black z-50 flex flex-col border-r border-zinc-800 font-vagrounded lg:hidden overflow-hidden shadow-2xl"
                   >
-                    {/* Header */}
-                    <div className="text-white flex items-center justify-between mb-3">
-                      <h1 className="text-xl">Elements</h1>
+
+                    <div className="p-6 pb-2 flex items-center justify-between">
+                      <h2 className="text-green-600 text-xs uppercase tracking-[0.2em] font-bold">
+                        Form Elements
+                      </h2>
                       <button
                         onClick={() => setShowMobileElements(false)}
-                        className="text-xl px-3 py-1"
+                        className="text-zinc-500 hover:text-white transition-colors p-1"
                       >
-                        ✕
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                       </button>
                     </div>
 
-                    {/* === CONTENT UNCHANGED === */}
+                    {/* Scrollable Content Area */}
+                    <div className="flex-1 overflow-y-auto p-4 pt-2 scrollbar-vscode">
+                      {[
+                        { title: "Frequently used", range: [0, 3], color: "#00a651" },
+                        { title: "Display Text", range: [3, 5], color: "#00a651" },
+                        { title: "Choices", range: [5, 11], color: "#00a651" },
+                        { title: "Text", range: [11, 13], color: "#00a651" },
+                        { title: "Others", range: [13, 17], color: "#00a651" },
+                      ].map((section, idx) => (
+                        <div key={idx} className="mb-8">
+                          {/* Label */}
+                          <span className="block text-[10px] text-zinc-500 uppercase tracking-widest font-bold mb-4 ml-2">
+                            {section.title}
+                          </span>
 
-                    <span className="text-gray-500 m-3">Frequently used</span>
-                    <div className="grid grid-cols-3 gap-3 p-2 ">
-                      {types.slice(0, 3).map((type, index) => (
-                        <FormElement
-                          key={index}
-                          bgKulay={"#20B15530"}
-                          foreKulay={"#20B155"}
-                          icon={type.Icon}
-                          title={type.title}
-                        />
 
-                      ))}
-                    </div>
-
-                    <span className="text-gray-500 m-3 mt-5">Display Text</span>
-                    <div className="grid grid-cols-3 gap-3 p-2">
-                      {types.slice(3, 5).map((type, index) => (
-                        <FormElement
-
-                          key={index}
-                          bgKulay={"#52525230"}
-                          foreKulay={"#525252"}
-                          icon={type.Icon}
-                          title={type.title}
-                        />
-                      ))}
-                    </div>
-
-                    <span className="text-gray-500 m-3 mt-5">Choices</span>
-                    <div className="grid grid-cols-3 gap-3 p-2">
-                      {types.slice(5, 11).map((type, index) => (
-                        <FormElement
-                          key={index}
-                          bgKulay={"#CC580530"}
-                          foreKulay={"#CC5805"}
-                          icon={type.Icon}
-                          title={type.title}
-                        />
-                      ))}
-                    </div>
-
-                    <span className="text-gray-500 m-3 mt-5">Text</span>
-                    <div className="grid grid-cols-3 gap-3 p-2">
-                      {types.slice(11, 13).map((type, index) => (
-                        <FormElement
-                          key={index}
-                          bgKulay={"#CC06F930"}
-                          foreKulay={"#CC06F9"}
-                          icon={type.Icon}
-                          title={type.title}
-                        />
-                      ))}
-                    </div>
-
-                    <span className="text-gray-500 m-3 mt-5">Others</span>
-                    <div className="grid grid-cols-3 gap-3 p-2">
-                      {types.slice(13, 17).map((type, index) => (
-                        <FormElement
-                          key={index}
-                          bgKulay={"#F9161630"}
-                          foreKulay={"#F91616"}
-                          icon={type.Icon}
-                          title={type.title}
-                        />
+                          <div className="grid grid-cols-3 gap-2 px-1">
+                            {types.slice(section.range[0], section.range[1]).map((type, index) => (
+                              <FormElement
+                                key={index}
+                                bgKulay={`${section.color}15`}
+                                foreKulay={section.color}
+                                icon={type.Icon}
+                                title={type.title}
+                              />
+                            ))}
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </motion.div>

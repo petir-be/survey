@@ -46,7 +46,7 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
 
       if (span && input) {
         const measured = span.offsetWidth + 10;
-        const min = 72; // 👈 minimum width for placeholder visibility
+        const min = 72;
 
         const finalWidth = Math.max(measured, min);
 
@@ -75,7 +75,7 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
     });
 
     setAddOption(reindexed);
-    onUpdate(question.id, { options: reindexed }); // ✅ Already strings
+    onUpdate(question.id, { options: reindexed });
   };
 
   return (
@@ -89,8 +89,8 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
         }
       }}
     >
-      <div className="flex justify-between items-start mb-2">
-        <div className="flex-1 inline-flex">
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex-1 flex items-start gap-3">
           <textarea
             ref={textareaRef}
             value={question.question || ""}
@@ -98,30 +98,33 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
               onUpdate(question.id, { question: e.target.value });
               adjustHeight();
             }}
-            className="w-full font-medium placeholder:italic placeholder:text-gray-400 text-lg border-b border-transparent hover:border-gray-300 focus:border-green-700 focus:outline-none px-2 py-1 resize-none overflow-hidden"
+            className="w-full font-vagrounded font-bold text-xl bg-transparent text-white placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden"
             placeholder="Type your paragraph here"
             rows={1}
           />
           <button
             onClick={() => onDuplicate(question.id)}
-            className="font-vagrounded mx-5 group-focus-within:opacity-100 opacity-0 transition-all duration-200"
+            className="p-2 text-zinc-500 hover:text-emerald-500 transition-all opacity-0 group-focus-within:opacity-100"
           >
-            <IoDuplicate className="text-2xl" />
+            <IoDuplicate size={20} />
           </button>
         </div>
       </div>
 
-      <div className="space-y-2 mt-3 group relative">
+      <div className="space-y-3 mt-4">
         {addOption.length === 0 ? (
-          <div className="w-full flex justify-center items-center">
-            <p className="text-gray-400">Empty choices...</p>
+          <div className="w-full flex justify-center items-center py-2">
+            <p className="text-zinc-500 text-sm italic">Empty choices...</p>
           </div>
         ) : (
           addOption.map((option, index) => (
-            <div className="group/item form-option-input" key={index}>
-              <input type="checkbox" className="w-5 h-5 accent-green-600" />
-
-              <div className="relative h-full max-w-full">
+            <div className="group/item flex items-center gap-3 relative" key={index}>
+              <input
+                type="checkbox"
+                disabled
+                className="w-4 h-4 rounded-md border-2 border-zinc-700 appearance-none checked:bg-emerald-500 checked:border-emerald-500 transition-all cursor-pointer"
+              />
+              <div className="relative h-full max-w-full flex-1">
                 <input
                   type="text"
                   value={option}
@@ -132,7 +135,7 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
                     setAddOption(updated);
                     onUpdate(question.id, { options: updated });
                   }}
-                  className="absolute font-vagrounded top-0 left-0 line-clamp-2 placeholder:text-gray-400 max-w-full bg-transparent focus:outline-none"
+                  className="absolute font-vagrounded top-0 left-0 line-clamp-2 placeholder:text-zinc-600 max-w-full bg-transparent border-b border-transparent hover:border-zinc-800 focus:border-emerald-500/50 focus:outline-none text-zinc-300 font-medium py-1 transition-all"
                   style={{ width: "100%", minWidth: "72px" }}
                 />
 
@@ -145,11 +148,9 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
               </div>
 
               <div className="absolute -top-2 -right-2 opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100 transition-opacity duration-200 ease-out">
-                <button onClick={() => removeOptionField(index)}>
-                  <FaCircleXmark
-                    className="bg-white text-xl rounded-full hover:ring-2 hover:ring-red-600"
-                    fill="red"
-                  />
+                <button onClick={() => removeOptionField(index)}
+                  className="opacity-0 group-hover/item:opacity-100 p-1 text-zinc-600 hover:text-red-500 transition-opacity">
+                  <FaCircleXmark size={16} />
                 </button>
               </div>
             </div>
@@ -157,48 +158,38 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
         )}
 
         {showAddOption && (
-          <div className="flex justify-between pr-5 items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex justify-between items-center pt-4 mt-4 border-t border-zinc-800/50"
+          >
             <button
               onClick={addOptionField}
-              className="mt-2 px-2 font-medium font-vagrounded py-1  border-b-green-700 border-transparent hover:border-b"
+              className="text-xs font-bold uppercase tracking-widest text-emerald-500/80 hover:text-emerald-400 flex items-center gap-2 transition-colors"
             >
-              + Add Option
+              <span className="text-lg">+</span> Add Option
             </button>
-            <div className="border-2 border-transparent pl-3 border-l-gray-400 flex gap-3 font-vagrounded items-center">
-              <span className="text-gray-600">Required</span>
+
+            <div className="font-vagrounded flex items-center gap-4">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                Required
+              </span>
               <button
                 onClick={toggleRequired}
-                style={{
-                  width: 39,
-                  height: 18,
-                  backgroundColor: required ? "green" : "gray",
-                  borderRadius: 30,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: required ? "flex-end" : "flex-start",
-                  padding: 3,
-                  transition: "background-color 0.2s ease",
-                }}
+                className={`w-9 h-5 flex items-center rounded-full px-1 transition-all duration-300 ${required
+                  ? "bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]"
+                  : "bg-zinc-800"
+                  }`}
               >
                 <motion.div
                   layout
-                  style={{
-                    width: 13,
-                    height: 13,
-                    backgroundColor: "white",
-                    borderRadius: "50%",
-                    boxShadow: "0 0 3px rgba(0,0,0,0.2)",
-                  }}
-                  transition={{
-                    type: "spring",
-                    duration: 0.25,
-                    bounce: 0.2,
-                  }}
+                  className="w-3 h-3 bg-white rounded-full shadow-sm"
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  style={{ marginLeft: required ? "auto" : "0" }}
                 />
               </button>
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
     </div>

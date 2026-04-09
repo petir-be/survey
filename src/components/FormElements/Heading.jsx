@@ -17,9 +17,9 @@ function Heading({ question, onUpdate, onDuplicate }) {
   }, [question.question]);
 
   return (
-    <div className="form-element-container group">
-      <div className="flex justify-between items-start">
-        <div className="flex-1 inline-flex items-start">
+    <div className="form-element-container group" >
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex-1 flex items-start gap-3">
           <textarea
             ref={textareaRef}
             value={question.question || ""}
@@ -27,15 +27,15 @@ function Heading({ question, onUpdate, onDuplicate }) {
               onUpdate(question.id, { question: e.target.value });
               adjustHeight();
             }}
-            className="w-full font-medium placeholder:italic placeholder:text-gray-400 text-2xl border-b border-transparent hover:border-gray-300 focus:border-green-600 focus:outline-none px-2 py-1 resize-none overflow-hidden"
+            className="w-full font-vagrounded font-bold text-xl bg-transparent pb-2 border-b hover:border-gray-300 focus:border-green-600 text-white placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden"
             placeholder="Type your heading here"
             rows={1}
           />
           <button
             onClick={() => onDuplicate(question.id)}
-            className="font-vagrounded mx-5 mt-1 group-focus-within:opacity-100 opacity-0 transition-all duration-200"
+            className="p-2 text-zinc-500 hover:text-emerald-500 transition-all opacity-0 group-focus-within:opacity-100"
           >
-            <IoDuplicate className="text-2xl" />
+            <IoDuplicate size={20} />
           </button>
         </div>
       </div>

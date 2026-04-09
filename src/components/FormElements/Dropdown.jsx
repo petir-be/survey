@@ -85,8 +85,8 @@ function Dropdown({ question, onUpdate, onDuplicate }) {
         }
       }}
     >
-      <div className="flex justify-between items-start mb-2">
-        <div className="flex-1 inline-flex">
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex-1 flex items-start gap-3">
           <textarea
             ref={textareaRef}
             value={question.question || "Type your question here"}
@@ -94,42 +94,48 @@ function Dropdown({ question, onUpdate, onDuplicate }) {
               onUpdate(question.id, { question: e.target.value });
               adjustHeight();
             }}
-            className="w-full font-medium placeholder:italic placeholder:text-gray-400 text-lg border-b border-transparent hover:border-gray-300 focus:border-green-600 focus:outline-none px-2 py-1 resize-none overflow-hidden"
+            className="w-full font-vagrounded font-bold text-xl bg-transparent text-white placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden"
             placeholder="Type your question here"
             rows={1}
           />
           <button
             onClick={() => onDuplicate(question.id)}
-            className="font-vagrounded mx-5 group-focus-within:opacity-100 opacity-0 transition-all duration-200"
+            className="p-2 text-zinc-500 hover:text-emerald-500 transition-all opacity-0 group-focus-within:opacity-100"
           >
-            <IoDuplicate className="text-2xl" />
+            <IoDuplicate size={20} />
           </button>
         </div>
       </div>
       <div className="space-y-2 mt-3 group relative">
-        <select className="w-full block border focus:border-green-600 py-2 mb-5 px-3 rounded bg-(--dirty-white)">
+        <select className="w-full block border border-zinc-700 hover:border-zinc-600 focus:border-emerald-500/50 py-2.5 mb-5 px-3 rounded-lg bg-zinc-800/50 text-zinc-300 outline-none transition-all cursor-pointer shadow-sm">
           {addOption.length > 0 ? (
             addOption.map((option, index) => (
-              <option key={index} value={option} className="mt-5">
+              <option key={index} value={option} className="bg-zinc-800 text-zinc-200">
                 {option}
               </option>
             ))
           ) : (
-            <option disabled>No options available</option>
-          )}
+            <option disabled className="bg-zinc-800 text-zinc-500">
+              No options available
+            </option>)}
         </select>
 
         {addOption.length === 0 ? (
-          <div className="w-full flex justify-center items-center">
-            <p className="text-gray-400">Empty choices...</p>
+          <div className="w-full flex justify-center items-center py-2">
+            <p className="text-zinc-500 text-sm italic">Empty choices...</p>
           </div>
         ) : (
           addOption.map((option, index) => (
-            <div
-              className="group/item relative px-3 flex items-center gap-2 border-b-2 border-green-600 py-2 transition-all focus-within:bg-gray-100 [&:not(:focus-within)]:hover:bg-white duration-200 ease-out w-auto max-w-full"
+            <div 
+            className="group/item flex items-center gap-3 relative py-1"
+
               key={index}
             >
-              <div className="relative h-full max-w-full">
+
+              <div className="flex items-center justify-center w-5 h-5 rounded bg-zinc-800 text-zinc-500 text-xs font-bold">
+                {index + 1}
+              </div>
+              <div className="relative h-full max-w-full flex-1">
                 <input
                   type="text"
                   value={option}
@@ -140,73 +146,56 @@ function Dropdown({ question, onUpdate, onDuplicate }) {
                     setAddOption(updated);
                     onUpdate(question.id, { options: updated });
                   }}
-                  className="absolute font-vagrounded top-0 left-0 line-clamp-2 placeholder:text-gray-400 max-w-full bg-transparent focus:outline-none"
-                  style={{ width: "100%", minWidth: "72px" }}
+                  className="absolute font-vagrounded top-0 left-0 line-clamp-2 placeholder:text-zinc-600 max-w-full
+                   bg-transparent border-b border-transparent hover:border-zinc-800 focus:border-emerald-500/50 focus:outline-none
+                    text-zinc-300 font-medium transition-all"
                 />
 
                 <span
                   id={`radio-resize-${instanceId}-${index}`}
-                  className="invisible whitespace-pre"
-                >
+                  className="invisible whitespace-pre font-medium"  >
                   {option || " "}
                 </span>
               </div>
 
-              <div className="absolute bottom-1/2 translate-y-1/2 right-2 opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100 transition-opacity duration-200 ease-out">
-                <button onClick={() => removeOptionField(index)}>
-                  <FaCircleXmark
-                    className="bg-white text-xl rounded-full hover:ring-2 hover:ring-red-600"
-                    fill="red"
-                  />
-                </button>
-              </div>
+              <button
+                onClick={() => removeOptionField(index)}
+                className="opacity-0 group-hover/item:opacity-100 p-1 text-zinc-600 hover:text-red-500 transition-opacity"
+              >
+                <FaCircleXmark size={16} />
+              </button>
             </div>
+
           ))
         )}
 
-        {showAddOption && (
-          <div className="flex items-center pr-5 justify-between">
-            <button
-              onClick={addOptionField}
-              className="mt-2 px-2 font-medium font-vagrounded py-1 text-black border-b-green-600 border-transparent hover:border-b"
-            >
-              + Add Option
-            </button>
-            <div className="border-2 border-transparent pl-3 border-l-gray-400 flex gap-3 font-vagrounded items-center">
-              <span className="text-gray-600">Required</span>
+        {/* FOOTER ACTIONS */}
+       {showAddOption && (
+          <motion.div
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex justify-end items-center pt-4 mt-4border-zinc-800/50"
+          >
+            <div className="font-vagrounded flex items-center gap-4">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                Required
+              </span>
               <button
                 onClick={toggleRequired}
-                style={{
-                  width: 39,
-                  height: 18,
-                  backgroundColor: required ? "green" : "gray",
-                  borderRadius: 30,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: required ? "flex-end" : "flex-start",
-                  padding: 3,
-                  transition: "background-color 0.2s ease",
-                }}
+                className={`w-9 h-5 flex items-center rounded-full px-1 transition-all duration-300 ${required
+                  ? "bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]"
+                  : "bg-zinc-800"
+                  }`}
               >
                 <motion.div
                   layout
-                  style={{
-                    width: 13,
-                    height: 13,
-                    backgroundColor: "white",
-                    borderRadius: "50%",
-                    boxShadow: "0 0 3px rgba(0,0,0,0.2)",
-                  }}
-                  transition={{
-                    type: "spring",
-                    duration: 0.25,
-                    bounce: 0.2,
-                  }}
+                  className="w-3 h-3 bg-white rounded-full shadow-sm"
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  style={{ marginLeft: required ? "auto" : "0" }}
                 />
               </button>
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
     </div>

@@ -151,16 +151,34 @@
   }
 
   .form-element-container {
-    @apply p-4 justify-self-center w-11/12 transition-all duration-200 ease-out bg-gray-200 rounded-[12px] hover:ring-2 hover:ring-green-500;
+    @apply relative p-6 justify-self-center w-11/12 transition-all duration-300;
+    @apply border rounded-2xl mb-6;
+
+    background-color: rgba(9, 9, 11, 0.4);
+    backdrop-filter: blur(12px);
+    border-color: rgb(39, 39, 42);
   }
 
   .form-element-container:focus-within {
-    @apply -translate-y-0.5 ring-green-700 ring-2;
+    @apply ring-1 ring-emerald-500/50 bg-zinc-950/60;
+  }
+
+  .form-element-container:hover {
+    @apply border-emerald-500/30;
   }
 
   .form-option-input {
     @apply relative px-3 flex items-center gap-2 ring-(--black-lighter) ring-2 focus-within:ring-green-500 focus-within:ring-2 bg-(--dirty-white) rounded py-2 transition-all duration-200 ease-out focus-within:bg-(--purple-lighter) [&:not(:focus-within)]:hover:bg-(--white) w-auto max-w-full;
   }
+}
+/* This works in some versions of Firefox, but rarely in Chromium */
+option:hover, 
+option:focus, 
+option:active, 
+option:checked {
+    background: linear-gradient(#10b981, #10b981);
+    background-color: #10b981 !important; /* Emerald 500 */
+    color: white !important;
 }
 
 .react-select__control {

@@ -6,18 +6,30 @@ import { motion } from "framer-motion";
 function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
   const defaultRow = ["Row 1", "Row 2"];
   const defaultColumn = ["Column 1", "Column 2"];
-
+  const [showAddOption, setShowAddOption] = useState(false);
   const [addColumnField, setAddColumnField] = useState(
     question.columns || defaultColumn
   );
+
+  function toggleRequired() {
+    // Capture the new boolean value first to prevent stale state issues
+    const newRequiredState = !required;
+    setRequired(newRequiredState);
+    onUpdate(question.id, { required: newRequiredState });
+  }
   const [addRowField, setAddRowField] = useState(question.rows || defaultRow);
   const [showAddButtons, setShowAddButtons] = useState(false);
+  const [required, setRequired] = useState(question.required || false);
+
+
 
   //initialization lang para sa JSON
   useEffect(() => {
     onUpdate(question.id, {
       columns: addColumnField,
       rows: addRowField,
+      required: required
+
     });
   }, []);
 
@@ -64,127 +76,137 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
         }
       }}
     >
-      <div className="flex justify-between items-start">
-        <div className="flex-1 inline-flex">
+      <div className="flex justify-between items-start ">
+        <div className="flex-1 flex items-start gap-3">
           <input
             type="text"
             value={question.question || ""}
             onChange={(e) =>
               onUpdate(question.id, { question: e.target.value })
             }
-            className="w-full font-medium text-lg border-b border-transparent placeholder:text-gray-400 hover:border-gray-300 focus:border-green-600 focus:outline-none px-2 py-1"
+            className="w-full font-vagrounded font-bold text-xl  bg-transparent text-white placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden"
             placeholder="Enter your question"
           />
 
           <button
             onClick={() => onDuplicate(question.id)}
-            className="font-vagrounded mx-5 opacity-0 group-focus-within:opacity-100 transition-all duration-200"
+            className="p-2 text-zinc-500 hover:text-emerald-500 transition-all opacity-0 group-focus-within:opacity-100"
           >
-            <IoDuplicate className="text-2xl" />
+            <IoDuplicate size={20} />
           </button>
         </div>
       </div>
 
-      <div className="overflow-x-auto pt-5">
-        <div className="overflow-y-visible">
-          <table className="border-collapse w-full ">
-            <thead>
-              <tr className="">
-                <th className="w-40"></th>
+      <div className="overflow-x-auto mt-4">
+        <div className="overflow-y-visible min-w-max pt-2 pb-2">          <table className="border-collapse w-full ">
+          <thead>
+            <tr className="">
+              <th className="w-40"></th>
 
-                {addColumnField.map((col, colIndex) => (
-                  <th
+              {addColumnField.map((col, colIndex) => (
+                <th
+                  key={colIndex}
+                  className="relative px-3 py-2 min-w-28 text-center group/item" >
+                  <input
+                    className="w-full bg-transparent border-b border-transparent hover:border-zinc-800 focus:border-emerald-500/50 focus:outline-none text-zinc-300 font-medium py-1 transition-all text-center"
+                    value={col}
+                    placeholder={col}
+                    onChange={(e) => {
+                      const updated = [...addColumnField];
+                      updated[colIndex] = e.target.value;
+                      setAddColumnField(updated);
+                    }}
+                  />
+
+                  <div className="absolute -top-3 right-1/2 translate-x-1/2 opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100 transition-opacity">
+                    <button onClick={() => removeColumn(colIndex)} className="p-1  text-zinc-600 hover:text-red-500 transition-colors">
+                      <FaCircleXmark size={16} />
+                    </button>
+                  </div>
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody className=" ">
+            {addRowField.map((row, rowIndex) => (
+              <tr
+                key={rowIndex}
+                className="group/item border-b border-zinc-800/50 hover:bg-zinc-900/30 transition-colors" >
+                <td className="px-3 py-3 min-w-32 relative text-left">
+                  <input
+                    className="w-full bg-transparent border-b border-transparent hover:border-zinc-800 focus:border-emerald-500/50 focus:outline-none text-zinc-300 font-medium py-1 pr-6 transition-all" value={row}
+                    onChange={(e) => {
+                      const updated = [...addRowField];
+                      updated[rowIndex] = e.target.value;
+                      setAddRowField(updated);
+                    }}
+                  />
+
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100 transition-opacity">
+                    <button onClick={() => removeRow(rowIndex)} className="p-1 text-zinc-600 hover:text-red-500 transition-colors">
+                      <FaCircleXmark size={16} />
+                    </button>
+                  </div>
+                </td>
+
+                {addColumnField.map((_, colIndex) => (
+                  <td
                     key={colIndex}
-                    className="relative  px-3 py-2 min-w-28 text-center group/item italic"
-                  >
+                    className="px-3 py-3 text-center"                    >
                     <input
-                      className="w-full bg-transparent text-center focus:outline-none "
-                      value={col}
-                      placeholder={col}
-                      onChange={(e) => {
-                        const updated = [...addColumnField];
-                        updated[colIndex] = e.target.value;
-                        setAddColumnField(updated);
-                      }}
-                    />
-
-                    <div className="absolute -top-2 right-1/2 translate-x-1/2 opacity-0 group-hover/item:opacity-100 group-focus/item-within:opacity-100 transition-opacity">
-                      <button onClick={() => removeColumn(colIndex)}>
-                        <FaCircleXmark
-                          className="bg-white text-xl rounded-full hover:ring-2 hover:ring-red-600"
-                          fill="red"
-                        />
-                      </button>
-                    </div>
-                  </th>
+                      type="radio"
+                      name={`row-${rowIndex}`}
+                      className="w-4 h-4 accent-emerald-500 cursor-pointer transition-all" />
+                  </td>
                 ))}
               </tr>
-            </thead>
-
-            <tbody className=" ">
-              {addRowField.map((row, rowIndex) => (
-                <tr
-                  key={rowIndex}
-                  className="group/item border-b-4 border-(--white)"
-                >
-                  <td className=" bg-(--dirty-white) px-3 py-2 min-w-32 relative rounded-l-xl italic ">
-                    <input
-                      className="w-full bg-transparent focus:outline-none "
-                      value={row}
-                      onChange={(e) => {
-                        const updated = [...addRowField];
-                        updated[rowIndex] = e.target.value;
-                        setAddRowField(updated);
-                      }}
-                    />
-
-                    <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover/item:opacity-100 group-focus/item-within:opacity-100 transition-opacity">
-                      <button onClick={() => removeRow(rowIndex)}>
-                        <FaCircleXmark
-                          className="bg-white text-xl rounded-full hover:ring-2 hover:ring-red-600"
-                          fill="red"
-                        />
-                      </button>
-                    </div>
-                  </td>
-
-                  {addColumnField.map((_, colIndex) => (
-                    <td
-                      key={colIndex}
-                      className="bg-(--dirty-white) px-3 py-2 text-center"
-                    >
-                      <input
-                        type="radio"
-                        name={`row-${rowIndex}`}
-                        className="h-5 w-5 accent-green-600"
-                      />
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            ))}
+          </tbody>
+        </table>
         </div>
       </div>
-
       {showAddButtons && (
-        <div className="flex justify-between pr-5 items-center">
-          <div className="flex gap-4 mt-2">
+        <motion.div
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex justify-between items-center pt-4 mt-4 border-t border-zinc-800/50"
+        >
+          <div className="flex gap-6">
             <button
               onClick={addColumn}
-              className="bg-black hover:bg-[#1e1e1e] text-white px-4 py-2 rounded-[6px] font-medium font-vagrounded  border-none"
+              className="text-xs font-bold uppercase tracking-widest text-emerald-500/80 hover:text-emerald-400 flex items-center gap-2 transition-colors"
             >
-              + Add Column
+              <span className="text-lg">+</span> Add Column
             </button>
 
             <button
               onClick={addRow}
-              className="bg-black hover:bg-[#1e1e1e] text-white px-4 py-2 rounded-[6px] font-medium font-vagrounded  border-none"
+              className="text-xs font-bold uppercase tracking-widest text-emerald-500/80 hover:text-emerald-400 flex items-center gap-2 transition-colors"
             >
-              + Add Row
+              <span className="text-lg">+</span> Add Row
             </button>
           </div>
-        </div>
+          <div className="font-vagrounded flex items-center gap-4">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+              Required
+            </span>
+            <button
+              onClick={toggleRequired}
+              className={`w-9 h-5 flex items-center rounded-full px-1 transition-all duration-300 ${required
+                ? "bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]"
+                : "bg-zinc-800"
+                }`}
+            >
+              <motion.div
+                layout
+                className="w-3 h-3 bg-white rounded-full shadow-sm"
+                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                style={{ marginLeft: required ? "auto" : "0" }}
+              />
+            </button>
+          </div>
+        </motion.div>
       )}
     </div>
   );

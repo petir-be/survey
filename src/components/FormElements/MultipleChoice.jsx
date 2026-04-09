@@ -8,6 +8,10 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
     { id: crypto.randomUUID(), label: "Option 1" },
     { id: crypto.randomUUID(), label: "Option 2" },
   ];
+ function toggleRequired() {
+    setRequired((prev) => !prev);
+    onUpdate(question.id, { required: !required });
+  }
 
   const [required, setRequired] = useState(question.required || false);
   const [showAddOption, setShowAddOption] = useState(false);
@@ -54,7 +58,7 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
 
   return (
     <div
-      className="relative p-6 justify-self-center w-11/12 transition-all duration-300 bg-zinc-950/40 backdrop-blur-md border border-zinc-800 rounded-2xl hover:border-emerald-500/30 group mb-6 focus-within:ring-1 focus-within:ring-emerald-500/50 focus-within:bg-zinc-950/60"
+      className="form-element-container group"
       tabIndex={0}
       onFocus={() => setShowAddOption(true)}
       onBlur={(e) => {
@@ -88,7 +92,8 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
       {/* OPTIONS SECTION */}
       <div className="space-y-3 mt-4">
         {addOption.map((option, index) => (
-          <div className="group/item flex items-center gap-3 relative" key={option.id}>
+          <div className="group/item flex items-center gap-3 relative"
+            key={option.id}>
             <input
               type="radio"
               disabled
@@ -120,20 +125,17 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
           <motion.div
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex justify-between items-center pt-4 mt-4 border-t border-zinc-800/50"
+            className="flex justify-end items-center pt-4 mt-4border-zinc-800/50"
           >
-            <button
-              onClick={addOptionField}
-              className="text-xs font-bold uppercase tracking-widest text-emerald-500/80 hover:text-emerald-400 flex items-center gap-2 transition-colors"
-            >
-              <span className="text-lg">+</span> Add Option
-            </button>
-
-            <div className="flex items-center gap-4">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Required</span>
+            <div className="font-vagrounded flex items-center gap-4">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                Required
+              </span>
               <button
-                onClick={() => setRequired(!required)}
-                className={`w-9 h-5 flex items-center rounded-full px-1 transition-all duration-300 ${required ? "bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]" : "bg-zinc-800"
+                onClick={toggleRequired}
+                className={`w-9 h-5 flex items-center rounded-full px-1 transition-all duration-300 ${required
+                  ? "bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]"
+                  : "bg-zinc-800"
                   }`}
               >
                 <motion.div

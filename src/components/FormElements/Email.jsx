@@ -47,7 +47,7 @@ function Email({ question, onUpdate, onDuplicate }) {
 
   return (
     <div
-      className="relative p-6 justify-self-center w-11/12 transition-all duration-300 bg-zinc-950/40 backdrop-blur-md border border-zinc-800 rounded-2xl hover:border-emerald-500/30 group mb-6 focus-within:ring-1 focus-within:ring-emerald-500/50 focus-within:bg-zinc-950/60"
+      className="form-element-container group"
       tabIndex={0}
       onFocus={() => setShowAddOption(true)}
       onBlur={(e) => {
@@ -65,7 +65,7 @@ function Email({ question, onUpdate, onDuplicate }) {
               onUpdate(question.id, { question: e.target.value });
               adjustHeight();
             }}
-            className="w-full font-vagrounded font-bold text-xl bg-transparent text-white placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden"
+            className="w-full font-vagrounded font-bold text-xl  bg-transparent text-white placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden"
             placeholder="Email"
             rows={1}
           />
@@ -80,14 +80,17 @@ function Email({ question, onUpdate, onDuplicate }) {
         </div>
       </div>
       <div className="space-y-2 mt-3 group relative">
-        <div className="flex items-center px-3 py-1  border-b-2 border-b-(--black) text-lg focus:border-green-600 focus:outline-none">
-          <IoMail className="text-3xl" fill="#212529" />
+        <div
+          tabIndex="0"
+          className="flex items-center px-3 py-1 transition-all duration-300 bg-zinc-950/40  border-b border-zinc-800 hover:border-emerald-500/30
+           focus-within:ring-b-1 focus-within:ring-emerald-500/50 "
+        >          <IoMail className="text-3xl" color="white" />
 
           <input
             type="email"
             value={email}
             onChange={handleChange}
-            className="w-full text-zinc-300 placeholder:italic placeholder:text-white focus:outline-none px-2 py-1 overflow-hidden"
+            className="w-full text-zinc-300  plaeholder:italic placeholder:text-white focus:outline-none px-2 py-1 overflow-hidden"
           />
         </div>
         {error && (
@@ -98,9 +101,9 @@ function Email({ question, onUpdate, onDuplicate }) {
           <motion.div
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex justify-end items-center pt-4 mt-4 border-t border-zinc-800/50"
+            className="flex justify-end items-center pt-4 mt-4  "
           >
-            <div className="flex items-center gap-4">
+            <div className="font-vagrounded flex items-center gap-4">
               <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
                 Required
               </span>

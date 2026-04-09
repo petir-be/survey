@@ -34,6 +34,7 @@ function ChoiceMatrix({ question, value = {}, onChange }) {
     <div className="my-6">
       <p className="text-lg font-medium mb-3 text-white">
         {question.question || "Matrix Question"}
+          {question.required ? <span className="text-red-600"> *</span> : null}
       </p>
 
       {columns.length === 0 || rows.length === 0 ? (
