@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { FaSpinner } from "react-icons/fa6";
 import { IoDocumentText, IoGrid, IoSparkles } from "react-icons/io5";
+import ShaderBackground from "../components/ShaderBackground";
 function Kabadingan() {
   // State to track the currently active item
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1301px)" });
@@ -138,6 +139,7 @@ function Kabadingan() {
   });
   return (
     <>
+      <ShaderBackground />
       {isDesktopOrLaptop &&
         <>
           <div className="flex flex-col mt-[40px]  mx-[40px]">

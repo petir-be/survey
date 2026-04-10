@@ -71,7 +71,7 @@ function PhoneNumber({ question, onUpdate, onDuplicate }) {
               onUpdate(question.id, { question: e.target.value });
               adjustHeight();
             }}
-            className="w-full font-vagrounded font-bold text-xl bg-transparent text-white placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden" placeholder="Phone Number"
+            className="w-full font-vagrounded font-bold text-xl  text-white placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden" placeholder="Phone Number"
             rows={1}
           />
           <button
@@ -82,7 +82,7 @@ function PhoneNumber({ question, onUpdate, onDuplicate }) {
         </div>
       </div>
       <div className="space-y-2 mt-3 group relative">
-        <div className="flex items-center gap-3 w-full border-b border-zinc-800 hover:border-zinc-700 focus-within:border-emerald-500/50 transition-all py-2">
+        <div className="flex bg-transparent items-center gap-3 w-full border-b border-zinc-800 hover:border-zinc-700 focus-within:border-emerald-500/50 transition-all py-2">
           <div className="flex items-center gap-2 select-none">
             <PH className="w-6 h-4 rounded-sm object-cover" />
             <span className="text-zinc-400 font-vagrounded font-medium">(+63)</span>
@@ -91,7 +91,8 @@ function PhoneNumber({ question, onUpdate, onDuplicate }) {
             type="tel"
             value={phone}
             onChange={handleChange}
-            className="flex-1 bg-transparent border-none focus:outline-none text-zinc-300 font-medium placeholder:text-zinc-600 tracking-wide" placeholder="Enter 10-digit number"
+            placeholder="Enter a 10-digit number"
+            className="flex-1 bg-transparent border-none focus:outline-none text-zinc-300 font-medium placeholder:text-zinc-600 tracking-wide"
           />
         </div>
         {error && (

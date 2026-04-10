@@ -1193,83 +1193,98 @@ function Form() {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2 }}
-                      className="lg:hidden absolute top-full left-0 w-full z-40
-                 bg-black text-white border-t border-(--dirty-white) shadow-lg"
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                      className="lg:hidden absolute top-full left-0 w-full z-40 bg-black text-gray-200 border-t border-[#222] shadow-2xl"
                     >
-                      <div className="flex flex-col divide-y">
-                        {/* Questions */}
-                        <button
-                          onClick={() => {
-                            setResultPage(false);
-                            window.location.hash = "questions";
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-[#1e1e1e]"
-                        >
-                          Questions
-                        </button>
+                      <div className="flex flex-col p-3">
 
-                        {/* Responses */}
-                        <button
-                          onClick={() => {
-                            setResultPage(true);
-                            window.location.hash = "responses";
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-[#1e1e1e]"
-                        >
-                          Responses
-                        </button>
+                        {/* --- VIEWS SECTION --- */}
+                        <div className="flex flex-col space-y-1 pb-3 border-b border-[#222]">
+                          <span className="px-3 pt-1 pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Views
+                          </span>
 
-                        {/* Preview */}
-                        <Link
-                          to={`../preview/${publicid}`}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="px-6 py-4 hover:bg-[#1e1e1e]"
-                        >
-                          Preview
-                        </Link>
+                          <button
+                            onClick={() => {
+                              setResultPage(false);
+                              window.location.hash = "questions";
+                              setMobileMenuOpen(false);
+                            }}
+                            className="w-full px-3 py-3 text-left rounded-lg transition-all duration-200 hover:bg-[#111] hover:text-green-400"
+                          >
+                            Questions
+                          </button>
 
-                        {/* Publish / Share */}
-                        <button
-                          onClick={(e) => {
-                            PublishForm(e);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-[#1E1E1E]"
-                        >
-                          {isPublished ? "Share" : "Publish"}
-                        </button>
+                          <button
+                            onClick={() => {
+                              setResultPage(true);
+                              window.location.hash = "responses";
+                              setMobileMenuOpen(false);
+                            }}
+                            className="w-full px-3 py-3 text-left rounded-lg transition-all duration-200 hover:bg-[#111] hover:text-green-400"
+                          >
+                            Responses
+                          </button>
 
-                        {/* Settings */}
-                        <button
-                          onClick={() => {
-                            setShowSettings(true);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-[#1e1e1e]"
-                        >
-                          Settings
-                        </button>
-                        <button
-                          onClick={() => {
-                            setShowMobileLayers(true);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-[#1e1e1e]"
-                        >
-                          Layers
-                        </button>
-                        <button
-                          onClick={() => {
-                            setShowMobileElements(true);
-                            setMobileMenuOpen(false);
-                          }}
-                          className="px-6 py-4 text-left hover:bg-[#1e1e1e]"
-                        >
-                          Form Elements
-                        </button>
+                          <Link
+                            to={`../preview/${publicid}`}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="w-full px-3 py-3 text-left rounded-lg transition-all duration-200 hover:bg-[#111] hover:text-green-400"
+                          >
+                            Preview
+                          </Link>
+                        </div>
+
+                        {/* --- BUILDER SECTION --- */}
+                        <div className="flex flex-col space-y-1 py-3 border-b border-[#222]">
+                          <span className="px-3 pt-1 pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Builder Tools
+                          </span>
+
+                          <button
+                            onClick={() => {
+                              setShowMobileLayers(true);
+                              setMobileMenuOpen(false);
+                            }}
+                            className="w-full px-3 py-3 text-left rounded-lg transition-all duration-200 hover:bg-[#111] hover:text-green-400"
+                          >
+                            Layers
+                          </button>
+
+                          <button
+                            onClick={() => {
+                              setShowMobileElements(true);
+                              setMobileMenuOpen(false);
+                            }}
+                            className="w-full px-3 py-3 text-left rounded-lg transition-all duration-200 hover:bg-[#111] hover:text-green-400"
+                          >
+                            Form Elements
+                          </button>
+                        </div>
+
+                        {/* --- ACTIONS SECTION --- */}
+                        <div className="flex flex-col space-y-2 pt-3">
+                          <button
+                            onClick={() => {
+                              setShowSettings(true);
+                              setMobileMenuOpen(false);
+                            }}
+                            className="w-full px-3 py-3 text-left rounded-lg transition-all duration-200 hover:bg-[#111] hover:text-green-400"
+                          >
+                            Settings
+                          </button>
+
+                          <button
+                            onClick={(e) => {
+                              PublishForm(e);
+                              setMobileMenuOpen(false);
+                            }}
+                            className="w-full mt-1 px-4 py-3 text-center font-medium rounded-lg transition-all duration-200 bg-green-500 text-white hover:bg-green-400 shadow-[0_0_15px_rgba(34,197,94,0.2)]"
+                          >
+                            {isPublished ? "Share" : "Publish"}
+                          </button>
+                        </div>
+
                       </div>
                     </motion.div>
                   )}
@@ -1641,8 +1656,15 @@ function Form() {
                     "
                   >
                     <div className="flex items-center text-white justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-600 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
 
-                      <h1 className="text-2xl ">Layers</h1>
+                        <h1 className="text-zinc-100 text-sm font-bold uppercase tracking-widest">
+                          Layers</h1>
+                        <span className="px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-green-600 text-[10px] font-mono">
+                          {pages[currentPageIndex]?.questions?.length || 0} ITEMS
+                        </span>
+                      </div>
                       <button
                         onClick={() => setShowMobileLayers(false)}
                         className="text-xl px-3 py-1"

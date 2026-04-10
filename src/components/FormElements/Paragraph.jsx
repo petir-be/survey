@@ -17,7 +17,7 @@ function Paragraph({ question, onUpdate, onDuplicate }) {
   }, [question.question]);
 
   return (
-     <div className="form-element-container group">
+    <div className="form-element-container group">
       <div className="flex justify-between items-start">
         <div className="flex-1 inline-flex items-start">
           <textarea
@@ -27,7 +27,7 @@ function Paragraph({ question, onUpdate, onDuplicate }) {
               onUpdate(question.id, { question: e.target.value });
               adjustHeight();
             }}
-            className="w-full font-vagrounded font-bold text-xl bg-transparent pb-2 border-b hover:border-gray-300 focus:border-green-600 text-white placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden"
+            className="w-full font-vagrounded font-bold text-l bg-transparent pb-2 border-b border-zinc-500 hover:border-green-700  focus:border-green-800 text-white placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden"
             placeholder="Type your paragraph here"
             rows={1}
           />

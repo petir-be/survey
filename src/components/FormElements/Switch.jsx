@@ -70,7 +70,8 @@ function Switch({ question, onUpdate, onDuplicate }) {
               onUpdate(question.id, { caption: e.target.value });
               adjustHeight();
             }}
-            className="w-full font-vagrounded font-medium text-sm bg-transparent text-zinc-400 placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden"
+            className="w-full font-vagrounded pb-2 border-b border-b border-zinc-500 hover:border-green-700
+             focus:border-green-800 font-medium text-sm bg-transparent text-zinc-400 placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden"
             placeholder="Caption (optional)"
             rows={1}
           />

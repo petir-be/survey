@@ -16,11 +16,11 @@ export default function Modal({ isOpen, close, title, children, dialogbox }) {
               key="box"
               className="w-full text-left max-w-md px-6 sm:px-0"
             >
-              <DialogPanel className="rounded-xl bg-[#DFE0F0] border border-white p-6 backdrop-blur-2xl min-h-[150px] shadow-lg">
-                <DialogTitle className="text-lg font-medium text-gray-900">
+              <DialogPanel className="overflow-hidden rounded-2xl bg-zinc-950 border border-green-500/30 p-6 shadow-[0_0_20px_rgba(34,197,94,0.1)]">
+                <DialogTitle className="text-xl font-bold text-green-400 tracking-wide font-vagrounded">
                   {title || "Modal Title"}
                 </DialogTitle>
-                <div className="mt-2 text-sm text-gray-700">{children}</div>
+                <div className="mt-3 text-base text-zinc-300">{children}</div>
               </DialogPanel>
             </motion.div>
           )}

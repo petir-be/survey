@@ -156,7 +156,7 @@ function Page({
                     <button
                       onClick={() => onPageChange(currentPageIndex + 1)}
                       disabled={currentPageIndex === totalPages - 1}
-                      className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md disabled:opacity-30 transition-all"                    >
+                      className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-md disabled:opacity-30 transition-all"      >
                       <FaChevronRight />
                     </button>
                     <button
@@ -197,7 +197,7 @@ function Page({
               <div className="flex shrink-0 pt-1 ">
                 <button
                   onClick={onAddPage}
-                  className="text-white flex items-center  whitespace-nowrap flex-row  px-5 gap-2 py-2 rounded-md bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 transition-color duration-200 ease-out"
+                  className="flex items-center text-white font-vagrounded whitespace-nowrap flex-row px-5 gap-2 py-2 rounded-md bg-green-700/40 hover:bg-green-800/40 outline outline-green-700  hover:outline-green-800 transition-all duration-200 ease-out whitespace-nowrap"
                 >
                   <FaPlus fill="" className="fill-white" /> Add page
                 </button>
@@ -209,9 +209,9 @@ function Page({
                   <button
                     key={index}
                     onClick={() => onPageChange(index)}
-                    className={`text-white flex items-center whitespace-nowrap flex-row px-5 gap-2 py-2 mb-1 rounded-md bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 transition-color duration-200 ease-out ${index === currentPageIndex
-                      ? "bg-green-800 ring ring-white"
-                      : " ring ring-white inset-shadow-md/10"
+                    className={`text-white flex items-center whitespace-nowrap flex-row px-5 gap-2 py-2 mb-1 outline outline-green-700 rounded-md font-vagrounded hover:bg-green-700/40 transition-color duration-200 ease-out ${index === currentPageIndex
+                      ? " bg-green-700/40 shadow-[0_0_10px_rgba(16,185,129,0.4)]"
+                      : " bg-black text-zinc-300"
                       }`}
                   >
                     Page {index + 1}
@@ -225,17 +225,18 @@ function Page({
             isOpen={showDeleteModal}
             close={() => setShowDeleteModal(false)}
             title="Confirm Deletion"
+
           >
-            <p>
+            <p className="text-zinc-300 mt-2 mb-6">
               {deleteTarget?.type === "page"
                 ? `Are you sure you want to delete Page ${pageNumber}?`
                 : "Are you sure you want to delete this question?"}
             </p>
-            <div className="flex justify-end gap-2 mt-4">
+            <div className="flex justify-end gap-3 font-vagrounded">
+
               <button
                 onClick={() => setShowDeleteModal(false)}
-                className="px-3 py-1.5 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-              >
+                className="px-4 py-2 text-sm font-medium text-green-400 bg-transparent border border-green-500/40 rounded-lg hover:bg-green-500/10 hover:border-green-400 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500/50"              >
                 Cancel
               </button>
               <button
@@ -253,8 +254,7 @@ function Page({
                   }
                   setShowDeleteModal(false);
                 }}
-                className="px-3 py-1.5 bg-red-600 text-white rounded hover:bg-red-700"
-              >
+                className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-red-600 rounded-lg hover:bg-red-700 hover:border-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500/50"              >
                 Delete
               </button>
             </div>
@@ -350,7 +350,7 @@ function Page({
             close={() => setShowDeleteModal(false)}
             title="Confirm Deletion"
           >
-            <p>
+            <p className="text-zinc-300 mt-2 mb-6">
               {deleteTarget?.type === "page"
                 ? `Are you sure you want to delete Page ${pageNumber}?`
                 : "Are you sure you want to delete this question?"}
@@ -358,8 +358,7 @@ function Page({
             <div className="flex justify-end gap-2 mt-4">
               <button
                 onClick={() => setShowDeleteModal(false)}
-                className="px-3 py-1.5 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-              >
+                className="px-4 py-2 text-sm font-medium text-green-400 bg-transparent border border-green-500/40 rounded-lg hover:bg-green-500/10 hover:border-green-400 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500/50">
                 Cancel
               </button>
               <button
@@ -377,8 +376,7 @@ function Page({
                   }
                   setShowDeleteModal(false);
                 }}
-                className="px-3 py-1.5 bg-red-600 text-white rounded hover:bg-red-700"
-              >
+                className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-red-600 rounded-lg hover:bg-red-700 hover:border-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500/50"              >
                 Delete
               </button>
             </div>

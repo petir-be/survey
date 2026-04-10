@@ -65,7 +65,7 @@ function Email({ question, onUpdate, onDuplicate }) {
               onUpdate(question.id, { question: e.target.value });
               adjustHeight();
             }}
-            className="w-full font-vagrounded font-bold text-xl  bg-transparent text-white placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden"
+            className="w-full font-vagrounded font-bold text-xl  bg-transparent text-white placeholder:text-white focus:outline-none resize-none overflow-hidden"
             placeholder="Email"
             rows={1}
           />
@@ -90,7 +90,8 @@ function Email({ question, onUpdate, onDuplicate }) {
             type="email"
             value={email}
             onChange={handleChange}
-            className="w-full text-zinc-300  plaeholder:italic placeholder:text-white focus:outline-none px-2 py-1 overflow-hidden"
+            placeholder="ispecmn@gmail.com"
+            className="w-full text-zinc-300  plaeholder:italic placeholder:text-zinc-500 focus:outline-none px-2 py-1 overflow-hidden"
           />
         </div>
         {error && (

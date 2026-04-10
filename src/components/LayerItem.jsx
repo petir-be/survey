@@ -88,7 +88,7 @@ export default function LayerItem({ question, index, moveLayer, onDelete }) {
             {question.question || "Untitled Question"}
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-[9px] font-black uppercase tracking-[0.15em] text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+            <span className="text-[9px] font-black uppercase tracking-[0.15em] text-green-600 bg-green-500/10 px-2 py-0.5 rounded outline outline-green-500/20">
               {question.type}
             </span>
           </div>
@@ -107,7 +107,7 @@ export default function LayerItem({ question, index, moveLayer, onDelete }) {
         </button>
       </div>
 
-   
+
       <div className="absolute left-0 w-full bg-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity rounded-full" />
     </motion.div>
   );

@@ -175,73 +175,45 @@ function Results({
     return processedResponses.filter((res) => checkedItems.includes(res.id));
   };
 
-  console.log(processedResponses)
+  console.log(processedResponses);
 
   return (
-    <div className="m-auto w-full p-4 font-vagrounded">
+    <div className="m-auto w-full p-4 font-vagrounded bg-black min-h-screen text-gray-200">
       {/* Tab Buttons */}
-      <div
-        style={{
-          display: "flex",
-          gap: "0px",
-          borderBottom: "2px solid #e5e7eb",
-          marginBottom: "20px",
-        }}
-      >
+      <div className="flex border-b border-[#333] mb-6">
         <button
           onClick={() => setActiveTab("responses")}
-          className="font-vagrounded"
-          style={{
-            padding: "12px 24px",
-            background: activeTab === "responses" ? "#CCCDD9" : "transparent",
-            color: activeTab === "responses" ? "black" : "#6b7280",
-            border: "white 1px solid",
-            borderBottom: "none",
-            cursor: "pointer",
-            fontSize: "16px",
-            fontWeight: "600",
-            transition: "all 0.2s",
-            borderRadius: "12px 0px 0px 0px",
-          }}
+          className={`px-6 py-3 text-base font-semibold transition-all duration-200 rounded-t-lg ${activeTab === "responses"
+              ? "text-green-400 border-b-2 border-green-500 bg-[#1e1e1e]"
+              : "text-gray-500 hover:text-gray-300 hover:bg-[#111]"
+            }`}
         >
           Responses{" "}
-          <span className="text-green-600">({processedResponses.length})</span>
+          <span
+            className={
+              activeTab === "responses" ? "text-green-500" : "text-gray-600"
+            }
+          >
+            ({processedResponses.length})
+          </span>
         </button>
 
         <button
           onClick={() => setActiveTab("individual")}
-          className="font-vagrounded"
-          style={{
-            padding: "12px 24px",
-            background: activeTab === "individual" ? "#CCCDD9" : "transparent",
-            color: activeTab === "individual" ? "black" : "#6b7280",
-            border: "white 1px solid",
-            borderBottom: "none",
-            cursor: "pointer",
-            fontSize: "16px",
-            fontWeight: "600",
-            transition: "all 0.2s",
-            borderRadius: "0px 0px 0px 0px",
-          }}
+          className={`px-6 py-3 text-base font-semibold transition-all duration-200 rounded-t-lg ${activeTab === "individual"
+              ? "text-green-400 border-b-2 border-green-500 bg-[#1e1e1e]"
+              : "text-gray-500 hover:text-gray-300 hover:bg-[#111]"
+            }`}
         >
           Individual
         </button>
 
         <button
           onClick={() => setActiveTab("summary")}
-          className="font-vagrounded"
-          style={{
-            padding: "12px 24px",
-            background: activeTab === "summary" ? "#CCCDD9" : "transparent",
-            color: activeTab === "summary" ? "black" : "#6b7280",
-            border: "white 1px solid",
-            borderBottom: "none",
-            cursor: "pointer",
-            fontSize: "16px",
-            fontWeight: "600",
-            transition: "all 0.2s",
-            borderRadius: "0px 12px 0px 0px",
-          }}
+          className={`px-6 py-3 text-base font-semibold transition-all duration-200 rounded-t-lg ${activeTab === "summary"
+              ? "text-green-400 border-b-2 border-green-500 bg-[#1e1e1e]"
+              : "text-gray-500 hover:text-gray-300 hover:bg-[#111]"
+            }`}
         >
           Summary
         </button>
@@ -249,18 +221,12 @@ function Results({
 
       {/* Loading/Error */}
       {parentLoading && (
-        <p
-          style={{ textAlign: "center", fontSize: "18px" }}
-          className="font-vagrounded"
-        >
+        <p className="text-center text-lg text-green-500 mt-8 font-vagrounded animate-pulse">
           Loading responses...
         </p>
       )}
       {error && (
-        <p
-          style={{ color: "red", textAlign: "center", fontSize: "16px" }}
-          className="font-vagrounded"
-        >
+        <p className="text-center text-base text-red-500 mt-8 font-vagrounded bg-red-900/20 p-4 rounded-lg border border-red-900/50">
           Error: {error}
         </p>
       )}
@@ -268,38 +234,42 @@ function Results({
       {!parentLoading && !error && (
         <>
           {activeTab === "responses" && (
-            <div>
-              <div className="w-full m-auto bruh p-4">
-                <div className="flex gap-3 items-center mb-4 text-white">
+            <div className="w-full mx-auto max-w-7xl">
+              <div className="mb-6 flex flex-col gap-4">
+                {/* Search & Filter Controls */}
+                <div className="flex flex-wrap gap-3 items-center">
                   <SearchBar
                     value={SearchBarValue}
                     onChange={(e) => setSearchBarValue(e.target.value)}
                   />
                   <button
                     onClick={() => setShowFilters(!showFilters)}
-                    className="px-7 py-1.5 flex items-center gap-2 rounded-xl inset-shadow-md/10 font-vagrounded drop-shadow-sm/30  transition-color duration-200 ease-out"
+                    className={`px-5 py-2 flex items-center gap-2 rounded-lg font-semibold transition-colors duration-200 border ${showFilters
+                        ? "bg-[#1e1e1e] text-green-400 border-green-500/50"
+                        : "bg-[#111] text-gray-300 border-[#333] hover:border-green-500/50 hover:text-green-400"
+                      }`}
                   >
                     <FaFilter size={14} />
                     Filters
                   </button>
+
                   {hasActiveFilters && (
                     <button
                       onClick={clearAllFilters}
-                      className="px-7 py-1.5 flex items-center gap-2 text-(--white) fill-(--white) rounded-xl bg-red-600 ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-red-700 transition-color duration-200 ease-out"
+                      className="px-5 py-2 flex items-center gap-2 rounded-lg bg-red-900/20 text-red-400 border border-red-900/50 font-semibold hover:bg-red-900/40 transition-colors duration-200"
                     >
-                      <FaX size={14} style={{ fill: "var(--white)" }} />
+                      <FaX size={12} />
                       Clear All
                     </button>
                   )}
                 </div>
 
-                {/* Filters Panel */}
+                {/* Expanded Filters Panel */}
                 {showFilters && (
-                  <div className="rounded-lg p-4 mb-4 ring ring-white shadow-md/10">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      {/* Email Filter */}
+                  <div className="rounded-xl p-5 bg-[#111] border border-[#333] shadow-lg animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div>
-                        <label className="block text-sm font-medium text-white mb-2 font-vagrounded">
+                        <label className="block text-sm font-semibold text-gray-400 mb-2 font-vagrounded">
                           Email
                         </label>
                         <input
@@ -307,33 +277,33 @@ function Results({
                           value={emailFilter}
                           onChange={(e) => setEmailFilter(e.target.value)}
                           placeholder="Filter by email..."
-                          className="w-full px-3 py-2 text-gray-600 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 font-vagrounded"
+                          className="w-full px-4 py-2.5 bg-[#1e1e1e] text-white border border-[#333] rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent font-vagrounded placeholder-gray-600 transition-shadow"
                         />
                       </div>
 
-                      {/* Date From */}
                       <div>
-                        <label className="block text-sm font-medium text-white mb-2 font-vagrounded">
+                        <label className="block text-sm font-semibold text-gray-400 mb-2 font-vagrounded">
                           Date From
                         </label>
                         <input
                           type="date"
                           value={dateFrom}
                           onChange={(e) => setDateFrom(e.target.value)}
-                          className="w-full px-3 py-2 text-gray-600  border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 font-vagrounded"
+                          className="w-full px-4 py-2.5 bg-[#1e1e1e] text-white border border-[#333] rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent font-vagrounded placeholder-gray-600 transition-shadow color-scheme-dark"
+                          style={{ colorScheme: "dark" }}
                         />
                       </div>
 
-                      {/* Date To */}
                       <div>
-                        <label className="block text-sm font-medium text-white mb-2 font-vagrounded">
+                        <label className="block text-sm font-semibold text-gray-400 mb-2 font-vagrounded">
                           Date To
                         </label>
                         <input
                           type="date"
                           value={dateTo}
                           onChange={(e) => setDateTo(e.target.value)}
-                          className="w-full px-3 py-2 border text-gray-600  border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 font-vagrounded"
+                          className="w-full px-4 py-2.5 bg-[#1e1e1e] text-white border border-[#333] rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent font-vagrounded placeholder-gray-600 transition-shadow"
+                          style={{ colorScheme: "dark" }}
                         />
                       </div>
                     </div>
@@ -342,120 +312,94 @@ function Results({
               </div>
 
               {processedResponses && processedResponses.length > 0 ? (
-                <div className="w-full p-4 min-h-screen">
-                  <div className="rounded-lg overflow-auto">
-                    <table className="w-full border-separate border-spacing-x-0 border-spacing-y-4 pr-1 overflow-x-auto">
-                      <thead className="shadow-md font-vagrounded">
-                        <tr
-                          className="outline-1 outline-white border-box "
-                          style={{ background: "black" }}
-                        >
-                          <th className="text-left font-vagrounded align-middle">
-                            <div className="py-4 px-4 border-l border-r border-white">
-                              <input
-                                type="checkbox"
-                                className="pretty-checkbox"
-                                checked={selectAll}
-                                onChange={handleSelectAll}
-                              />
-                            </div>
+                <div className="w-full pb-24">
+                  <div className="rounded-xl border border-[#333] overflow-hidden bg-black shadow-lg">
+                    <table className="w-full border-collapse text-left">
+                      <thead className="bg-[#111] border-b border-[#333] text-gray-400 font-vagrounded text-sm">
+                        <tr>
+                          <th className="py-4 px-5 w-16 text-center border-r border-[#333]">
+                            <input
+                              type="checkbox"
+                              className="pretty-checkbox accent-green-500 w-4 h-4 cursor-pointer"
+                              checked={selectAll}
+                              onChange={handleSelectAll}
+                            />
                           </th>
-                          <th className="text-left text-sm font-medium text-white font-vagrounded">
-                            <div className="py-4 px-4 border-l border-r border-white font-bold">
-                              <button
-                                className="hover:bg-[#1e1e1e] rounded-full p-2 transition-transform"
-                                onClick={handleReverseOrder}
-                                style={{
-                                  transform: isReversed
-                                    ? "rotate(180deg)"
-                                    : "rotate(0deg)",
-                                }}
-                              >
-                                <FaArrowDown />
-                              </button>
-                            </div>
+                          <th className="py-4 px-5 border-r border-[#333]">
+                            <button
+                              className="hover:text-green-400 p-1 transition-all rounded-full hover:bg-[#1e1e1e]"
+                              onClick={handleReverseOrder}
+                              style={{
+                                transform: isReversed
+                                  ? "rotate(180deg)"
+                                  : "rotate(0deg)",
+                              }}
+                            >
+                              <FaArrowDown />
+                            </button>
                           </th>
-                          <th className="text-left text-sm font-medium text-white font-vagrounded">
-                            <div className="py-4 px-4 border-l border-r border-white font-bold">
-                              Name
-                            </div>
+                          <th className="py-4 px-5 font-semibold border-r border-[#333]">
+                            Name
                           </th>
-                          <th className="text-left text-sm font-medium text-white font-vagrounded">
-                            <div className="py-4 px-4 border-l border-r border-white font-bold">
-                              Email
-                            </div>
+                          <th className="py-4 px-5 font-semibold border-r border-[#333]">
+                            Email
                           </th>
-                          <th className="text-left text-sm font-medium text-white font-vagrounded ">
-                            <div className="py-4 px-4 border-l border-r border-white font-bold">
-                              Date
-                            </div>
+                          <th className="py-4 px-5 font-semibold border-r border-[#333]">
+                            Date
                           </th>
-                          <th className="text-left text-sm font-medium text-white font-vagrounded ">
-                            <div className="py-4 px-4 border-l border-r border-white font-bold">
-                              Time
-                            </div>
-                          </th>
+                          <th className="py-4 px-5 font-semibold">Time</th>
                         </tr>
                       </thead>
 
-                      <tbody>
+                      <tbody className="text-gray-300 text-sm">
                         {processedResponses.map((row, index) => {
                           const displayIndex = index + 1;
 
                           return (
                             <tr
                               key={row.id}
-                              className="border-b border-white outline-1 outline-white hover:bg-[#1e1e1e] transition-colors shadow-md rounded-sm"
+                              className="border-b border-[#222] hover:bg-[#111] transition-colors cursor-pointer group"
                               onClick={() => seeInDetail(row)}
                             >
-                              <td className="align-middle font-vagrounded">
+                              <td className="py-4 px-5 text-center border-r border-[#333]/50">
                                 <div
-                                  className="py-4 px-4 border-l border-r border-white"
                                   onClick={(e) => {
                                     e.stopPropagation();
                                   }}
                                 >
                                   <input
                                     type="checkbox"
-                                    className="w-4 h-4 border-gray-300 pretty-checkbox row-checkbox"
+                                    className="pretty-checkbox row-checkbox accent-green-500 w-4 h-4 cursor-pointer"
                                     checked={checkedItems.includes(row.id)}
                                     onChange={() => handleCheckItem(row.id)}
                                   />
                                 </div>
                               </td>
 
-                              <td className="align-middle text-sm text-white font-vagrounded">
-                                <div className="py-4 px-4">{displayIndex}</div>
+                              <td className="py-4 px-5 text-gray-500 font-medium border-r border-[#333]/50">
+                                {displayIndex}
                               </td>
 
-                              <td className="align-middle text-sm text-white font-vagrounded">
-                                <div className="py-4 px-4 border-l border-white">
-                                  {row.respondent.name}
-                                </div>
+                              <td className="py-4 px-5 font-medium group-hover:text-green-400 transition-colors border-r border-[#333]/50">
+                                {row.respondent.name}
                               </td>
 
-                              <td className="align-middle text-sm text-white font-vagrounded">
-                                <div className="py-4 px-4 border-l border-white">
-                                  {row.respondent.email}
-                                </div>
+                              <td className="py-4 px-5 border-r border-[#333]/50">
+                                {row.respondent.email}
                               </td>
 
-                              <td className="align-middle text-sm text-white font-vagrounded">
-                                <div className="py-4 px-4 border-l border-white">
-                                  {moment
-                                    .utc(row.submittedAt)
-                                    .local()
-                                    .format("MMMM d, yyyy")}
-                                </div>
+                              <td className="py-4 px-5 border-r border-[#333]/50">
+                                {moment
+                                  .utc(row.submittedAt)
+                                  .local()
+                                  .format("MMMM D, YYYY")}
                               </td>
 
-                              <td className="align-middle text-sm text-white font-vagrounded">
-                                <div className="py-4 px-4  border-l border-white">
-                                  {moment
-                                    .utc(row.submittedAt)
-                                    .local()
-                                    .format("hh:mm A")}
-                                </div>
+                              <td className="py-4 px-5">
+                                {moment
+                                  .utc(row.submittedAt)
+                                  .local()
+                                  .format("hh:mm A")}
                               </td>
                             </tr>
                           );
@@ -465,18 +409,21 @@ function Results({
                   </div>
                 </div>
               ) : (
-                <p
-                  style={{
-                    textAlign: "center",
-                    color: "#6b7280",
-                    fontSize: "16px",
-                  }}
-                  className="font-vagrounded"
-                >
-                  {hasActiveFilters
-                    ? "No responses match the current filters."
-                    : "No responses yet."}
-                </p>
+                <div className="flex flex-col items-center justify-center py-20 border border-[#333] border-dashed rounded-xl bg-[#111]/50 mt-4">
+                  <p className="text-gray-500 font-vagrounded text-lg text-center">
+                    {hasActiveFilters
+                      ? "No responses match the current filters."
+                      : "No responses yet."}
+                  </p>
+                  {hasActiveFilters && (
+                    <button
+                      onClick={clearAllFilters}
+                      className="mt-4 text-green-500 hover:text-green-400 hover:underline"
+                    >
+                      Clear filters to see all results
+                    </button>
+                  )}
+                </div>
               )}
             </div>
           )}
@@ -489,19 +436,18 @@ function Results({
                   formData={parentFormData}
                 />
               ) : (
-                <p
-                  style={{ textAlign: "center", color: "#6b7280" }}
-                  className="font-vagrounded m-auto mt-5"
-                >
-                  Click a row in the{" "}
-                  <span
-                    onClick={() => setActiveTab("responses")}
-                    className="text-(--purple) cursor-pointer hover:underline hover:decoration-solid"
-                  >
-                    Responses
-                  </span>{" "}
-                  tab to see it in detail here.
-                </p>
+                <div className="flex flex-col items-center justify-center py-20 border border-[#333] border-dashed rounded-xl bg-[#111]/50 mt-4">
+                  <p className="text-gray-500 font-vagrounded text-lg text-center">
+                    Click a row in the{" "}
+                    <span
+                      onClick={() => setActiveTab("responses")}
+                      className="text-green-500 font-semibold cursor-pointer hover:underline"
+                    >
+                      Responses
+                    </span>{" "}
+                    tab to see it in detail here.
+                  </p>
+                </div>
               )}
             </div>
           )}
@@ -516,14 +462,18 @@ function Results({
             />
           )}
 
+          {/* Floating Action Bar for Selected Items */}
           {checkedItems.length > 0 && (
-            <div className="popup fixed bg-[var(--white)] shadow-lg left-0 right-0 bottom-20 m-auto p-1 max-w-2xs border-2 border-white rounded-lg flex items-stretch">
-              <span className="p-4 text-base font-bold flex items-center w-full">
-                {`${checkedItems.length}/${processedResponses.length} selected`}
-              </span>
+            <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-[#1a1a1a] border border-green-500/50 shadow-xl shadow-green-900/10 rounded-full flex items-center z-50 overflow-hidden text-gray-200 font-vagrounded animate-in slide-in-from-bottom-8 duration-300">
+              <div className="px-6 py-3 text-sm font-semibold border-r border-[#333]">
+                <span className="text-green-400 mr-1">
+                  {checkedItems.length}
+                </span>
+                / {processedResponses.length} selected
+              </div>
 
               <PDFDownloadLink
-                className="flex items-center justify-center border-l border-gray-300 hover:bg-gray-300 w-24"
+                className="px-6 py-3 flex items-center gap-2 hover:bg-[#2a2a2a] hover:text-green-400 transition-colors cursor-pointer border-r border-[#333]"
                 fileName="selectedResponses"
                 document={
                   <MultipleDetailedResponsesPDF
@@ -532,17 +482,19 @@ function Results({
                   />
                 }
               >
-                <FaDownload />
+                <FaDownload size={14} />
+                <span className="text-sm font-semibold">Download</span>
               </PDFDownloadLink>
 
               <button
-                className="flex items-center justify-center border-l border-gray-300 hover:bg-gray-300 w-24"
+                className="px-6 py-3 flex items-center gap-2 hover:bg-red-900/30 hover:text-red-400 transition-colors cursor-pointer"
                 onClick={() => {
-                  setSelectAll(!selectAll);
+                  setSelectAll(false);
                   setCheckedItems([]);
                 }}
               >
-                <FaX />
+                <FaX size={12} />
+                <span className="text-sm font-semibold">Clear</span>
               </button>
             </div>
           )}

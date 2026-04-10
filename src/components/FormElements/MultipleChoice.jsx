@@ -8,7 +8,7 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
     { id: crypto.randomUUID(), label: "Option 1" },
     { id: crypto.randomUUID(), label: "Option 2" },
   ];
- function toggleRequired() {
+  function toggleRequired() {
     setRequired((prev) => !prev);
     onUpdate(question.id, { required: !required });
   }
@@ -125,8 +125,15 @@ function MultipleChoice({ question, onUpdate, onDuplicate }) {
           <motion.div
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex justify-end items-center pt-4 mt-4border-zinc-800/50"
+            className="flex justify-between items-center pt-4 mt-4 border-t border-zinc-800/50"
           >
+            <button
+              onClick={addOptionField}
+              className="text-xs font-bold uppercase tracking-widest text-emerald-500/80 hover:text-emerald-400 flex items-center gap-2 transition-colors"
+            >
+              <span className="text-lg">+</span> Add Option
+            </button>
+
             <div className="font-vagrounded flex items-center gap-4">
               <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
                 Required
