@@ -110,8 +110,8 @@ function Footer() {
             onMouseLeave={handleMouseLeave}
           >
             <button onClick={() => window.open('https://www.facebook.com/profile.php?id=61577425593666', '_blank', 'noopener,noreferrer')}
-              className={`transition-opacity duration-300 ${fadeClass}`}>          
-                  {displayText}
+              className={`transition-opacity duration-300 ${fadeClass}`}>
+              {displayText}
             </button>
           </footer>
         </>

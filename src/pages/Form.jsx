@@ -654,7 +654,7 @@ function Form() {
           <DndProvider backend={HTML5Backend}>
             <div className="h-dvh w-full bg-black flex flex-col overflow-x-hidden">
 
-              <header className="flex items-center justify-between bg-black pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-12 relative z-50 border border-transparent border-b-(--dirty-white) lg:pd-4">
+              <header className="flex items-center justify-between bg-black pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-12 relative z-50 border border-b-zinc-600 lg:pd-4">
                 <div className="inline-flex items-center gap-7 flex-1 min-w-0">
                   <Link to={"/"}>
                     <FaHome fill='white' className="text-3xl cursor-pointer" />
@@ -1015,12 +1015,21 @@ function Form() {
                     </AnimatePresence>
                   </div>
 
-                  <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
-                    <img
-                      src={user.avatar}
-                      onClick={() => setShowAccountModal(true)}
-                      className="h-10 w-10 cursor-pointer rounded-full"
-                    />
+                  <div
+                    onClick={() => setShowAccountModal(true)}
+                    className="bg-black shadow-[inset_0_5px_10px_rgba(255,255,255,.40)]   h-12 w-12 rounded-full flex justify-center items-center cursor-pointer overflow-hidden "  >
+                    {user?.avatar ? (
+                      <img
+                        src={user.avatar}
+                        className="h-full w-full object-cover"
+                        alt="User avatar"
+                        onError={(e) => { e.target.style.display = 'none'; }}
+                      />
+                    ) : (
+                      <span className="text-green-600 text-md font-bold uppercase">
+                        {user?.name?.charAt(0) || 'U'}
+                      </span>
+                    )}
                   </div>
                 </div>
               </header>
@@ -1145,7 +1154,7 @@ function Form() {
                 close={() => setShowUnpublishModal(false)}
                 title="Unpublish form"
               >
-                <p>
+                <p className="text-zinc-300 mt-2 mb-6 ">
                   The form will no longer be visible to responders. Responders will
                   see a blank page if they open the form link. Form editors can
                   still make changes and publish the form again.
@@ -1153,8 +1162,8 @@ function Form() {
                 <div className="flex justify-end gap-2 mt-4">
                   <button
                     onClick={() => setShowUnpublishModal(false)}
-                    className="px-3 py-1.5 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-                  >
+                    className="px-4 py-2 text-sm font-medium text-green-400 bg-transparent border border-green-500/40 rounded-lg hover:bg-green-500/10 hover:border-green-400 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500/50">
+
                     Cancel
                   </button>
                   <button
@@ -1163,8 +1172,8 @@ function Form() {
                       setShowUnpublishModal(false);
                       setHasUnsavedChanges(true);
                     }}
-                    className="px-3 py-1.5 bg-red-600 text-white rounded hover:bg-red-700"
-                  >
+                    className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-red-600 rounded-lg hover:bg-red-700 hover:border-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500/50" >
+
                     Unpublish
                   </button>
                 </div>
@@ -1185,7 +1194,7 @@ function Form() {
           <DndProvider backend={HTML5Backend}>
             <div className="h-dvh w-full bg-black flex flex-col overflow-x-hidden">
 
-              <header className="flex items-center justify-between  pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-6 lg:pr-10 relative z-50 border border-transparent border-b-(--dirty-white)">
+              <header className="flex items-center justify-between  pt-4 pb-4 px-5 lg:pt-8 lg:pb-8 lg:px-10 pr-6 lg:pr-10 relative z-50 border border-transparent border-b-zinc-300">
                 {/* {Mobile Hamburger} */}
                 <AnimatePresence>
                   {mobileMenuOpen && (
@@ -1194,9 +1203,9 @@ function Form() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.2, ease: "easeOut" }}
-                      className="lg:hidden absolute top-full left-0 w-full z-40 bg-black text-gray-200 border-t border-[#222] shadow-2xl"
+                      className="lg:hidden border-b-1 border-zinc-600 absolute top-full left-0 w-full z-40 bg-black text-gray-200 shadow-2xl"
                     >
-                      <div className="flex flex-col p-3">
+                      <div className="flex flex-col p-3  ">
 
                         {/* --- VIEWS SECTION --- */}
                         <div className="flex flex-col space-y-1 pb-3 border-b border-[#222]">
@@ -1263,16 +1272,8 @@ function Form() {
                         </div>
 
                         {/* --- ACTIONS SECTION --- */}
-                        <div className="flex flex-col space-y-2 pt-3">
-                          <button
-                            onClick={() => {
-                              setShowSettings(true);
-                              setMobileMenuOpen(false);
-                            }}
-                            className="w-full px-3 py-3 text-left rounded-lg transition-all duration-200 hover:bg-[#111] hover:text-green-400"
-                          >
-                            Settings
-                          </button>
+                        <div className="flex flex-col space-y-2 pt-2">
+
 
                           <button
                             onClick={(e) => {
@@ -1496,12 +1497,21 @@ function Form() {
                     </AnimatePresence>
                   </div>
 
-                  <div className="bg-white h-8 w-8 rounded-full flex justify-center items-center">
-                    <img
-                      src={user.avatar}
-                      onClick={() => setShowAccountModal(true)}
-                      className="h-8 w-8 cursor-pointer rounded-full"
-                    />
+                  <div
+                    onClick={() => setShowAccountModal(true)}
+                    className="bg-black shadow-[inset_0_5px_10px_rgba(255,255,255,.40)] h-8 w-8 rounded-full flex justify-center items-center cursor-pointer overflow-hidden "  >
+                    {user?.avatar ? (
+                      <img
+                        src={user.avatar}
+                        className="h-full w-full object-cover"
+                        alt="User avatar"
+                        onError={(e) => { e.target.style.display = 'none'; }}
+                      />
+                    ) : (
+                      <span className="text-green-600 text-md font-bold uppercase">
+                        {user?.name?.charAt(0) || 'U'}
+                      </span>
+                    )}
                   </div>
                 </div>
               </header>
@@ -1691,7 +1701,7 @@ function Form() {
                 title="Unpublish form"
 
               >
-                <p>
+                <p className="text-zinc-300 text-xs mt-2 mb-6">
                   The form will no longer be visible to responders. Responders will
                   see a blank page if they open the form link. Form editors can
                   still make changes and publish the form again.
@@ -1699,8 +1709,7 @@ function Form() {
                 <div className="flex justify-end gap-2 mt-4">
                   <button
                     onClick={() => setShowUnpublishModal(false)}
-                    className="px-3 py-1.5 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-                  >
+                    className="px-4 py-2 text-sm font-medium text-green-400 bg-transparent border border-green-500/40 rounded-lg hover:bg-green-500/10 hover:border-green-400 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500/50">
                     Cancel
                   </button>
                   <button
@@ -1709,8 +1718,7 @@ function Form() {
                       setShowUnpublishModal(false);
                       setHasUnsavedChanges(true);
                     }}
-                    className="px-3 py-1.5 bg-red-600 text-white rounded hover:bg-red-700"
-                  >
+                    className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-red-600 rounded-lg hover:bg-red-700 hover:border-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500/50" >
                     Unpublish
                   </button>
                 </div>
@@ -1739,87 +1747,95 @@ function Form() {
                   transition={{ duration: 0.2, ease: "easeOut" }}
                   className="relative z-10 w-full max-w-md"
                 >
-                  {/* Modal Box */}
-                  <div className="font-vagrounded py-6 px-2 bg-black text-white border border-green-700 rounded-2xl shadow-2xl">
+                  {/* Sleek Desktop-Style Box */}
+                  <div className="relative flex flex-col gap-5 p-6 bg-black text-white border border-green-700/50 rounded-2xl shadow-2xl overflow-hidden font-vagrounded">
 
-                    {/* Close Button (X) */}
+                    {/* Close Button (X) from Mobile */}
                     <button
                       onClick={() => setShowPublishModal(false)}
-                      className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                      className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors z-20"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </button>
 
-                    <div className="gap-1 px-3 flex-col flex">
-                      <p className="text-2xl mb-2">Share Link</p>
+                    {/* Share Link Section */}
+                    <div className="flex flex-col gap-2 mt-2">
+                      <h3 className="text-lg font-semibold text-gray-100">Share Link</h3>
 
                       <div className="flex w-full gap-2 items-center">
-                        <p className="text-sm flex-1 font-sans line-clamp-1 border-2 border-zinc-800 rounded-lg p-2 truncate bg-zinc-900">
-                          {`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`}
-                        </p>
+                        <div className="flex-1 bg-black border border-gray-700/50 rounded-lg p-2.5 overflow-hidden">
+                          <p className="text-sm text-gray-300 truncate select-all">
+                            {`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`}
+                          </p>
+                        </div>
 
                         <button
                           onClick={handleCopyButton}
-                          className="flex items-center justify-center gap-2 text-sm p-2  bg-green-700 hover:bg-green-800 transition-all duration-200 ease-out border-2 rounded-lg px-4"
+                          className="flex items-center justify-center gap-2 text-sm font-medium p-2.5 bg-green-600 hover:bg-green-700 transition-colors duration-200 rounded-lg min-w-[95px]"
                         >
                           {copy ? (
-                            <IoIosCheckmarkCircle className="text-xl" />
+                            <IoIosCheckmarkCircle className="text-lg" />
                           ) : (
-                            <FaCopy className="text-md" />
+                            <FaCopy className="text-sm" />
                           )}
                           {copy ? "Copied" : "Copy"}
                         </button>
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-center gap-4 px-3 my-6">
-                      <hr className="flex-1 border-zinc-700" />
-                      <p className="text-sm text-gray-500 font-vagrounded uppercase tracking-widest">
-                        or
-                      </p>
-                      <hr className="flex-1 border-zinc-700" />
+                    {/* Separator */}
+                    <div className="flex items-center gap-3 opacity-60">
+                      <hr className="flex-1 border-gray-700" />
+                      <span className="text-xs text-gray-400 uppercase tracking-wider font-semibold">
+                        Or
+                      </span>
+                      <hr className="flex-1 border-gray-700" />
                     </div>
 
-                    <p className="px-3 text-2xl font-vagrounded">
-                      Get the QR Code
-                    </p>
-                    <p className="px-3 text-gray-400 text-sm font-vagrounded mb-4">
-                      Scan the code to launch your form
-                    </p>
-
-                    <div className="flex flex-col sm:flex-row px-3 gap-4 items-center">
-                      <div className="p-2 bg-white rounded-xl">
+                    {/* QR Code Section (Desktop Style) */}
+                    <div className="flex gap-4 items-center bg-black p-3 border border-gray-800 rounded-xl">
+                      <div className="bg-white p-1.5 rounded-md shadow-inner shrink-0">
                         <QRCodeCanvas
                           bgColor="#ffffff"
-                          value={`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`} size={180}
+                          fgColor="#000000"
+                          value={`${import.meta.env.VITE_FRONTEND_URL}/form/${publicid}`}
+                          size={88}
                           ref={qrCodeRef}
                         />
                       </div>
 
-                      <div className="flex flex-col font-vagrounded w-full flex-1 justify-center gap-3">
-                        <button
-                          onClick={handleCopyQRImage}
-                          className={`flex transition-all duration-200 ease-out justify-center items-center gap-2 text-sm p-2 border-2 border-(--black-lighter) rounded-lg 
-    ${copyQR ? "bg-[#1e1e1e]" : "bg-black hover:bg-[#1e1e1e]"}`}
-                        >
-                          {copyQR ? (
-                            <IoIosCheckmarkCircle className="text-md " />
-                          ) : (
-                            <FaCopy className="text-md" />
-                          )}
-                          {copyQR ? " Copied" : "Copy Code"}
-                        </button>
-                        <button
-                          onClick={handleDownloadQR}
-                          className="flex bg-black hover:bg-[#1e1e1e] justify-center items-center gap-1 text-sm p-2 border-2 border-(--black-lighter) rounded-lg "
-                        >
-                          <IoDownload className="text-lg" />
-                          Download
-                        </button>
+                      <div className="flex flex-col flex-1 gap-2">
+                        <div>
+                          <h3 className="text-sm font-semibold text-gray-100 leading-tight">QR Code</h3>
+                          <p className="text-[10px] text-gray-400 leading-tight mt-0.5">Scan to launch form</p>
+                        </div>
+
+                        <div className="flex gap-1.5 mt-1">
+                          <button
+                            onClick={handleCopyQRImage}
+                            className="flex-1 flex justify-center items-center gap-1 text-xs py-1.5 px-2 bg-black hover:bg-[#1e1e1e] transition-colors duration-200 border border-gray-700 rounded-md text-gray-200 hover:text-white"
+                          >
+                            {copyQR ? (
+                              <IoIosCheckmarkCircle className="text-sm text-green-500" />
+                            ) : (
+                              <FaCopy className="text-xs" />
+                            )}
+                            {copyQR ? "Copied" : "Copy"}
+                          </button>
+
+                          <button
+                            onClick={handleDownloadQR}
+                            className="flex-1 flex justify-center items-center gap-1 text-xs py-1.5 px-2 bg-black hover:bg-[#1e1e1e] transition-colors duration-200 border border-gray-700 rounded-md text-gray-200 hover:text-white"
+                          >
+                            <IoDownload className="text-sm" />
+                            Save
+                          </button>
+                        </div>
                       </div>
                     </div>
+
                   </div>
                 </motion.div>
               </div>

@@ -110,7 +110,6 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
           </button>
         </div>
       </div>
-
       <div className="space-y-3 mt-4">
         {addOption.length === 0 ? (
           <div className="w-full flex justify-center items-center py-2">
@@ -119,40 +118,34 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
         ) : (
           addOption.map((option, index) => (
             <div className="group/item flex items-center gap-3 relative" key={index}>
+
+              {/* CHECKBOX */}
               <input
                 type="checkbox"
                 disabled
-                className="w-4 h-4 rounded-md border-2 border-zinc-700 appearance-none checked:bg-emerald-500 checked:border-emerald-500 transition-all cursor-pointer"
+                className="w-4 h-4 shrink-0 rounded-md border-2 border-zinc-700 appearance-none checked:bg-emerald-500 checked:border-emerald-500 transition-all cursor-pointer"
               />
-              <div className="relative h-full max-w-full flex-1">
-                <input
-                  type="text"
-                  value={option}
-                  placeholder={`Option ${index + 1}`}
-                  onChange={(e) => {
-                    const updated = [...addOption];
-                    updated[index] = e.target.value;
-                    setAddOption(updated);
-                    onUpdate(question.id, { options: updated });
-                  }}
-                  className="absolute font-vagrounded top-0 left-0 line-clamp-2 placeholder:text-zinc-600 max-w-full bg-transparent border-b border-transparent hover:border-zinc-800 focus:border-emerald-500/50 focus:outline-none text-zinc-300 font-medium py-1 transition-all"
-                  style={{ width: "100%", minWidth: "72px" }}
-                />
 
-                <span
-                  id={`radio-resize-${instanceId}-${index}`}
-                  className="invisible whitespace-pre"
-                >
-                  {option || " "}
-                </span>
-              </div>
+              <input
+                type="text"
+                value={option}
+                placeholder={`Option ${index + 1}`}
+                onChange={(e) => {
+                  const updated = [...addOption];
+                  updated[index] = e.target.value;
+                  setAddOption(updated);
+                  onUpdate(question.id, { options: updated });
+                }}
+                className="flex-1 font-vagrounded bg-transparent border-b border-transparent hover:border-zinc-800 focus:border-emerald-500/50 focus:outline-none text-zinc-300 font-medium py-1 transition-all placeholder:text-zinc-600"
+              />
 
-              <div className="absolute -top-2 -right-2 opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100 transition-opacity duration-200 ease-out">
-                <button onClick={() => removeOptionField(index)}
-                  className="opacity-0 group-hover/item:opacity-100 p-1 text-zinc-600 hover:text-red-500 transition-opacity">
-                  <FaCircleXmark size={16} />
-                </button>
-              </div>
+              {/* DELETE BUTTON */}
+              <button
+                onClick={() => removeOptionField(index)}
+                className="opacity-0 group-hover/item:opacity-100 focus:opacity-100 p-1 text-zinc-600 hover:text-red-500 transition-opacity"
+              >
+                <FaCircleXmark size={16} />
+              </button>
             </div>
           ))
         )}

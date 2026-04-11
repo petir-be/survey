@@ -174,21 +174,65 @@ function Page({
               </div>
             </div>
 
-            <div className="flex-1 w-full overflow-y-auto p-8 bg-[#0a0a0a]">
+            <div className="flex-1 w-full overflow-y-auto bg-[#0a0a0a] flex flex-col">
               <div
                 ref={canvasRef}
-                className="w-full max-w-[900px] mx-auto min-h-[500px] bg-black border border-zinc-800 rounded-xl shadow-lg relative"
-              >
+                className="w-full mx-auto rounded-xl shadow-lg relative flex-1 flex flex-col"              >
 
-                <div className="p-8">
-                  {questions.map((question, idx) => (
-                    <div key={question?.id || idx}>
-                      <QuestionDropWrapper index={idx} onInsert={onInsert}>
-                        {renderElement(question, onUpdateQuestion, onDeleteQuestion, onDuplicateQuestion)}
-                      </QuestionDropWrapper>
-                      <DropZone index={idx + 1} onInsert={onInsert} />
-                    </div>
-                  ))}
+                <div className="flex-1 flex flex-col p-4">
+                  {questions.length === 0 ? (
+
+                    /* Empty State UI */
+                    <div className="relative flex flex-1 flex-col items-center justify-center w-full bg-black border-2 border-dashed border-green-500/30 rounded-xl transition-colors duration-300 hover:border-green-500/70 hover:bg-[#0a0a0a] group">
+
+                      {/* Visual Content (Pointer events disabled so they don't block the dropzone) */}
+                      <div className="flex flex-col items-center justify-center pointer-events-none">
+                        {/* Icon Container with a soft green glow/background */}
+                        <div className="p-4 mb-4 rounded-full bg-green-500/10 text-green-500 group-hover:scale-110 transition-transform duration-300">
+                          <svg
+                            className="w-8 h-8"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                          </svg>
+                        </div>
+
+                        {/* Primary Text */}
+                        <p className="text-lg font-medium text-gray-200">
+                          Drag and drop form elements here
+                        </p>
+
+                        {/* Secondary Text for better visual hierarchy */}
+                        <p className="text-sm text-gray-500 mt-1">
+                          Start building your layout
+                        </p>
+                      </div>
+
+                      {/* Functional DropZone (Invisible but active overlay) */}
+                      <div className="absolute inset-0 z-10 opacity-0 cursor-pointer">
+                        <DropZone index={0} onInsert={onInsert} />
+                      </div>
+
+                    </div>) : (
+
+                    /* Mapped Questions UI */
+                    questions.map((question, idx) => (
+                      <div key={question?.id || idx}>
+
+                        {/* Add a DropZone at index 0 so users can drop items at the very top of the list */}
+                        {idx === 0 && <DropZone index={0} onInsert={onInsert} />}
+
+                        <QuestionDropWrapper index={idx} onInsert={onInsert}>
+                          {renderElement(question, onUpdateQuestion, onDeleteQuestion, onDuplicateQuestion)}
+                        </QuestionDropWrapper>
+
+                        <DropZone index={idx + 1} onInsert={onInsert} />
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             </div>
@@ -202,7 +246,7 @@ function Page({
                   <FaPlus fill="" className="fill-white" /> Add page
                 </button>
               </div>
-              <div className="border-l border-l-neutral-400 h-10" />
+              <div className="border-l border-l-zinc-500 mt-1 h-10" />
 
               <div className="flex gap-2 items-start px-2 pt-1 pb-4 overflow-x-auto  scrollbar-vscode w-full">
                 {Array.from({ length: totalPages }, (_, index) => (
@@ -264,7 +308,7 @@ function Page({
       {isTabletOrMobile &&
         <>
           <div className="flex flex-col h-screen w-full bg-black overflow-hidden">
-            <div className="h-[70px] w-full flex items-center justify-between px-6 border-b border-zinc-800">
+            <div className="relative z-10 h-[70px] w-full flex items-center justify-between px-6 border-b border-zinc-800">
               <h1 className="text-xl text-white font-vagrounded">
                 Page {pageNumber} <span className="text-zinc-600 text-sm font-normal">/ {totalPages}</span>
               </h1>
@@ -299,43 +343,86 @@ function Page({
               </div>
             </div>
 
-            <div className="flex-1 w-full overflow-y-auto bg-[#0a0a0a]">
+            <div className="flex-1 w-full overflow-y-auto bg-[#0a0a0a] flex flex-col">
               <div
                 ref={canvasRef}
-                className="w-full max-w-[900px]  h-full bg-black border border-zinc-800 rounded-xl shadow-lg relative"
-              >
+                className="w-full mx-auto rounded-xl shadow-lg relative flex-1 flex flex-col">
 
-                <div className="p-2 w-full">
-                  {questions.map((question, idx) => (
-                    <div key={question?.id || idx}>
-                      <QuestionDropWrapper index={idx} onInsert={onInsert}>
-                        {renderElement(question, onUpdateQuestion, onDeleteQuestion, onDuplicateQuestion)}
-                      </QuestionDropWrapper>
-                      <DropZone index={idx + 1} onInsert={onInsert} />
-                    </div>
-                  ))}
+                <div className="flex-1 flex flex-col p-4">
+                  {questions.length === 0 ? (
+
+                    /* Empty State UI */
+                    <div className="relative flex flex-1 flex-col items-center justify-center w-full bg-black border-2 border-dashed border-green-500/30 rounded-xl transition-colors duration-300 hover:border-green-500/70 hover:bg-[#0a0a0a] group">
+                      {/* Visual Content (Pointer events disabled so they don't block the dropzone) */}
+                      <div className="flex flex-col items-center justify-center pointer-events-none">
+                        {/* Icon Container with a soft green glow/background */}
+                        <div className="p-4 mb-4 rounded-full bg-green-500/10 text-green-500 group-hover:scale-110 transition-transform duration-300">
+                          <svg
+                            className="w-8 h-8"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                          </svg>
+                        </div>
+
+                        {/* Primary Text */}
+                        <p className="text-lg font-medium text-gray-200">
+                          Drag and drop form elements here
+                        </p>
+
+                        {/* Secondary Text for better visual hierarchy */}
+                        <p className="text-sm text-gray-500 mt-1">
+                          Start building your layout
+                        </p>
+                      </div>
+
+                      {/* Functional DropZone (Invisible but active overlay) */}
+                      <div className="absolute inset-0 z-10 opacity-0 cursor-pointer">
+                        <DropZone index={0} onInsert={onInsert} />
+                      </div>
+
+                    </div>) : (
+
+                    /* Mapped Questions UI */
+                    questions.map((question, idx) => (
+                      <div key={question?.id || idx}>
+
+                        {/* Add a DropZone at index 0 so users can drop items at the very top of the list */}
+                        {idx === 0 && <DropZone index={0} onInsert={onInsert} />}
+
+                        <QuestionDropWrapper index={idx} onInsert={onInsert}>
+                          {renderElement(question, onUpdateQuestion, onDeleteQuestion, onDuplicateQuestion)}
+                        </QuestionDropWrapper>
+
+                        <DropZone index={idx + 1} onInsert={onInsert} />
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-row w-full border-t border-zinc-800 items-start  z-10 gap-5 px-4 pt-4 pb-2">
+            <div className="flex  flex-row w-full border-t border-zinc-800 items-start  z-10 gap-5 px-4 pt-4 pb-2">
               <div className="flex shrink-0 pt-1 ">
                 <button
                   onClick={onAddPage}
-                  className="text-white flex items-center whitespace-nowrap flex-row px-5 gap-2 py-2 rounded-md bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 transition-color duration-200 ease-out"                >
+                  className="flex items-center text-white font-vagrounded whitespace-nowrap flex-row px-5 gap-2 py-2 rounded-md bg-green-700/40 hover:bg-green-800/40 outline outline-green-700  hover:outline-green-800 transition-all duration-200 ease-out whitespace-nowrap">
                   <FaPlus fill="" className="fill-white" /> Add page
                 </button>
               </div>
-              <div className="border-l border-l-neutral-400 h-10" />
+              <div className="flex items-center border-l mt-1 border-l-zinc-500 h-10" />
 
               <div className="flex gap-2 items-start px-2 pt-1  overflow-x-auto  scrollbar-vscode w-full">
                 {Array.from({ length: totalPages }, (_, index) => (
                   <button
                     key={index}
                     onClick={() => onPageChange(index)}
-                    className={`text-white flex items-center whitespace-nowrap flex-row px-5 gap-2 py-2 mb-1 rounded-md bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30 hover:bg-green-800 transition-color duration-200 ease-out ${index === currentPageIndex
-                      ? "bg-green-800 ring ring-white"
-                      : " ring ring-white inset-shadow-md/10"
+                    className={`text-white flex itemsF-center whitespace-nowrap flex-row px-5 gap-2 py-2 mb-1 outline outline-green-700 rounded-md font-vagrounded hover:bg-green-700/40 transition-color duration-200 ease-out ${index === currentPageIndex
+                      ? " bg-green-700/40 shadow-[0_0_10px_rgba(16,185,129,0.4)]"
+                      : " bg-black text-zinc-300"
                       }`}
                   >
                     Page {index + 1}

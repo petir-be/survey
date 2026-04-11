@@ -165,7 +165,7 @@ function Register() {
           <div className="relative z-20 min-h-dvh flex flex-col">
             <header className="text-white">
               <Link to={"/"}>
-                <p className="text-white cursor-pointer font-zendots text-[24px] pt-8 pb-0 px-12">
+                <p className="text-white cursor-pointer font-baloo font-black text-[28px] pt-8 pb-0 px-12">
                   Ispecmn
                 </p>
               </Link>
@@ -173,13 +173,14 @@ function Register() {
             <div className=" flex justify-center mt-10 py-5">
               <div className="text-white flex py-10 justify-center items-center flex-col bg-black w-[500px]  shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(34,197,94,0.4)] rounded-3xl gap-4">
                 <div className="flex justify-center items-center gap-5 flex-col w-[80%]">
-                  <h1 className="font-baloo text-3xl text-center">
+                  <h1 className="font-vagrounded text-3xl text-center">
                     Let's Get Started!
                   </h1>
                   <button
                     onClick={handleGoogleLogin}
                     disabled={loading}
-                    className={`text-black flex flex-row justify-center items-center gap-2.5 font-vagrounded text-xl bg-white  hover:bg-white/80  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full ${loading ? `  bg-gray-500` : `bg-[#DFE0F0]`
+                    className={`text-black flex flex-row justify-center items-center gap-2.5 font-vagrounded text-xl bg-white  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full
+                       ${loading ? `  bg-white` : ` hover:shadow-[0_2px_20px_rgba(255,255,255,.80)]`
                       }`}
 
                   >
@@ -206,7 +207,7 @@ function Register() {
                   <div className="flex justify-center items-center flex-col gap-4 w-full ">
 
                     {/* EMAIL INPUT */}
-                    <div className="w-full flex flex-col gap-1">
+                    <div className="w-full flex flex-col gap-1 ">
                       <input
                         type="email"
                         placeholder="Enter your email"
@@ -298,8 +299,11 @@ function Register() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className={`flex justify-center items-center hover:bg-[#00A300] transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-xl ring ring-white drop-shadow-md/30 rounded-2xl   
-                ${loading ? 'bg-[#00A300]/80' : 'bg-black'}`}
+                    className={`flex justify-center items-center transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-xl outline outline-white rounded-2xl   
+                ${loading ? 'bg-[#008000]' : "bg-[#008000] hover:bg-[#00A300] shadow-[0_0_15px_rgba(16,185,129,0.2)] hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+
+
+                      }`}
                   >
                     {loading ? (
                       <VscLoading className="text-3xl  animate-spin" />
@@ -316,7 +320,7 @@ function Register() {
                     Already a member?{" "}
                     <Link
                       to="/login"
-                      className="  text-[#00A300] hover:text-[#00A300]/80 underline underline-offset-2"
+                      className="  text-green-600 hover:text-green-700   underline underline-offset-2"
                     >
                       Login
                     </Link>

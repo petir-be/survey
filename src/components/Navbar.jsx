@@ -110,7 +110,7 @@ function NavBar() {
               {/* 1. Left Section (Logo) - flex-1 pushes everything else */}
               <div className="flex-1">
                 <Link to={`/`}>
-                  <h1 className="font-baloo font-black text-white text-[24px]">ISPECMN</h1>
+                  <h1 className="font-baloo font-black text-white text-[28px]">ISPECMN</h1>
                 </Link>
               </div>
 
@@ -131,17 +131,36 @@ function NavBar() {
                 </Link>
               </div>
 
-              {/* 3. Right Section - flex-1 + justify-end mirrors the left side */}
+
               <div className="flex-1 flex justify-end font-vagrounded">
                 {isAuthenticated ? (
-                  <div className="bg-white h-12 w-12 rounded-full flex justify-center items-center">
-                    <img
-                      src={user?.avatar}
-                      onClick={() => setShowAccountModal(true)}
-                      className="h-10 w-10 cursor-pointer rounded-full"
-                      alt="User avatar"
-                    />
+                  <div className="flex-1 flex justify-end font-vagrounded">
+                    {isAuthenticated ? (
+                      <div
+                        onClick={() => setShowAccountModal(true)}
+                        className="bg-black shadow-[inset_0_5px_10px_rgba(255,255,255,.40)]   h-12 w-12 rounded-full flex justify-center items-center cursor-pointer overflow-hidden "  >
+                        {user?.avatar ? (
+                          <img
+                            src={user.avatar}
+                            className="h-full w-full object-cover"
+                            alt="User avatar"
+                            onError={(e) => { e.target.style.display = 'none'; }}
+                          />
+                        ) : (
+                          <span className="text-green-600 text-md font-bold uppercase">
+                            {user?.name?.charAt(0) || 'U'}
+                          </span>
+                        )}
+                      </div>
+                    ) : (
+                      <Link to={`login`}>
+                        <button className="flex items-center justify-center px-10 py-3 ring ring-white text-[14px] font-bold rounded-3xl drop-shadow-md text-white bg-black hover:bg-[#1E1E1E] cursor-pointer">
+                          Get Started
+                        </button>
+                      </Link>
+                    )}
                   </div>
+
                 ) : (
                   <Link to={`login`}>
                     <button className="flex items-center justify-center px-10 py-3 ring ring-white text-[14px] font-bold rounded-3xl drop-shadow-md text-white bg-black hover:bg-[#1E1E1E] cursor-pointer">
@@ -265,38 +284,41 @@ function NavBar() {
             )}
           </AnimatePresence>
         </>
-      )}
+      )
+      }
 
-      {isTabletOrMobile && (
-        <nav className="absolute w-full z-50">
-          <div className="flex items-center justify-between p-4 ">
-            <Link to={`/`}>
-              <h1 className="font-baloo font-black text-white text-[16px] px-2">Ispecmn</h1>
-            </Link>
-            <div className="font-vagrounded w-1/6 z-10  flex align-center justify-end">
-              {isAuthenticated ? (
-                <div className="bg-white h-8 w-8 rounded-full flex justify-center items-center">
-                  <img
-                    src={user .avatar}
-                    onClick={() => setShowAccountModal(true)}
-                    className="h-8 w-8 cursor-pointer rounded-full"
-                  />
-                </div>
-              ) : (
-                <div class="font-vagrounded min-w-fit z-10 flex items-center justify-end">
-                  <Link className="h-full" to={`login`}>
-                    <button
-                      className="flex items-center justify-center px-8 py-3 whitespace-nowrap ring ring-white text-[14px] font-bold rounded-3xl drop-shadow-md text-white bg-black hover:bg-[#1E1E1E] cursor-pointer"
-                    >
-                      Get Started
-                    </button>
-                  </Link>
-                </div>
-              )}
+      {
+        isTabletOrMobile && (
+          <nav className="absolute w-full z-50">
+            <div className="flex items-center justify-between p-4 ">
+              <Link to={`/`}>
+                <h1 className="font-baloo font-black text-white text-[16px] px-2">Ispecmn</h1>
+              </Link>
+              <div className="font-vagrounded w-1/6 z-10  flex align-center justify-end">
+                {isAuthenticated ? (
+                  <div className="bg-white h-8 w-8 rounded-full flex justify-center items-center">
+                    <img
+                      src={user.avatar}
+                      onClick={() => setShowAccountModal(true)}
+                      className="h-8 w-8 cursor-pointer rounded-full"
+                    />
+                  </div>
+                ) : (
+                  <div class="font-vagrounded min-w-fit z-10 flex items-center justify-end">
+                    <Link className="h-full" to={`login`}>
+                      <button
+                        className="flex items-center justify-center px-8 py-3 whitespace-nowrap ring ring-white text-[14px] font-bold rounded-3xl drop-shadow-md text-white bg-black hover:bg-[#1E1E1E] cursor-pointer"
+                      >
+                        Get Started
+                      </button>
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        </nav>
-      )}
+          </nav>
+        )
+      }
     </>
   );
 }

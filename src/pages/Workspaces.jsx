@@ -178,7 +178,7 @@ function Workspaces() {
                 className="flex border-b border-zinc-800 justify-between py-8 px-10 cursor-pointer items-center"
                 onClick={() => navigate(`/`)}
               >
-                <h1 className="font-baloo font-black text-[24px] ">ISPECMN</h1>
+                <h1 className="font-baloo font-black text-[28px] ">ISPECMN</h1>
               </div>
 
               <div className="px-8 mt-10 flex-1 flex flex-col gap-10">
@@ -262,12 +262,21 @@ function Workspaces() {
               <div className="px-10 py-8">
                 {/* Profile Bar */}
                 <div className="flex justify-end mb-12">
-                  <div className="p-1 rounded-full border border-zinc-800 bg-zinc-900 shadow-xl">
-                    <img
-                      src={user?.avatar}
-                      onClick={() => setShowAccountModal(true)}
-                      className="h-10 w-10 cursor-pointer rounded-full grayscale hover:grayscale-0 transition-all"
-                    />
+                  <div
+                    onClick={() => setShowAccountModal(true)}
+                    className="bg-black shadow-[inset_0_5px_10px_rgba(255,255,255,.40)]   h-12 w-12 rounded-full flex justify-center items-center cursor-pointer overflow-hidden "  >
+                    {user?.avatar ? (
+                      <img
+                        src={user.avatar}
+                        className="h-full w-full object-cover"
+                        alt="User avatar"
+                        onError={(e) => { e.target.style.display = 'none'; }}
+                      />
+                    ) : (
+                      <span className="text-green-600 text-md font-bold uppercase">
+                        {user?.name?.charAt(0) || 'U'}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -450,7 +459,7 @@ function Workspaces() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/20"
+                  className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/20"
               >
                 <div
                   className="absolute inset-0"

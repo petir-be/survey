@@ -102,7 +102,7 @@ function Login() {
           <div className="relative z-20 min-h-dvh flex flex-col">
             <header className="w-fit">
               <Link to={"/"}>
-                <p className="text-white  cursor-pointer font-zendots text-[24px] pt-8 pb-0 px-12">
+                <p className="text-white  cursor-pointer font-baloo font-black text-[28px] pt-8 pb-0 px-12">
                   Ispecmn
                 </p>
               </Link>
@@ -115,7 +115,10 @@ function Login() {
                   </h1>
                   <button
                     onClick={handleGoogleLogin}
-                    className="text-black flex flex-row justify-center items-end gap-2.5 font-vagrounded text-xl bg-white hover:bg-white/80  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full"
+                    className={`text-black flex flex-row justify-center items-center gap-2.5 font-vagrounded text-xl bg-white  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full
+                       ${loading ? `  bg-white` : ` hover:shadow-[0_2px_20px_rgba(255,255,255,.80)]`
+                      }`}
+
                   >
                     <FcGoogle className="text-3xl" /> Continue with Google
                   </button>
@@ -171,9 +174,12 @@ function Login() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className={`flex justify-center hover:bg-[#00A300] items-center transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-xl ring ring-white drop-shadow-md/30 rounded-2xl
-                ${loading ? `bg-[#00A300]/80 ` : `bg-black`}`}
-                  >
+                    className={`flex justify-center hover:bg-[#00A300] items-center transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-xl outline outline-white
+                       drop-shadow-md/30 rounded-2xl
+   ${loading ? 'bg-[#008000]' : "bg-[#008000] hover:bg-[#00A300] shadow-[0_0_15px_rgba(16,185,129,0.2)] hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+
+
+                      }`}                  >
                     {loading ? (
                       <VscLoading className="text-3xl  animate-spin" />
                     ) : (
@@ -188,7 +194,7 @@ function Login() {
                     Dont have account yet?{" "}
                     <Link
                       to="/sign-up"
-                      className="text-[#00A300] hover:text-[#00A300]/80 underline underline-offset-2"
+                      className="text-green-600 hover:text-green-700 underline underline-offset-2"
                     >
                       Sign up for free
                     </Link>
@@ -262,8 +268,10 @@ function Login() {
                     onClick={Auth}
                     disabled={loading}
                     className={`flex justify-center hover:bg-[#00A300] items-center transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-l ring ring-white drop-shadow-md/30 rounded-2xl
-                ${loading ? `bg-[#00A300]/80 ` : `bg-black`}`}
-                  >
+   ${loading ? 'bg-[#008000]' : "bg-[#008000] hover:bg-[#00A300] shadow-[0_0_15px_rgba(16,185,129,0.2)] hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+
+
+                      }`}                  >
                     {loading ? (
                       <VscLoading className="text-xl  animate-spin" />
                     ) : (

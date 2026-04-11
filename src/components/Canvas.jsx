@@ -32,7 +32,7 @@ function Canvas({
         <>
           <div
             ref={dropRef}
-            className="h-full w-full flex justify-center items-center flex-col overflow-auto mb-20"
+            className="h-ful w-full flex justify-center items-center flex-col overflow-auto mb-20"
           >
             <CustomDragLayer />
 
