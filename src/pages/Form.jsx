@@ -45,12 +45,19 @@ import Loading from "../components/Loading";
 import { useMediaQuery } from "react-responsive";
 
 function Form() {
+
+
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1024px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1023px)" });
   const [showRightSidebar, setShowRightSidebar] = useState(true);
   const { user, isAuthenticated } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState('questions');
+  const [highlightSidebar, setHighlightSidebar] = useState(false);
 
+  const handlePingSidebar = () => {
+    setHighlightSidebar(true);
+    setTimeout(() => setHighlightSidebar(false), 1500); // Removes highlight after 1.5s
+  };
   // Helper function for conditional classes
   const getTabStyles = (tabName) => {
     const isActive = activeTab === tabName;
@@ -62,6 +69,8 @@ function Form() {
       }
     `;
   };
+
+
   const { id } = useParams();
   const [publicid, setPublicid] = useState("");
   const saveRef = useRef();
@@ -1049,8 +1058,15 @@ function Form() {
                 <>
                   <div
                     id="questions"
-                    className="flex-1 w-full flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden min-h-0 scrollbar-vscode"              >
-                    <div className="w-[22%] bg-black h-full border-r border-zinc-800 flex flex-col overflow-hidden">
+                    className="flex-1 w-full flex flex-col lg:flex-row overflow-y-auto lg:overflow-hidden min-h-0 scrollbar-vscode" >
+
+
+                    <div
+                      className={`w-[22%] h-full flex flex-col overflow-hidden transition-all duration-500 border-r ${highlightSidebar
+                          ? "bg-green-900/20 border-green-500 shadow-[inset_0_0_30px_rgba(16,185,129,0.25)]"
+                          : "bg-black border-zinc-800"
+                        }`}
+                    >
                       <div className="p-6 pb-2">
                         <h2 className="text-green-600 font-vagrounded text-xs uppercase tracking-[0.2em] font-bold">
                           Form Elements
@@ -1103,6 +1119,7 @@ function Form() {
                         pageNumber={currentPageIndex + 1}
                         totalPages={pages.length}
                         onPageChange={setCurrentPageIndex}
+                        onPingSidebar={handlePingSidebar} /* <--- ADD THIS NEW PROP HERE */
                       />
                     </div>
 
@@ -1575,7 +1592,7 @@ function Form() {
                         onClick={() => setShowMobileElements(false)}
                         className="text-zinc-500 hover:text-white transition-colors p-1"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                       </button>
                     </div>
 

@@ -162,7 +162,7 @@ function Kabadingan() {
 
                   <p className="text-[16px] max-w-[500px]  z-100">
                     {" "}
-                    If you're new to <span className="font-zendots">Ispecmn</span> or looking for creating a surveys for just
+                    If you're new to <span className="font-baloo font-black">ISPECMN</span> or looking for creating a surveys for just
                     a minutes, this guide will help you learn more about the platform
                     and its features.
                   </p>
@@ -441,7 +441,7 @@ function Kabadingan() {
 
                   <p className="text-[16px] max-w-[500px]  z-100">
                     {" "}
-                    If you're new to <span className="font-zendots">Ispecmn</span> or looking for creating a surveys for just
+                    If you're new to <span className="font-baloo font-black">ISPECMN</span> or looking for creating a surveys for just
                     a minutes, this guide will help you learn more about the platform
                     and its features.
                   </p>

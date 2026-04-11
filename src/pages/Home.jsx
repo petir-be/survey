@@ -223,7 +223,7 @@ function Home() {
 
 
       <Navbar />
-       <ShaderBackground />
+      <ShaderBackground />
       {isDesktopOrLaptop && (
 
 
@@ -247,9 +247,9 @@ function Home() {
                   exit={{ scale: 0.9, opacity: 0, y: 20 }}
                   className="relative w-full max-w-md bg-[#121212] border border-red-900/50 p-8 rounded-2xl shadow-2xl"
                 >
-                  <div className=" flex px-3 rounded-full gap-3 items-center">
-                    <img src="./CMN.png" className="w-[14px]" />
-                    <span className="text-white text-[14px] font-baloo font-black">Ispecmn</span >
+                  <div className=" flex  rounded-full gap-3 items-center">
+                    <img src="./CMN.png" className="w-[12px]" />
+                    <span className="text-white text-[16px] font-baloo font-black">ISPECMN</span >
                   </div>
                   <div className="flex flex-col items-center text-center">
                     <div className="bg-red-500/10 p-3 rounded-full mb-4">
@@ -260,7 +260,7 @@ function Home() {
                       Service Limitation
                     </h2>
 
-                    <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                    <p className="text-gray-400 text-justify text-sm leading-relaxed mb-6">
                       Please be advised that Google Sign-Up/Sign-In is currently unavailable.
                       Mobile survey creation is under development
                       and may have limited functionality at this time.
@@ -271,7 +271,7 @@ function Home() {
                       <input
                         type="checkbox"
                         id="dontShow"
-                        className="w-4 h-4 rounded border-gray-600 bg-black text-green-600 focus:ring-green-500"
+                        className="w-4 h-4 rounded  cursor-pointer text-green-600 accent-green-700 hover:accent-green-700/90"
                         checked={dontShowAgain}
                         onChange={(e) => setDontShowAgain(e.target.checked)}
                       />
@@ -432,9 +432,9 @@ function Home() {
                   exit={{ scale: 0.9, opacity: 0, y: 20 }}
                   className="relative w-full max-w-md bg-[#121212] border border-red-900/50 p-8 rounded-2xl shadow-2xl"
                 >
-                  <div className=" flex px-3 rounded-full gap-3 items-center">
-                    <img src="./CMN.png" className="w-[10px]" />
-                    <span className="text-white text-[10px]  font-baloo font-black">Ispecmn</span >
+                  <div className=" flex  rounded-full gap-3 items-center">
+                    <img src="./CMN.png" className="w-[10px] " />
+                    <span className="text-white text-[14px]  font-baloo font-black">ISPECMN</span >
                   </div>
 
                   <div className="flex flex-col items-center text-center">
@@ -446,7 +446,7 @@ function Home() {
                       Service Limitation
                     </h2>
 
-                    <p className="text-gray-400 text-[12px] leading-relaxed mb-6">
+                    <p className="text-gray-400 text-justify text-[12px] leading-relaxed mb-6">
                       Please be advised that Google Sign-Up/Sign-In is currently unavailable.
                       Mobile survey creation is under development
                       and may have limited functionality at this time.
@@ -457,13 +457,13 @@ function Home() {
                       <input
                         type="checkbox"
                         id="dontShow"
-                        className="w-4 h-4 rounded border-gray-600 bg-black text-green-600 focus:ring-green-500"
+                        className="w-4 h-4 rounded  cursor-pointer text-green-600 accent-green-700 hover:accent-green-700/90"
                         checked={dontShowAgain}
                         onChange={(e) => setDontShowAgain(e.target.checked)}
                       />
                       <label
                         htmlFor="dontShow"
-                        className="text-gray-400 text-xs cursor-pointer group-hover:text-gray-200 transition-colors"
+                        className="text-gray-400 text-xs cursor-pointer group-hover:text-zinc-200 transition-colors"
                       >
                         Don't show this message again
                       </label>

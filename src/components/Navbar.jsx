@@ -292,7 +292,7 @@ function NavBar() {
           <nav className="absolute w-full z-50">
             <div className="flex items-center justify-between p-4 ">
               <Link to={`/`}>
-                <h1 className="font-baloo font-black text-white text-[16px] px-2">Ispecmn</h1>
+                <h1 className="font-baloo font-black text-white text-[16px] px-2">ISPECMN</h1>
               </Link>
               <div className="font-vagrounded w-1/6 z-10  flex align-center justify-end">
                 {isAuthenticated ? (

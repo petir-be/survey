@@ -15,6 +15,7 @@ function Canvas({
   pageNumber,
   totalPages,
   onPageChange,
+  onPingSidebar, ...props
 }) {
   const [, dropRef] = useDrop({
     accept: "PALETTE_ITEM",
@@ -48,6 +49,7 @@ function Canvas({
               pageNumber={pageNumber}
               totalPages={totalPages}
               onPageChange={onPageChange}
+              onPingSidebar={onPingSidebar}
             />
           </div>
         </>}

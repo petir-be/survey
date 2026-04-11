@@ -108,6 +108,8 @@ function Page({
   pageNumber,
   totalPages,
   onPageChange,
+  onPingSidebar, // <--- 1. EXTRACT THE PROP HERE
+  ...props
 }) {
   const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 822px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 821px)" });
@@ -115,6 +117,18 @@ function Page({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
 
+
+  const [{ isCanvasOver }, emptyCanvasDropRef] = useDrop({
+    accept: "PALETTE_ITEM",
+    drop: (item, monitor) => {
+      // If it already dropped into a nested DropZone, ignore it here
+      if (monitor.didDrop()) return;
+      onInsert(item, 0); // Insert at index 0 for an empty canvas
+    },
+    collect: (monitor) => ({
+      isCanvasOver: !!monitor.isOver({ shallow: true }),
+    }),
+  });
   const captureScreenshot = async () => {
     if (!canvasRef.current) return;
 
@@ -177,18 +191,28 @@ function Page({
             <div className="flex-1 w-full overflow-y-auto bg-[#0a0a0a] flex flex-col">
               <div
                 ref={canvasRef}
-                className="w-full mx-auto rounded-xl shadow-lg relative flex-1 flex flex-col"              >
+                className="w-full mx-auto rounded-xl shadow-lg relative flex-1 flex flex-col">
 
                 <div className="flex-1 flex flex-col p-4">
                   {questions.length === 0 ? (
-
                     /* Empty State UI */
-                    <div className="relative flex flex-1 flex-col items-center justify-center w-full bg-black border-2 border-dashed border-green-500/30 rounded-xl transition-colors duration-300 hover:border-green-500/70 hover:bg-[#0a0a0a] group">
-
-                      {/* Visual Content (Pointer events disabled so they don't block the dropzone) */}
-                      <div className="flex flex-col items-center justify-center pointer-events-none">
-                        {/* Icon Container with a soft green glow/background */}
-                        <div className="p-4 mb-4 rounded-full bg-green-500/10 text-green-500 group-hover:scale-110 transition-transform duration-300">
+                    <div
+                      ref={emptyCanvasDropRef}
+                      className={`relative flex flex-1 flex-col items-center justify-center w-full border-2 border-dashed rounded-xl transition-all duration-300 group ${isCanvasOver
+                        ? "border-green-500 bg-green-500/10 scale-[0.99]" // Active Drag Hover State
+                        : "border-green-500/30 bg-black hover:border-green-500/70 hover:bg-[#0a0a0a]" // Normal/Hover State
+                        }`}
+                    >
+                      <div className="flex flex-col items-center justify-center ">
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onPingSidebar();
+                          }}
+                          className={`p-4 mb-4 rounded-full transition-transform duration-300 ${isCanvasOver
+                            ? "bg-green-500/20 text-green-400 scale-110"
+                            : "bg-green-500/10 text-green-500 group-hover:scale-110"
+                            }`}>
                           <svg
                             className="w-8 h-8"
                             fill="none"
@@ -200,23 +224,17 @@ function Page({
                           </svg>
                         </div>
 
-                        {/* Primary Text */}
-                        <p className="text-lg font-medium text-gray-200">
-                          Drag and drop form elements here
+                        <p className={`text-lg font-medium ${isCanvasOver ? "text-green-400" : "text-gray-200"}`}>
+                          {isCanvasOver ? "Release to drop element" : "Drag and drop form elements here"}
                         </p>
 
-                        {/* Secondary Text for better visual hierarchy */}
                         <p className="text-sm text-gray-500 mt-1">
                           Start building your layout
                         </p>
                       </div>
 
-                      {/* Functional DropZone (Invisible but active overlay) */}
-                      <div className="absolute inset-0 z-10 opacity-0 cursor-pointer">
-                        <DropZone index={0} onInsert={onInsert} />
-                      </div>
-
-                    </div>) : (
+                    </div>
+                  ) : (
 
                     /* Mapped Questions UI */
                     questions.map((question, idx) => (
@@ -350,13 +368,20 @@ function Page({
 
                 <div className="flex-1 flex flex-col p-4">
                   {questions.length === 0 ? (
-
                     /* Empty State UI */
-                    <div className="relative flex flex-1 flex-col items-center justify-center w-full bg-black border-2 border-dashed border-green-500/30 rounded-xl transition-colors duration-300 hover:border-green-500/70 hover:bg-[#0a0a0a] group">
-                      {/* Visual Content (Pointer events disabled so they don't block the dropzone) */}
-                      <div className="flex flex-col items-center justify-center pointer-events-none">
-                        {/* Icon Container with a soft green glow/background */}
-                        <div className="p-4 mb-4 rounded-full bg-green-500/10 text-green-500 group-hover:scale-110 transition-transform duration-300">
+                    <div
+                      ref={emptyCanvasDropRef}
+                      className={`relative flex flex-1 flex-col items-center justify-center w-full border-2 border-dashed rounded-xl transition-all duration-300 group ${isCanvasOver
+                        ? "border-green-500 bg-green-500/10 scale-[0.99]" // Active Drag Hover State
+                        : "border-green-500/30 bg-black hover:border-green-500/70 hover:bg-[#0a0a0a]" // Normal/Hover State
+                        }`}
+                    >
+                      <div className="flex flex-col items-center justify-center ">
+                        <div
+                          className={`p-4 mb-4 rounded-full transition-transform duration-300 ${isCanvasOver
+                            ? "bg-green-500/20 text-green-400 scale-110"
+                            : "bg-green-500/10 text-green-500 group-hover:scale-110"
+                            }`}>
                           <svg
                             className="w-8 h-8"
                             fill="none"
@@ -368,23 +393,17 @@ function Page({
                           </svg>
                         </div>
 
-                        {/* Primary Text */}
-                        <p className="text-lg font-medium text-gray-200">
-                          Drag and drop form elements here
+                        <p className={`text-lg font-medium ${isCanvasOver ? "text-green-400" : "text-gray-200"}`}>
+                          {isCanvasOver ? "Release to drop element" : "Drag and drop form elements here"}
                         </p>
 
-                        {/* Secondary Text for better visual hierarchy */}
                         <p className="text-sm text-gray-500 mt-1">
                           Start building your layout
                         </p>
                       </div>
 
-                      {/* Functional DropZone (Invisible but active overlay) */}
-                      <div className="absolute inset-0 z-10 opacity-0 cursor-pointer">
-                        <DropZone index={0} onInsert={onInsert} />
-                      </div>
-
-                    </div>) : (
+                    </div>
+                  ) : (
 
                     /* Mapped Questions UI */
                     questions.map((question, idx) => (
@@ -404,7 +423,6 @@ function Page({
                 </div>
               </div>
             </div>
-
             <div className="flex  flex-row w-full border-t border-zinc-800 items-start  z-10 gap-5 px-4 pt-4 pb-2">
               <div className="flex shrink-0 pt-1 ">
                 <button

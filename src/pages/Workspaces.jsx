@@ -459,7 +459,7 @@ function Workspaces() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                  className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/20"
+                className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/20"
               >
                 <div
                   className="absolute inset-0"
@@ -622,7 +622,7 @@ function Workspaces() {
                 className="flex border-b-2 border-gray-300 justify-between py-10 px-5 xl:px-10 cursor-pointer"
                 onClick={() => navigate(`/`)}
               >
-                <h1 className="font-zendots text-white text-[24px]">Ispecmn</h1>
+                <h1 className="font-baloo uppercase font-black text-white text-[28px]">ISPECMN</h1>
               </div>
 
               <div className="px-5 xl:px-10 mt-8 flex-1">
