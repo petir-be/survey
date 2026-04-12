@@ -292,16 +292,25 @@ function NavBar() {
           <nav className="absolute w-full z-50">
             <div className="flex items-center justify-between p-4 ">
               <Link to={`/`}>
-                <h1 className="font-baloo font-black text-white text-[16px] px-2">ISPECMN</h1>
+                <h1 className="font-baloo font-black text-white text-[20px] px-2">ISPECMN</h1>
               </Link>
               <div className="font-vagrounded w-1/6 z-10  flex align-center justify-end">
                 {isAuthenticated ? (
-                  <div className="bg-white h-8 w-8 rounded-full flex justify-center items-center">
-                    <img
-                      src={user.avatar}
-                      onClick={() => setShowAccountModal(true)}
-                      className="h-8 w-8 cursor-pointer rounded-full"
-                    />
+                  <div
+                    onClick={() => setShowAccountModal(true)}
+                    className="bg-black shadow-[inset_0_5px_10px_rgba(255,255,255,.40)]  h-10 w-10 rounded-full flex justify-center items-center cursor-pointer overflow-hidden "  >
+                    {user?.avatar ? (
+                      <img
+                        src={user.avatar}
+                        className="h-full w-full object-cover"
+                        alt="User avatar"
+                        onError={(e) => { e.target.style.display = 'none'; }}
+                      />
+                    ) : (
+                      <span className="text-green-600 text-sm font-bold uppercase">
+                        {user?.name?.charAt(0) || 'U'}
+                      </span>
+                    )}
                   </div>
                 ) : (
                   <div class="font-vagrounded min-w-fit z-10 flex items-center justify-end">

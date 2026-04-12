@@ -634,7 +634,7 @@ function Form() {
 
   if (loading) {
     return (
-      <div className="h-dvh w-full bg-(--white) flex items-center justify-center">
+      <div className="h-dvh w-full bg-black flex items-center justify-center">
         <Loading />
       </div>
     );
@@ -854,6 +854,7 @@ function Form() {
                                   <div className="flex-1 bg-black border border-gray-700/50 rounded-lg p-2.5 overflow-hidden">
                                     <p className="text-sm text-gray-300 truncate select-all">
                                       {`https://ispecmn.site/form/${publicid}`}
+                                      {/*  {`http://localhost:5173/form/${publicid}`} */}
                                     </p>
                                   </div>
 
@@ -1063,8 +1064,8 @@ function Form() {
 
                     <div
                       className={`w-[22%] h-full flex flex-col overflow-hidden transition-all duration-500 border-r ${highlightSidebar
-                          ? "bg-green-900/20 border-green-500 shadow-[inset_0_0_30px_rgba(16,185,129,0.25)]"
-                          : "bg-black border-zinc-800"
+                        ? "bg-green-900/20 border-green-500 shadow-[inset_0_0_30px_rgba(16,185,129,0.25)]"
+                        : "bg-black border-zinc-800"
                         }`}
                     >
                       <div className="p-6 pb-2">

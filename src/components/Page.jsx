@@ -209,7 +209,7 @@ function Page({
                             e.stopPropagation();
                             onPingSidebar();
                           }}
-                          className={`p-4 mb-4 rounded-full transition-transform duration-300 ${isCanvasOver
+                          className={`p-4 cursor-pointer mb-4 rounded-full transition-transform duration-300 ${isCanvasOver
                             ? "bg-green-500/20 text-green-400 scale-110"
                             : "bg-green-500/10 text-green-500 group-hover:scale-110"
                             }`}>

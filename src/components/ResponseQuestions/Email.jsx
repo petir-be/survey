@@ -25,31 +25,44 @@ function Email({ question, onChange, value = "", hasError }) {
   };
 
   return (
-    <div className="my-6">
-      <p className="text-lg mb-3 font-medium">
-        {question.question || "Enter your email address"}
-        {question.required ? <span className="text-red-600"> *</span> : null}
-      </p>
+    <div className="form-element-container group">
+      {/* Question */}
+      <div className="flex justify-between items-start mb-1">
+        <p className="w-full font-vagrounded font-bold text-xl bg-transparent text-white">
+          {question.question || "Enter your email address"}
+          {question.required && (
+            < span className="text-red-600"> *</span>
+          )}
+        </p>
+      </div>
 
-      <div className="space-y-2 group relative">
-        <div className="flex items-center px-3 py-1 bg-black border-b-2 border-b-(--black) text-lg focus-within:border-green-600 focus:outline-none">
-          <IoMail className="text-3xl" fill="white" />
+      <div className="space-y-2 mt-3 group relative">
+        {/* Input Container */}
+        <div
+          className="flex items-center  py-1 transition-all duration-300 bg-zinc-950/40 border-b border-zinc-800 
+            hover:border-emerald-500/30 focus-within:border-emerald-500/50"
+        >
+          <IoMail className="text-3xl text-white" />
 
           <input
             type="email"
             value={email}
             onChange={handleChange}
-            placeholder="Email Address"
-            className="w-full text-white placeholder:italic placeholder:text-gray-400 focus:outline-none px-2 py-1 overflow-hidden"
+            placeholder="ispecmn@gmail.com"
+            className="w-full bg-transparent text-zinc-300  placeholder:text-zinc-500 focus:outline-none px-2 py-1 overflow-hidden"
           />
         </div>
+
+        {/* Local Validation Error */}
         {error && (
-          <p className="text-red-400 text-sm font-vagrounded">{error}</p>
+          <p className="text-red-400 text-sm font-vagrounded mt-1">{error}</p>
         )}
+
+        {/* Form Submission Error */}
         {hasError && (
-          <div className="flex items-center font-vagrounded gap-1 my-2">
+          <div className="flex items-center font-vagrounded gap-1 mt-2">
             <IoAlertCircle className="fill-red-500 text-xl" />
-            <span className="text-md text-red-500">
+            <span className="text-sm font-bold tracking-wide uppercase text-red-500/90">
               This field is required.
             </span>
           </div>

@@ -1,7 +1,8 @@
 function Paragraph({ question }) {
   return (
-    <div className="my-6">
-      <p className="text-2xl mb-3 font-vagrounded wrap-break-word">
+    <div className="flex px-8  justify-between items-start">
+      <p className="w-full font-vagrounded font-normal  text-xl bg-transparent text-white font-vagrounded wrap-break-word">
+
         {question.question}
       </p>
     </div>

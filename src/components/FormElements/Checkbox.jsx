@@ -154,7 +154,7 @@ function Checkbox({ question, onUpdate, onDuplicate }) {
           <motion.div
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex justify-between items-center pt-4 mt-4 border-t border-zinc-800/50"
+            className="flex justify-between items-center pt-4 "
           >
             <button
               onClick={addOptionField}

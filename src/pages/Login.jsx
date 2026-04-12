@@ -103,7 +103,7 @@ function Login() {
             <header className="w-fit">
               <Link to={"/"}>
                 <p className="text-white  cursor-pointer font-baloo font-black text-[28px] pt-8 pb-0 px-12">
-                  Ispecmn
+                  ISPECMN
                 </p>
               </Link>
             </header>
@@ -211,12 +211,12 @@ function Login() {
           <div className="relative z-20 min-h-dvh flex flex-col">
             <header className="w-fit">
               <Link to={"/"}>
-                <p className="text-white  cursor-pointer font-zendots text-[16px] pt-4 pb-0 px-6">
-                  Ispecmn
+                <p className="text-white  cursor-pointer font-baloo font-black text-[20px] pt-4 pb-0 px-6">
+                  ISPECMN
                 </p>
               </Link>
             </header>
-            <div className=" flex justify-center  mt-10 py-5 ">
+            <div className=" flex justify-center mt-5 py-5 ">
               <div className="flex justify-center items-center flex-col py-10 bg-black w-full mx-5  shadow-[inset_0_1px_4px_0px_rgba(255,255,255)] drop-shadow-[0_4px_20px_rgba(34,197,94,0.4)] rounded-3xl gap-4">
                 <div className="flex text-white justify-center items-center gap-5 flex-col w-[80%] ">
                   <h1 className="font-baloo text-2xl text-center">
@@ -224,8 +224,12 @@ function Login() {
                   </h1>
                   <button
                     onClick={handleGoogleLogin}
-                    className="text-black flex flex-row justify-center items-center gap-2.5 font-vagrounded text-[16px] bg-white hover:bg-white/80  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full"
+                    className={`text-black flex flex-row justify-center items-center gap-2.5 font-vagrounded text-[16px] bg-white  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full
+                       ${loading ? `  bg-white` : ` hover:shadow-[0_2px_20px_rgba(255,255,255,.80)]`
+                      }`}
+
                   >
+
                     <FcGoogle className="text-xl " />
                     Continue with Google
                   </button>
@@ -267,11 +271,12 @@ function Login() {
                   <button
                     onClick={Auth}
                     disabled={loading}
-                    className={`flex justify-center hover:bg-[#00A300] items-center transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-l ring ring-white drop-shadow-md/30 rounded-2xl
+                    className={`flex justify-center hover:bg-[#00A300] items-center transition-color ease-out text-white duration-400 w-full py-2.5 font-vagrounded text-l outline outline-white
+                       drop-shadow-md/30 rounded-2xl
    ${loading ? 'bg-[#008000]' : "bg-[#008000] hover:bg-[#00A300] shadow-[0_0_15px_rgba(16,185,129,0.2)] hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
 
-
-                      }`}                  >
+                      }`}
+                  >
                     {loading ? (
                       <VscLoading className="text-xl  animate-spin" />
                     ) : (
@@ -279,12 +284,12 @@ function Login() {
                     )}
                   </button>
                 </div>
-                <div className="text-[12px] text-white font-vagrounded flex justify-center items-center gap-1 mt-3">
+                <div className=" text-[12px] text-white font-vagrounded flex justify-center items-center gap-1 mt-3">
                   <p>
                     Dont have account yet?{" "}
                     <Link
                       to="/sign-up"
-                      className="text-[12px] text-[#00A300] hover:text-[#00A300]/80 underline underline-offset-2"
+                      className=" text-[12px] text-green-600 hover:text-green-700   underline underline-offset-2"
                     >
                       Sign up for free
                     </Link>

@@ -4,6 +4,7 @@ import { IoDuplicate } from "react-icons/io5";
 import { motion } from "framer-motion";
 
 function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
+  
   const defaultRow = ["Row 1", "Row 2"];
   const defaultColumn = ["Column 1", "Column 2"];
   const [showAddOption, setShowAddOption] = useState(false);
@@ -12,7 +13,6 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
   );
 
   function toggleRequired() {
-    // Capture the new boolean value first to prevent stale state issues
     const newRequiredState = !required;
     setRequired(newRequiredState);
     onUpdate(question.id, { required: newRequiredState });
@@ -21,15 +21,11 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
   const [showAddButtons, setShowAddButtons] = useState(false);
   const [required, setRequired] = useState(question.required || false);
 
-
-
-  //initialization lang para sa JSON
   useEffect(() => {
     onUpdate(question.id, {
       columns: addColumnField,
       rows: addRowField,
-      required: required
-
+      required: required,
     });
   }, []);
 
@@ -49,7 +45,6 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
 
   const removeColumn = (index) => {
     if (addColumnField.length <= 2) return;
-
     const updated = addColumnField.filter((_, i) => i !== index);
     setAddColumnField(updated);
     onUpdate(question.id, { columns: updated });
@@ -58,7 +53,6 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
 
   const removeRow = (index) => {
     if (addRowField.length <= 1) return;
-
     const updated = addRowField.filter((_, i) => i !== index);
     setAddRowField(updated);
     onUpdate(question.id, { rows: updated });
@@ -84,7 +78,7 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
             onChange={(e) =>
               onUpdate(question.id, { question: e.target.value })
             }
-            className="w-full font-vagrounded font-bold text-xl  bg-transparent text-white placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden"
+            className="w-full font-vagrounded font-bold text-xl bg-transparent text-white placeholder:text-zinc-600 focus:outline-none resize-none overflow-hidden"
             placeholder="Enter your question"
           />
 
@@ -98,72 +92,89 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
       </div>
 
       <div className="overflow-x-auto mt-4">
-        <div className="overflow-y-visible min-w-max pt-2 pb-2">          <table className="border-collapse w-full ">
-          <thead>
-            <tr className="">
-              <th className="w-40"></th>
+        <div className="overflow-y-visible min-w-max pt-2 pb-2">
+          <table className="border-collapse w-full">
+            <thead>
+              <tr className="">
+                <th className="w-40"></th>
 
-              {addColumnField.map((col, colIndex) => (
-                <th
-                  key={colIndex}
-                  className="relative px-3 py-2 min-w-28 text-center group/item" >
-                  <input
-                    className="w-full bg-transparent border-b border-transparent hover:border-zinc-800 focus:border-emerald-500/50 focus:outline-none text-zinc-300 font-medium py-1 transition-all text-center"
-                    value={col}
-                    placeholder={col}
-                    onChange={(e) => {
-                      const updated = [...addColumnField];
-                      updated[colIndex] = e.target.value;
-                      setAddColumnField(updated);
-                    }}
-                  />
-
-                  <div className="absolute -top-3 right-1/2 translate-x-1/2 opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100 transition-opacity">
-                    <button onClick={() => removeColumn(colIndex)} className="p-1  text-zinc-600 hover:text-red-500 transition-colors">
-                      <FaCircleXmark size={16} />
-                    </button>
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-
-          <tbody className=" ">
-            {addRowField.map((row, rowIndex) => (
-              <tr
-                key={rowIndex}
-                className="group/item border-b border-zinc-800/50 hover:bg-zinc-900/30 transition-colors" >
-                <td className="px-3 py-3 min-w-32 relative text-left">
-                  <input
-                    className="w-full bg-transparent border-b border-transparent hover:border-zinc-800 focus:border-emerald-500/50 focus:outline-none text-zinc-300 font-medium py-1 pr-6 transition-all" value={row}
-                    onChange={(e) => {
-                      const updated = [...addRowField];
-                      updated[rowIndex] = e.target.value;
-                      setAddRowField(updated);
-                    }}
-                  />
-
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100 transition-opacity">
-                    <button onClick={() => removeRow(rowIndex)} className="p-1 text-zinc-600 hover:text-red-500 transition-colors">
-                      <FaCircleXmark size={16} />
-                    </button>
-                  </div>
-                </td>
-
-                {addColumnField.map((_, colIndex) => (
-                  <td
+                {addColumnField.map((col, colIndex) => (
+                  <th
                     key={colIndex}
-                    className="px-3 py-3 text-center"                    >
+                    className="relative px-3 py-2 min-w-28 text-center group/item"
+                  >
                     <input
-                      type="radio"
-                      name={`row-${rowIndex}`}
-                      className="w-4 h-4 accent-emerald-500 cursor-pointer transition-all" />
-                  </td>
+                      className="w-full bg-transparent border-b border-transparent hover:border-zinc-800 focus:border-emerald-500/50 focus:outline-none text-zinc-300 font-medium py-1 transition-all text-center"
+                      value={col}
+                      placeholder={col}
+                      onChange={(e) => {
+                        const updated = [...addColumnField];
+                        updated[colIndex] = e.target.value;
+                        setAddColumnField(updated);
+                      }}
+                      // FIX 1: persist column label changes on blur
+                      onBlur={() => {
+                        onUpdate(question.id, { columns: addColumnField });
+                      }}
+                    />
+
+                    <div className="absolute -top-3 right-1/2 translate-x-1/2 opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100 transition-opacity">
+                      <button
+                        onClick={() => removeColumn(colIndex)}
+                        className="p-1 text-zinc-600 hover:text-red-500 transition-colors"
+                      >
+                        <FaCircleXmark size={16} />
+                      </button>
+                    </div>
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody className="">
+              {addRowField.map((row, rowIndex) => (
+                <tr
+                  key={rowIndex}
+                  className="group/item border-b border-zinc-800/50 hover:bg-zinc-900/30 transition-colors"
+                >
+                  <td className="px-3 py-3 min-w-32 relative text-left">
+                    <input
+                      className="w-full bg-transparent border-b border-transparent hover:border-zinc-800 focus:border-emerald-500/50 focus:outline-none text-zinc-300 font-medium py-1 pr-6 transition-all"
+                      value={row}
+                      onChange={(e) => {
+                        const updated = [...addRowField];
+                        updated[rowIndex] = e.target.value;
+                        setAddRowField(updated);
+                      }}
+                      // FIX 1: persist row label changes on blur
+                      onBlur={() => {
+                        onUpdate(question.id, { rows: addRowField });
+                      }}
+                    />
+
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover/item:opacity-100 group-focus-within/item:opacity-100 transition-opacity">
+                      <button
+                        onClick={() => removeRow(rowIndex)}
+                        className="p-1 text-zinc-600 hover:text-red-500 transition-colors"
+                      >
+                        <FaCircleXmark size={16} />
+                      </button>
+                    </div>
+                  </td>
+
+                  {addColumnField.map((_, colIndex) => (
+                    <td key={colIndex} className="px-3 py-3 text-center">
+                      <input
+                        type="radio"
+                        name={`matrix-${question.id}-row-${rowIndex}`}
+                        className="w-4 h-4 accent-emerald-500 cursor-pointer transition-all"
+                      />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
       {showAddButtons && (
@@ -193,10 +204,11 @@ function ChoiceMatrix({ question, onUpdate, onDuplicate }) {
             </span>
             <button
               onClick={toggleRequired}
-              className={`w-9 h-5 flex items-center rounded-full px-1 transition-all duration-300 ${required
-                ? "bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]"
-                : "bg-zinc-800"
-                }`}
+              className={`w-9 h-5 flex items-center rounded-full px-1 transition-all duration-300 ${
+                required
+                  ? "bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]"
+                  : "bg-zinc-800"
+              }`}
             >
               <motion.div
                 layout

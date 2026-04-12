@@ -126,8 +126,8 @@ function Dropdown({ question, onUpdate, onDuplicate }) {
           </div>
         ) : (
           addOption.map((option, index) => (
-            <div 
-            className="group/item flex items-center gap-3 relative py-1"
+            <div
+              className="group/item flex items-center gap-3 relative py-1"
 
               key={index}
             >
@@ -169,34 +169,40 @@ function Dropdown({ question, onUpdate, onDuplicate }) {
           ))
         )}
 
-        {/* FOOTER ACTIONS */}
-       {showAddOption && (
-          <motion.div
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex justify-end items-center pt-4 mt-4border-zinc-800/50"
-          >
-            <div className="font-vagrounded flex items-center gap-4">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                Required
-              </span>
-              <button
-                onClick={toggleRequired}
-                className={`w-9 h-5 flex items-center rounded-full px-1 transition-all duration-300 ${required
-                  ? "bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]"
-                  : "bg-zinc-800"
-                  }`}
-              >
+         {showAddOption && (
                 <motion.div
-                  layout
-                  className="w-3 h-3 bg-white rounded-full shadow-sm"
-                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                  style={{ marginLeft: required ? "auto" : "0" }}
-                />
-              </button>
-            </div>
-          </motion.div>
-        )}
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex justify-between items-center pt-4 "
+                >
+                  <button
+                    onClick={addOptionField}
+                    className="text-xs font-bold uppercase tracking-widest text-emerald-500/80 hover:text-emerald-400 flex items-center gap-2 transition-colors"
+                  >
+                    <span className="text-lg">+</span> Add Option
+                  </button>
+      
+                  <div className="font-vagrounded flex items-center gap-4">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                      Required
+                    </span>
+                    <button
+                      onClick={toggleRequired}
+                      className={`w-9 h-5 flex items-center rounded-full px-1 transition-all duration-300 ${required
+                        ? "bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]"
+                        : "bg-zinc-800"
+                        }`}
+                    >
+                      <motion.div
+                        layout
+                        className="w-3 h-3 bg-white rounded-full shadow-sm"
+                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                        style={{ marginLeft: required ? "auto" : "0" }}
+                      />
+                    </button>
+                  </div>
+                </motion.div>
+              )}
       </div>
     </div>
   );

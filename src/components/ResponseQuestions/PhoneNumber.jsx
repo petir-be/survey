@@ -32,14 +32,25 @@ function PhoneNumber({ question, onChange, value = "", hasError }) {
   };
 
   return (
-    <div className="my-6">
-      <p className="text-lg mb-3 font-medium text-white">
-        {question.question}{" "}
-        {question.required ? <span className="text-red-600"> *</span> : null}
-      </p>
+    <div
+      className="form-element-container group outline-none"
+      tabIndex={0}
 
-      <div className="space-y-2">
-        <div className="flex items-center px-3 py-1 bg-black border-b-2 border-b-[var(--black)] text-lg focus-within:border-green-600 focus:outline-none">
+    >
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex-1 flex items-start gap-3">
+          <p className="w-full font-vagrounded font-bold text-xl text-white">
+            {question.question}{" "}
+            {question.required &&
+              <span className="text-red-600"> *</span>
+            }
+          </p>
+
+        </div>
+      </div>
+
+      <div className="space-y-3 mt-4 group/item relative">
+        <div className="flex items-center px-3 py-1 bg-transparent border-b-2 border-b-[var(--black)] text-lg focus-within:border-green-600 focus:outline-none">
           <PH className="w-7 h-7 mr-2" />{" "}
           <p className="text-(--black) font-vagrounded">(+63)</p>
           <input

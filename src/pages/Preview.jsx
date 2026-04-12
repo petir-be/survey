@@ -98,7 +98,7 @@ function Preview() {
 
   if (loading) {
     return (
-      <div className="h-dvh w-full bg-(--white) flex items-center justify-center">
+      <div className="h-dvh w-full bg-black flex items-center justify-center">
         <Loading />
       </div>
     );
@@ -106,35 +106,34 @@ function Preview() {
 
   if (error) {
     return (
-      <div className="h-dvh w-full bg-(--white) flex flex-col items-center justify-center gap-6 px-8 text-center">
-        <h2 className="text-3xl font-bold text-red-600">Error</h2>
-        <p className="text-lg text-gray-700 max-w-md">{error}</p>
-        <Link to="/" className="text-(--purple) underline text-lg">
-          Back to Home
-        </Link>
+      <div className="h-dvh w-full bg-black flex flex-col items-center justify-center gap-6 px-8 text-center">
+        <div className="p-8 border border-red-500/30 bg-red-500/5 rounded-2xl">
+          <h2 className="text-3xl font-bold text-red-500 mb-2">Error</h2>
+          <p className="text-gray-400 max-w-md mb-6">{error}</p>
+          <Link to="/" className="text-white hover:text-green-500 underline transition-colors">
+            Back to Home
+          </Link>
+        </div>
       </div>
     );
   }
 
-  if (pages.length === 0) {
+  {/* if (pages.length === 0) {
     return (
       <div className="h-dvh w-full bg-(--white) flex items-center justify-center text-xl text-white">
         This form has no questions.
       </div>
     );
-  }
+  } */}
 
-  // Calculate progress, which needs to include the review page if it exists.
-  // Total steps = pages.length + (hasReviewPage ? 1 : 0)
+  // UPDATED: Logic for Page Count
   const totalSteps = pages.length + (hasReviewPage ? 1 : 0);
-  // Current step index: currentPageIndex is 0-indexed for pages. If it's the review page, it's pages.length.
   const currentStep = currentPageIndex + 1;
-  const progress = (currentStep / totalSteps) * 100;
+  const progressPercentage = (currentStep / totalSteps) * 100;
 
   const isReviewPage = hasReviewPage && currentPageIndex === pages.length;
-  const currentPage = pages[currentPageIndex]; // This will be undefined on the review page index
+  const currentPage = pages[currentPageIndex];
 
-  // Map the answers object to the array format expected by ReviewPage
   const answersForReview = Object.keys(answers).map((questionID) => ({
     questionID: questionID,
     answer: answers[questionID],
@@ -143,94 +142,110 @@ function Preview() {
   return (
     <>
       <ShaderBackground />
-      <div className="h-dvh w-full  flex flex-col overflow-hidden">
-        <header className="flex w-full items-center justify-between  pt-8 pb-8 px-10 pr-12 relative z-50 ">
-          <div className="flex w-full items-center  justify-between">
-            <div className="inline-flex items-center  flex-1 min-w-0">
-              <Link to={`/newform/${id}`} reloadDocument>
-                <button className="flex gap-2 items-center text-white px-6 py-1.5 rounded-xl bg-black ring ring-white inset-shadow-md/10 font-vagrounded drop-shadow-sm/30    hover:bg-[#1E1E1E] transition-color duration-200 ease-out">
-                  <IoArrowBack className="fill-white text-xl" /> Exit Preview
-                </button>
-              </Link>
-            </div>
+      <div className="h-dvh w-full flex flex-col relative z-10 font-sans">
+
+        {/* Header */}
+        <header className="w-full flex items-center justify-between py-6 px-8 md:px-12">
+          <Link to={`/newform/${id}`} reloadDocument className="group">
+            <button className="flex items-center gap-2 text-sm font-medium text-gray-400 group-hover:text-white transition-all">
+              <div className="p-2 rounded-full transition-all">
+                <IoArrowBack size={18} />
+              </div>
+              Exit Preview
+            </button>
+          </Link>
+          <div className="text-xs uppercase tracking-[0.2em] text-gray-500 font-semibold">
+            {title}
           </div>
         </header>
 
-        {/* progress bar */}
+        <main className="flex-1 overflow-y-auto px-6 pb-12 flex flex-col items-center">
+          <div className="w-full max-w-3xl flex flex-col gap-6">
 
-        <div className="px-10 py-2 ">
-          <div className="w-full max-w-5xl justify-self-center h-3 bg-black border-2  border-gray-200  rounded-full overflow-hidden">
-            <div
-              className="h-full bg-green-500 transition-all duration-500"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-        </div>
-
-        {/* questions d2 */}
-
-        <div className="flex-1 overflow-y-auto px-10 pb-10 flex flex-col">
-          <div className="relative mt-2 max-w-4xl w-full mx-auto px-10 py-7  bg-black outline outline-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-col justify-between">
-            <div className="flex-1">
-              {isReviewPage ? (
-                <ReviewPage pages={pages} answers={answersForReview} />
-              ) : currentPage?.questions.length === 0 ? (
-                <div className="flex justify-center items-center text-xl text-gray-400 w-full h-full text-center">
-                  Current page has no questions available.
-                </div>
-              ) : (
-                <div className="space-y-10  text-white">
-                  {currentPage.questions
-                    .sort((a, b) => a.order - b.order)
-                    .map((q) => {
-                      return (
-                        <QuestionRenderer
-                          key={q.id}
-                          question={q}
-                          value={answers[q.id]}
-                          onAnswer={(val) => updateAnswer(q.id, val)}
-                        />
-                      );
-                    })}
-                </div>
-              )}
+            {/*  Page/Step Indicator */}
+            <div className="w-full space-y-3">
+              <div className="flex justify-between items-end px-1">
+                <span className="text-[10px] font-bold text-green-500 uppercase tracking-widest">
+                  {isReviewPage ? "Final Review" : `Progress`}
+                </span>
+                <span className="text-[11px] font-mono text-white">
+                  Page <span className="text-green-500 font-bold">{currentStep}</span> of {totalSteps}
+                </span>
+              </div>
+              {/* Visual bar remains as a subtle guide */}
+              <div className="w-full h-1 bg-zinc-900 rounded-full overflow-hidden border border-zinc-800">
+                <div
+                  className="h-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.3)] transition-all duration-700 ease-in-out"
+                  style={{ width: `${progressPercentage}%` }}
+                />
+              </div>
             </div>
 
-            {/* buttons */}
-            <div className="flex justify-between mt-5 pt-8">
-              <button
-                onClick={goPrev}
-                disabled={currentPageIndex === 0}
-                className={`px-4 py-2 rounded-lg font-medium ${currentPageIndex === 0
-                  ? "opacity-0 cursor-default"
-                  : "opacity-100  text-white ring ring-white hover:bg-[#1e1e1e]"
-                  }`}
-              >
-                Previous
-              </button>
+            {/* Form Card */}
+            <div className="w-full bg-[#0A0A0A]/90 backdrop-blur-xl border pt-10 border-white/10 rounded-3xl shadow-2xl">
+              <div className="min-h-[350px]">
+                {isReviewPage ? (
+                  <ReviewPage pages={pages} answers={answersForReview} />
+                ) : currentPage?.questions.length === 0 ? (
+                  <div className="flex flex-col justify-center items-center h-full text-center py-20">
+                    <p className="text-gray-500 italic">No questions on this page.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-8">
+                    {currentPage.questions
+                      .sort((a, b) => a.order - b.order)
+                      .map((q) => (
+                        <div key={q.id} className="animate-in fade-in slide-in-from-bottom-2 duration-500">
+                          <QuestionRenderer
+                            question={q}
+                            value={answers[q.id]}
+                            onAnswer={(val) => updateAnswer(q.id, val)}
+                          />
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </div>
 
-              <button
-                onClick={goNext}
-                className={`flex items-center gap-1 pl-7 pr-6 py-1.5 rounded-xl font-vagrounded drop-shadow-sm/30 transition-color duration-200 ease-out
-         ${isReviewPage
-                    ? "bg-green-600 ring ring-white text-white hover:bg-green-700"
-                    : "bg-green-600 ring ring-white text-white hover:bg-green-700"
-                  }`}
-              >
-                {isReviewPage
-                  ? "Simulate Submission"
-                  : currentPageIndex === pages.length - 1 && hasReviewPage
-                    ? "Review Answers"
-                    : currentPageIndex === pages.length - 1
-                      ? "Finish"
-                      : "Next"}
-                <IoMdArrowRoundForward />
-              </button>
+              {/* Nav Buttons */}
+              <div className="flex justify-between items-center mt-12  p-8 border-t border-white/5">
+                <button
+                  onClick={goPrev}
+                  className={`px-6 py-2.5 rounded-xl font-medium transition-all
+                    ${currentPageIndex === 0
+                      ? "opacity-0 pointer-events-none"
+                      : "text-gray-400 hover:text-white hover:bg-white/5"}`}
+                >
+                  Previous
+                </button>
+
+                <button
+                  onClick={goNext}
+                  className={`flex items-center gap-2 px-8 py-3 rounded-xl font-bold transition-all duration-300
+                    ${isReviewPage
+                      ? "bg-green-700 text-white hover:bg-green-600 shadow-lg shadow-green-500/20"
+                      : "bg-green-700 text-white hover:bg-green-600 shadow-lg shadow-green-500/20"}`}
+                >
+                  {isReviewPage
+                    ? "Finish Preview"
+                    : currentPageIndex === pages.length - 1 && hasReviewPage
+                      ? "Review Answers"
+                      : currentPageIndex === pages.length - 1
+                        ? "Finish"
+                        : "Next Page"}
+                  <IoMdArrowRoundForward size={20} />
+                </button>
+              </div>
             </div>
+
+            <p className="text-center text-gray-600 text-[11px] uppercase tracking-widest mt-4">
+              Form Preview Mode &bull; Responses are not saved to database
+            </p>
           </div>
-        </div>
+        </main>
       </div>
-    </>);
+    </>
+  );
 }
 
 export default Preview;

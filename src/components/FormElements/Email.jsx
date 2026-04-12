@@ -82,7 +82,7 @@ function Email({ question, onUpdate, onDuplicate }) {
       <div className="space-y-2 mt-3 group relative">
         <div
           tabIndex="0"
-          className="flex items-center px-3 py-1 transition-all duration-300 bg-zinc-950/40  border-b border-zinc-800 hover:border-emerald-500/30
+          className="flex items-center py-1 transition-all duration-300 bg-zinc-950/40  border-b border-zinc-800 hover:border-emerald-500/30
            focus-within:ring-b-1 focus-within:ring-emerald-500/50 "
         >          <IoMail className="text-3xl" color="white" />
 
