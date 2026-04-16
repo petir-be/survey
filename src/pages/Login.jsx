@@ -90,7 +90,19 @@ function Login() {
   }, [loginWithGoogle]);
 
   const handleGoogleLogin = () => {
-    google.accounts.id.prompt();
+    // TEMPORARILY DISABLED
+    // google.accounts.id.prompt();
+
+    toast("Google login is currently not available.", {
+      icon: "⚠️",
+      duration: 3000,
+      style: {
+        minWidth: "250px",
+        padding: "16px",
+        color: "#fff",
+        background: "#eab308",
+      },
+    });
   };
 
   return (
@@ -113,7 +125,7 @@ function Login() {
                   <h1 className="font-baloo text-3xl text-center">
                     Welcome back!
                   </h1>
-                  <button
+                  {/*   <button
                     onClick={handleGoogleLogin}
                     className={`text-black flex flex-row justify-center items-center gap-2.5 font-vagrounded text-xl bg-white  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full
                        ${loading ? `  bg-white` : ` hover:shadow-[0_2px_20px_rgba(255,255,255,.80)]`
@@ -121,6 +133,12 @@ function Login() {
 
                   >
                     <FcGoogle className="text-3xl" /> Continue with Google
+                  </button> */}
+                  <button
+                    onClick={handleGoogleLogin}
+                    className="text-gray-500 flex flex-row justify-center items-center gap-2.5 font-vagrounded text-xl bg-gray-200 opacity-60 cursor-not-allowed duration-400 px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full"
+                  >
+                    <FcGoogle className="text-3xl grayscale" /> Continue with Google
                   </button>
                 </div>
                 <div className="flex items-center justify-center gap-4 w-[85%] m-2">
@@ -222,17 +240,25 @@ function Login() {
                   <h1 className="font-baloo text-2xl text-center">
                     Welcome back!
                   </h1>
-                  <button
+                  {/*       <button
                     onClick={handleGoogleLogin}
                     className={`text-black flex flex-row justify-center items-center gap-2.5 font-vagrounded text-[16px] bg-white  duration-400 ring ring-white px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full
                        ${loading ? `  bg-white` : ` hover:shadow-[0_2px_20px_rgba(255,255,255,.80)]`
                       }`}
 
                   >
-
+                
                     <FcGoogle className="text-xl " />
                     Continue with Google
+                  </button> 
+                  */}
+                  <button
+                    onClick={handleGoogleLogin}
+                    className="text-gray-500 flex flex-row justify-center items-center gap-2.5 font-vagrounded text-[16px] bg-gray-200 opacity-60 cursor-not-allowed duration-400 px-8 py-2.5 rounded-2xl drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] w-full"
+                  >
+                    <FcGoogle className="text-xl grayscale" /> Continue with Google
                   </button>
+
                 </div>
                 <div className="flex items-center justify-center gap-4 w-[85%] m-2">
 

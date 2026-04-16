@@ -230,7 +230,7 @@ function Home() {
         <>
           {/* para matanggal lang error */}
           {motion}
-          <AnimatePresence>
+          {/*   <AnimatePresence>
             {showWarning && (
               <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
                 <motion.div
@@ -294,6 +294,8 @@ function Home() {
               </div>
             )}
           </AnimatePresence>
+
+*/}
           <div className="flex flex-col items-center justify-center min-h-screen  z-10">
 
             <div className=" justify-center items-center ">
@@ -415,71 +417,9 @@ function Home() {
         <>
           {/* para matanggal lang error */}
           {motion}
-          <AnimatePresence>
-            {showWarning && (
-              <div className="fixed inset-0 z-[100] flex items-center justify-center px-8">
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  onClick={handleCloseModal} // Dismiss on backdrop click
-                  className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-                />
 
-                <motion.div
-                  initial={{ scale: 0.9, opacity: 0, y: 20 }}
-                  animate={{ scale: 1, opacity: 1, y: 0 }}
-                  exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                  className="relative w-full max-w-md bg-[#121212] border border-red-900/50 p-8 rounded-2xl shadow-2xl"
-                >
-                  <div className=" flex  rounded-full gap-3 items-center">
-                    <img src="./CMN.png" className="w-[10px] " />
-                    <span className="text-white text-[14px]  font-baloo font-black">ISPECMN</span >
-                  </div>
 
-                  <div className="flex flex-col items-center text-center">
-                    <div className="bg-red-500/10 p-3 rounded-full mb-4">
-                      <IoAlertCircle size={32} className="text-red-500" />
-                    </div>
 
-                    <h2 className="text-xl font-bold text-white mb-2 font-vagrounded">
-                      Service Limitation
-                    </h2>
-
-                    <p className="text-gray-400 text-justify text-[12px] leading-relaxed mb-6">
-                      Please be advised that Google Sign-Up/Sign-In is currently unavailable.
-                      Mobile survey creation is under development
-                      and may have limited functionality at this time.
-                    </p>
-
-                    {/* --- CHECKBOX SECTION --- */}
-                    <div className="flex items-center space-x-2 mb-6 cursor-pointer group">
-                      <input
-                        type="checkbox"
-                        id="dontShow"
-                        className="w-4 h-4 rounded  cursor-pointer text-green-600 accent-green-700 hover:accent-green-700/90"
-                        checked={dontShowAgain}
-                        onChange={(e) => setDontShowAgain(e.target.checked)}
-                      />
-                      <label
-                        htmlFor="dontShow"
-                        className="text-gray-400 text-xs cursor-pointer group-hover:text-zinc-200 transition-colors"
-                      >
-                        Don't show this message again
-                      </label>
-                    </div>
-
-                    <button
-                      onClick={handleCloseModal}
-                      className="w-full py-3 px-6 bg-white hover:bg-gray-200 text-black font-semibold rounded-xl transition-all duration-200"
-                    >
-                      I Understand
-                    </button>
-                  </div>
-                </motion.div>
-              </div>
-            )}
-          </AnimatePresence>
           <div className="fixed inset-0 flex flex-col items-center pt-15 px-4 overflow-hidden z-10">
             <div className="m-12 flex  text-center items-center justify-center flex-col">
               <div className=" flex  items-center  gap-15 mb-10 ">
