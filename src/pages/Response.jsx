@@ -191,7 +191,7 @@ function Response() {
           <SubmitDone allowMultipleSubmission={allowMultipleSubmission} />
         ) : (
           <>
-            <header className="w-full flex items-center justify-between py-6 px-8 md:px-12">
+            <header className="w-full flex items-center justify-between py-6 px-3 md:px-12">
 
               <div className="text-xs uppercase tracking-[0.2em] text-zinc-400 font-semibold">{title}</div>
             </header>
@@ -218,7 +218,7 @@ function Response() {
                 </div>
 
                 {/* Form Content Card */}
-                <div className="w-full bg-[#0A0A0A]/90 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl p-8 md:p-10">
+                <div className="w-full bg-[#0A0A0A]/90 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl py-8 px-2 md:p-10">
                   <div className="min-h-[350px]">
                     {isReviewPage ? (
                       <ReviewPage pages={validPages} answers={answers} />
@@ -254,8 +254,7 @@ function Response() {
 
                     <button
                       onClick={goNext}
-                      className="flex items-center gap-2 px-8 py-3 bg-green-700 hover:bg-green-600 shadow-green-500/20 text-white rounded-xl font-bold transition-all duration-300 shadow-lg  font-vagrounded"
-                    >
+className="flex items-center justify-center gap-2 px-4 md:px-8 py-3 bg-green-700 hover:bg-green-600 shadow-green-500/20 text-white rounded-xl font-bold transition-all duration-300 shadow-lg font-vagrounded whitespace-nowrap text-sm md:text-base"                    >
                       {isReviewPage || (!hasReviewPage && currentPageIndex === validPages.length - 1)
                         ? "Submit Response"
                         : currentPageIndex === validPages.length - 1 && hasReviewPage
