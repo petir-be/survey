@@ -1621,6 +1621,8 @@ function Form() {
                                 foreKulay={section.color}
                                 icon={type.Icon}
                                 title={type.title}
+                                onDragStart={() => setShowMobileElements(false)}
+                                onDragEnd={() => setShowMobileElements(true)}
                               />
                             ))}
                           </div>

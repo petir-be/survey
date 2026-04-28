@@ -191,7 +191,7 @@ function Response() {
           <SubmitDone allowMultipleSubmission={allowMultipleSubmission} />
         ) : (
           <>
-            <header className="w-full flex items-center justify-between py-6 px-3 md:px-12">
+            <header className="w-full flex items-center justify-between py-6 px-8 md:px-12">
 
               <div className="text-xs uppercase tracking-[0.2em] text-zinc-400 font-semibold">{title}</div>
             </header>
@@ -202,16 +202,16 @@ function Response() {
                 {/* Progress UI */}
                 <div className="w-full space-y-3">
                   <div className="flex justify-between items-end px-1">
-                    <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">
+                    <span className="text-[10px] font-bold text-green-500  uppercase tracking-widest">
                       {isReviewPage ? "Final Review" : "Progress"}
                     </span>
-                    <span className="text-[11px] font-mono text-zinc-400">
-                      Page <span className="text-emerald-500 font-bold">{currentStep}</span> of {totalSteps}
+                    <span className="text-[11px] font-vagrounded text-zinc-400">
+                      Page <span className="text-green-500 font-bold">{currentStep}</span> of {totalSteps}
                     </span>
                   </div>
                   <div className="w-full h-1 bg-zinc-900 rounded-full overflow-hidden border border-zinc-800">
                     <div
-                      className="h-full bg-emerald-500 transition-all duration-700 ease-in-out shadow-[0_0_10px_rgba(16,185,129,0.3)]"
+                      className="h-full bg-green-500 transition-all duration-700 ease-in-out shadow-[0_0_10px_rgba(16,185,129,0.3)]"
                       style={{ width: `${progressPercentage}%` }}
                     />
                   </div>
@@ -254,7 +254,7 @@ function Response() {
 
                     <button
                       onClick={goNext}
-className="flex items-center justify-center gap-2 px-4 md:px-8 py-3 bg-green-700 hover:bg-green-600 shadow-green-500/20 text-white rounded-xl font-bold transition-all duration-300 shadow-lg font-vagrounded whitespace-nowrap text-sm md:text-base"                    >
+                      className="flex items-center justify-center gap-2 px-4 md:px-8 py-3 bg-green-700 hover:bg-green-600 shadow-green-500/20 text-white rounded-xl font-bold transition-all duration-300 shadow-lg font-vagrounded whitespace-nowrap text-sm md:text-base"                    >
                       {isReviewPage || (!hasReviewPage && currentPageIndex === validPages.length - 1)
                         ? "Submit Response"
                         : currentPageIndex === validPages.length - 1 && hasReviewPage

@@ -146,21 +146,20 @@ function Preview() {
 
         {/* Header */}
         <header className="w-full flex items-center justify-between py-6 px-8 md:px-12">
-          <Link to={`/newform/${id}`} reloadDocument className="group">
-            <button className="flex items-center gap-2 text-sm font-medium text-gray-400 group-hover:text-white transition-all">
-              <div className="p-2 rounded-full transition-all">
-                <IoArrowBack size={18} />
-              </div>
-              Exit Preview
-            </button>
-          </Link>
-          <div className="text-xs uppercase tracking-[0.2em] text-gray-500 font-semibold">
-            {title}
-          </div>
+          <div className="text-xs uppercase tracking-[0.2em] text-zinc-400 font-semibold">{title}</div>
         </header>
 
         <main className="flex-1 overflow-y-auto px-6 pb-12 flex flex-col items-center">
           <div className="w-full max-w-3xl flex flex-col gap-6">
+
+            <Link to={`/newform/${id}`} reloadDocument className="group">
+              <button className="flex items-center gap-2 text-sm font-medium text-gray-400 group-hover:text-white transition-all">
+                <div className="p-2 rounded-full transition-all">
+                  <IoArrowBack size={18} />
+                </div>
+                Exit Preview
+              </button>
+            </Link>
 
             {/*  Page/Step Indicator */}
             <div className="w-full space-y-3">
